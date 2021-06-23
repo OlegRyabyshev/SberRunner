@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/welcomeFirstFragment">
+
+    <fragment
+        android:id="@+id/welcomeFirstFragment"
+        android:name="xyz.fcr.sberrunner.WelcomeFirstFragment"
+        android:label="fragment_welcome_first"
+        tools:layout="@layout/fragment_welcome_first" />
+    <fragment
+        android:id="@+id/welcomeSecondFragment"
+        android:name="xyz.fcr.sberrunner.WelcomeSecondFragment"
+        android:label="fragment_welcome_second"
+        tools:layout="@layout/fragment_welcome_second" />
+    <fragment
+        android:id="@+id/welcomeThirdFragment"
+        android:name="xyz.fcr.sberrunner.WelcomeThirdFragment"
+        android:label="fragment_welcome_third"
+        tools:layout="@layout/fragment_welcome_third" />
+</navigation>
