@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentWelcomeMainBinding
 import xyz.fcr.sberrunner.fragments.welcome_fragments.adapters.ViewPagerAdapter
 
 class WelcomeMainFragment : Fragment() {
+
     private var _binding: FragmentWelcomeMainBinding? = null
     private val binding get() = _binding!!
 
@@ -48,15 +48,13 @@ class WelcomeMainFragment : Fragment() {
 
         TabLayoutMediator(tabLayout, pager2) { tab, position ->
             when (position) {
-                0 -> {
-                    tab.text = "Today"
-                }
-                1 -> {
-                    tab.text = "This week"
-                }
+//                0 -> {
+//                    tab.text = "Today"
+//                }
+//                1 -> {
+//                    tab.text = "This week"
+//                }
             }
         }.attach()
-
-        pager2.isUserInputEnabled = false
     }
 }

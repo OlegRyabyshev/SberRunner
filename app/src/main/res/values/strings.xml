@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">SberRunner</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
 </resources>
