@@ -192,7 +192,7 @@
                 android:layout_marginEnd="20dp"
                 android:contentDescription="Google login"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_facebook"></ImageView>
+                android:src="@drawable/ic_facebook" />
 
             <ImageView
                 android:id="@+id/facebook_login"
@@ -201,7 +201,7 @@
                 android:layout_marginStart="20dp"
                 android:contentDescription="Google login"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_google"></ImageView>
+                android:src="@drawable/ic_google" />
 
         </LinearLayout>
 
