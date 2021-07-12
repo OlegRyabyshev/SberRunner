@@ -9,7 +9,6 @@ import xyz.fcr.sberrunner.R
 
 class MainScreenFragment : Fragment() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

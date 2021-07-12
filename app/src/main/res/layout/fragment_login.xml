@@ -58,11 +58,11 @@
             android:id="@+id/box_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/round_corners"
             android:orientation="vertical"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/logo_image_view">
@@ -71,8 +71,8 @@
                 android:id="@+id/register_name_text_view"
                 style="@style/Theme.SberRunner.MaterialTextInput"
                 android:layout_width="match_parent"
-                android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:hint="Login"
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
@@ -100,19 +100,19 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/password_text_input"
                     android:layout_width="match_parent"
-                    android:inputType="textPassword"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/forgot_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="35dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/poppins_light"
                 android:lines="1"
-                android:layout_gravity="end"
-                android:layout_marginEnd="30dp"
                 android:text="Forgot password?"
                 android:textSize="14dp"
                 app:layout_constraintEnd_toEndOf="@+id/password_text_layout"
@@ -123,9 +123,9 @@
                 style="@style/Theme.SberRunner.MaterialTextInput"
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:minWidth="200dp"
-                android:layout_gravity="center_horizontal"
                 android:text="Login"
                 android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -133,75 +133,75 @@
                 app:layout_constraintTop_toBottomOf="@+id/forgot_password" />
 
             <TextView
-                android:id="@+id/dont_have_an_account"
+                android:id="@+id/switch_to_registration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/poppins"
                 android:lines="1"
                 android:text="@string/don_t_have_an_account"
                 android:textColor="@color/dark_green"
                 android:textSize="16dp"
-                android:layout_marginBottom="20dp"
-                android:layout_gravity="center_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/log_in_button" />
 
+            <View
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/dark_green"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/connect_using_google" />
+
+            <TextView
+                android:id="@+id/connect_using_google"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppins_light"
+                android:lines="1"
+                android:text="Or use other methods"
+                android:textColor="@color/dark_green"
+                android:textSize="14dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/line">
+
+                <ImageView
+                    android:id="@+id/google_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="20dp"
+                    android:contentDescription="Google login"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_facebook" />
+
+                <ImageView
+                    android:id="@+id/facebook_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="20dp"
+                    android:contentDescription="Google login"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_google" />
+
             </LinearLayout>
-
-        <TextView
-            android:id="@+id/connect_using_google"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:ellipsize="end"
-            android:fontFamily="@font/poppins_light"
-            android:lines="1"
-            android:text="Use other Methods"
-            android:textColor="@color/white"
-            android:textSize="14dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/box_login" />
-
-        <View
-            android:id="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/connect_using_google" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/line">
-
-            <ImageView
-                android:id="@+id/google_login"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginEnd="20dp"
-                android:contentDescription="Google login"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_facebook" />
-
-            <ImageView
-                android:id="@+id/facebook_login"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginStart="20dp"
-                android:contentDescription="Google login"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_google" />
 
         </LinearLayout>
 

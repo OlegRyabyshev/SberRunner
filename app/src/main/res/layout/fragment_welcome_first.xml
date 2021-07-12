@@ -13,6 +13,7 @@
         android:ellipsize="end"
         android:fontFamily="@font/poppins_light"
         android:lines="1"
+        android:layout_marginTop="20dp"
         android:text="Welcome to SberRunner"
         android:textColor="@color/black"
         android:textSize="24dp"
@@ -36,5 +37,16 @@
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Welcome screen 1"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
