@@ -4,7 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_green"
     tools:context=".fragments.welcome_fragments.WelcomeThirdFragment">
+
+    <TextView
+        android:id="@+id/text_view_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:fontFamily="@font/poppins_light"
+        android:lines="1"
+        android:layout_marginTop="30dp"
+        android:text="Let's start!"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/text_view_info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.55" />
+
+    <TextView
+        android:id="@+id/text_view_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:fontFamily="@font/poppins_light"
+        android:layout_marginTop="10dp"
+        android:text="Add your existing account or create a new one!"
+        android:textColor="@color/white"
+        android:gravity="center_horizontal"
+        android:textSize="14dp"
+        app:layout_constraintEnd_toEndOf="@+id/text_view_welcome"
+        app:layout_constraintStart_toStartOf="@+id/text_view_welcome"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_welcome" />
 
     <TextView
         android:id="@+id/textView3"
@@ -20,9 +54,11 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_enter_with_account"
-        style="@style/Theme.SberRunner.MaterialTextInput"
+        style="@style/Theme.SberRunner.MaterialButton.Normal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:textColor="@color/main_green"
+        android:backgroundTint="@color/white"
         android:text="ENTER WITH ACCOUNT"
         app:layout_constraintBottom_toTopOf="@+id/tv_skip_login"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +70,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="10dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
         android:text="or continue without account"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

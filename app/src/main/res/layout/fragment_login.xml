@@ -25,7 +25,7 @@
             tools:ignore="HardcodedText,RtlSymmetry" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/text_view_welcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
@@ -41,7 +41,7 @@
             app:layout_constraintTop_toTopOf="@+id/logo_image_view" />
 
         <TextView
-            android:id="@+id/login_to_your_account"
+            android:id="@+id/text_view_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
@@ -50,9 +50,9 @@
             android:text="Log in to your account"
             android:textColor="@color/white"
             android:textSize="14dp"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintEnd_toEndOf="@+id/text_view_welcome"
+            app:layout_constraintStart_toStartOf="@+id/text_view_welcome"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_welcome" />
 
         <LinearLayout
             android:id="@+id/box_login"

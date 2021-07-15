@@ -4,49 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_green"
     tools:context=".fragments.welcome_fragments.WelcomeFirstFragment">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_view_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:ellipsize="end"
         android:fontFamily="@font/poppins_light"
         android:lines="1"
-        android:layout_marginTop="20dp"
         android:text="Welcome to SberRunner"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="24dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/login_to_your_account"
+        app:layout_constraintBottom_toTopOf="@+id/text_view_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.55" />
 
     <TextView
-        android:id="@+id/login_to_your_account"
+        android:id="@+id/text_view_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:fontFamily="@font/poppins_light"
         android:lines="1"
-        android:text="Log in to your account"
-        android:textColor="@color/black"
+        android:text="Simple app to keep track of your runs"
+        android:textColor="@color/white"
         android:textSize="14dp"
-        app:layout_constraintEnd_toEndOf="@+id/textView"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintEnd_toEndOf="@+id/text_view_welcome"
+        app:layout_constraintStart_toStartOf="@+id/text_view_welcome"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_welcome" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Welcome screen 1"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
