@@ -31,12 +31,12 @@
             android:layout_marginStart="30dp"
             android:ellipsize="end"
             android:fontFamily="@font/poppins"
-            android:lines="1"
-            android:text="Welcome back!"
+            android:text="Welcome!"
             android:textColor="@color/white"
             android:textSize="24dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/logo_image_view"
+            app:layout_constraintEnd_toStartOf="@+id/logo_image_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/logo_image_view" />
 
@@ -65,7 +65,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logo_image_view">
+            app:layout_constraintTop_toBottomOf="@+id/text_view_info">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/register_name_text_view"
@@ -119,7 +119,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/password_text_layout" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/log_in_button"
+                android:id="@+id/login_button"
                 style="@style/Theme.SberRunner.MaterialTextInput"
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"
@@ -133,7 +133,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/forgot_password" />
 
             <TextView
-                android:id="@+id/switch_to_registration"
+                android:id="@+id/start_registration_fragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -147,7 +147,7 @@
                 android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/log_in_button" />
+                app:layout_constraintTop_toBottomOf="@+id/login_button" />
 
             <View
                 android:id="@+id/line"

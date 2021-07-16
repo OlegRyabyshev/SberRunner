@@ -34,7 +34,7 @@
         android:ellipsize="end"
         android:fontFamily="@font/poppins_light"
         android:gravity="center_horizontal"
-        android:text="Add your existing account or create a new one!"
+        android:text="Add your existing account or create a new one"
         android:textColor="@color/white"
         android:textSize="14dp"
         app:layout_constraintEnd_toEndOf="@+id/text_view_welcome"

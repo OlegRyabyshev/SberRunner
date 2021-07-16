@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/navigation_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
+        <item
+            android:id="@+id/navigation_map"
+            android:title="Map"
+            android:icon="@drawable/ic_map" />
+        <item
+            android:id="@+id/navigation_current"
+            android:icon="@drawable/ic_add"
+            android:title="Current" />
+        <item
+            android:id="@+id/navigation_achievements"
+            android:title="Achievements"
+            android:icon="@drawable/ic_map" />
+        <item
+            android:id="@+id/navigation_settings"
+            android:title="Settings"
+            android:icon="@drawable/ic_settings" />
+    </group>
+</menu>
