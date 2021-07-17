@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "696665882300",
+    "project_id": "sberrunner",
+    "storage_bucket": "sberrunner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696665882300:android:f34ea2d3c98bb65f3b1ab9",
+        "android_client_info": {
+          "package_name": "xyz.fcr.sberrunner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "696665882300-3tol6fn2lum8rgpaunke2d914qvh5m57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDl-hiykuXb0Dpkwpw2WsYQsmcJkYloDx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "696665882300-3tol6fn2lum8rgpaunke2d914qvh5m57.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
