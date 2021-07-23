@@ -1,20 +1,22 @@
 package xyz.fcr.sberrunner.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentMainScreenBinding
+import xyz.fcr.sberrunner.ui.fragments.main_screens.HomeFragment
+import xyz.fcr.sberrunner.ui.fragments.main_screens.MapFragment
+import xyz.fcr.sberrunner.ui.fragments.main_screens.SettingsFragment
+import xyz.fcr.sberrunner.ui.fragments.main_screens.YouFragment
+
 
 class MainScreenFragment : Fragment() {
 
     private var _binding: FragmentMainScreenBinding? = null
     private val binding get() = _binding!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +29,23 @@ class MainScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.bottomNavigationView.background = null
-        binding.bottomNavigationView.menu.getItem(2).isEnabled = false // check this
+        openScreen(HomeFragment())
+
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> openScreen(HomeFragment())
+                R.id.nav_map -> openScreen(MapFragment())
+                R.id.nav_you -> openScreen(YouFragment())
+                R.id.nav_settings -> openScreen(SettingsFragment())
+            }
+            false
+        }
+    }
+
+    private fun openScreen(fragmentToOpen: Fragment) {
+        childFragmentManager
+            .beginTransaction()
+            .add(R.id.main_container, fragmentToOpen, "tag")
+            .commit()
     }
 }

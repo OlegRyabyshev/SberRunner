@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.ui.fragments
+package xyz.fcr.sberrunner.ui.fragments.firebase_fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentLoginBinding
+import xyz.fcr.sberrunner.ui.fragments.MainScreenFragment
 
 class LoginFragment : Fragment() {
 

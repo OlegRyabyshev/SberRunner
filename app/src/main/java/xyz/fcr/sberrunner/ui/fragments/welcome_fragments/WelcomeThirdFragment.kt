@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import xyz.fcr.sberrunner.R
-import xyz.fcr.sberrunner.ui.fragments.LoginFragment
+import xyz.fcr.sberrunner.ui.fragments.firebase_fragments.LoginFragment
 
 
 class WelcomeThirdFragment : Fragment() {
