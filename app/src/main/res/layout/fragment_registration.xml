@@ -6,7 +6,7 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:background="@color/main_green"
-    tools:context=".fragments.RegistrationFragment">
+    tools:context=".ui.fragments.RegistrationFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,9 +31,9 @@
             android:layout_marginStart="30dp"
             android:ellipsize="end"
             android:fontFamily="@font/poppins"
-            android:text="Welcome!"
+            android:text="Registration"
             android:textColor="@color/white"
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/logo_image_view"
             app:layout_constraintEnd_toStartOf="@+id/logo_image_view"
@@ -47,9 +47,9 @@
             android:ellipsize="end"
             android:fontFamily="@font/poppins_light"
             android:lines="1"
-            android:text="Log in to your account"
+            android:text="Create new account!"
             android:textColor="@color/white"
-            android:textSize="14dp"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/text_view_welcome"
             app:layout_constraintStart_toStartOf="@+id/text_view_welcome"
             app:layout_constraintTop_toBottomOf="@+id/text_view_welcome" />
@@ -127,8 +127,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:minWidth="200dp"
                 android:elevation="8dp"
+                android:minWidth="200dp"
                 android:text="Register"
                 android:textSize="16dp" />
 
@@ -179,9 +179,6 @@
                     android:src="@drawable/ic_google" />
 
             </LinearLayout>
-
         </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>

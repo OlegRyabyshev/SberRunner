@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.fragments
+package xyz.fcr.sberrunner.ui.fragments.welcome_fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import xyz.fcr.sberrunner.R
 
-class RegistrationFragment : Fragment() {
+class WelcomeSecondFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +18,6 @@ class RegistrationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_registration, container, false)
+        return inflater.inflate(R.layout.fragment_welcome_second, container, false)
     }
 }

@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.fragments.welcome_fragments
+package xyz.fcr.sberrunner.ui.fragments.welcome_fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,7 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import xyz.fcr.sberrunner.databinding.FragmentWelcomeMainBinding
-import xyz.fcr.sberrunner.fragments.welcome_fragments.adapters.ViewPagerAdapter
+import xyz.fcr.sberrunner.adapters.WelcomeViewPagerAdapter
 
 class WelcomeMainFragment : Fragment() {
 
@@ -18,7 +18,7 @@ class WelcomeMainFragment : Fragment() {
 
     private lateinit var tabLayout: TabLayout
     private lateinit var pager2: ViewPager2
-    private lateinit var adapter: ViewPagerAdapter
+    private lateinit var adapterWelcome: WelcomeViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +43,8 @@ class WelcomeMainFragment : Fragment() {
         tabLayout = binding.welcomeTabs
         pager2 = binding.viewPager2
 
-        adapter = ViewPagerAdapter(childFragmentManager, lifecycle)
-        pager2.adapter = adapter
+        adapterWelcome = WelcomeViewPagerAdapter(childFragmentManager, lifecycle)
+        pager2.adapter = adapterWelcome
 
         TabLayoutMediator(tabLayout, pager2) { tab, position ->
             when (position) {

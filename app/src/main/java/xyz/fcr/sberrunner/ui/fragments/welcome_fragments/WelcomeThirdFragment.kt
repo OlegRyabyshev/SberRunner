@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.fragments.welcome_fragments
+package xyz.fcr.sberrunner.ui.fragments.welcome_fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
 import xyz.fcr.sberrunner.R
-import xyz.fcr.sberrunner.fragments.LoginFragment
+import xyz.fcr.sberrunner.ui.fragments.LoginFragment
 
 
 class WelcomeThirdFragment : Fragment() {

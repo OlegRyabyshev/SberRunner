@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/main_green"
     app:layoutDescription="@xml/fragment_welcome_third_scene"
-    tools:context=".fragments.welcome_fragments.WelcomeThirdFragment">
+    tools:context=".ui.fragments.welcome_fragments.WelcomeThirdFragment">
 
     <TextView
         android:id="@+id/text_view_welcome"
@@ -18,7 +18,7 @@
         android:lines="1"
         android:text="Let's start!"
         android:textColor="@color/white"
-        android:textSize="24dp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/text_view_info"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,21 +36,19 @@
         android:gravity="center_horizontal"
         android:text="Add your existing account or create a new one"
         android:textColor="@color/white"
-        android:textSize="14dp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/text_view_welcome"
         app:layout_constraintStart_toStartOf="@+id/text_view_welcome"
         app:layout_constraintTop_toBottomOf="@+id/text_view_welcome" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/appCompatImageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/ic_google"
+        android:id="@+id/photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pic_3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </androidx.appcompat.widget.AppCompatImageView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_enter_with_account"
