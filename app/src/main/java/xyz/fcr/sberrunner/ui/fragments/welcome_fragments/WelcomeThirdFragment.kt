@@ -38,6 +38,7 @@ class WelcomeThirdFragment : Fragment() {
             val manager = activity?.supportFragmentManager
             manager
                 ?.beginTransaction()
+                ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 ?.replace(R.id.container, loginFragment)
                 ?.commit()
         }

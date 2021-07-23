@@ -12,12 +12,11 @@ class WelcomeViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifec
     FragmentStateAdapter(fragmentManager, lifecycle) {
 
     override fun createFragment(position: Int): Fragment {
-        when (position){
-            1 -> return WelcomeSecondFragment()
-            2 -> return WelcomeThirdFragment()
+        return when (position){
+            1 -> WelcomeSecondFragment()
+            2 -> WelcomeThirdFragment()
+            else -> WelcomeFirstFragment()
         }
-
-        return WelcomeFirstFragment()
     }
 
     override fun getItemCount(): Int {
