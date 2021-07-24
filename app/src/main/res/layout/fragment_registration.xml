@@ -68,25 +68,25 @@
             app:layout_constraintTop_toBottomOf="@+id/text_view_info">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/register_name_text_view"
+                android:id="@+id/register_login_tv"
                 style="@style/Theme.SberRunner.MaterialTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="Name"
+                android:hint="Login"
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_account">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/register_name"
+                    android:id="@+id/register_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/register_email_text_view"
+                android:id="@+id/register_email_tv"
                 style="@style/Theme.SberRunner.MaterialTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/register_password_text_view"
+                android:id="@+id/register_password_tv"
                 style="@style/Theme.SberRunner.MaterialTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/register_button"
+                android:id="@+id/sign_up_button"
                 style="@style/Theme.SberRunner.MaterialTextInput"
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"
@@ -129,8 +129,22 @@
                 android:layout_marginBottom="10dp"
                 android:elevation="8dp"
                 android:minWidth="200dp"
-                android:text="Register"
+                android:text="Sign up"
                 android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/sign_in_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppins_light"
+                android:lines="1"
+                android:text="@string/already_have_an_account"
+                android:textColor="@color/dark_green"
+                android:textSize="14dp" />
 
             <View
                 android:id="@+id/line"
@@ -180,5 +194,18 @@
 
             </LinearLayout>
         </LinearLayout>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_circular_registration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="invisible"
+            app:indicatorColor="@color/main_green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

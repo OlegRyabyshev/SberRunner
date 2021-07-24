@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">SberRunner</string>
-    <string name="don_t_have_an_account">Don\'t have an account?</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="new_to_sberrunner">New to SberRunner? Sign up here.</string>
+    <string name="part_to_click_login">Sign up</string>
+
+    <string name="already_have_an_account">Already have an account? Sign in here.</string>
+    <string name="part_to_click_registration">Sign in</string>
 </resources>

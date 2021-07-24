@@ -17,12 +17,8 @@ class WelcomeMainFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var tabLayout: TabLayout
-    private lateinit var pager2: ViewPager2
+    private lateinit var viewPager: ViewPager2
     private lateinit var adapterWelcome: WelcomeViewPagerAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,26 +31,19 @@ class WelcomeMainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //Проверить можно ли вынести в onCreateView
+
         initWelcomeTabs()
     }
 
     private fun initWelcomeTabs() {
         tabLayout = binding.welcomeTabs
-        pager2 = binding.viewPager2
+        viewPager = binding.viewPager2
 
         adapterWelcome = WelcomeViewPagerAdapter(childFragmentManager, lifecycle)
-        pager2.adapter = adapterWelcome
+        viewPager.adapter = adapterWelcome
 
-        TabLayoutMediator(tabLayout, pager2) { tab, position ->
-            when (position) {
-//                0 -> {
-//                    tab.text = "Today"
-//                }
-//                1 -> {
-//                    tab.text = "This week"
-//                }
-            }
+        TabLayoutMediator(tabLayout, viewPager) { tab, _ ->
+            viewPager.setCurrentItem(tab.position, true)
         }.attach()
     }
 }

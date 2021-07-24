@@ -11,18 +11,12 @@ import com.google.android.material.button.MaterialButton
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.ui.fragments.firebase_fragments.LoginFragment
 
-
 class WelcomeThirdFragment : Fragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_welcome_third, container, false)
     }
 
