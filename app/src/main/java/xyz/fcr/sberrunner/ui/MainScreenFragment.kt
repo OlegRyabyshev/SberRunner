@@ -7,10 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentMainScreenBinding
-import xyz.fcr.sberrunner.ui.fragments.main_fragments.HomeFragment
-import xyz.fcr.sberrunner.ui.fragments.main_fragments.MapFragment
-import xyz.fcr.sberrunner.ui.fragments.main_fragments.SettingsFragment
-import xyz.fcr.sberrunner.ui.fragments.main_fragments.YouFragment
+import xyz.fcr.sberrunner.ui.fragments.main_fragments.*
 
 class MainScreenFragment : Fragment() {
 
@@ -41,12 +38,20 @@ class MainScreenFragment : Fragment() {
             }
             true
         }
+
+        binding.fabAction.setOnClickListener {
+            openScreen(RunFragment())
+        }
     }
 
     private fun openScreen(fragmentToOpen: Fragment) {
         childFragmentManager
             .beginTransaction()
-            .add(R.id.main_container, fragmentToOpen, "tag")
+            .replace(R.id.main_container, fragmentToOpen, TAG)
             .commit()
+    }
+
+    private companion object {
+        private const val TAG = "TAG_MAIN_FRAGMENT"
     }
 }

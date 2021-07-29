@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentLoginBinding
 import xyz.fcr.sberrunner.ui.MainScreenFragment
@@ -31,15 +33,60 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.signInButton.setOnClickListener {
-            val manager = activity?.supportFragmentManager
-            manager
-                ?.beginTransaction()
-                ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                ?.replace(R.id.container, MainScreenFragment())
-                ?.commit()
+            checkFieldsForLogin()
         }
 
         initSignUpLink()
+    }
+
+    private fun checkFieldsForLogin() {
+        var amountOfErrors = 0
+
+        val email = binding.signInEmail.text.toString().trim { it <= ' ' }
+        val password = binding.signInPassword.text.toString().trim { it <= ' ' }
+
+        if (email.isBlank()) {
+            binding.signInEmail.error = "Email can't be empty"
+            amountOfErrors++
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.signInEmailTv.error = "Wrong email format"
+            amountOfErrors++
+        }
+
+        if (password.isBlank()) {
+            binding.signInPassword.error = "Password can't be empty"
+            amountOfErrors++
+        } else if (password.length < 6) {
+            binding.signInPasswordTv.error = "Password should be at least 6 charters"
+            amountOfErrors++
+        }
+
+        if (amountOfErrors > 0) return
+
+        signIn(email, password)
+    }
+
+    private fun signIn(email: String, password: String) {
+        binding.progressCircularLogin.visibility = View.VISIBLE
+
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                binding.progressCircularLogin.visibility = View.INVISIBLE
+
+                if (task.isSuccessful) {
+                    startMainFragment()
+                } else {
+                    Toast.makeText(context, task.exception?.message.toString(), Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+    private fun startMainFragment() {
+        parentFragmentManager
+            .beginTransaction()
+            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+            .replace(R.id.container, MainScreenFragment())
+            .commit()
     }
 
     private fun initSignUpLink() {

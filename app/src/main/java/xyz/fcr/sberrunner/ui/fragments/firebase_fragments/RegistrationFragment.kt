@@ -11,9 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentRegistrationBinding
 import xyz.fcr.sberrunner.ui.MainScreenFragment
@@ -22,8 +20,6 @@ class RegistrationFragment : Fragment() {
 
     private var _binding: FragmentRegistrationBinding? = null
     private val binding get() = _binding!!
-
-    //private lateinit var circularLoader : CircularProgressIndicator
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,37 +42,83 @@ class RegistrationFragment : Fragment() {
     private fun checkFieldsForRegister() {
         var amountOfErrors = 0
 
-        val login = binding.registerLogin.text.toString().trim { it <= ' ' }
+        val name = binding.registerName.text.toString().trim { it <= ' ' }
         val email = binding.registerEmail.text.toString().trim { it <= ' ' }
         val password = binding.registerPassword.text.toString().trim { it <= ' ' }
+        val height = binding.registerHeight.text.toString().toIntOrNull()
+        val weight = binding.registerWeight.text.toString().toIntOrNull()
 
-        if (login.isBlank()) {
-            binding.registerLoginTv.error = "Login can't be empty"
-            amountOfErrors++
+        //Checking Email
+        when {
+            email.isBlank() -> {
+                binding.registerEmailTv.isErrorEnabled = true
+                binding.registerEmailTv.error = "Email can't be empty"
+                amountOfErrors++
+            }
+            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
+                binding.registerEmailTv.error = "Wrong email format"
+                amountOfErrors++
+            }
+            else -> {
+                binding.registerEmailTv.isErrorEnabled = false
+            }
         }
 
-        if (email.isBlank()) {
-            binding.registerEmailTv.error = "Email can't be empty"
-            amountOfErrors++
-        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.registerEmailTv.error = "Wrong email format"
-            amountOfErrors++
+        //Checking Passport
+        when {
+            password.isBlank() -> {
+                binding.registerPasswordTv.isErrorEnabled = true
+                binding.registerPasswordTv.error = "Password can't be empty"
+                amountOfErrors++
+            }
+            password.length < 6 -> {
+                binding.registerPasswordTv.error = "Password should be at least 6 charters"
+                amountOfErrors++
+            }
+            else -> {
+                binding.registerPasswordTv.isErrorEnabled = false
+            }
         }
 
-
-        if (password.isBlank()) {
-            binding.registerPasswordTv.error = "Password can't be empty"
-            amountOfErrors++
-        } else if (password.length < 6){
-            binding.registerPasswordTv.error = "Password should be at least 6 charters"
-            amountOfErrors++
+        //Checking Name
+        when {
+            name.isBlank() -> {
+                binding.registerNameTv.isErrorEnabled = true
+                binding.registerNameTv.error = "Login can't be empty"
+                amountOfErrors++
+            }
+            else -> {
+                binding.registerNameTv.isErrorEnabled = false
+            }
         }
 
-        if (amountOfErrors > 0) return
+        //Checking Height
+        when {
+            height == null || height > 250 || height <= 40 -> {
+                binding.registerHeightTv.isErrorEnabled = true
+                binding.registerHeightTv.error = "Height is not valid"
+                amountOfErrors++
+            }
+            else -> {
+                binding.registerHeightTv.isErrorEnabled = false
+            }
+        }
 
-        //create new user
+        //Checking Weight
+        when {
+            weight == null || weight > 350 || weight <= 0 -> {
+                binding.registerWeightTv.isErrorEnabled = true
+                binding.registerWeight.error = "Weight is not valid"
+                amountOfErrors++
+            }
+            else -> {
+                binding.registerWeightTv.isErrorEnabled = false
+            }
+        }
 
-        signUpAndAuth(email, password)
+        if (amountOfErrors == 0) signUpAndAuth(email, password)
+
+        return
     }
 
     private fun signUpAndAuth(email: String, password: String) {
@@ -84,12 +126,13 @@ class RegistrationFragment : Fragment() {
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
+                binding.progressCircularRegistration.visibility = View.INVISIBLE
+
                 if (task.isSuccessful) {
-                    //val firebaseUser : FirebaseUser? = task.result!!.user
+                    //create new user
                     startMainFragment()
                 } else {
                     Toast.makeText(context, task.exception?.message.toString(), Toast.LENGTH_SHORT).show()
-                    binding.progressCircularRegistration.visibility = View.INVISIBLE
                 }
             }
     }

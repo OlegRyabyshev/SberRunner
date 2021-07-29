@@ -27,6 +27,8 @@
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:background="@android:color/transparent"
             app:elevation="0dp"
             app:itemIconTint="@color/white"
@@ -36,7 +38,7 @@
     </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab_action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/main_green"

@@ -7,4 +7,19 @@
 
     <string name="already_have_an_account">Already have an account? Sign in here.</string>
     <string name="part_to_click_registration">Sign in</string>
+
+    <string name="dialog_rationale_title">Location request</string>
+    <string name="dialog_rationale_message">This app requests your location in order to show your current location</string>
+    <string name="dialog_rationale_give_access">Give permission</string>
+    <string name="dialog_rationale_decline">Not now</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="height_cm">Height (cm)</string>
+    <string name="weight_kg">Weight (kg)</string>
+    <string name="sign_up">Sign up</string>
+    <string name="create_new_account">Create new account!</string>
+    <string name="sign_in">Sign in</string>
+    <string name="enter_with_your_account">Enter with your account!</string>
+    <string name="forgot_password">Forgot password?</string>
 </resources>
