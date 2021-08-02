@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import xyz.fcr.sberrunner.databinding.FragmentWelcomeMainBinding
 import xyz.fcr.sberrunner.adapters.WelcomeViewPagerAdapter
+import xyz.fcr.sberrunner.databinding.FragmentWelcomeBinding
 
-class WelcomeMainFragment : Fragment() {
+class WelcomeFragment : Fragment() {
 
-    private var _binding: FragmentWelcomeMainBinding? = null
+    private var _binding: FragmentWelcomeBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var tabLayout: TabLayout
@@ -21,17 +21,15 @@ class WelcomeMainFragment : Fragment() {
     private lateinit var adapterWelcome: WelcomeViewPagerAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentWelcomeMainBinding.inflate(inflater, container, false)
+        _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initWelcomeTabs()
     }
 

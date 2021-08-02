@@ -1,5 +1,6 @@
 package xyz.fcr.sberrunner.ui.fragments.firebase_fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -11,15 +12,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentRegistrationBinding
-import xyz.fcr.sberrunner.ui.MainScreenFragment
+import com.google.firebase.firestore.FirebaseFirestore
+import es.dmoral.toasty.Toasty
+import xyz.fcr.sberrunner.ui.activities.MainActivity
 
 class RegistrationFragment : Fragment() {
 
     private var _binding: FragmentRegistrationBinding? = null
     private val binding get() = _binding!!
+    private val fireAuth = FirebaseAuth.getInstance()
+    private val fireStore = FirebaseFirestore.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -116,34 +122,48 @@ class RegistrationFragment : Fragment() {
             }
         }
 
-        if (amountOfErrors == 0) signUpAndAuth(email, password)
-
-        return
+        if (amountOfErrors != 0) return
+        signUpAndAuth(email, password, name, height!!, weight!!)
     }
 
-    private fun signUpAndAuth(email: String, password: String) {
+    private fun signUpAndAuth(email: String, password: String, name: String, height: Int, weight: Int) {
         binding.progressCircularRegistration.visibility = View.VISIBLE
 
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+        fireAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 binding.progressCircularRegistration.visibility = View.INVISIBLE
 
                 if (task.isSuccessful) {
-                    //create new user
-                    startMainFragment()
+                    val user = hashMapOf(
+                        "name" to name,
+                        "height" to height,
+                        "weight" to weight
+                    )
+
+                    val userId = fireAuth.currentUser?.uid
+
+                    if (userId != null) {
+                        val documentReference = fireStore.collection("user").document(userId)
+
+                        documentReference
+                            .set(user)
+                            .addOnSuccessListener {
+                                startMainActivity()
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(context, e.localizedMessage, Toast.LENGTH_SHORT).show()
+                            }
+                    }
                 } else {
-                    Toast.makeText(context, task.exception?.message.toString(), Toast.LENGTH_SHORT).show()
+                    Toasty.error(requireContext(), task.exception?.message.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
     }
 
-    private fun startMainFragment() {
-        val manager = activity?.supportFragmentManager
-        manager
-            ?.beginTransaction()
-            ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-            ?.replace(R.id.container, MainScreenFragment())
-            ?.commit()
+    private fun startMainActivity() {
+        val intent = Intent(activity, MainActivity::class.java)
+        startActivity(intent)
+        activity?.finish()
     }
 
 
@@ -162,13 +182,13 @@ class RegistrationFragment : Fragment() {
                 manager
                     ?.beginTransaction()
                     ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                    ?.replace(R.id.container, LoginFragment())
+                    ?.replace(R.id.welcome_container, LoginFragment())
                     ?.commit()
             }
 
             override fun updateDrawState(textPaint: TextPaint) {
                 super.updateDrawState(textPaint)
-                textPaint.color = resources.getColor(R.color.main_green)
+                textPaint.color = ContextCompat.getColor(requireContext(), R.color.main_green)
                 textPaint.isFakeBoldText = true
             }
         }

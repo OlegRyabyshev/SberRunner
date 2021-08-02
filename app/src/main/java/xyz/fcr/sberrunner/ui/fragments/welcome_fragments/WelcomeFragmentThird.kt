@@ -8,10 +8,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
+import es.dmoral.toasty.Toasty
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.ui.fragments.firebase_fragments.LoginFragment
 
-class WelcomeThirdFragment : Fragment() {
+class WelcomeFragmentThird : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,12 +34,12 @@ class WelcomeThirdFragment : Fragment() {
             manager
                 ?.beginTransaction()
                 ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                ?.replace(R.id.container, loginFragment)
+                ?.replace(R.id.welcome_container, loginFragment)
                 ?.commit()
         }
 
         skipTextView.setOnClickListener {
-            Toast.makeText(context, "Not supported yet", Toast.LENGTH_SHORT).show()
+            Toasty.info(requireContext(), "Not supported yet", Toast.LENGTH_SHORT).show()
         }
     }
 }

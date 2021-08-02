@@ -1,5 +1,6 @@
 package xyz.fcr.sberrunner.ui.fragments.firebase_fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -11,15 +12,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
+import es.dmoral.toasty.Toasty
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentLoginBinding
-import xyz.fcr.sberrunner.ui.MainScreenFragment
+import xyz.fcr.sberrunner.ui.activities.MainActivity
 
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,8 +37,14 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        firebaseAuth = FirebaseAuth.getInstance()
+
         binding.signInButton.setOnClickListener {
             checkFieldsForLogin()
+        }
+
+        binding.forgotPassword.setOnClickListener {
+            sendResetEmail()
         }
 
         initSignUpLink()
@@ -74,19 +85,17 @@ class LoginFragment : Fragment() {
                 binding.progressCircularLogin.visibility = View.INVISIBLE
 
                 if (task.isSuccessful) {
-                    startMainFragment()
+                    startMainActivity()
                 } else {
                     Toast.makeText(context, task.exception?.message.toString(), Toast.LENGTH_SHORT).show()
                 }
             }
     }
 
-    private fun startMainFragment() {
-        parentFragmentManager
-            .beginTransaction()
-            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-            .replace(R.id.container, MainScreenFragment())
-            .commit()
+    private fun startMainActivity() {
+        val intent = Intent(activity, MainActivity::class.java)
+        startActivity(intent)
+        activity?.finish()
     }
 
     private fun initSignUpLink() {
@@ -104,14 +113,14 @@ class LoginFragment : Fragment() {
                 manager
                     ?.beginTransaction()
                     ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                    ?.replace(R.id.container, RegistrationFragment())
+                    ?.replace(R.id.welcome_container, RegistrationFragment())
                     ?.addToBackStack("")
                     ?.commit()
             }
 
             override fun updateDrawState(textPaint: TextPaint) {
                 super.updateDrawState(textPaint)
-                textPaint.color = resources.getColor(R.color.main_green)
+                textPaint.color = ContextCompat.getColor(requireContext(), R.color.main_green)
                 textPaint.isFakeBoldText = true
             }
         }
@@ -120,5 +129,32 @@ class LoginFragment : Fragment() {
 
         binding.signUpTextView.text = spannableString
         binding.signUpTextView.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    private fun sendResetEmail() {
+        val email = binding.signInEmail.text.toString().trim { it <= ' ' }
+
+        if (email.isBlank()) {
+            binding.signInEmail.error = "Email can't be empty"
+            return
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.signInEmailTv.error = "Wrong email format"
+            return
+        }
+
+        firebaseAuth.sendPasswordResetEmail(email).addOnSuccessListener {
+
+            Toasty.success(
+                requireContext(),
+                "Check your email for a password reset",
+                Toast.LENGTH_SHORT
+            ).show()
+        }.addOnFailureListener {
+            Toasty.error(
+                requireContext(),
+                "Can't send an email. Check your connection or email",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 }

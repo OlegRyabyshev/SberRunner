@@ -22,4 +22,13 @@
     <string name="sign_in">Sign in</string>
     <string name="enter_with_your_account">Enter with your account!</string>
     <string name="forgot_password">Forgot password?</string>
+    <string name="show_current_location">Show current location</string>
+    <string name="zero">0.0</string>
+    <string name="total_distance">Total distance</string>
+    <string name="total_runs">Total runs</string>
+    <string name="avg_pace">Avg. pace</string>
+    <string name="avg_duration">Avg. duration</string>
+    <string name="avg_speed">Avg. speed</string>
+    <string name="avg_calories">Avg. calories</string>
+    <string name="avg_distance">Avg. distance</string>
 </resources>

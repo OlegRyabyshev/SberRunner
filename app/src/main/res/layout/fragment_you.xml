@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,14 +7,154 @@
     android:background="@color/white"
     tools:context=".ui.fragments.main_fragments.YouFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="You"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/total_distance_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/poppins_light"
+            android:text="@string/zero"
+            android:textColor="@color/main_green"
+            android:textSize="60sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/total_distance_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_light"
+            android:text="@string/total_distance"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/total_distance_number" />
+
+
+        <TableLayout
+            android:id="@+id/table_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/total_distance_text">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/total_runs"
+                    style="@style/Theme.SberRunner.Table.Numbers"
+                    android:text="@string/zero" />
+
+                <TextView
+                    android:id="@+id/total_avg_pace"
+                    style="@style/Theme.SberRunner.Table.Numbers"
+                    android:text="@string/zero" />
+
+                <TextView
+                    android:id="@+id/total_avg_duration"
+                    style="@style/Theme.SberRunner.Table.Numbers"
+                    android:text="@string/zero"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/total_runs_text"
+                    style="@style/Theme.SberRunner.Table.Texts"
+                    android:text="@string/total_runs" />
+
+                <TextView
+                    android:id="@+id/total_avg_pace_text"
+                    style="@style/Theme.SberRunner.Table.Texts"
+                    android:text="@string/avg_pace" />
+
+                <TextView
+                    android:id="@+id/total_avg_duration_text"
+                    style="@style/Theme.SberRunner.Table.Texts"
+                    android:text="@string/avg_duration" />
+
+            </TableRow>
+
+        </TableLayout>
+
+        <TableLayout
+            android:id="@+id/table_second"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="20dp"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/table_first">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/total_avg_speed"
+                    style="@style/Theme.SberRunner.Table.Numbers"
+                    android:text="@string/zero" />
+
+                <TextView
+                    android:id="@+id/total_avg_calories"
+                    style="@style/Theme.SberRunner.Table.Numbers"
+                    android:text="@string/zero" />
+
+                <TextView
+                    android:id="@+id/total_avg_distance"
+                    style="@style/Theme.SberRunner.Table.Numbers"
+                    android:text="@string/zero" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/total_avg_speed_text"
+                    style="@style/Theme.SberRunner.Table.Texts"
+                    android:text="@string/avg_speed" />
+
+                <TextView
+                    android:id="@+id/total_avg_calories_text"
+                    style="@style/Theme.SberRunner.Table.Texts"
+                    android:text="@string/avg_calories" />
+
+                <TextView
+                    android:id="@+id/total_avg_distance_text"
+                    style="@style/Theme.SberRunner.Table.Texts"
+                    android:text="@string/avg_distance" />
+
+            </TableRow>
+
+        </TableLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
