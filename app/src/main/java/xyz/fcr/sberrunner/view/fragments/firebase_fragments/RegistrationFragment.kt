@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.ui.fragments.firebase_fragments
+package xyz.fcr.sberrunner.view.fragments.firebase_fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -18,7 +18,7 @@ import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentRegistrationBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import es.dmoral.toasty.Toasty
-import xyz.fcr.sberrunner.ui.activities.MainActivity
+import xyz.fcr.sberrunner.view.activities.MainActivity
 
 class RegistrationFragment : Fragment() {
 

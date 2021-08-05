@@ -1,26 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.preference.PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.preference.EditTextPreference
-        android:defaultValue="true"
-        android:key="example_switch"
-        android:summary="Turn this option on or off"
-        android:title="Settings option" />
+    <PreferenceCategory
+        app:key="account"
+        app:title="Account">
 
-    <androidx.preference.SwitchPreference
-        android:defaultValue="true"
-        android:key="example_switch"
-        android:summary="Turn this option on or off"
-        android:title="Settings option" />
+        <EditTextPreference
+            android:icon="@drawable/ic_account"
+            android:key="name"
+            android:title="Name" />
 
-    <androidx.preference.SwitchPreference
-        android:defaultValue="true"
-        android:key="example_switch"
-        android:summary="Turn this option on or off"
-        android:title="Settings option" />
+        <EditTextPreference
+            android:icon="@drawable/ic_weight"
+            android:key="weight"
+            android:title="Weight" />
+
+        <EditTextPreference
+            android:icon="@drawable/ic_height"
+            android:key="height"
+            android:title="Height" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="settings"
+        app:title="Settings">
+
+        <ListPreference
+            android:icon="@drawable/ic_theme"
+            android:key="theme"
+            android:entries="@array/Themes.entries"
+            android:entryValues="@array/Themes.entryValues"
+            android:summary="Change theme of SberRunner"
+            android:title="Theme" />
+
+        <ListPreference
+            android:icon="@drawable/ic_units"
+            android:key="units"
+            android:entries="@array/Units.entries"
+            android:entryValues="@array/Units.entryValues"
+            android:summary="metric/potato"
+            android:title="Units" />
+
+        <androidx.preference.SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_voice"
+            android:key="voice_enabled"
+            android:title="Voice assistant" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:key="about"
+        app:title="About">
+
+        <Preference
+            android:icon="@drawable/ic_version"
+            android:key="version"
+            android:summary="1.0.0"
+            android:title="Version" />
+
+        <Preference
+            android:icon="@drawable/ic_log_out"
+            android:key="log_out"
+            android:title="Log out" />
+
+    </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

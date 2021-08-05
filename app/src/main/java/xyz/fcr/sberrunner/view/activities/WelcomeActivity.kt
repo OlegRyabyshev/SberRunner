@@ -1,11 +1,11 @@
-package xyz.fcr.sberrunner.ui.activities
+package xyz.fcr.sberrunner.view.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.ActivityWelcomeBinding
-import xyz.fcr.sberrunner.ui.fragments.welcome_fragments.WelcomeFragment
+import xyz.fcr.sberrunner.view.fragments.welcome_fragments.WelcomeFragment
 
 class WelcomeActivity : AppCompatActivity() {
 

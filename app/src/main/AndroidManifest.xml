@@ -13,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SberRunner">
         <activity
-            android:name=".ui.activities.WelcomeActivity"
+            android:name=".view.activities.WelcomeActivity"
             android:exported="true" />
 
-        <activity android:name=".ui.activities.MainActivity">
+        <activity android:name=".view.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

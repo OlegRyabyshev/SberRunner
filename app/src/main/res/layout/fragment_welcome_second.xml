@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_green"
-    tools:context=".ui.fragments.welcome_fragments.WelcomeFragmentSecond"
+    tools:context=".view.fragments.welcome_fragments.WelcomeFragmentSecond"
     app:layoutDescription="@xml/fragment_welcome_second_scene">
 
     <TextView

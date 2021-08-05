@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/main_green"
     app:layoutDescription="@xml/fragment_welcome_third_scene"
-    tools:context=".ui.fragments.welcome_fragments.WelcomeFragmentThird">
+    tools:context=".view.fragments.welcome_fragments.WelcomeFragmentThird">
 
     <TextView
         android:id="@+id/text_view_welcome"

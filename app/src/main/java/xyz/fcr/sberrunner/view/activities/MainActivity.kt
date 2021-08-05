@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.ui.activities
+package xyz.fcr.sberrunner.view.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,7 +8,7 @@ import xyz.fcr.sberrunner.R
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import xyz.fcr.sberrunner.databinding.ActivityMainBinding
-import xyz.fcr.sberrunner.ui.fragments.main_fragments.*
+import xyz.fcr.sberrunner.view.fragments.main_fragments.*
 
 class MainActivity : AppCompatActivity() {
 

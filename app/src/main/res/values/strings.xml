@@ -31,4 +31,18 @@
     <string name="avg_speed">Avg. speed</string>
     <string name="avg_calories">Avg. calories</string>
     <string name="avg_distance">Avg. distance</string>
+
+    <string name="theme_default_entries">Default</string>
+    <string name="theme_light_entries">Light</string>
+    <string name="theme_dark_entries">Dark</string>
+
+    <string name="theme_default_entry_value">default_theme</string>
+    <string name="theme_light_entry_value">light_theme</string>
+    <string name="theme_dark_entry_value">dark_theme</string>
+
+    <string name="unit_metric_entries">Metric</string>
+    <string name="unit_imperial_entries">Imperial</string>
+
+    <string name="unit_metric_entry_value">metric_unit</string>
+    <string name="unit_imperial_entry_value">imperial_unit</string>
 </resources>

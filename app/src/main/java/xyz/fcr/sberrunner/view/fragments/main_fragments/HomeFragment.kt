@@ -1,15 +1,15 @@
-package xyz.fcr.sberrunner.ui.fragments.main_fragments
+package xyz.fcr.sberrunner.view.fragments.main_fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import xyz.fcr.sberrunner.databinding.FragmentYouBinding
+import xyz.fcr.sberrunner.databinding.FragmentHomeBinding
 
-class YouFragment : Fragment() {
+class HomeFragment : Fragment() {
 
-    private var _binding: FragmentYouBinding? = null
+    private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -17,7 +17,7 @@ class YouFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentYouBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 }

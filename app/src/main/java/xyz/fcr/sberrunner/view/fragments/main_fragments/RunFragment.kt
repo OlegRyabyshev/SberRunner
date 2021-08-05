@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.ui.fragments.main_fragments
+package xyz.fcr.sberrunner.view.fragments.main_fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

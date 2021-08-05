@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.ui.fragments.welcome_fragments
+package xyz.fcr.sberrunner.view.fragments.welcome_fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import xyz.fcr.sberrunner.R
 
-class WelcomeFragmentSecond : Fragment() {
+class WelcomeFragmentFirst : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_welcome_second, container, false)
+        return inflater.inflate(R.layout.fragment_welcome_first, container, false)
     }
 }
