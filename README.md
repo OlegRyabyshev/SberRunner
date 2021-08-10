@@ -7,12 +7,14 @@ With this app you can follow your running path, it calculates your speed, pace, 
 You can store your information on the cloud and use this app on multiple devices.
 
 **App contains**:
+```
   - Registration/Login (via Firebase)
   - List of your past runs
   - Simple map to locate yourself
   - Running activity screen with a detailed information and map
   - User profile
   - Settings
+```
 
 
 # Russian
@@ -22,15 +24,17 @@ You can store your information on the cloud and use this app on multiple devices
 You can store your information on the cloud and use this app on multiple devices.
 
 **Приложение состоит из**:
+```
   - Окна регистрации/входа в аккаунт
   - Списка предыдущих забегов
   - Окном с картой для отслеживания текущей позиции
   - Окна с детализированной информацией о текущем активном забеге и картой
   - Информация о пользователе
   - Настройки приложения
+```
 
 # Technology stack / Стэк технологий
-
+```
 - MVVM
 - OkHttp
 - RxJava
@@ -42,6 +46,7 @@ You can store your information on the cloud and use this app on multiple devices
 - Room
 - ViewBinding
 - LiveData
+```
 
 # License
     Sberrunner

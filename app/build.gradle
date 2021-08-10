@@ -53,22 +53,28 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.1.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
 
-    //Preferences (for settings screen)
+    // OkHttp
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+
+    // SwipeToRefresh
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    // Preferences (for settings screen)
     implementation "androidx.preference:preference-ktx:1.1.1"
 
-    //Toasty (better looking Toast)
+    // Toasty (better looking Toast)
     implementation "com.github.GrenderG:Toasty:1.5.0"
 
-    //Google maps
+    // Google maps
     implementation "com.google.android.gms:play-services-maps:17.0.1"
     implementation "com.google.android.gms:play-services-location:18.0.0"
 
-    //Firebase
+    // Firebase
     implementation platform("com.google.firebase:firebase-bom:28.3.0")
     implementation "com.google.firebase:firebase-auth-ktx:21.0.1"
     implementation "com.google.firebase:firebase-firestore-ktx:23.0.3"
 
-    //Tests
+    // Tests
     testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test.ext:junit:1.1.3"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.4.0"
