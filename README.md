@@ -1,6 +1,7 @@
 # **SberRunner**
 
 # English
+
 Simple app to keep track of your runs.  
 With this app you can follow your running path, it calculates your speed, pace, calories burned and your distance.
 You can store your information on the cloud and use this app on multiple devices.
@@ -13,11 +14,13 @@ You can store your information on the cloud and use this app on multiple devices
   - User profile
   - Settings
 
+
+# Russian
+
 Приложение для отслеживания вашего бега.
 С помощью данного приложения вы сможете следить за траекторией бега, скоростью, темпом, расходом калорий и пройденой дистанцией.
 You can store your information on the cloud and use this app on multiple devices.
 
-# Russian
 **Приложение состоит из**:
   - Окна регистрации/входа в аккаунт
   - Списка предыдущих забегов
