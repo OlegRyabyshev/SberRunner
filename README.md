@@ -21,7 +21,7 @@ You can store your information on the cloud and use this app on multiple devices
 
 Приложение для отслеживания вашего бега.
 С помощью данного приложения вы сможете следить за траекторией бега, скоростью, темпом, расходом калорий и пройденой дистанцией.
-You can store your information on the cloud and use this app on multiple devices.
+Полученная инфомация храниться на сервере, поэтому приложением можно пользоваться с нескольких устройств.
 
 **Приложение состоит из**:
 ```

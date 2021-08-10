@@ -19,7 +19,6 @@ class WelcomeViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifec
         }
     }
 
-    override fun getItemCount(): Int {
-        return 3
-    }
+    override fun getItemCount() = 3
+
 }

@@ -1,6 +1,5 @@
 package xyz.fcr.sberrunner.view.fragments.firebase_fragments
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
@@ -12,7 +11,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -20,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuth
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentRegistrationBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import es.dmoral.toasty.Toasty
 import xyz.fcr.sberrunner.view.activities.MainActivity
 import xyz.fcr.sberrunner.viewmodel.firebase_viewmodels.RegistrationViewModel
 
@@ -28,8 +25,6 @@ class RegistrationFragment : Fragment() {
 
     private var _binding: FragmentRegistrationBinding? = null
     private val binding get() = _binding!!
-    private val fireAuth = FirebaseAuth.getInstance()
-    private val fireStore = FirebaseFirestore.getInstance()
 
     private lateinit var viewModel: RegistrationViewModel
 
@@ -46,12 +41,19 @@ class RegistrationFragment : Fragment() {
 
         viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return DetailedViewModel(weatherRepository, schedulersProvider) as T
+                val fireAuth = FirebaseAuth.getInstance()
+                val fireStore = FirebaseFirestore.getInstance()
+                return RegistrationViewModel(fireAuth, fireStore) as T
             }
-        }).get(DetailedViewModel::class.java)
+        }).get(RegistrationViewModel::class.java)
 
         binding.signUpButton.setOnClickListener {
-//            checkFieldsForRegister()
+            viewModel.proceedRegistration(
+                binding.registerName.text.toString(),
+                binding.registerEmail.text.toString(),
+                binding.registerPassword.text.toString(),
+                binding.registerWeight.text.toString()
+            )
         }
 
         initSignInLink()

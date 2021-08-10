@@ -2,16 +2,18 @@ package xyz.fcr.sberrunner.data.firebase
 
 import android.view.View
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import es.dmoral.toasty.Toasty
 
-class FirebaseConnector {
+class FirebaseConnector(firebaseAuth: FirebaseAuth, fireStore: FirebaseFirestore) {
 
-    fun firebaseRegistration(regName:String, regEmail: String, regPassword: String, regWeight: Int) {
+    fun firebaseRegistration(regName:String, regEmail: String, regPassword: String, regWeight: String) {
 
         val name = regName.trim { it <= ' ' }
         val email = regEmail.trim { it <= ' ' }
         val password = regPassword.trim { it <= ' ' }
-        val weight = regWeight.toString().toIntOrNull()
+        val weight = regWeight.toIntOrNull()
 
         //Checking Email
         var amountOfErrors = 0
