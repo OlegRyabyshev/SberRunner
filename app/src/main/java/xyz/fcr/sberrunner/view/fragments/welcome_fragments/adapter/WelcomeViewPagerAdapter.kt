@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.adapters
+package xyz.fcr.sberrunner.view.fragments.welcome_fragments.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

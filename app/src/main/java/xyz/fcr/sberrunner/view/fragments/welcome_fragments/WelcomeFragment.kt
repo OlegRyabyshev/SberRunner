@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import xyz.fcr.sberrunner.adapters.WelcomeViewPagerAdapter
+import xyz.fcr.sberrunner.view.fragments.welcome_fragments.adapter.WelcomeViewPagerAdapter
 import xyz.fcr.sberrunner.databinding.FragmentWelcomeBinding
 
 class WelcomeFragment : Fragment() {

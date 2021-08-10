@@ -1,5 +1,6 @@
 package xyz.fcr.sberrunner.view.fragments.firebase_fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
@@ -13,12 +14,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentRegistrationBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import es.dmoral.toasty.Toasty
 import xyz.fcr.sberrunner.view.activities.MainActivity
+import xyz.fcr.sberrunner.viewmodel.firebase_viewmodels.RegistrationViewModel
 
 class RegistrationFragment : Fragment() {
 
@@ -26,6 +30,8 @@ class RegistrationFragment : Fragment() {
     private val binding get() = _binding!!
     private val fireAuth = FirebaseAuth.getInstance()
     private val fireStore = FirebaseFirestore.getInstance()
+
+    private lateinit var viewModel: RegistrationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,126 +44,17 @@ class RegistrationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return DetailedViewModel(weatherRepository, schedulersProvider) as T
+            }
+        }).get(DetailedViewModel::class.java)
+
         binding.signUpButton.setOnClickListener {
-            checkFieldsForRegister()
+//            checkFieldsForRegister()
         }
 
         initSignInLink()
-    }
-
-    private fun checkFieldsForRegister() {
-        var amountOfErrors = 0
-
-        val name = binding.registerName.text.toString().trim { it <= ' ' }
-        val email = binding.registerEmail.text.toString().trim { it <= ' ' }
-        val password = binding.registerPassword.text.toString().trim { it <= ' ' }
-        val height = binding.registerHeight.text.toString().toIntOrNull()
-        val weight = binding.registerWeight.text.toString().toIntOrNull()
-
-        //Checking Email
-        when {
-            email.isBlank() -> {
-                binding.registerEmailTv.isErrorEnabled = true
-                binding.registerEmailTv.error = "Email can't be empty"
-                amountOfErrors++
-            }
-            !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                binding.registerEmailTv.error = "Wrong email format"
-                amountOfErrors++
-            }
-            else -> {
-                binding.registerEmailTv.isErrorEnabled = false
-            }
-        }
-
-        //Checking Passport
-        when {
-            password.isBlank() -> {
-                binding.registerPasswordTv.isErrorEnabled = true
-                binding.registerPasswordTv.error = "Password can't be empty"
-                amountOfErrors++
-            }
-            password.length < 6 -> {
-                binding.registerPasswordTv.error = "Password should be at least 6 charters"
-                amountOfErrors++
-            }
-            else -> {
-                binding.registerPasswordTv.isErrorEnabled = false
-            }
-        }
-
-        //Checking Name
-        when {
-            name.isBlank() -> {
-                binding.registerNameTv.isErrorEnabled = true
-                binding.registerNameTv.error = "Login can't be empty"
-                amountOfErrors++
-            }
-            else -> {
-                binding.registerNameTv.isErrorEnabled = false
-            }
-        }
-
-        //Checking Height
-        when {
-            height == null || height > 250 || height <= 40 -> {
-                binding.registerHeightTv.isErrorEnabled = true
-                binding.registerHeightTv.error = "Height is not valid"
-                amountOfErrors++
-            }
-            else -> {
-                binding.registerHeightTv.isErrorEnabled = false
-            }
-        }
-
-        //Checking Weight
-        when {
-            weight == null || weight > 350 || weight <= 0 -> {
-                binding.registerWeightTv.isErrorEnabled = true
-                binding.registerWeight.error = "Weight is not valid"
-                amountOfErrors++
-            }
-            else -> {
-                binding.registerWeightTv.isErrorEnabled = false
-            }
-        }
-
-        if (amountOfErrors != 0) return
-        signUpAndAuth(email, password, name, height!!, weight!!)
-    }
-
-    private fun signUpAndAuth(email: String, password: String, name: String, height: Int, weight: Int) {
-        binding.progressCircularRegistration.visibility = View.VISIBLE
-
-        fireAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                binding.progressCircularRegistration.visibility = View.INVISIBLE
-
-                if (task.isSuccessful) {
-                    val user = hashMapOf(
-                        "name" to name,
-                        "height" to height,
-                        "weight" to weight
-                    )
-
-                    val userId = fireAuth.currentUser?.uid
-
-                    if (userId != null) {
-                        val documentReference = fireStore.collection("user").document(userId)
-
-                        documentReference
-                            .set(user)
-                            .addOnSuccessListener {
-                                startMainActivity()
-                            }
-                            .addOnFailureListener { e ->
-                                Toast.makeText(context, e.localizedMessage, Toast.LENGTH_SHORT).show()
-                            }
-                    }
-                } else {
-                    Toasty.error(requireContext(), task.exception?.message.toString(), Toast.LENGTH_SHORT).show()
-                }
-            }
     }
 
     private fun startMainActivity() {
