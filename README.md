@@ -29,7 +29,7 @@ You can store your information on the cloud and use this app on multiple devices
   - Информация о пользователе
   - Настройки приложения
 
-### Technology stack / Стэк технологий
+# Technology stack / Стэк технологий
 
 - MVVM
 - OkHttp
@@ -43,7 +43,7 @@ You can store your information on the cloud and use this app on multiple devices
 - ViewBinding
 - LiveData
 
-### License
+# License
     Sberrunner
     Copyright 2021 
     Ryabyshev Oleg
