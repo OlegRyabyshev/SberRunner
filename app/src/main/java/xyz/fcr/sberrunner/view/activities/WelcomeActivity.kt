@@ -17,11 +17,10 @@ class WelcomeActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         _binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
 
-    override fun onResume() {
-        super.onResume()
-        openWelcomeScreen()
+        if (savedInstanceState == null) {
+            openWelcomeScreen()
+        }
     }
 
     private fun openWelcomeScreen() {

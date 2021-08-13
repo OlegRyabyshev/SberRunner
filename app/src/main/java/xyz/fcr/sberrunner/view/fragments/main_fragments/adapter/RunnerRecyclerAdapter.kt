@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
 import xyz.fcr.sberrunner.data.model.RunModel
-import xyz.fcr.lesson19_mvvm.databinding.WeatherItemBinding
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.RunItemBinding
 
@@ -44,9 +43,9 @@ class RunnerRecyclerAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bindView(weatherModel: RunModel) {
-            binding.dayTextView.text = "Day ${weatherModel.day}:"
-            binding.tempTextView.text = weatherModel.max
-            binding.weatherImage.setImageResource(weatherModel.icon)
+//            binding.dayTextView.text = "Day ${weatherModel.day}:"
+//            binding.tempTextView.text = weatherModel.max
+//            binding.weatherImage.setImageResource(weatherModel.icon)
         }
     }
 }

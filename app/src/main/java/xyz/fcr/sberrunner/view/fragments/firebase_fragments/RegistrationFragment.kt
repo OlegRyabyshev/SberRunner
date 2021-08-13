@@ -11,15 +11,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentRegistrationBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import es.dmoral.toasty.Toasty
+import xyz.fcr.sberrunner.data.repository.FirebaseRepository
+import xyz.fcr.sberrunner.utils.Constants.VALID
+import xyz.fcr.sberrunner.utils.SchedulersProvider
 import xyz.fcr.sberrunner.view.activities.MainActivity
-import xyz.fcr.sberrunner.viewmodel.firebase_viewmodels.RegistrationViewModel
+import xyz.fcr.sberrunner.viewmodels.firebase_viewmodels.RegistrationViewModel
 
 class RegistrationFragment : Fragment() {
 
@@ -43,28 +50,68 @@ class RegistrationFragment : Fragment() {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 val fireAuth = FirebaseAuth.getInstance()
                 val fireStore = FirebaseFirestore.getInstance()
-                return RegistrationViewModel(fireAuth, fireStore) as T
+                val firebaseRepo = FirebaseRepository(fireAuth, fireStore)
+                val schedulersProvider = SchedulersProvider()
+
+                return RegistrationViewModel(firebaseRepo, schedulersProvider) as T
             }
         }).get(RegistrationViewModel::class.java)
 
+
         binding.signUpButton.setOnClickListener {
-            viewModel.proceedRegistration(
-                binding.registerName.text.toString(),
-                binding.registerEmail.text.toString(),
-                binding.registerPassword.text.toString(),
-                binding.registerWeight.text.toString()
+            viewModel.initRegistration(
+                binding.signUpName.text.toString(),
+                binding.signUpEmail.text.toString(),
+                binding.signUpPass.text.toString(),
+                binding.signUpWeight.text.toString()
             )
         }
 
+        observeLiveData()
         initSignInLink()
     }
 
-    private fun startMainActivity() {
-        val intent = Intent(activity, MainActivity::class.java)
-        startActivity(intent)
-        activity?.finish()
+    private fun observeLiveData() {
+        viewModel.progressLiveData.observe(viewLifecycleOwner, { isVisible: Boolean -> showProgress(isVisible) })
+        viewModel.successLiveData.observe(viewLifecycleOwner, { isSucceed: Boolean -> startMainActivity(isSucceed) })
+        viewModel.errorLiveData.observe(viewLifecycleOwner, { throwable: Throwable -> showWarning(throwable) })
+        viewModel.errorFirebase.observe(viewLifecycleOwner, { throwable: Throwable -> showError(throwable) })
+
+        viewModel.errorName.observe(viewLifecycleOwner, { error: String -> setError(error, binding.signUpNameTv) })
+        viewModel.errorEmail.observe(viewLifecycleOwner, { error: String -> setError(error, binding.signUpEmailTv) })
+        viewModel.errorPass.observe(viewLifecycleOwner, { error: String -> setError(error, binding.signUpPassTv) })
+        viewModel.errorWeight.observe(viewLifecycleOwner, { error: String -> setError(error, binding.signUpWeightTv) })
     }
 
+    private fun showWarning(throwable: Throwable) {
+        Toasty.warning(requireContext(), throwable.message.toString(), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showError(throwable: Throwable) {
+        Toasty.error(requireContext(), throwable.message.toString(), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showProgress(isVisible: Boolean) {
+        binding.progressCircularRegistration.isVisible = isVisible
+    }
+
+    private fun setError(error: String, textInputLayout: TextInputLayout) {
+        when (error) {
+            VALID -> textInputLayout.isErrorEnabled = false
+            else -> {
+                textInputLayout.isErrorEnabled = true
+                textInputLayout.error = error
+            }
+        }
+    }
+
+    private fun startMainActivity(isSucceed: Boolean) {
+        if (isSucceed) {
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
+    }
 
     private fun initSignInLink() {
         val fullString = getString(R.string.already_have_an_account)

@@ -54,6 +54,10 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:2.1.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
 
+    // RxJava - RxAndroid
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.13'
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+
     // Room
     def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"
@@ -85,6 +89,10 @@ dependencies {
     // Google maps
     implementation "com.google.android.gms:play-services-maps:17.0.1"
     implementation "com.google.android.gms:play-services-location:18.0.0"
+
+    // Dagger2
+    implementation 'com.google.dagger:dagger:2.37'
+    kapt 'com.google.dagger:dagger-compiler:2.37'
 
     // Firebase
     implementation platform("com.google.firebase:firebase-bom:28.3.0")

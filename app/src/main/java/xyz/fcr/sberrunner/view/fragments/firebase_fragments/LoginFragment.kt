@@ -13,18 +13,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
-import es.dmoral.toasty.Toasty
 import xyz.fcr.sberrunner.R
+import com.google.firebase.firestore.FirebaseFirestore
+import es.dmoral.toasty.Toasty
+import xyz.fcr.sberrunner.data.repository.FirebaseRepository
 import xyz.fcr.sberrunner.databinding.FragmentLoginBinding
+import xyz.fcr.sberrunner.utils.Constants.VALID
+import xyz.fcr.sberrunner.utils.SchedulersProvider
 import xyz.fcr.sberrunner.view.activities.MainActivity
+import xyz.fcr.sberrunner.viewmodels.firebase_viewmodels.LoginViewModel
 
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var viewModel: LoginViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,65 +46,83 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseAuth = FirebaseAuth.getInstance()
+        viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                val fireAuth = FirebaseAuth.getInstance()
+                val fireStore = FirebaseFirestore.getInstance()
+                val firebaseRepo = FirebaseRepository(fireAuth, fireStore)
+                val schedulersProvider = SchedulersProvider()
+
+                return LoginViewModel(firebaseRepo, schedulersProvider) as T
+            }
+        }).get(LoginViewModel::class.java)
+
 
         binding.signInButton.setOnClickListener {
-            checkFieldsForLogin()
+            viewModel.initSignIn(
+                binding.signInEmail.text.toString(),
+                binding.signInPassword.text.toString(),
+            )
         }
 
-        binding.forgotPassword.setOnClickListener {
-            sendResetEmail()
+        binding.resetPassword.setOnClickListener {
+            viewModel.initResetEmail(binding.signInEmail.text.toString())
         }
 
+        observeLiveData()
         initSignUpLink()
     }
 
-    private fun checkFieldsForLogin() {
-        var amountOfErrors = 0
+    private fun observeLiveData() {
+        viewModel.progressLiveData.observe(viewLifecycleOwner, { isVisible: Boolean -> showProgress(isVisible) })
+        viewModel.loginLiveData.observe(viewLifecycleOwner, { isSucceed: Boolean -> startMainActivity(isSucceed) })
+        viewModel.resetLiveData.observe(viewLifecycleOwner, { result: Boolean -> showResetToast(result) })
+        viewModel.errorLiveData.observe(viewLifecycleOwner, { throwable: Throwable -> showWarning(throwable) })
+        viewModel.errorFirebase.observe(viewLifecycleOwner, { throwable: Throwable -> showError(throwable) })
 
-        val email = binding.signInEmail.text.toString().trim { it <= ' ' }
-        val password = binding.signInPassword.text.toString().trim { it <= ' ' }
-
-        if (email.isBlank()) {
-            binding.signInEmail.error = "Email can't be empty"
-            amountOfErrors++
-        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.signInEmailTv.error = "Wrong email format"
-            amountOfErrors++
-        }
-
-        if (password.isBlank()) {
-            binding.signInPassword.error = "Password can't be empty"
-            amountOfErrors++
-        } else if (password.length < 6) {
-            binding.signInPasswordTv.error = "Password should be at least 6 charters"
-            amountOfErrors++
-        }
-
-        if (amountOfErrors > 0) return
-
-        signIn(email, password)
+        viewModel.errorEmail.observe(viewLifecycleOwner, { error: String -> setError(error, binding.signInEmailTv) })
+        viewModel.errorPass.observe(viewLifecycleOwner, { error: String -> setError(error, binding.signInPasswordTv) })
     }
 
-    private fun signIn(email: String, password: String) {
-        binding.progressCircularLogin.visibility = View.VISIBLE
+    private fun showResetToast(resetSent: Boolean) {
+        if (resetSent) {
+            Toasty.success(requireContext(), "Check your email for a password reset", Toast.LENGTH_SHORT).show()
+        } else {
+            Toasty.error(requireContext(), "Can't find this account, check email or connection", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
 
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task ->
-                binding.progressCircularLogin.visibility = View.INVISIBLE
+    private fun showWarning(throwable: Throwable) {
+        Toasty.warning(requireContext(), throwable.message.toString(), Toast.LENGTH_SHORT).show()
+    }
 
-                if (task.isSuccessful) {
-                    startMainActivity()
-                } else {
-                    Toast.makeText(context, task.exception?.message.toString(), Toast.LENGTH_SHORT).show()
-                }
+    private fun showError(throwable: Throwable) {
+        Toasty.error(requireContext(), throwable.message.toString(), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showProgress(isVisible: Boolean) {
+        binding.progressCircularLogin.isVisible = isVisible
+    }
+
+    private fun setError(error: String, textInputLayout: TextInputLayout) {
+        when (error) {
+            VALID -> textInputLayout.isErrorEnabled = false
+            else -> {
+                textInputLayout.isErrorEnabled = true
+                textInputLayout.error = error
             }
+        }
     }
 
-    private fun startMainActivity() {
-        val intent = Intent(activity, MainActivity::class.java)
-        startActivity(intent)
-        activity?.finish()
+    private fun startMainActivity(isSucceed: Boolean) {
+        if (isSucceed) {
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+        } else {
+            Toasty.error(requireContext(), "Email/password not matching, check fields or connection", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun initSignUpLink() {
@@ -129,32 +156,5 @@ class LoginFragment : Fragment() {
 
         binding.signUpTextView.text = spannableString
         binding.signUpTextView.movementMethod = LinkMovementMethod.getInstance()
-    }
-
-    private fun sendResetEmail() {
-        val email = binding.signInEmail.text.toString().trim { it <= ' ' }
-
-        if (email.isBlank()) {
-            binding.signInEmail.error = "Email can't be empty"
-            return
-        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.signInEmailTv.error = "Wrong email format"
-            return
-        }
-
-        firebaseAuth.sendPasswordResetEmail(email).addOnSuccessListener {
-
-            Toasty.success(
-                requireContext(),
-                "Check your email for a password reset",
-                Toast.LENGTH_SHORT
-            ).show()
-        }.addOnFailureListener {
-            Toasty.error(
-                requireContext(),
-                "Can't send an email. Check your connection or email",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
     }
 }

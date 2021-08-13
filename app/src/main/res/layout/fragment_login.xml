@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="@dimen/margin_big"
             android:layout_marginEnd="10dp"
             android:background="@drawable/round_corners"
             android:orientation="vertical"
@@ -60,10 +60,9 @@
                 style="@style/Theme.SberRunner.MaterialTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:hint="@string/email"
                 app:endIconMode="clear_text"
-                app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_email">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -79,9 +78,9 @@
                 style="@style/Theme.SberRunner.MaterialTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:hint="@string/password"
                 app:endIconMode="password_toggle"
-                app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_lock">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -92,10 +91,11 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/forgot_password"
+                android:id="@+id/reset_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginEnd="35dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/poppins_light"
@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:minWidth="200dp"
                 android:text="@string/sign_in"
                 android:textSize="16sp" />
@@ -120,8 +120,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:ellipsize="end"
                 android:fontFamily="@font/poppins_light"
                 android:lines="1"

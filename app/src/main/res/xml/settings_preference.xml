@@ -19,11 +19,6 @@
             android:key="weight"
             android:title="Weight" />
 
-        <EditTextPreference
-            android:icon="@drawable/ic_height"
-            android:key="height"
-            android:title="Height" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="@dimen/margin_big"
             android:layout_marginEnd="10dp"
             android:background="@drawable/round_corners"
             android:orientation="vertical"
@@ -56,35 +56,34 @@
             app:layout_constraintTop_toBottomOf="@+id/text_view_info">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/register_name_tv"
+                android:id="@+id/sign_up_name_tv"
                 style="@style/Theme.SberRunner.MaterialTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:hint="@string/name"
                 app:endIconMode="clear_text"
-                app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_account">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/register_name"
+                    android:id="@+id/sign_up_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/register_email_tv"
+                android:id="@+id/sign_up_email_tv"
                 style="@style/Theme.SberRunner.MaterialTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:hint="@string/email"
                 app:endIconMode="clear_text"
-                app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_email">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/register_email"
+                    android:id="@+id/sign_up_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress" />
@@ -92,34 +91,34 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/register_password_tv"
+                android:id="@+id/sign_up_pass_tv"
                 style="@style/Theme.SberRunner.MaterialTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:hint="@string/password"
                 app:endIconMode="password_toggle"
-                app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_lock">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/register_password"
+                    android:id="@+id/sign_up_pass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/register_weight_tv"
+                android:id="@+id/sign_up_weight_tv"
                 style="@style/Theme.SberRunner.MaterialTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:hint="@string/weight_kg"
                 app:endIconMode="clear_text"
-                app:errorEnabled="true"
                 app:startIconDrawable="@drawable/ic_weight">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/register_weight"
+                    android:id="@+id/sign_up_weight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number" />
@@ -132,7 +131,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="55dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:elevation="8dp"
                 android:minWidth="200dp"
                 android:text="@string/sign_up"
@@ -143,8 +142,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:ellipsize="end"
                 android:fontFamily="@font/poppins_light"
                 android:lines="1"

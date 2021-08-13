@@ -18,7 +18,7 @@
         android:lines="1"
         android:text="Simple but powerful"
         android:textColor="@color/white"
-        android:textSize="24dp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/text_view_info"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
         android:lines="1"
         android:text="Analise your past runs and keep improving"
         android:textColor="@color/white"
-        android:textSize="14dp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/text_view_welcome"
         app:layout_constraintStart_toStartOf="@+id/text_view_welcome"
         app:layout_constraintTop_toBottomOf="@+id/text_view_welcome" />
