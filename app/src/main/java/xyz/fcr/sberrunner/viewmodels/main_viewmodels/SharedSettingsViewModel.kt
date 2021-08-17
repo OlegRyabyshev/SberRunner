@@ -1,6 +1,5 @@
 package xyz.fcr.sberrunner.viewmodels.main_viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,8 +17,7 @@ class SharedSettingsViewModel(
     private val _signOutLiveData = MutableLiveData<Boolean>()
     private val _deleteLiveData = MutableLiveData<Boolean>()
 
-    private var disReset: Disposable? = null
-    private var disSignIn: Disposable? = null
+    private var disDeleteAccount: Disposable? = null
 
     fun exitAccount() {
         firebaseRepo.signOut()
@@ -27,7 +25,7 @@ class SharedSettingsViewModel(
     }
 
     fun deleteAccount() {
-        disReset = Single.fromCallable { firebaseRepo.deleteAccount() }
+        disDeleteAccount = Single.fromCallable { firebaseRepo.deleteAccount() }
             .doOnSubscribe { _progressLiveData.postValue(true) }
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
@@ -35,10 +33,7 @@ class SharedSettingsViewModel(
                 task?.addOnCompleteListener {
                     when {
                         it.isSuccessful -> _deleteLiveData.postValue(true)
-                        else -> {
-                            _deleteLiveData.postValue(false)
-                            Log.d("s", task.exception?.message.toString())
-                        }
+                        else -> _deleteLiveData.postValue(false)
                     }
 
                     _progressLiveData.postValue(false)
@@ -49,11 +44,8 @@ class SharedSettingsViewModel(
     override fun onCleared() {
         super.onCleared()
 
-        disReset?.dispose()
-        disReset = null
-
-        disSignIn?.dispose()
-        disSignIn = null
+        disDeleteAccount?.dispose()
+        disDeleteAccount = null
     }
 
     val progressLiveData: LiveData<Boolean>

@@ -9,6 +9,7 @@ import android.content.Intent
 import androidx.fragment.app.Fragment
 import xyz.fcr.sberrunner.databinding.ActivityMainBinding
 import xyz.fcr.sberrunner.view.fragments.main_fragments.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,16 +52,25 @@ class MainActivity : AppCompatActivity() {
 
         binding.fabAction.setOnClickListener {
             openScreen(RunFragment(), TAG_RUN)
+            binding.bottomNavigationView.uncheckAllItems()
         }
+    }
+
+    private fun BottomNavigationView.uncheckAllItems() {
+        menu.setGroupCheckable(0, true, false)
+
+        for (i in 0 until menu.size()) {
+            menu.getItem(i).isChecked = false
+        }
+
+        menu.setGroupCheckable(0, true, true)
     }
 
     private fun openScreen(fragmentToOpen: Fragment, tag: String) {
         if (currentFragment?.tag == tag) return
-
         currentFragment = fragmentToOpen
 
         supportFragmentManager
-
             .beginTransaction()
             .replace(R.id.settings_container, fragmentToOpen, tag)
             .commit()

@@ -11,13 +11,13 @@
 
         <EditTextPreference
             android:icon="@drawable/ic_account"
-            android:key="name"
+            android:key="name_key"
             android:title="Change name"
             android:summary="Tap to change displayed name"/>
 
         <EditTextPreference
             android:icon="@drawable/ic_weight"
-            android:key="weight"
+            android:key="weight_key"
             android:title="Adjust weight"
             android:summary="Tap to adjust your weight"/>
 
@@ -29,15 +29,17 @@
 
         <ListPreference
             android:icon="@drawable/ic_theme"
-            android:key="theme"
+            android:defaultValue="@string/theme_default_entries"
+            android:key="theme_key"
             android:entries="@array/Themes.entries"
             android:entryValues="@array/Themes.entryValues"
             android:summary="Change theme of SberRunner"
             android:title="Theme" />
 
         <ListPreference
+            android:defaultValue="@string/unit_metric_entry_value"
             android:icon="@drawable/ic_units"
-            android:key="units"
+            android:key="units_key"
             android:entries="@array/Units.entries"
             android:entryValues="@array/Units.entryValues"
             android:summary="Tap to switch to metric/imperial units"
@@ -46,7 +48,7 @@
         <androidx.preference.SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_voice"
-            android:key="voice_enabled"
+            android:key="voice_enabled_key"
             android:title="Voice assistant" />
 
     </PreferenceCategory>

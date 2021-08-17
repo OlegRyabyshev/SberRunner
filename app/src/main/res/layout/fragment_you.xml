@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/margin_bar_and_fab"
     android:background="@color/white"
     tools:context=".view.fragments.main_fragments.YouFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@drawable/round_corners"
+        android:backgroundTint="@color/main_green"
+        android:paddingTop = "@dimen/padding_giant"
+        android:paddingBottom="@dimen/padding_giant"
+        android:layout_margin="@dimen/margin_tiny"
         android:layout_height="wrap_content">
 
 
@@ -16,10 +22,9 @@
             android:id="@+id/total_distance_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:fontFamily="@font/poppins_light"
+            android:fontFamily="sans-serif-medium"
             android:text="@string/zero"
-            android:textColor="@color/main_green"
+            android:textColor="@color/white"
             android:textSize="60sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,10 +35,8 @@
             android:id="@+id/total_distance_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_light"
             android:text="@string/total_distance"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            style="@style/Theme.SberRunner.Table.Texts"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/total_distance_number" />
@@ -43,10 +46,8 @@
             android:id="@+id/table_first"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="20dp"
-            android:elevation="4dp"
+            android:layout_marginTop="@dimen/margin_big"
+            android:elevation="@dimen/elevation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/total_distance_text">
@@ -69,13 +70,13 @@
                 <TextView
                     android:id="@+id/total_avg_duration"
                     style="@style/Theme.SberRunner.Table.Numbers"
-                    android:text="@string/zero"/>
+                    android:text="@string/zero" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_small"
                 android:layout_weight="1">
 
                 <TextView
@@ -101,10 +102,8 @@
             android:id="@+id/table_second"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="20dp"
-            android:elevation="4dp"
+            android:layout_marginTop="@dimen/margin_big"
+            android:elevation="@dimen/elevation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/table_first">
@@ -133,7 +132,7 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_small"
                 android:layout_weight="1">
 
                 <TextView
@@ -157,4 +156,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
