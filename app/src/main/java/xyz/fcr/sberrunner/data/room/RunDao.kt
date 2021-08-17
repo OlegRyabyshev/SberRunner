@@ -4,7 +4,7 @@ import androidx.room.*
 
 @Dao
 interface RunDao {
-    @Query("SELECT * FROM table_run_list")
+    @Query("SELECT * FROM table_runs")
     fun getListOfCities() : List<RunEntity>
 
     @Update

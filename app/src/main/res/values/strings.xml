@@ -12,25 +12,41 @@
     <string name="dialog_rationale_message">This app requests your location in order to show your current location</string>
     <string name="dialog_rationale_give_access">Give permission</string>
     <string name="dialog_rationale_decline">Not now</string>
+
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="name">Name</string>
     <string name="height_cm">Height (cm)</string>
     <string name="weight_kg">Weight (kg)</string>
+
     <string name="sign_up">Sign up</string>
-    <string name="create_new_account">Create new account!</string>
     <string name="sign_in">Sign in</string>
+
+    <string name="create_new_account">Create new account!</string>
     <string name="enter_with_your_account">Enter with your account!</string>
+
     <string name="forgot_password">Forgot password?</string>
+
     <string name="show_current_location">Show current location</string>
+
     <string name="zero">0.0</string>
+
     <string name="total_distance">Total distance</string>
+    <string name="avg_distance">Avg. Distance</string>
+    <string name="distance">Distance</string>
+
     <string name="total_runs">Total runs</string>
-    <string name="avg_pace">Avg. pace</string>
-    <string name="avg_duration">Avg. duration</string>
-    <string name="avg_speed">Avg. speed</string>
-    <string name="avg_calories">Avg. calories</string>
-    <string name="avg_distance">Avg. distance</string>
+
+    <string name="avg_speed">Avg. Speed</string>
+
+    <string name="avg_pace">Avg. Pace</string>
+    <string name="pace">Pace</string>
+
+    <string name="avg_duration">Avg. Duration</string>
+    <string name="duration">Duration</string>
+
+    <string name="avg_calories">Avg. Calories</string>
+    <string name="calories">Calories</string>
 
     <string name="theme_default_entries">Default</string>
     <string name="theme_light_entries">Light</string>
@@ -45,4 +61,8 @@
 
     <string name="unit_metric_entry_value">metric_unit</string>
     <string name="unit_imperial_entry_value">imperial_unit</string>
+
+    <string name="start">Start</string>
+    <string name="pause">Pause</string>
+    <string name="finish">Finish</string>
 </resources>

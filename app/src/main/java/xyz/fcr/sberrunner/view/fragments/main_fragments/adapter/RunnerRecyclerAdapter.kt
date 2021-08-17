@@ -34,9 +34,7 @@ class RunnerRecyclerAdapter(
         holder.itemView.setOnClickListener { listener.onItemClick(position) }
     }
 
-    override fun getItemCount(): Int {
-        return weatherModelList.size
-    }
+    override fun getItemCount() = weatherModelList.size
 
     class RunnerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding: RunItemBinding = RunItemBinding.bind(itemView)

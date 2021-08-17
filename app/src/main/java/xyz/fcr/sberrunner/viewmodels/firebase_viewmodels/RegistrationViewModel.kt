@@ -14,16 +14,15 @@ class RegistrationViewModel(
     private var schedulersProvider: SchedulersProvider
 ) : ViewModel() {
 
-    private val mProgressLiveData = MutableLiveData<Boolean>()
-    private val mErrorLiveData = MutableLiveData<Throwable>()
-    private val mSuccessLiveData = MutableLiveData<Boolean>()
+    private val _progressLiveData = MutableLiveData<Boolean>()
+    private val _successLiveData = MutableLiveData<String>()
+    private val _errorFirebase = MutableLiveData<String>()
 
-    private val mErrorName = MutableLiveData<String>()
-    private val mErrorEmail = MutableLiveData<String>()
-    private val mErrorPass = MutableLiveData<String>()
-    private val mErrorWeight = MutableLiveData<String>()
+    private val _errorName = MutableLiveData<String>()
+    private val _errorEmail = MutableLiveData<String>()
+    private val _errorPass = MutableLiveData<String>()
+    private val _errorWeight = MutableLiveData<String>()
 
-    private val mErrorFirebase = MutableLiveData<Throwable>()
 
     private var disposable: Disposable? = null
 
@@ -38,17 +37,19 @@ class RegistrationViewModel(
                     weight
                 )
             }
-                .doOnSubscribe { mProgressLiveData.postValue(true) }
+                .doOnSubscribe { _progressLiveData.postValue(true) }
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
                 .subscribe { task ->
                     task.addOnCompleteListener {
                         when {
-                            it.isSuccessful -> mSuccessLiveData.postValue(true)
-                            else -> mSuccessLiveData.postValue(false)
+                            it.isSuccessful -> _successLiveData.postValue(VALID)
+                            else -> {
+                                _successLiveData.postValue(it.exception?.message.toString())
+                            }
                         }
 
-                        mProgressLiveData.postValue(false)
+                        _progressLiveData.postValue(false)
                     }
                 }
         }
@@ -59,11 +60,11 @@ class RegistrationViewModel(
 
         return when {
             name.isBlank() -> {
-                mErrorName.postValue("Name can not be empty")
+                _errorName.postValue("Name can not be empty")
                 false
             }
             else -> {
-                mErrorName.postValue(VALID)
+                _errorName.postValue(VALID)
                 true
             }
         }
@@ -74,15 +75,15 @@ class RegistrationViewModel(
 
         return when {
             email.isBlank() -> {
-                mErrorEmail.postValue("Email can not be empty")
+                _errorEmail.postValue("Email can not be empty")
                 false
             }
             !(android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) -> {
-                mErrorEmail.postValue("Wrong email format")
+                _errorEmail.postValue("Wrong email format")
                 false
             }
             else -> {
-                mErrorEmail.postValue(VALID)
+                _errorEmail.postValue(VALID)
                 true
             }
         }
@@ -93,15 +94,15 @@ class RegistrationViewModel(
 
         return when {
             pass.isBlank() -> {
-                mErrorPass.postValue("Password can not be empty")
+                _errorPass.postValue("Password can not be empty")
                 false
             }
             pass.length < 6 -> {
-                mErrorPass.postValue("Password should be at least 6 charters")
+                _errorPass.postValue("Password should be at least 6 charters")
                 false
             }
             else -> {
-                mErrorPass.postValue(VALID)
+                _errorPass.postValue(VALID)
                 true
             }
         }
@@ -112,11 +113,11 @@ class RegistrationViewModel(
 
         return when {
             weight == null || weight > 350 || weight <= 0 -> {
-                mErrorWeight.postValue("Weight is not valid")
+                _errorWeight.postValue("Weight is not valid")
                 false
             }
             else -> {
-                mErrorWeight.postValue(VALID)
+                _errorWeight.postValue(VALID)
                 true
             }
         }
@@ -130,19 +131,17 @@ class RegistrationViewModel(
     }
 
     val progressLiveData: LiveData<Boolean>
-        get() = mProgressLiveData
-    val errorLiveData: LiveData<Throwable>
-        get() = mErrorLiveData
-    val successLiveData: LiveData<Boolean>
-        get() = mSuccessLiveData
+        get() = _progressLiveData
+    val successLiveData: LiveData<String>
+        get() = _successLiveData
     val errorName: LiveData<String>
-        get() = mErrorName
+        get() = _errorName
     val errorEmail: LiveData<String>
-        get() = mErrorEmail
+        get() = _errorEmail
     val errorPass: LiveData<String>
-        get() = mErrorPass
+        get() = _errorPass
     val errorWeight: LiveData<String>
-        get() = mErrorWeight
-    val errorFirebase: LiveData<Throwable>
-        get() = mErrorFirebase
+        get() = _errorWeight
+    val errorFirebase: LiveData<String>
+        get() = _errorFirebase
 }

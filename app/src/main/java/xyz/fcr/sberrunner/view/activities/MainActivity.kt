@@ -15,17 +15,21 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
+    private var currentFragment: Fragment? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
-            openScreen(HomeFragment())
+            openScreen(HomeFragment(), TAG_HOME)
         }
 
-        if (FirebaseAuth.getInstance().currentUser == null){
+        if (FirebaseAuth.getInstance().currentUser == null) {
             val intent = Intent(this, WelcomeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
             startActivity(intent)
@@ -37,29 +41,36 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.nav_home -> {
-                    openScreen(HomeFragment())
-                }
-                R.id.nav_map -> openScreen(MapFragment())
-                R.id.nav_you -> openScreen(YouFragment())
-                R.id.nav_settings -> openScreen(SettingsFragment())
+                R.id.nav_home -> openScreen(HomeFragment(), TAG_HOME)
+                R.id.nav_map -> openScreen(MapFragment(), TAG_MAP)
+                R.id.nav_you -> openScreen(YouFragment(), TAG_YOU)
+                R.id.nav_settings -> openScreen(SettingsFragment(), TAG_SETTINGS)
             }
             true
         }
 
         binding.fabAction.setOnClickListener {
-            openScreen(RunFragment())
+            openScreen(RunFragment(), TAG_RUN)
         }
     }
 
-    private fun openScreen(fragmentToOpen: Fragment) {
+    private fun openScreen(fragmentToOpen: Fragment, tag: String) {
+        if (currentFragment?.tag == tag) return
+
+        currentFragment = fragmentToOpen
+
         supportFragmentManager
+
             .beginTransaction()
-            .replace(R.id.main_container, fragmentToOpen, TAG)
+            .replace(R.id.settings_container, fragmentToOpen, tag)
             .commit()
     }
 
     private companion object {
-        private const val TAG = "TAG_MAIN_FRAGMENT"
+        private const val TAG_HOME = "TAG_HOME"
+        private const val TAG_MAP = "TAG_MAP"
+        private const val TAG_RUN = "TAG_RUN"
+        private const val TAG_YOU = "TAG_YOU"
+        private const val TAG_SETTINGS = "TAG_SETTINGS"
     }
 }

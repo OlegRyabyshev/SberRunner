@@ -12,12 +12,14 @@
         <EditTextPreference
             android:icon="@drawable/ic_account"
             android:key="name"
-            android:title="Name" />
+            android:title="Change name"
+            android:summary="Tap to change displayed name"/>
 
         <EditTextPreference
             android:icon="@drawable/ic_weight"
             android:key="weight"
-            android:title="Weight" />
+            android:title="Adjust weight"
+            android:summary="Tap to adjust your weight"/>
 
     </PreferenceCategory>
 
@@ -38,7 +40,7 @@
             android:key="units"
             android:entries="@array/Units.entries"
             android:entryValues="@array/Units.entryValues"
-            android:summary="metric/potato"
+            android:summary="Tap to switch to metric/imperial units"
             android:title="Units" />
 
         <androidx.preference.SwitchPreference
@@ -63,6 +65,11 @@
             android:icon="@drawable/ic_log_out"
             android:key="log_out"
             android:title="Log out" />
+
+        <Preference
+            android:icon="@drawable/ic_delete_account"
+            android:key="del_account"
+            android:title="Delete account" />
 
     </PreferenceCategory>
 

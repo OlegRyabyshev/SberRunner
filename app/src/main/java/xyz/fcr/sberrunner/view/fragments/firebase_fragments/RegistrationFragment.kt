@@ -73,9 +73,8 @@ class RegistrationFragment : Fragment() {
 
     private fun observeLiveData() {
         viewModel.progressLiveData.observe(viewLifecycleOwner, { isVisible: Boolean -> showProgress(isVisible) })
-        viewModel.successLiveData.observe(viewLifecycleOwner, { isSucceed: Boolean -> startMainActivity(isSucceed) })
-        viewModel.errorLiveData.observe(viewLifecycleOwner, { throwable: Throwable -> showWarning(throwable) })
-        viewModel.errorFirebase.observe(viewLifecycleOwner, { throwable: Throwable -> showError(throwable) })
+        viewModel.successLiveData.observe(viewLifecycleOwner, { string: String -> startMainActivity(string) })
+        viewModel.errorFirebase.observe(viewLifecycleOwner, { string: String -> showError(string) })
 
         viewModel.errorName.observe(viewLifecycleOwner, { error: String -> setError(error, binding.signUpNameTv) })
         viewModel.errorEmail.observe(viewLifecycleOwner, { error: String -> setError(error, binding.signUpEmailTv) })
@@ -87,8 +86,8 @@ class RegistrationFragment : Fragment() {
         Toasty.warning(requireContext(), throwable.message.toString(), Toast.LENGTH_SHORT).show()
     }
 
-    private fun showError(throwable: Throwable) {
-        Toasty.error(requireContext(), throwable.message.toString(), Toast.LENGTH_SHORT).show()
+    private fun showError(text: String) {
+        Toasty.error(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
 
     private fun showProgress(isVisible: Boolean) {
@@ -105,11 +104,16 @@ class RegistrationFragment : Fragment() {
         }
     }
 
-    private fun startMainActivity(isSucceed: Boolean) {
-        if (isSucceed) {
-            val intent = Intent(activity, MainActivity::class.java)
-            startActivity(intent)
-            activity?.finish()
+    private fun startMainActivity(error: String) {
+        when (error) {
+            VALID -> {
+                val intent = Intent(activity, MainActivity::class.java)
+                startActivity(intent)
+                activity?.finish()
+            }
+            else -> {
+                showError(error)
+            }
         }
     }
 

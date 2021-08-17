@@ -8,22 +8,19 @@ import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.repository.FirebaseRepository
 import xyz.fcr.sberrunner.utils.Constants.VALID
 import xyz.fcr.sberrunner.utils.SchedulersProvider
-import java.util.concurrent.TimeUnit
 
 class LoginViewModel(
     private var firebaseRepo: FirebaseRepository,
     private var schedulersProvider: SchedulersProvider
 ) : ViewModel() {
 
-    private val mProgressLiveData = MutableLiveData<Boolean>()
-    private val mErrorLiveData = MutableLiveData<Throwable>()
-    private val mLoginLiveData = MutableLiveData<Boolean>()
-    private val mResetLiveData = MutableLiveData<Boolean>()
+    private val _progressLiveData = MutableLiveData<Boolean>()
+    private val _loginLiveData = MutableLiveData<Boolean>()
+    private val _resetLiveData = MutableLiveData<Boolean>()
 
-    private val mErrorEmail = MutableLiveData<String>()
-    private val mErrorPass = MutableLiveData<String>()
-
-    private val mErrorFirebase = MutableLiveData<Throwable>()
+    private val _errorEmail = MutableLiveData<String>()
+    private val _errorPass = MutableLiveData<String>()
+    private val _errorFirebase = MutableLiveData<String>()
 
     private var disReset: Disposable? = null
     private var disSignIn: Disposable? = null
@@ -31,20 +28,18 @@ class LoginViewModel(
     fun initResetEmail(email: String) {
 
         if (emailIsValid(email)) {
-            firebaseRepo.sendResetEmail(email)
-
             disReset = Single.fromCallable { firebaseRepo.sendResetEmail(email.trim { it <= ' ' }) }
-                .doOnSubscribe { mProgressLiveData.postValue(true) }
+                .doOnSubscribe { _progressLiveData.postValue(true) }
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
                 .subscribe { task ->
                     task.addOnCompleteListener {
                         when {
-                            it.isSuccessful -> mResetLiveData.postValue(true)
-                            else -> mResetLiveData.postValue(false)
+                            it.isSuccessful -> _resetLiveData.postValue(true)
+                            else -> _resetLiveData.postValue(false)
                         }
 
-                        mProgressLiveData.postValue(false)
+                        _progressLiveData.postValue(false)
                     }
                 }
         }
@@ -59,17 +54,17 @@ class LoginViewModel(
                     pass.trim { it <= ' ' },
                 )
             }
-                .doOnSubscribe { mProgressLiveData.postValue(true) }
+                .doOnSubscribe { _progressLiveData.postValue(true) }
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
                 .subscribe { task ->
                     task.addOnCompleteListener {
                         when {
-                            it.isSuccessful -> mLoginLiveData.postValue(true)
-                            else -> mLoginLiveData.postValue(false)
+                            it.isSuccessful -> _loginLiveData.postValue(true)
+                            else -> _loginLiveData.postValue(false)
                         }
 
-                        mProgressLiveData.postValue(false)
+                        _progressLiveData.postValue(false)
                     }
                 }
         }
@@ -80,15 +75,15 @@ class LoginViewModel(
 
         return when {
             email.isBlank() -> {
-                mErrorEmail.postValue("Email can not be empty")
+                _errorEmail.postValue("Email can not be empty")
                 false
             }
             !(android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) -> {
-                mErrorEmail.postValue("Wrong email format")
+                _errorEmail.postValue("Wrong email format")
                 false
             }
             else -> {
-                mErrorEmail.postValue(VALID)
+                _errorEmail.postValue(VALID)
                 true
             }
         }
@@ -99,15 +94,15 @@ class LoginViewModel(
 
         return when {
             pass.isBlank() -> {
-                mErrorPass.postValue("Password can not be empty")
+                _errorPass.postValue("Password can not be empty")
                 false
             }
             pass.length < 6 -> {
-                mErrorPass.postValue("Password should be at least 6 charters")
+                _errorPass.postValue("Password should be at least 6 charters")
                 false
             }
             else -> {
-                mErrorPass.postValue(VALID)
+                _errorPass.postValue(VALID)
                 true
             }
         }
@@ -124,17 +119,15 @@ class LoginViewModel(
     }
 
     val progressLiveData: LiveData<Boolean>
-        get() = mProgressLiveData
-    val errorLiveData: LiveData<Throwable>
-        get() = mErrorLiveData
+        get() = _progressLiveData
     val loginLiveData: LiveData<Boolean>
-        get() = mLoginLiveData
+        get() = _loginLiveData
     val resetLiveData: LiveData<Boolean>
-        get() = mResetLiveData
+        get() = _resetLiveData
     val errorEmail: LiveData<String>
-        get() = mErrorEmail
+        get() = _errorEmail
     val errorPass: LiveData<String>
-        get() = mErrorPass
-    val errorFirebase: LiveData<Throwable>
-        get() = mErrorFirebase
+        get() = _errorPass
+    val errorFirebase: LiveData<String>
+        get() = _errorFirebase
 }

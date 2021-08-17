@@ -36,4 +36,13 @@ class FirebaseRepository(
             documentReference.set(user)
         }
     }
+
+    fun signOut() {
+        firebaseAuth.signOut()
+    }
+
+    fun deleteAccount(): Task<Void>? {
+        val user = firebaseAuth.currentUser
+        return user?.delete()
+    }
 }

@@ -77,8 +77,7 @@ class LoginFragment : Fragment() {
         viewModel.progressLiveData.observe(viewLifecycleOwner, { isVisible: Boolean -> showProgress(isVisible) })
         viewModel.loginLiveData.observe(viewLifecycleOwner, { isSucceed: Boolean -> startMainActivity(isSucceed) })
         viewModel.resetLiveData.observe(viewLifecycleOwner, { result: Boolean -> showResetToast(result) })
-        viewModel.errorLiveData.observe(viewLifecycleOwner, { throwable: Throwable -> showWarning(throwable) })
-        viewModel.errorFirebase.observe(viewLifecycleOwner, { throwable: Throwable -> showError(throwable) })
+        viewModel.errorFirebase.observe(viewLifecycleOwner, { string: String -> showError(string) })
 
         viewModel.errorEmail.observe(viewLifecycleOwner, { error: String -> setError(error, binding.signInEmailTv) })
         viewModel.errorPass.observe(viewLifecycleOwner, { error: String -> setError(error, binding.signInPasswordTv) })
@@ -93,12 +92,8 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun showWarning(throwable: Throwable) {
-        Toasty.warning(requireContext(), throwable.message.toString(), Toast.LENGTH_SHORT).show()
-    }
-
-    private fun showError(throwable: Throwable) {
-        Toasty.error(requireContext(), throwable.message.toString(), Toast.LENGTH_SHORT).show()
+    private fun showError(text: String) {
+        Toasty.error(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
 
     private fun showProgress(isVisible: Boolean) {
