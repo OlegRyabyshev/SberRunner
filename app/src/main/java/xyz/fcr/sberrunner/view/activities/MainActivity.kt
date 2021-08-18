@@ -10,6 +10,12 @@ import androidx.fragment.app.Fragment
 import xyz.fcr.sberrunner.databinding.ActivityMainBinding
 import xyz.fcr.sberrunner.view.fragments.main_fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import xyz.fcr.sberrunner.utils.Constants.ACTION_SHOW_TRACKING_FRAGMENT
+import xyz.fcr.sberrunner.utils.Constants.TAG_HOME
+import xyz.fcr.sberrunner.utils.Constants.TAG_MAP
+import xyz.fcr.sberrunner.utils.Constants.TAG_RUN
+import xyz.fcr.sberrunner.utils.Constants.TAG_SETTINGS
+import xyz.fcr.sberrunner.utils.Constants.TAG_YOU
 
 class MainActivity : AppCompatActivity() {
 
@@ -76,11 +82,15 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    private companion object {
-        private const val TAG_HOME = "TAG_HOME"
-        private const val TAG_MAP = "TAG_MAP"
-        private const val TAG_RUN = "TAG_RUN"
-        private const val TAG_YOU = "TAG_YOU"
-        private const val TAG_SETTINGS = "TAG_SETTINGS"
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        navigateToTrackingFragmentIfNeeded(intent)
+    }
+
+    private fun navigateToTrackingFragmentIfNeeded(intent: Intent?) {
+        if(intent?.action == ACTION_SHOW_TRACKING_FRAGMENT) {
+            openScreen(RunFragment(), TAG_RUN)
+            binding.bottomNavigationView.uncheckAllItems()
+        }
     }
 }

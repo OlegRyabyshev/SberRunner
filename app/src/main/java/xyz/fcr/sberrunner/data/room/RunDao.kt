@@ -4,18 +4,24 @@ import androidx.room.*
 
 @Dao
 interface RunDao {
-    @Query("SELECT * FROM table_runs")
-    fun getListOfCities() : List<RunEntity>
+    @Query("SELECT * FROM sber_runner_table ORDER BY timestamp DESC")
+    fun getAllRuns(): List<RunEntity>
 
-    @Update
-    fun updateCity(entity: RunEntity)
+    @Query("SELECT SUM(timeInMillis) FROM sber_runner_table")
+    fun getTotalTimeInMillis(): Long
+
+    @Query("SELECT SUM(distanceInMeters) FROM sber_runner_table")
+    fun getTotalDistance(): Int
+
+    @Query("SELECT AVG(avgSpeedInKMH) FROM sber_runner_table")
+    fun getTotalAvgSpeed(): Float
+
+    @Query("SELECT SUM(calories) FROM sber_runner_table")
+    fun getTotalCaloriesBurned(): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addCity(entity: RunEntity)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addListCity(listCity: List<RunEntity>)
+    fun insertRun(run: RunEntity)
 
     @Delete
-    fun deleteCity(entity: RunEntity)
+    fun deleteRun(run: RunEntity)
 }

@@ -6,20 +6,20 @@ import xyz.fcr.sberrunner.view.fragments.main_fragments.adapter.RunnerRecyclerAd
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
-import xyz.fcr.sberrunner.data.model.RunModel
 import xyz.fcr.sberrunner.R
+import xyz.fcr.sberrunner.data.room.RunEntity
 import xyz.fcr.sberrunner.databinding.RunItemBinding
 
 /**
  * Адаптер для отображения списка погоды.
  *
- * @param weatherModelList [RunModel] список из погоды на неделю
+ * @param weatherModelList [RunEntity] список из погоды на неделю
  * @param listener [ItemClickListener] лисенер для перехвата нажатия по холдерам
  *
  * @author Рябышев Олег on 05.08.2021
  */
 class RunnerRecyclerAdapter(
-    private val weatherModelList: List<RunModel>,
+    private val weatherModelList: List<RunEntity>,
     private val listener: ItemClickListener
 ) : RecyclerView.Adapter<RunnerViewHolder>() {
 
@@ -40,7 +40,7 @@ class RunnerRecyclerAdapter(
         private val binding: RunItemBinding = RunItemBinding.bind(itemView)
 
         @SuppressLint("SetTextI18n")
-        fun bindView(weatherModel: RunModel) {
+        fun bindView(weatherModel: RunEntity) {
 //            binding.dayTextView.text = "Day ${weatherModel.day}:"
 //            binding.tempTextView.text = weatherModel.max
 //            binding.weatherImage.setImageResource(weatherModel.icon)
