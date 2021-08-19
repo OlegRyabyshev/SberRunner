@@ -51,9 +51,8 @@ class RegistrationFragment : Fragment() {
                 val fireAuth = FirebaseAuth.getInstance()
                 val fireStore = FirebaseFirestore.getInstance()
                 val firebaseRepo = FirebaseRepository(fireAuth, fireStore)
-                val schedulersProvider = SchedulersProvider()
 
-                return RegistrationViewModel(firebaseRepo, schedulersProvider) as T
+                return RegistrationViewModel(firebaseRepo) as T
             }
         }).get(RegistrationViewModel::class.java)
 

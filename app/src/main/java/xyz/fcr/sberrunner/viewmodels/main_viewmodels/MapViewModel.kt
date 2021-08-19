@@ -1,26 +1,29 @@
 package xyz.fcr.sberrunner.viewmodels.main_viewmodels
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.location.Location
+import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
-import io.reactivex.rxjava3.disposables.Disposable
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
+import com.google.android.gms.location.LocationResult
+import xyz.fcr.sberrunner.utils.Constants.FASTEST_LOCATION_UPDATE_INTERVAL
+import xyz.fcr.sberrunner.utils.Constants.NON_VALID
 import xyz.fcr.sberrunner.view.App
+import xyz.fcr.sberrunner.viewmodels.SingleLiveEvent
 import javax.inject.Inject
 
 class MapViewModel : ViewModel() {
-
     @Inject
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private val _progressLiveData = MutableLiveData<Boolean>()
     private val _locationLiveData = MutableLiveData<Location>()
-    private val _errorLiveData = MutableLiveData<String>()
-
-    private var disposable: Disposable? = null
+    private val _errorLiveData = SingleLiveEvent<String>()
 
     init {
         App.appComponent.inject(mapViewModel = this@MapViewModel)
@@ -31,23 +34,37 @@ class MapViewModel : ViewModel() {
         _progressLiveData.postValue(true)
 
         fusedLocationProviderClient.lastLocation.addOnCompleteListener { task ->
-            when {
-                task.isSuccessful -> {
-                    _locationLiveData.postValue(task.result)
-                }
-
-                else -> _errorLiveData.postValue(task.exception.toString())
+            val location: Location? = task.result
+            if (location == null) {
+                _errorLiveData.postValue(NON_VALID)
+                requestUpdateLocation()
+            } else {
+                _locationLiveData.postValue(task.result)
             }
 
             _progressLiveData.postValue(false)
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
+    @SuppressLint("MissingPermission")
+    private fun requestUpdateLocation() {
+        val request = LocationRequest.create().apply {
+            fastestInterval = FASTEST_LOCATION_UPDATE_INTERVAL
+            priority = PRIORITY_HIGH_ACCURACY
+            numUpdates = 1
+        }
 
-        disposable?.dispose()
-        disposable = null
+        fusedLocationProviderClient.requestLocationUpdates(request, locationCallback, Looper.getMainLooper())
+    }
+
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(result: LocationResult) {
+            super.onLocationResult(result)
+
+            result.lastLocation.let { location ->
+                _locationLiveData.postValue(location)
+            }
+        }
     }
 
     val progressLiveData: LiveData<Boolean>

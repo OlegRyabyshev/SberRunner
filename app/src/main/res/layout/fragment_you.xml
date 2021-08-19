@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:background="@drawable/round_corners"
         android:backgroundTint="@color/main_green"
-        android:paddingTop = "@dimen/padding_giant"
-        android:paddingBottom="@dimen/padding_giant"
+        android:paddingTop = "@dimen/padding_big"
+        android:paddingBottom="@dimen/padding_big"
         android:layout_margin="@dimen/margin_tiny"
         android:layout_height="wrap_content">
 

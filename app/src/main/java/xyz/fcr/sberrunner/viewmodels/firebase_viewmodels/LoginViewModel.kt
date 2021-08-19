@@ -7,20 +7,29 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.repository.FirebaseRepository
 import xyz.fcr.sberrunner.utils.Constants.VALID
-import xyz.fcr.sberrunner.utils.SchedulersProvider
+import xyz.fcr.sberrunner.utils.SchedulersProviderInterface
+import xyz.fcr.sberrunner.view.App
+import xyz.fcr.sberrunner.viewmodels.SingleLiveEvent
+import javax.inject.Inject
 
 class LoginViewModel(
-    private var firebaseRepo: FirebaseRepository,
-    private var schedulersProvider: SchedulersProvider
+    private var firebaseRepo: FirebaseRepository
 ) : ViewModel() {
+
+    @Inject
+    lateinit var schedulersProvider: SchedulersProviderInterface
+
+    init {
+        App.appComponent.inject(loginViewModel = this)
+    }
 
     private val _progressLiveData = MutableLiveData<Boolean>()
     private val _loginLiveData = MutableLiveData<Boolean>()
-    private val _resetLiveData = MutableLiveData<Boolean>()
+    private val _resetLiveData = SingleLiveEvent<Boolean>()
 
-    private val _errorEmail = MutableLiveData<String>()
-    private val _errorPass = MutableLiveData<String>()
-    private val _errorFirebase = MutableLiveData<String>()
+    private val _errorEmail = SingleLiveEvent<String>()
+    private val _errorPass = SingleLiveEvent<String>()
+    private val _errorFirebase = SingleLiveEvent<String>()
 
     private var disReset: Disposable? = null
     private var disSignIn: Disposable? = null

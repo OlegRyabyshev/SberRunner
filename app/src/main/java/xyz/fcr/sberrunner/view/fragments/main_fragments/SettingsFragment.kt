@@ -48,9 +48,8 @@ class SettingsFragment : Fragment() {
                 val fireAuth = FirebaseAuth.getInstance()
                 val fireStore = FirebaseFirestore.getInstance()
                 val firebaseRepo = FirebaseRepository(fireAuth, fireStore)
-                val schedulersProvider = SchedulersProvider()
 
-                return SharedSettingsViewModel(firebaseRepo, schedulersProvider) as T
+                return SharedSettingsViewModel(firebaseRepo) as T
             }
         }).get(SharedSettingsViewModel::class.java)
 

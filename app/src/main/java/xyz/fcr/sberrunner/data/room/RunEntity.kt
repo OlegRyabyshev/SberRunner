@@ -4,8 +4,9 @@ import android.graphics.Bitmap
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import xyz.fcr.sberrunner.utils.Constants.DB_NAME
 
-@Entity(tableName = "sber_runner_table")
+@Entity(tableName = DB_NAME)
 data class RunEntity(
     var timestamp: Long = 0L,
     var avgSpeedInKMH: Float = 0f,

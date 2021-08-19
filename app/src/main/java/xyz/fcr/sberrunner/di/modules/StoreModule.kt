@@ -2,16 +2,23 @@ package xyz.fcr.sberrunner.di.modules
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
+import xyz.fcr.sberrunner.utils.SchedulersProvider
+import xyz.fcr.sberrunner.utils.SchedulersProviderInterface
+import javax.inject.Singleton
 
 @Module
 class StoreModule {
 
     @Provides
     fun provideSharedPreferences(context: Context) : SharedPreferences{
-        return context.getSharedPreferences("PREFS", AppCompatActivity.MODE_PRIVATE)
+        return PreferenceManager.getDefaultSharedPreferences(context)
     }
 
+    @Provides
+    fun provideSchedulersProvider(): SchedulersProviderInterface {
+        return SchedulersProvider()
+    }
 }

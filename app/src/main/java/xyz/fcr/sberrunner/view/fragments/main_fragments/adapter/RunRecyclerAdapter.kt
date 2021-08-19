@@ -2,7 +2,7 @@ package xyz.fcr.sberrunner.view.fragments.main_fragments.adapter
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
-import xyz.fcr.sberrunner.view.fragments.main_fragments.adapter.RunnerRecyclerAdapter.RunnerViewHolder
+import xyz.fcr.sberrunner.view.fragments.main_fragments.adapter.RunRecyclerAdapter.RunnerViewHolder
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +18,7 @@ import xyz.fcr.sberrunner.databinding.RunItemBinding
  *
  * @author Рябышев Олег on 05.08.2021
  */
-class RunnerRecyclerAdapter(
+class RunRecyclerAdapter(
     private val weatherModelList: List<RunEntity>,
     private val listener: ItemClickListener
 ) : RecyclerView.Adapter<RunnerViewHolder>() {

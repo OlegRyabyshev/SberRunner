@@ -7,21 +7,30 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.repository.FirebaseRepository
 import xyz.fcr.sberrunner.utils.Constants.VALID
-import xyz.fcr.sberrunner.utils.SchedulersProvider
+import xyz.fcr.sberrunner.utils.SchedulersProviderInterface
+import xyz.fcr.sberrunner.view.App
+import xyz.fcr.sberrunner.viewmodels.SingleLiveEvent
+import javax.inject.Inject
 
 class RegistrationViewModel(
-    private var firebaseRepo: FirebaseRepository,
-    private var schedulersProvider: SchedulersProvider
+    private var firebaseRepo: FirebaseRepository
 ) : ViewModel() {
+
+    @Inject
+    lateinit var schedulersProvider: SchedulersProviderInterface
+
+    init {
+        App.appComponent.inject(registrationViewModel = this)
+    }
 
     private val _progressLiveData = MutableLiveData<Boolean>()
     private val _successLiveData = MutableLiveData<String>()
-    private val _errorFirebase = MutableLiveData<String>()
+    private val _errorFirebase = SingleLiveEvent<String>()
 
-    private val _errorName = MutableLiveData<String>()
-    private val _errorEmail = MutableLiveData<String>()
-    private val _errorPass = MutableLiveData<String>()
-    private val _errorWeight = MutableLiveData<String>()
+    private val _errorName = SingleLiveEvent<String>()
+    private val _errorEmail = SingleLiveEvent<String>()
+    private val _errorPass = SingleLiveEvent<String>()
+    private val _errorWeight = SingleLiveEvent<String>()
 
 
     private var disposable: Disposable? = null

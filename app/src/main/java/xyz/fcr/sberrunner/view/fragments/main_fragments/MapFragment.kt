@@ -26,6 +26,7 @@ import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentMapBinding
 import xyz.fcr.sberrunner.utils.Constants.DEFAULT_ZOOM
 import xyz.fcr.sberrunner.utils.Constants.LOCATION_REQUEST_CODE
+import xyz.fcr.sberrunner.utils.Constants.NON_VALID
 import xyz.fcr.sberrunner.viewmodels.main_viewmodels.MapViewModel
 
 class MapFragment : Fragment(), OnMapReadyCallback {
@@ -72,7 +73,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun showError(text: String) {
-        Toasty.error(requireContext(), text, Toast.LENGTH_SHORT).show()
+        if (text == NON_VALID)
+            when (text) {
+                NON_VALID -> Toasty.error(
+                    requireContext(),
+                    requireContext().getString(R.string.cant_find_location),
+                    Toast.LENGTH_SHORT
+                ).show()
+                else -> Toasty.error(
+                    requireContext(),
+                    text,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
     }
 
     private fun displayLocation(location: Location) {
@@ -88,19 +101,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private fun checkPermission() {
         when {
             ContextCompat.checkSelfPermission(
-                requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
                 viewModel.getCurrentLocation()
                 return
             }
 
-            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> {
-                showRationaleDialog()
-            }
+            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> showRationaleDialog()
 
-            else -> {
-                requestPermission()
-            }
+            else -> requestPermission()
         }
     }
 

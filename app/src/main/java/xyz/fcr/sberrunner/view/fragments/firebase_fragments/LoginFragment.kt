@@ -51,9 +51,8 @@ class LoginFragment : Fragment() {
                 val fireAuth = FirebaseAuth.getInstance()
                 val fireStore = FirebaseFirestore.getInstance()
                 val firebaseRepo = FirebaseRepository(fireAuth, fireStore)
-                val schedulersProvider = SchedulersProvider()
 
-                return LoginViewModel(firebaseRepo, schedulersProvider) as T
+                return LoginViewModel(firebaseRepo) as T
             }
         }).get(LoginViewModel::class.java)
 
@@ -85,9 +84,9 @@ class LoginFragment : Fragment() {
 
     private fun showResetToast(resetSent: Boolean) {
         if (resetSent) {
-            Toasty.success(requireContext(), "Check your email for a password reset", Toast.LENGTH_SHORT).show()
+            Toasty.success(requireContext(), getString(R.string.check_email_toast), Toast.LENGTH_SHORT).show()
         } else {
-            Toasty.error(requireContext(), "Can't find this account, check email or connection", Toast.LENGTH_SHORT)
+            Toasty.error(requireContext(), getString(R.string.failed_check_email_toast), Toast.LENGTH_SHORT)
                 .show()
         }
     }
@@ -116,7 +115,7 @@ class LoginFragment : Fragment() {
             startActivity(intent)
             activity?.finish()
         } else {
-            Toasty.error(requireContext(), "Email/password not matching, check fields or connection", Toast.LENGTH_SHORT).show()
+            Toasty.error(requireContext(), getString(R.string.not_matching_email_password), Toast.LENGTH_SHORT).show()
         }
     }
 

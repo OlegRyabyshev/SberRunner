@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="padding_small">4dp</dimen>
-    <dimen name="padding_medium">8dp</dimen>
-    <dimen name="padding_big">16dp</dimen>
-    <dimen name="padding_giant">36dp</dimen>
-
-    <dimen name="elevation">4dp</dimen>
-    <dimen name="corner_radius">12dp</dimen>
+    <dimen name="padding_tiny">4dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_medium">16dp</dimen>
+    <dimen name="padding_big">36dp</dimen>
 
     <dimen name="margin_tiny">4dp</dimen>
     <dimen name="margin_small">12dp</dimen>
@@ -18,4 +15,7 @@
 
     <dimen name="margin_fab_end">16dp</dimen>
     <dimen name="margin_fab_bottom">74dp</dimen>
+
+    <dimen name="elevation">4dp</dimen>
+    <dimen name="corner_radius">12dp</dimen>
 </resources>
