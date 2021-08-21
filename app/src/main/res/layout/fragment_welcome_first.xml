@@ -1,53 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_green"
-    tools:context=".presentation.view.fragments.welcome_fragments.WelcomeFragmentFirst"
-    app:layoutDescription="@xml/fragment_welcome_first_scene">
+    tools:context=".presentation.view.fragments.welcome_fragments.WelcomeFragmentFirst">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_view_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="@dimen/margin_big"
         android:ellipsize="end"
         android:fontFamily="@font/poppins_light"
         android:lines="1"
-        android:text="Welcome to SberRunner"
+        android:text="@string/title_welcome_one"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="@dimen/text_big"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/text_view_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_view_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/margin_small"
         android:ellipsize="end"
         android:fontFamily="@font/poppins_light"
         android:lines="1"
-        android:text="Simple app to keep track of your runs"
+        android:text="@string/welcome_one"
         android:textColor="@color/white"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/text_view_welcome"
         app:layout_constraintStart_toStartOf="@+id/text_view_welcome"
         app:layout_constraintTop_toBottomOf="@+id/text_view_welcome" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/image_view_welcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/pic_5"
-        android:scaleType="fitCenter"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_splash_screen"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="@dimen/elevation"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.8"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/first_anim" />
 
-</androidx.constraintlayout.motion.widget.MotionLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

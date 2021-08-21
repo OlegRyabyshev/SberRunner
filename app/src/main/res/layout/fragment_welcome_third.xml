@@ -1,54 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_green"
-    app:layoutDescription="@xml/fragment_welcome_third_scene"
     tools:context=".presentation.view.fragments.welcome_fragments.WelcomeFragmentThird">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_view_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="@dimen/margin_big"
         android:ellipsize="end"
         android:fontFamily="@font/poppins_light"
         android:lines="1"
-        android:text="Let's start!"
+        android:text="@string/title_welcome_three"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="@dimen/text_big"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/text_view_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.55" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_view_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/margin_small"
         android:ellipsize="end"
         android:fontFamily="@font/poppins_light"
-        android:gravity="center_horizontal"
-        android:text="Add your existing account or create a new one"
+        android:lines="1"
+        android:text="@string/welcome_three"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_small"
         app:layout_constraintEnd_toEndOf="@+id/text_view_welcome"
         app:layout_constraintStart_toStartOf="@+id/text_view_welcome"
         app:layout_constraintTop_toBottomOf="@+id/text_view_welcome" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/image_view_welcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/pic_3"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie_splash_screen"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="@dimen/elevation"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.8"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/third_anim" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_enter_with_account"
@@ -56,24 +59,24 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:backgroundTint="@color/white"
-        android:text="ENTER WITH ACCOUNT"
+        android:text="@string/enter_with_account"
         android:textColor="@color/main_green"
         app:layout_constraintBottom_toTopOf="@+id/tv_skip_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_skip_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:padding="10dp"
-        android:text="or continue without account"
+        android:text="@string/or_continue_without_account"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-</androidx.constraintlayout.motion.widget.MotionLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

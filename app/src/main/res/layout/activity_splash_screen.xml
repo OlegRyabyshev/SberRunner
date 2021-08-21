@@ -11,14 +11,14 @@
         android:id="@+id/lottie_splash_screen"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintWidth_percent="0.8"
+        android:elevation="@dimen/elevation"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.8"
         app:lottie_autoPlay="true"
-        android:elevation="@dimen/elevation"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/loading" />
 

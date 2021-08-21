@@ -18,4 +18,8 @@
 
     <dimen name="elevation">4dp</dimen>
     <dimen name="corner_radius">12dp</dimen>
+
+    <dimen name="text_small">14sp</dimen>
+    <dimen name="text_big">24sp</dimen>
+    <dimen name="text_giant">32sp</dimen>
 </resources>

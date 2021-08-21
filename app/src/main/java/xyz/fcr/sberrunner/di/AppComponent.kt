@@ -32,6 +32,7 @@ interface AppComponent {
     fun inject(fragment: MapFragment)
     fun inject(fragment: RunFragment)
     fun inject(fragment: SettingsFragment)
+    fun inject(fragment: SettingsFragment.SettingsPreference)
     fun inject(fragment: YouFragment)
 
     // ViewModels
