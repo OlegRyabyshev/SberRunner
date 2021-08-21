@@ -7,7 +7,6 @@ import dagger.Module
 import dagger.Provides
 import xyz.fcr.sberrunner.utils.SchedulersProvider
 import xyz.fcr.sberrunner.utils.SchedulersProviderInterface
-import javax.inject.Singleton
 
 @Module
 class StoreModule {
@@ -21,4 +20,5 @@ class StoreModule {
     fun provideSchedulersProvider(): SchedulersProviderInterface {
         return SchedulersProvider()
     }
+
 }

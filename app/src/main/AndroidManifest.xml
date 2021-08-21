@@ -17,16 +17,16 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".view.App"
+        android:name="xyz.fcr.sberrunner.presentation.App"
         android:theme="@style/Theme.SberRunner">
         <activity
-            android:name=".view.activities.WelcomeActivity"
+            android:name="xyz.fcr.sberrunner.presentation.view.activities.WelcomeActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
         <activity
-            android:name=".view.activities.MainActivity"
+            android:name="xyz.fcr.sberrunner.presentation.view.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

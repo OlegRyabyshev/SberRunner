@@ -11,6 +11,7 @@ import javax.inject.Singleton
 
 @Module
 object RoomModule {
+
     @Singleton
     @Provides
     fun provideAppDb(app: Application): RunDatabase {
@@ -24,4 +25,5 @@ object RoomModule {
     fun provideRunDao(db: RunDatabase): RunDao {
         return db.getRunDao()
     }
+
 }

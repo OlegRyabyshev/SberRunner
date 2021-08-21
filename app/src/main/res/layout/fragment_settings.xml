@@ -7,7 +7,7 @@
     android:layout_marginBottom="@dimen/margin_bar"
     android:background="@color/white"
     android:fillViewport="true"
-    tools:context=".view.fragments.main_fragments.SettingsFragment">
+    tools:context=".presentation.view.fragments.main_fragments.SettingsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
