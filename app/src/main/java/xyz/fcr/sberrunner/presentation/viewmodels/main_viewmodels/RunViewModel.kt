@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import xyz.fcr.sberrunner.utils.ServiceStatesEnum
+import javax.inject.Inject
 
-class RunViewModel : ViewModel() {
+class RunViewModel @Inject constructor() : ViewModel() {
 
     private val _stateLiveData = MutableLiveData<ServiceStatesEnum>()
 //    private val _locationLiveData = MutableLiveData<Location>()

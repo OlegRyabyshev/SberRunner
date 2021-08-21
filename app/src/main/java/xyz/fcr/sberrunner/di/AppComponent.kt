@@ -3,6 +3,8 @@ package xyz.fcr.sberrunner.di
 import android.content.Context
 import dagger.Component
 import xyz.fcr.sberrunner.di.modules.*
+import xyz.fcr.sberrunner.presentation.view.fragments.firebase_fragments.LoginFragment
+import xyz.fcr.sberrunner.presentation.view.fragments.firebase_fragments.RegistrationFragment
 import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.*
 import xyz.fcr.sberrunner.presentation.viewmodels.firebase_viewmodels.LoginViewModel
 import xyz.fcr.sberrunner.presentation.viewmodels.firebase_viewmodels.RegistrationViewModel
@@ -24,6 +26,8 @@ interface AppComponent {
     fun context(): Context
 
     // Fragments
+    fun inject(fragment: LoginFragment)
+    fun inject(fragment: RegistrationFragment)
     fun inject(fragment: HomeFragment)
     fun inject(fragment: MapFragment)
     fun inject(fragment: RunFragment)

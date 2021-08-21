@@ -7,19 +7,12 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.repository.FirebaseRepository
 import xyz.fcr.sberrunner.utils.SchedulersProviderInterface
-import xyz.fcr.sberrunner.presentation.App
 import javax.inject.Inject
 
-class SharedSettingsViewModel : ViewModel() {
-    @Inject
-    lateinit var firebaseRepo: FirebaseRepository
-
-    @Inject
-    lateinit var schedulersProvider: SchedulersProviderInterface
-
-    init {
-        App.appComponent.inject(sharedSettingsViewModel = this)
-    }
+class SharedSettingsViewModel @Inject constructor(
+    val firebaseRepo: FirebaseRepository,
+    val schedulersProvider: SchedulersProviderInterface
+) : ViewModel() {
 
     private val _progressLiveData = MutableLiveData<Boolean>()
     private val _signOutLiveData = MutableLiveData<Boolean>()

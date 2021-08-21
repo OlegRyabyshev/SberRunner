@@ -6,8 +6,9 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.room.RunEntity
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
+import javax.inject.Inject
 
-class HomeViewModel() : ViewModel() {
+class HomeViewModel @Inject constructor() : ViewModel() {
 
     private val _progressLiveData = MutableLiveData<Boolean>()
     private val _successLiveData = MutableLiveData<List<RunEntity>?>()

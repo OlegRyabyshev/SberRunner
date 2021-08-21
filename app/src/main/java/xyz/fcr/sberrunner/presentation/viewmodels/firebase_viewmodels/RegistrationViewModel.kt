@@ -12,17 +12,10 @@ import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import javax.inject.Inject
 
-class RegistrationViewModel : ViewModel() {
-
-    @Inject
-    lateinit var firebaseRepo: FirebaseRepository
-
-    @Inject
-    lateinit var schedulersProvider: SchedulersProviderInterface
-
-    init {
-        App.appComponent.inject(registrationViewModel = this)
-    }
+class RegistrationViewModel @Inject constructor(
+    val firebaseRepo: FirebaseRepository,
+    val schedulersProvider: SchedulersProviderInterface
+) : ViewModel() {
 
     private val _progressLiveData = MutableLiveData<Boolean>()
     private val _successLiveData = MutableLiveData<String>()

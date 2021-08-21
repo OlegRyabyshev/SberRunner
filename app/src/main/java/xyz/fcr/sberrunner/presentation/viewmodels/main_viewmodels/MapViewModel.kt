@@ -17,18 +17,11 @@ import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import javax.inject.Inject
 
-class MapViewModel : ViewModel() {
+class MapViewModel @Inject constructor(val fusedLocationProviderClient: FusedLocationProviderClient) : ViewModel() {
 
     private val _progressLiveData = MutableLiveData<Boolean>()
     private val _locationLiveData = MutableLiveData<Location>()
     private val _errorLiveData = SingleLiveEvent<String>()
-
-    @Inject
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-
-    init {
-        App.appComponent.inject(mapViewModel = this@MapViewModel)
-    }
 
     @SuppressLint("MissingPermission")
     fun getCurrentLocation() {

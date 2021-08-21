@@ -8,21 +8,20 @@ import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.repository.FirebaseRepository
 import xyz.fcr.sberrunner.utils.Constants.VALID
 import xyz.fcr.sberrunner.utils.SchedulersProviderInterface
-import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel @Inject constructor(val firebaseRepo: FirebaseRepository, val schedulersProvider: SchedulersProviderInterface) : ViewModel() {
 
-    @Inject
-    lateinit var firebaseRepo: FirebaseRepository
-
-    @Inject
-    lateinit var schedulersProvider: SchedulersProviderInterface
-
-    init {
-        App.appComponent.inject(loginViewModel = this)
-    }
+//    @Inject
+//    lateinit var firebaseRepo: FirebaseRepository
+//
+//    @Inject
+//    lateinit var schedulersProvider: SchedulersProviderInterface
+//
+//    init {
+//        App.appComponent.inject(loginViewModel = this)
+//    }
 
     private val _progressLiveData = MutableLiveData<Boolean>()
     private val _loginLiveData = MutableLiveData<Boolean>()

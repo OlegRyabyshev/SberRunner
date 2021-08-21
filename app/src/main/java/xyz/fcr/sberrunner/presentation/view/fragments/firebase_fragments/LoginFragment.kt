@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputLayout
 import es.dmoral.toasty.Toasty
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentLoginBinding
+import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.utils.Constants.VALID
 import xyz.fcr.sberrunner.presentation.view.activities.MainActivity
 import xyz.fcr.sberrunner.presentation.viewmodels.firebase_viewmodels.LoginViewModel
@@ -32,8 +33,10 @@ class LoginFragment : Fragment() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-
     val viewModel: LoginViewModel by viewModels { factory }
+    init {
+        App.appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
