@@ -4,29 +4,22 @@
     package="xyz.fcr.sberrunner">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
+        android:name=".presentation.App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name="xyz.fcr.sberrunner.presentation.App"
         android:theme="@style/Theme.SberRunner">
-        <activity
-            android:name="xyz.fcr.sberrunner.presentation.view.activities.WelcomeActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
 
         <activity
-            android:name="xyz.fcr.sberrunner.presentation.view.activities.MainActivity"
+            android:name=".presentation.view.activities.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,8 +28,20 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".data.service.RunningService"
-            android:foregroundServiceType="location"/>
+        <activity
+            android:name=".presentation.view.activities.WelcomeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <activity
+            android:name=".presentation.view.activities.MainActivity"
+            android:exported="true">
+        </activity>
+
+        <service
+            android:name=".data.service.RunningService"
+            android:foregroundServiceType="location" />
 
         <meta-data
             android:name="preloaded_fonts"
