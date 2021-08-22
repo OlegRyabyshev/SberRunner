@@ -10,13 +10,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@drawable/round_corners"
-        android:backgroundTint="@color/main_green"
+        android:background="@color/main_green"
+        android:elevation="@dimen/elevation"
         android:paddingTop = "@dimen/padding_big"
         android:paddingBottom="@dimen/padding_big"
-        android:layout_margin="@dimen/margin_tiny"
         android:layout_height="wrap_content">
-
 
         <TextView
             android:id="@+id/total_distance_number"
@@ -30,7 +28,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <TextView
             android:id="@+id/total_distance_text"
             android:layout_width="wrap_content"
@@ -40,7 +37,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/total_distance_number" />
-
 
         <TableLayout
             android:id="@+id/table_first"
