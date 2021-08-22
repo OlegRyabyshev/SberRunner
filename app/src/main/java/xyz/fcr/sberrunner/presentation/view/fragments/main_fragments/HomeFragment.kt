@@ -48,8 +48,6 @@ class HomeFragment : Fragment(), ItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         recyclerView = binding.recyclerViewRuns
 
         viewModel.loadListOfRuns()

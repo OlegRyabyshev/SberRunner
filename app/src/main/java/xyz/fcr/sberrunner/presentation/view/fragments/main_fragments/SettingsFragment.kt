@@ -16,6 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentSettingsBinding
 import xyz.fcr.sberrunner.presentation.App
+import xyz.fcr.sberrunner.presentation.view.activities.MainActivity
 import xyz.fcr.sberrunner.presentation.view.activities.WelcomeActivity
 import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.SharedSettingsViewModel
 import javax.inject.Inject
@@ -27,7 +28,8 @@ class SettingsFragment : Fragment() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-    val viewModel: SharedSettingsViewModel by viewModels { factory }
+
+    private val viewModel by viewModels<SharedSettingsViewModel>({ activity as MainActivity }) { factory }
 
     init {
         App.appComponent.inject(this)
@@ -78,7 +80,7 @@ class SettingsFragment : Fragment() {
     class SettingsPreference : PreferenceFragmentCompat() {
         @Inject
         lateinit var factory: ViewModelProvider.Factory
-        val viewModel: SharedSettingsViewModel by viewModels { factory }
+        private val viewModel by viewModels<SharedSettingsViewModel>({ activity as MainActivity }) { factory }
 
         init {
             App.appComponent.inject(this)

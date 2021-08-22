@@ -11,15 +11,15 @@ import xyz.fcr.sberrunner.data.room.RunEntity
 import xyz.fcr.sberrunner.databinding.RunItemBinding
 
 /**
- * Адаптер для отображения списка погоды.
  *
- * @param weatherModelList [RunEntity] список из погоды на неделю
- * @param listener [ItemClickListener] лисенер для перехвата нажатия по холдерам
+ *
+ * @param runModelList [RunEntity]
+ * @param listener [ItemClickListener]
  *
  * @author Рябышев Олег on 05.08.2021
  */
 class RunRecyclerAdapter(
-    private val weatherModelList: List<RunEntity>,
+    private val runModelList: List<RunEntity>,
     private val listener: ItemClickListener
 ) : RecyclerView.Adapter<RunnerViewHolder>() {
 
@@ -30,11 +30,11 @@ class RunRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: RunnerViewHolder, position: Int) {
-        holder.bindView(weatherModelList[position])
+        holder.bindView(runModelList[position])
         holder.itemView.setOnClickListener { listener.onItemClick(position) }
     }
 
-    override fun getItemCount() = weatherModelList.size
+    override fun getItemCount() = runModelList.size
 
     class RunnerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding: RunItemBinding = RunItemBinding.bind(itemView)

@@ -11,17 +11,10 @@ import xyz.fcr.sberrunner.utils.SchedulersProviderInterface
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import javax.inject.Inject
 
-class LoginViewModel @Inject constructor(val firebaseRepo: FirebaseRepository, val schedulersProvider: SchedulersProviderInterface) : ViewModel() {
-
-//    @Inject
-//    lateinit var firebaseRepo: FirebaseRepository
-//
-//    @Inject
-//    lateinit var schedulersProvider: SchedulersProviderInterface
-//
-//    init {
-//        App.appComponent.inject(loginViewModel = this)
-//    }
+class LoginViewModel @Inject constructor(
+    private val firebaseRepo: FirebaseRepository,
+    private val schedulersProvider: SchedulersProviderInterface
+) : ViewModel() {
 
     private val _progressLiveData = MutableLiveData<Boolean>()
     private val _loginLiveData = MutableLiveData<Boolean>()
