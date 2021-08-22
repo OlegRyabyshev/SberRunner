@@ -3,6 +3,7 @@ package xyz.fcr.sberrunner.di
 import android.content.Context
 import dagger.Component
 import xyz.fcr.sberrunner.di.modules.*
+import xyz.fcr.sberrunner.presentation.view.activities.SplashScreenActivity
 import xyz.fcr.sberrunner.presentation.view.fragments.firebase_fragments.LoginFragment
 import xyz.fcr.sberrunner.presentation.view.fragments.firebase_fragments.RegistrationFragment
 import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.*
@@ -24,6 +25,9 @@ import javax.inject.Singleton
 @Singleton
 interface AppComponent {
     fun context(): Context
+
+    // Activity
+    fun inject(activity: SplashScreenActivity)
 
     // Fragments
     fun inject(fragment: LoginFragment)

@@ -35,13 +35,6 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             openScreen(HomeFragment(), TAG_HOME)
         }
-
-        if (FirebaseAuth.getInstance().currentUser == null) {
-            val intent = Intent(this, WelcomeActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
-            startActivity(intent)
-            finish()
-        }
     }
 
     override fun onResume() {
