@@ -55,4 +55,12 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="Theme.SberRunner.Welcome.Title" parent="">
+
+    </style>
+
+    <style name="Theme.SberRunner.Welcome.Content" parent="">
+
+    </style>
+
 </resources>
