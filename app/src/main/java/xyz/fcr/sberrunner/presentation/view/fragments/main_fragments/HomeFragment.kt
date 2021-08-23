@@ -73,7 +73,7 @@ class HomeFragment : Fragment(), ItemClickListener {
 
     private fun adapterIsVisible(isVisible: Boolean) {
         binding.recyclerViewRuns.isVisible = isVisible
-        binding.imageViewWelcome.isVisible = !isVisible
+        binding.lottieEmptyList.isVisible = !isVisible
         binding.textViewWelcome.isVisible = !isVisible
     }
 
