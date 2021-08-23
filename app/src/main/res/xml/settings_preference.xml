@@ -2,9 +2,9 @@
 
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:key="sharedPref"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:key="sharedPref">
 
     <PreferenceCategory
         app:key="account"
@@ -13,14 +13,16 @@
         <EditTextPreference
             android:icon="@drawable/ic_account"
             android:key="name_key"
-            android:title="@string/settings_title_name"
-            android:summary="@string/settings_name"/>
+            android:summary="@string/settings_name"
+            android:title="@string/settings_title_name" />
 
         <EditTextPreference
             android:icon="@drawable/ic_weight"
             android:key="weight_key"
-            android:title="@string/settings_title_weight"
-            android:summary="@string/settings_weight"/>
+            android:inputType="numberDecimal"
+            android:digits="0123456789"
+            android:summary="@string/settings_weight"
+            android:title="@string/settings_title_weight" />
 
     </PreferenceCategory>
 
@@ -29,20 +31,20 @@
         app:title="@string/settings_category_settings">
 
         <ListPreference
-            android:icon="@drawable/ic_theme"
-            android:defaultValue="@string/theme_default_entries"
-            android:key="theme_key"
+            android:defaultValue="@string/theme_default_entry_value"
             android:entries="@array/Themes.entries"
             android:entryValues="@array/Themes.entryValues"
+            android:icon="@drawable/ic_theme"
+            android:key="theme_key"
             android:summary="@string/settings_theme"
             android:title="@string/settings_title_theme" />
 
         <ListPreference
             android:defaultValue="@string/unit_metric_entry_value"
-            android:icon="@drawable/ic_units"
-            android:key="units_key"
             android:entries="@array/Units.entries"
             android:entryValues="@array/Units.entryValues"
+            android:icon="@drawable/ic_units"
+            android:key="units_key"
             android:summary="@string/settings_units"
             android:title="@string/settings_title_units" />
 

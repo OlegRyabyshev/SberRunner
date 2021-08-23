@@ -17,7 +17,9 @@ import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import javax.inject.Inject
 
-class MapViewModel @Inject constructor(private val fusedLocationProviderClient: FusedLocationProviderClient) : ViewModel() {
+class MapViewModel @Inject constructor(
+    private val fusedLocationProviderClient: FusedLocationProviderClient
+) : ViewModel() {
 
     private val _progressLiveData = MutableLiveData<Boolean>()
     private val _locationLiveData = MutableLiveData<Location>()

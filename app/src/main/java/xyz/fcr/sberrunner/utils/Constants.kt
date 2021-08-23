@@ -25,4 +25,7 @@ object Constants {
 
     const val DEFAULT_ZOOM = 19f
     const val LOCATION_REQUEST_CODE = 10001
+
+
+
 }

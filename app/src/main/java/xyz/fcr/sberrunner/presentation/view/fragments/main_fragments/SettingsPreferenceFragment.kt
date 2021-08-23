@@ -1,0 +1,105 @@
+package xyz.fcr.sberrunner.presentation.view.fragments.main_fragments
+
+import android.os.Bundle
+import android.text.InputType
+import android.view.View
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.preference.EditTextPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import xyz.fcr.sberrunner.R
+import xyz.fcr.sberrunner.presentation.App
+import xyz.fcr.sberrunner.presentation.view.activities.MainActivity
+import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.SharedSettingsViewModel
+import javax.inject.Inject
+
+class SettingsPreferenceFragment : PreferenceFragmentCompat() {
+    @Inject
+    lateinit var factory: ViewModelProvider.Factory
+    private val viewModel by viewModels<SharedSettingsViewModel>({ activity as MainActivity }) { factory }
+
+    init {
+        App.appComponent.inject(this)
+    }
+
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.settings_preference, rootKey)
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+        return super.onPreferenceTreeClick(preference)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.displayNameAndWeightInSummary()
+
+
+        val namePref: EditTextPreference? = findPreference("name_key")
+        namePref?.setOnPreferenceChangeListener { _, newName ->
+            viewModel.updateName(newName as String)
+            return@setOnPreferenceChangeListener false
+        }
+
+        val weightPref: EditTextPreference? = findPreference("weight_key")
+        weightPref?.setOnBindEditTextListener {
+            it.inputType = InputType.TYPE_CLASS_NUMBER
+        }
+        weightPref?.setOnPreferenceChangeListener { _, newWeight ->
+            viewModel.updateWeight(newWeight as String)
+            return@setOnPreferenceChangeListener false
+        }
+
+        val logOutPref: Preference? = findPreference("log_out")
+        logOutPref?.setOnPreferenceClickListener {
+            MaterialAlertDialogBuilder(requireContext()).apply {
+                setTitle("Log out from account?")
+                setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                setPositiveButton("Exit") { dialog, _ ->
+                    viewModel.exitAccount()
+                    dialog.dismiss()
+                }
+                show()
+            }
+            true
+        }
+
+        val deleteAccountPref: Preference? = findPreference("del_account")
+        deleteAccountPref?.setOnPreferenceClickListener {
+            MaterialAlertDialogBuilder(requireContext()).apply {
+                setTitle("Delete account?")
+                setMessage("All you data and progress will be lost, you sure?")
+                setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                setPositiveButton("Delete") { dialog, _ ->
+                    viewModel.deleteAccount()
+                    dialog.dismiss()
+                }
+                show()
+            }
+            true
+        }
+
+        observeLiveData()
+    }
+
+    private fun observeLiveData() {
+        viewModel.nameSummaryLiveData.observe(viewLifecycleOwner) { name: String ->
+            setSummary("name_key", name)
+        }
+        viewModel.weightSummaryLiveData.observe(viewLifecycleOwner) { weight: String ->
+            setSummary("weight_key", weight)
+        }
+    }
+
+    private fun setSummary(key: String, value: String) {
+        val pref: Preference? = findPreference(key)
+        pref?.summary = value
+    }
+}

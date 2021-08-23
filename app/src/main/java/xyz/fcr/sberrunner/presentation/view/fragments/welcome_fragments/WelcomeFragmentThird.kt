@@ -24,8 +24,8 @@ class WelcomeFragmentThird : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val enterWithAccountButton : MaterialButton = view.findViewById(R.id.btn_enter_with_account)
-        val skipTextView : TextView = view.findViewById(R.id.tv_skip_login)
+        val enterWithAccountButton: MaterialButton = view.findViewById(R.id.btn_enter_with_account)
+        val skipTextView: TextView = view.findViewById(R.id.tv_skip_login)
 
         enterWithAccountButton.setOnClickListener {
             val loginFragment = LoginFragment()

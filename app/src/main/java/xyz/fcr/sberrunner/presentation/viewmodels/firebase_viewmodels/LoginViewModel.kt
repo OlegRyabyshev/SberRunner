@@ -1,8 +1,10 @@
 package xyz.fcr.sberrunner.presentation.viewmodels.firebase_viewmodels
 
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.LiveData
+import com.google.firebase.firestore.DocumentSnapshot
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.repository.FirebaseRepository
@@ -13,7 +15,8 @@ import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
     private val firebaseRepo: FirebaseRepository,
-    private val schedulersProvider: SchedulersProviderInterface
+    private val schedulersProvider: SchedulersProviderInterface,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     private val _progressLiveData = MutableLiveData<Boolean>()
@@ -26,9 +29,9 @@ class LoginViewModel @Inject constructor(
 
     private var disReset: Disposable? = null
     private var disSignIn: Disposable? = null
+    private var disNameAndWeightLoader: Disposable? = null
 
     fun initResetEmail(email: String) {
-
         if (emailIsValid(email)) {
             disReset = Single.fromCallable { firebaseRepo.sendResetEmail(email.trim { it <= ' ' }) }
                 .doOnSubscribe { _progressLiveData.postValue(true) }
@@ -49,7 +52,6 @@ class LoginViewModel @Inject constructor(
 
     fun initSignIn(email: String, pass: String) {
         if (emailIsValid(email) and passIsValid(pass)) {
-
             disSignIn = Single.fromCallable {
                 firebaseRepo.login(
                     email.trim { it <= ' ' },
@@ -62,13 +64,47 @@ class LoginViewModel @Inject constructor(
                 .subscribe { task ->
                     task.addOnCompleteListener {
                         when {
-                            it.isSuccessful -> _loginLiveData.postValue(true)
-                            else -> _loginLiveData.postValue(false)
+                            it.isSuccessful -> loadNameAndWeightFromFireStore()
+                            else -> {
+                                _loginLiveData.postValue(false)
+                                _progressLiveData.postValue(false)
+                            }
                         }
-
-                        _progressLiveData.postValue(false)
                     }
                 }
+        }
+    }
+
+    private fun loadNameAndWeightFromFireStore() {
+        disSignIn = Single.fromCallable { firebaseRepo.getDocumentFirestore() }
+            .subscribeOn(schedulersProvider.io())
+            .observeOn(schedulersProvider.ui())
+            .subscribe { task ->
+                task?.addOnCompleteListener {
+                    when {
+                        it.isSuccessful -> {
+                            saveToSharedPrefs(it.result)
+                            _loginLiveData.postValue(true)
+                            _progressLiveData.postValue(false)
+                        }
+                        else -> {
+                            _loginLiveData.postValue(false)
+                            _progressLiveData.postValue(false)
+                        }
+                    }
+                }
+
+                if (task == null) {
+                    _progressLiveData.postValue(false)
+                }
+            }
+    }
+
+    private fun saveToSharedPrefs(result: DocumentSnapshot) {
+        sharedPreferences.edit().apply {
+            putString("name_key", result.getString("name"))
+            putString("weight_key", result.getString("weight"))
+            apply()
         }
     }
 
@@ -118,6 +154,9 @@ class LoginViewModel @Inject constructor(
 
         disSignIn?.dispose()
         disSignIn = null
+
+        disNameAndWeightLoader?.dispose()
+        disNameAndWeightLoader = null
     }
 
     val progressLiveData: LiveData<Boolean>

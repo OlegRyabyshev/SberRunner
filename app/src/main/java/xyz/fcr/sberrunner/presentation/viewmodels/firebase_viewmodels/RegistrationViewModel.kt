@@ -1,5 +1,7 @@
 package xyz.fcr.sberrunner.presentation.viewmodels.firebase_viewmodels
 
+import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.LiveData
@@ -8,13 +10,13 @@ import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.repository.FirebaseRepository
 import xyz.fcr.sberrunner.utils.Constants.VALID
 import xyz.fcr.sberrunner.utils.SchedulersProviderInterface
-import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(
-    val firebaseRepo: FirebaseRepository,
-    val schedulersProvider: SchedulersProviderInterface
+    private val firebaseRepo: FirebaseRepository,
+    private val schedulersProvider: SchedulersProviderInterface,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     private val _progressLiveData = MutableLiveData<Boolean>()
@@ -46,7 +48,10 @@ class RegistrationViewModel @Inject constructor(
                 .subscribe { task ->
                     task.addOnCompleteListener {
                         when {
-                            it.isSuccessful -> _successLiveData.postValue(VALID)
+                            it.isSuccessful -> {
+                                _successLiveData.postValue(VALID)
+                                saveToSharedPrefs(name, weight)
+                            }
                             else -> {
                                 _successLiveData.postValue(it.exception?.message.toString())
                             }
@@ -55,6 +60,14 @@ class RegistrationViewModel @Inject constructor(
                         _progressLiveData.postValue(false)
                     }
                 }
+        }
+    }
+
+    private fun saveToSharedPrefs(name: String, weight: String) {
+        sharedPreferences.edit().apply{
+            putString("name_key", name)
+            putString("weight_key", weight)
+            apply()
         }
     }
 

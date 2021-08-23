@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import xyz.fcr.sberrunner.R
 import android.content.Intent
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import xyz.fcr.sberrunner.databinding.ActivityMainBinding
 import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -28,6 +29,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        PreferenceManager.setDefaultValues(
+            this,
+            R.xml.settings_preference,
+            false
+        )
 
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -81,7 +87,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToTrackingFragmentIfNeeded(intent: Intent?) {
-        if(intent?.action == ACTION_SHOW_TRACKING_FRAGMENT) {
+        if (intent?.action == ACTION_SHOW_TRACKING_FRAGMENT) {
             openScreen(RunFragment(), TAG_RUN)
             binding.bottomNavigationView.uncheckAllItems()
         }
