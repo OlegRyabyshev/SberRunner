@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="text_color">#FFFFFFFF</color>
+    <color name="text_welcome_color">#121212</color>
+
+    <color name="main_green">#FF21BA72</color>
+
+    <color name="bar_color">#707070</color>
+
+    <color name="background_color">#121212</color>
+    <color name="icon_color">#707070</color>
+
+</resources>

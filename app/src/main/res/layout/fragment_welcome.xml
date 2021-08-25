@@ -25,7 +25,7 @@
         app:tabBackground="@drawable/tab_selector"
         app:tabGravity="center"
         app:tabIndicatorHeight="0dp"
-        app:tabRippleColor="@color/white"
-        app:tabTextColor="@color/black" />
+        app:tabRippleColor="@color/background_color"
+        app:tabTextColor="@color/text_color" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/background_color"
     tools:context=".presentation.view.fragments.main_fragments.MapFragment">
 
     <androidx.fragment.app.FragmentContainerView
@@ -27,7 +27,7 @@
         android:src="@drawable/ic_my_location"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@android:color/white" />
+        app:tint="@color/background_color" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_circular_map"
@@ -36,7 +36,7 @@
         android:elevation="@dimen/elevation"
         android:indeterminate="true"
         android:visibility="invisible"
-        app:indicatorColor="@color/white"
+        app:indicatorColor="@color/background_color"
         app:layout_constraintBottom_toBottomOf="@+id/fab_find_me"
         app:layout_constraintEnd_toEndOf="@+id/fab_find_me"
         app:layout_constraintStart_toStartOf="@+id/fab_find_me"

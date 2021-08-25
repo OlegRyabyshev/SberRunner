@@ -15,8 +15,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.SberRunner">
+        android:supportsRtl="true">
 
         <activity
             android:name=".presentation.view.activities.SplashScreenActivity"
@@ -31,12 +30,14 @@
 
         <activity
             android:name=".presentation.view.activities.WelcomeActivity"
+            android:theme="@style/Theme.SberRunner"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
 
         <activity
             android:name=".presentation.view.activities.MainActivity"
+            android:theme="@style/Theme.SberRunner"
             android:exported="true" />
 
         <service

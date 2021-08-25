@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/margin_bar_and_fab"
-    android:background="@color/white"
+    android:background="@color/background_color"
     tools:context=".presentation.view.fragments.main_fragments.ProgressFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:text="@string/zero"
-            android:textColor="@color/white"
+            android:textColor="@color/background_color"
             android:textSize="60sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

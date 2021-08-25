@@ -1,11 +1,14 @@
 package xyz.fcr.sberrunner.presentation.view.fragments.main_fragments
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.EditTextPreference
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -51,6 +54,19 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
         weightPref?.setOnPreferenceChangeListener { _, newWeight ->
             viewModel.updateWeight(newWeight as String)
             return@setOnPreferenceChangeListener false
+        }
+
+        val themePref: ListPreference? = findPreference("theme_key")
+        themePref?.setOnPreferenceChangeListener { _, newValue ->
+            when (newValue) {
+                Configuration.UI_MODE_NIGHT_UNDEFINED.toString() ->
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_UNSPECIFIED)
+                Configuration.UI_MODE_NIGHT_NO.toString() ->
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                Configuration.UI_MODE_NIGHT_YES.toString() ->
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+            return@setOnPreferenceChangeListener true
         }
 
         val logOutPref: Preference? = findPreference("log_out")

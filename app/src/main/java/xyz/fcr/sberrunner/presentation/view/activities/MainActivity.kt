@@ -5,17 +5,21 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import xyz.fcr.sberrunner.R
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.res.Configuration
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import xyz.fcr.sberrunner.databinding.ActivityMainBinding
 import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.utils.Constants.ACTION_SHOW_TRACKING_FRAGMENT
 import xyz.fcr.sberrunner.utils.Constants.TAG_HOME
 import xyz.fcr.sberrunner.utils.Constants.TAG_MAP
 import xyz.fcr.sberrunner.utils.Constants.TAG_RUN
 import xyz.fcr.sberrunner.utils.Constants.TAG_SETTINGS
 import xyz.fcr.sberrunner.utils.Constants.TAG_PROGRESS
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,21 +28,33 @@ class MainActivity : AppCompatActivity() {
 
     private var currentFragment: Fragment? = null
 
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        PreferenceManager.setDefaultValues(
-            this,
-            R.xml.settings_preference,
-            false
-        )
-
+        setTheme()
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
             openScreen(HomeFragment(), TAG_HOME)
+        }
+    }
+
+    private fun setTheme() {
+        PreferenceManager.setDefaultValues(this, R.xml.settings_preference, false)
+
+        App.appComponent.inject(this)
+
+        when (sharedPreferences.getString("theme_key", "0")) {
+            Configuration.UI_MODE_NIGHT_UNDEFINED.toString() ->
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_UNSPECIFIED)
+            Configuration.UI_MODE_NIGHT_NO.toString() ->
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            Configuration.UI_MODE_NIGHT_YES.toString() ->
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
     }
 

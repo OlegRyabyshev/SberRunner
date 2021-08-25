@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="Themes.entries">
         <item>@string/theme_default_entries</item>
         <item>@string/theme_light_entries</item>
@@ -21,4 +22,5 @@
         <item>@string/unit_metric_entry_value</item>
         <item>@string/unit_imperial_entry_value</item>
     </string-array>
+
 </resources>
