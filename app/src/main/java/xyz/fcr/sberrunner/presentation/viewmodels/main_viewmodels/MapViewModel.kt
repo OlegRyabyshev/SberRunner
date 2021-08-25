@@ -13,7 +13,6 @@ import com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.location.LocationResult
 import xyz.fcr.sberrunner.utils.Constants.FASTEST_LOCATION_UPDATE_INTERVAL
 import xyz.fcr.sberrunner.utils.Constants.NON_VALID
-import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import javax.inject.Inject
 
@@ -24,6 +23,7 @@ class MapViewModel @Inject constructor(
     private val _progressLiveData = MutableLiveData<Boolean>()
     private val _locationLiveData = MutableLiveData<Location>()
     private val _errorLiveData = SingleLiveEvent<String>()
+
 
     @SuppressLint("MissingPermission")
     fun getCurrentLocation() {

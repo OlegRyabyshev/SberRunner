@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/margin_bar"
     android:background="@color/white"
     android:fillViewport="true"
     tools:context=".presentation.view.fragments.main_fragments.SettingsFragment">
@@ -17,6 +16,7 @@
             android:id="@+id/settings_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="@dimen/margin_bar_and_fab"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -13,6 +13,7 @@ import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.*
 
 @Module
 abstract class ViewModelFactoryModule {
+
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 
@@ -43,11 +44,12 @@ abstract class ViewModelFactoryModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(YouViewModel::class)
-    internal abstract fun bindYouViewModel(viewModel: YouViewModel): ViewModel
+    @ViewModelKey(ProgressViewModel::class)
+    internal abstract fun bindProgressViewModel(viewModel: ProgressViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(SharedSettingsViewModel::class)
     internal abstract fun bindSharedSettingsViewModel(viewModel: SharedSettingsViewModel): ViewModel
+
 }

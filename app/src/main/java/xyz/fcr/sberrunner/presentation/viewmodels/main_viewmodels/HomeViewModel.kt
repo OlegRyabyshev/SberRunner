@@ -17,21 +17,6 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     private var disposable: Disposable? = null
 
     fun loadListOfRuns() {
-//        disposable = Single.fromCallable {}
-//            .doOnSubscribe { _progressLiveData.postValue(true) }
-//            .subscribeOn(schedulersProvider.io())
-//            .observeOn(schedulersProvider.ui())
-//            .subscribe { task ->
-//                task.addOnCompleteListener {
-//                    when {
-//                        it.isSuccessful -> _successLiveData.postValue(Constants.VALID)
-//                        else -> {
-//                            _successLiveData.postValue(it.exception?.message.toString())
-//                        }
-//                    }
-//                    _progressLiveData.postValue(false)
-//                }
-//            }
         _successLiveData.postValue(null)
     }
 

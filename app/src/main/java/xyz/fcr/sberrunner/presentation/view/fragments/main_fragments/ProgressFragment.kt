@@ -7,19 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import xyz.fcr.sberrunner.databinding.FragmentYouBinding
+import xyz.fcr.sberrunner.databinding.FragmentProgressBinding
 import xyz.fcr.sberrunner.presentation.App
-import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.YouViewModel
+import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.ProgressViewModel
 import javax.inject.Inject
 
-class YouFragment : Fragment() {
+class ProgressFragment : Fragment() {
 
-    private var _binding: FragmentYouBinding? = null
+    private var _binding: FragmentProgressBinding? = null
     private val binding get() = _binding!!
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
-    val viewModel: YouViewModel by viewModels { factory }
+    val viewModel: ProgressViewModel by viewModels { factory }
     init {
         App.appComponent.inject(this)
     }
@@ -29,7 +29,7 @@ class YouFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentYouBinding.inflate(inflater, container, false)
+        _binding = FragmentProgressBinding.inflate(inflater, container, false)
         return binding.root
     }
 }

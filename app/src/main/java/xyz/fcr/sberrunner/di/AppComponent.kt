@@ -37,7 +37,7 @@ interface AppComponent {
     fun inject(fragment: RunFragment)
     fun inject(fragment: SettingsFragment)
     fun inject(fragment: SettingsPreferenceFragment)
-    fun inject(fragment: YouFragment)
+    fun inject(fragment: ProgressFragment)
 
     // ViewModels
     fun inject(viewModel: LoginViewModel)

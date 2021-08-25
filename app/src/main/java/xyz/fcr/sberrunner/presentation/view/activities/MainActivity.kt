@@ -3,7 +3,6 @@ package xyz.fcr.sberrunner.presentation.view.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
-import com.google.firebase.auth.FirebaseAuth
 import xyz.fcr.sberrunner.R
 import android.content.Intent
 import androidx.fragment.app.Fragment
@@ -16,7 +15,7 @@ import xyz.fcr.sberrunner.utils.Constants.TAG_HOME
 import xyz.fcr.sberrunner.utils.Constants.TAG_MAP
 import xyz.fcr.sberrunner.utils.Constants.TAG_RUN
 import xyz.fcr.sberrunner.utils.Constants.TAG_SETTINGS
-import xyz.fcr.sberrunner.utils.Constants.TAG_YOU
+import xyz.fcr.sberrunner.utils.Constants.TAG_PROGRESS
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_home -> openScreen(HomeFragment(), TAG_HOME)
                 R.id.nav_map -> openScreen(MapFragment(), TAG_MAP)
-                R.id.nav_you -> openScreen(YouFragment(), TAG_YOU)
+                R.id.nav_progress -> openScreen(ProgressFragment(), TAG_PROGRESS)
                 R.id.nav_settings -> openScreen(SettingsFragment(), TAG_SETTINGS)
             }
             true

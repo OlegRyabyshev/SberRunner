@@ -18,7 +18,7 @@ object Constants {
     const val TAG_HOME = "TAG_HOME"
     const val TAG_MAP = "TAG_MAP"
     const val TAG_RUN = "TAG_RUN"
-    const val TAG_YOU = "TAG_YOU"
+    const val TAG_PROGRESS = "TAG_PROGRESS"
     const val TAG_SETTINGS = "TAG_SETTINGS"
 
     const val CHANNEL_ID = "runningServiceChannel"

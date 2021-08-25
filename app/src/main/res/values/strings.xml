@@ -102,5 +102,9 @@
     <string name="welcome_three">Add your existing account or create a new one</string>
     <string name="enter_with_account">ENTER WITH ACCOUNT</string>
     <string name="or_continue_without_account">or continue without account</string>
+    <string name="home_page">Home</string>
+    <string name="map_page">Map</string>
+    <string name="progress_page">Progress</string>
+    <string name="settings_page">Settings</string>
 
 </resources>
