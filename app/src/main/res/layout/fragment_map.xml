@@ -17,29 +17,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_find_me"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_fab_end"
-        android:layout_marginBottom="@dimen/margin_fab_bottom"
-        android:contentDescription="@string/show_current_location"
-        android:src="@drawable/ic_my_location"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/background_color" />
-
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_circular_map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="@dimen/elevation"
+        app:indicatorSize="@dimen/progress_indicator_size"
         android:indeterminate="true"
         android:visibility="invisible"
-        app:indicatorColor="@color/background_color"
+        app:indicatorColor="@color/main_green"
         app:layout_constraintBottom_toBottomOf="@+id/fab_find_me"
         app:layout_constraintEnd_toEndOf="@+id/fab_find_me"
         app:layout_constraintStart_toStartOf="@+id/fab_find_me"
         app:layout_constraintTop_toTopOf="@+id/fab_find_me" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_find_me"
+        android:layout_width="wrap_content"
+        app:elevation="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_fab_end"
+        android:layout_marginBottom="@dimen/margin_fab_bottom"
+        android:backgroundTint="@color/main_green"
+        android:contentDescription="@string/show_current_location"
+        android:src="@drawable/ic_my_location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/background_color" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

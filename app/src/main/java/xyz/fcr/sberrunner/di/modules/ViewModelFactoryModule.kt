@@ -51,5 +51,4 @@ abstract class ViewModelFactoryModule {
     @IntoMap
     @ViewModelKey(SharedSettingsViewModel::class)
     internal abstract fun bindSharedSettingsViewModel(viewModel: SharedSettingsViewModel): ViewModel
-
 }

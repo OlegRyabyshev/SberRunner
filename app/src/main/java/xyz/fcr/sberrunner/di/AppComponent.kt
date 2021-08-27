@@ -2,6 +2,7 @@ package xyz.fcr.sberrunner.di
 
 import android.content.Context
 import dagger.Component
+import xyz.fcr.sberrunner.data.service.RunningService
 import xyz.fcr.sberrunner.di.modules.*
 import xyz.fcr.sberrunner.presentation.view.activities.MainActivity
 import xyz.fcr.sberrunner.presentation.view.activities.SplashScreenActivity
@@ -29,7 +30,7 @@ interface AppComponent {
 
     // Activity
     fun inject(activity: MainActivity)
-    fun inject(activity: SplashScreenActivity) //????
+    fun inject(activity: SplashScreenActivity)
 
     // Fragments
     fun inject(fragment: LoginFragment)
@@ -47,4 +48,6 @@ interface AppComponent {
     fun inject(viewModel: SharedSettingsViewModel)
     fun inject(viewModel: MapViewModel)
 
+    // Services
+    fun inject(runningService: RunningService)
 }

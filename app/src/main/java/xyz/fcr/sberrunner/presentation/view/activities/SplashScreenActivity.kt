@@ -20,13 +20,14 @@ class SplashScreenActivity : AppCompatActivity() {
 
         App.appComponent.inject(this)
 
+
         when {
-            firebaseAuth.currentUser != null -> initActivity(MainActivity::class.java)
-            else -> initActivity(WelcomeActivity::class.java)
+            firebaseAuth.currentUser != null -> startActivity(MainActivity::class.java)
+            else -> startActivity(WelcomeActivity::class.java)
         }
     }
 
-    private fun initActivity(activity: Class<out Activity>) {
+    private fun startActivity(activity: Class<out Activity>) {
         val intent = Intent(this, activity)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
         startActivity(intent)

@@ -9,7 +9,8 @@
         <item name="colorSecondary">@color/main_green</item>
         <item name="colorSecondaryVariant">@color/yellow</item>
         <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+
+        <item name="android:navigationBarColor">@color/main_green</item>
     </style>
 
 </resources>

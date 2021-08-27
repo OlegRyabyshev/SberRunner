@@ -27,5 +27,4 @@ class FirebaseModule {
     fun providesFirebaseRepository(auth: FirebaseAuth, store: FirebaseFirestore): FirebaseRepository {
         return FirebaseRepository(auth, store)
     }
-
 }

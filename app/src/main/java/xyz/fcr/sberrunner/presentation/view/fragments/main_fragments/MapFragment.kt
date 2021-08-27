@@ -1,16 +1,12 @@
 package xyz.fcr.sberrunner.presentation.view.fragments.main_fragments
 
-import android.Manifest
-import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,18 +16,23 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import es.dmoral.toasty.Toasty
+import pub.devrel.easypermissions.AppSettingsDialog
+import pub.devrel.easypermissions.EasyPermissions
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentMapBinding
-import xyz.fcr.sberrunner.utils.Constants.DEFAULT_ZOOM
-import xyz.fcr.sberrunner.utils.Constants.LOCATION_REQUEST_CODE
-import xyz.fcr.sberrunner.utils.Constants.NON_VALID
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.MapViewModel
+import xyz.fcr.sberrunner.utils.Constants
+import xyz.fcr.sberrunner.utils.Constants.MAP_ZOOMED_IN
+import xyz.fcr.sberrunner.utils.Constants.MAP_ZOOMED_OUT
+import xyz.fcr.sberrunner.utils.Constants.NON_VALID
+import xyz.fcr.sberrunner.utils.Constants.MAP_PERMISSION
 import javax.inject.Inject
 
-class MapFragment : Fragment(), OnMapReadyCallback {
+class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCallbacks {
 
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
@@ -47,6 +48,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+
+        when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                map?.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.maps_dark_theme))
+            }
+        }
+
+        viewModel.setToLastKnownLocationIfAny()
     }
 
     override fun onCreateView(
@@ -65,7 +74,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         binding.fabFindMe.setOnClickListener {
-            checkPermission()
+            getCurrentLocation()
         }
 
         observeLiveData()
@@ -74,23 +83,24 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private fun observeLiveData() {
         viewModel.progressLiveData.observe(viewLifecycleOwner, { isVisible: Boolean -> showProgress(isVisible) })
         viewModel.locationLiveData.observe(viewLifecycleOwner, { location: Location -> displayLocation(location) })
+        viewModel.historyLiveData.observe(viewLifecycleOwner, { latLng: LatLng -> displayLastKnownLocation(latLng) })
         viewModel.errorLiveData.observe(viewLifecycleOwner, { error: String -> showError(error) })
     }
 
     private fun showError(text: String) {
-        if (text == NON_VALID)
-            when (text) {
-                NON_VALID -> Toasty.error(
-                    requireContext(),
-                    requireContext().getString(R.string.cant_find_location),
-                    Toast.LENGTH_SHORT
-                ).show()
-                else -> Toasty.error(
-                    requireContext(),
-                    text,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        when (text) {
+            NON_VALID -> Toasty.error(
+                requireContext(),
+                requireContext().getString(R.string.cant_find_location),
+                Toast.LENGTH_SHORT
+            ).show()
+
+            else -> Toasty.error(
+                requireContext(),
+                text,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun displayLocation(location: Location) {
@@ -99,50 +109,48 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         map?.apply {
             addMarker(MarkerOptions().position(currentLocation).title("Current location"))
             moveCamera(CameraUpdateFactory.newLatLng(currentLocation))
-            animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, DEFAULT_ZOOM))
+            animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_ZOOMED_IN))
         }
     }
 
-    private fun checkPermission() {
-        when {
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED -> {
-                viewModel.getCurrentLocation()
-                return
-            }
-
-            shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) -> showRationaleDialog()
-
-            else -> requestPermission()
+    private fun displayLastKnownLocation(latLng: LatLng) {
+        map?.apply {
+            moveCamera(CameraUpdateFactory.newLatLng(latLng))
+            animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, MAP_ZOOMED_OUT))
         }
     }
 
-    private fun showRationaleDialog() {
-        AlertDialog.Builder(requireContext())
-            .setTitle(getString(R.string.dialog_rationale_title))
-            .setMessage(getString(R.string.dialog_rationale_message))
-            .setPositiveButton(getString(R.string.dialog_rationale_give_access)) { _, _ ->
-                requestPermission()
-            }
-            .setNegativeButton(getString(R.string.dialog_rationale_decline)) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .create()
-            .show()
+    private fun getCurrentLocation() {
+        if (EasyPermissions.hasPermissions(requireContext(), MAP_PERMISSION)) {
+            viewModel.getCurrentLocation()
+        } else {
+            requestPermission()
+        }
     }
 
     private fun requestPermission() {
-        ActivityCompat.requestPermissions(
-            requireActivity(),
-            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-            LOCATION_REQUEST_CODE
+        EasyPermissions.requestPermissions(
+            this,
+            getString(R.string.dialog_rationale_message),
+            Constants.LOCATION_REQUEST_CODE,
+            MAP_PERMISSION
         )
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        if (EasyPermissions.somePermissionDenied(this, MAP_PERMISSION)) {
+            AppSettingsDialog.Builder(this).build().show()
+        }
     }
 
     private fun showProgress(isVisible: Boolean) {
         binding.progressCircularMap.isVisible = isVisible
-        binding.fabFindMe.isVisible = !isVisible
     }
 }

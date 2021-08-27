@@ -38,7 +38,9 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (savedInstanceState == null) {
+        if (intent?.action == ACTION_SHOW_TRACKING_FRAGMENT) {
+            navigateToTrackingFragment()
+        } else if (savedInstanceState == null) {
             openScreen(HomeFragment(), TAG_HOME)
         }
     }
@@ -71,8 +73,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.fabAction.setOnClickListener {
-            openScreen(RunFragment(), TAG_RUN)
-            binding.bottomNavigationView.uncheckAllItems()
+            navigateToTrackingFragment()
         }
     }
 
@@ -98,13 +99,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        navigateToTrackingFragmentIfNeeded(intent)
+
+        if (intent?.action == ACTION_SHOW_TRACKING_FRAGMENT) {
+            navigateToTrackingFragment()
+        }
     }
 
-    private fun navigateToTrackingFragmentIfNeeded(intent: Intent?) {
-        if (intent?.action == ACTION_SHOW_TRACKING_FRAGMENT) {
-            openScreen(RunFragment(), TAG_RUN)
-            binding.bottomNavigationView.uncheckAllItems()
-        }
+    private fun navigateToTrackingFragment() {
+        openScreen(RunFragment(), TAG_RUN)
+        binding.bottomNavigationView.uncheckAllItems()
     }
 }

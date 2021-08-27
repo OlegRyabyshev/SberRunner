@@ -30,6 +30,7 @@
     <string name="show_current_location">Show current location</string>
 
     <string name="zero">0.0</string>
+    <string name="duration_zero">00:00:00</string>
 
     <string name="total_distance">Total distance</string>
     <string name="avg_distance">Avg. Distance</string>
@@ -106,5 +107,7 @@
     <string name="map_page">Map</string>
     <string name="progress_page">Progress</string>
     <string name="settings_page">Settings</string>
+    <string name="resume">Resume</string>
+    <string name="permission_rationale">SberRunner needs your location permission to launch tracking activity</string>
 
 </resources>

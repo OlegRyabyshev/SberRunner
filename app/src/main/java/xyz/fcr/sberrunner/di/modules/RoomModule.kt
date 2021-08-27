@@ -25,5 +25,4 @@ object RoomModule {
     fun provideRunDao(db: RunDatabase): RunDao {
         return db.getRunDao()
     }
-
 }
