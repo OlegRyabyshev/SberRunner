@@ -1,5 +1,6 @@
 package xyz.fcr.sberrunner.presentation.view.fragments.main_fragments
 
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.InputType
@@ -19,6 +20,7 @@ import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.SharedSettings
 import javax.inject.Inject
 
 class SettingsPreferenceFragment : PreferenceFragmentCompat() {
+
     @Inject
     lateinit var factory: ViewModelProvider.Factory
     private val viewModel by viewModels<SharedSettingsViewModel>({ activity as MainActivity }) { factory }
@@ -26,6 +28,9 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
     init {
         App.appComponent.inject(this)
     }
+
+    private var namePref: EditTextPreference? = null
+    private var weightPref: EditTextPreference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings_preference, rootKey)
@@ -41,13 +46,13 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
         viewModel.displayNameAndWeightInSummary()
 
 
-        val namePref: EditTextPreference? = findPreference("name_key")
+        namePref = findPreference("name_key")
         namePref?.setOnPreferenceChangeListener { _, newName ->
             viewModel.updateName(newName as String)
             return@setOnPreferenceChangeListener false
         }
 
-        val weightPref: EditTextPreference? = findPreference("weight_key")
+        weightPref = findPreference("weight_key")
         weightPref?.setOnBindEditTextListener {
             it.inputType = InputType.TYPE_CLASS_NUMBER
         }
@@ -107,15 +112,10 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
 
     private fun observeLiveData() {
         viewModel.nameSummaryLiveData.observe(viewLifecycleOwner) { name: String ->
-            setSummary("name_key", name)
+            namePref?.summary = name
         }
         viewModel.weightSummaryLiveData.observe(viewLifecycleOwner) { weight: String ->
-            setSummary("weight_key", weight)
+            weightPref?.summary = weight
         }
-    }
-
-    private fun setSummary(key: String, value: String) {
-        val pref: Preference? = findPreference(key)
-        pref?.summary = value
     }
 }

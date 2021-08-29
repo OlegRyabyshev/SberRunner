@@ -19,6 +19,7 @@ import xyz.fcr.sberrunner.utils.Constants.TAG_MAP
 import xyz.fcr.sberrunner.utils.Constants.TAG_RUN
 import xyz.fcr.sberrunner.utils.Constants.TAG_SETTINGS
 import xyz.fcr.sberrunner.utils.Constants.TAG_PROGRESS
+import xyz.fcr.sberrunner.utils.Constants.THEME_KEY
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         App.appComponent.inject(this)
 
-        when (sharedPreferences.getString("theme_key", "0")) {
+        when (sharedPreferences.getString(THEME_KEY, "0")) {
             Configuration.UI_MODE_NIGHT_UNDEFINED.toString() ->
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_UNSPECIFIED)
             Configuration.UI_MODE_NIGHT_NO.toString() ->

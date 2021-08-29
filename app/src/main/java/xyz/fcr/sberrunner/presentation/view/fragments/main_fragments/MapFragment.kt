@@ -26,10 +26,10 @@ import xyz.fcr.sberrunner.databinding.FragmentMapBinding
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.MapViewModel
 import xyz.fcr.sberrunner.utils.Constants
-import xyz.fcr.sberrunner.utils.Constants.MAP_ZOOMED_IN
 import xyz.fcr.sberrunner.utils.Constants.MAP_ZOOMED_OUT
 import xyz.fcr.sberrunner.utils.Constants.NON_VALID
 import xyz.fcr.sberrunner.utils.Constants.MAP_PERMISSION
+import xyz.fcr.sberrunner.utils.Constants.MAP_TRACKING_ZOOM
 import javax.inject.Inject
 
 class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCallbacks {
@@ -109,7 +109,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
         map?.apply {
             addMarker(MarkerOptions().position(currentLocation).title("Current location"))
             moveCamera(CameraUpdateFactory.newLatLng(currentLocation))
-            animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_ZOOMED_IN))
+            animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_TRACKING_ZOOM))
         }
     }
 

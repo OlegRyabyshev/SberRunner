@@ -25,6 +25,7 @@ object Constants {
     const val TIMER_UPDATE_INTERVAL = 50L
 
     //Shared const
+    const val THEME_KEY = "theme_key"
     const val WEIGHT_KEY = "weight_key"
     const val NAME_KEY = "name_key"
 
@@ -54,8 +55,7 @@ object Constants {
     // Map Options
     const val POLYLINE_WIDTH = 12f
 
-    const val MAP_TRACKING_ZOOM = 16f
-    const val MAP_ZOOMED_IN = 19f
+    const val MAP_TRACKING_ZOOM = 17f
     const val MAP_ZOOMED_OUT = 13f
 
     // Permissions

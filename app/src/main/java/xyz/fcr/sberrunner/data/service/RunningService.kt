@@ -160,7 +160,6 @@ class RunningService : LifecycleService() {
     private var timeStarted = 0L // the time when we started the timer
     private var lastSecondTimestamp = 0L
 
-
     private fun startTimer() {
         addEmptyPolyline()
         isTracking.postValue(true)

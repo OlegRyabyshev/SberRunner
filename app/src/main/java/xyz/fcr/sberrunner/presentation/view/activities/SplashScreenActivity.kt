@@ -20,7 +20,6 @@ class SplashScreenActivity : AppCompatActivity() {
 
         App.appComponent.inject(this)
 
-
         when {
             firebaseAuth.currentUser != null -> startActivity(MainActivity::class.java)
             else -> startActivity(WelcomeActivity::class.java)

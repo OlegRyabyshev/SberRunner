@@ -85,7 +85,9 @@ class SharedSettingsViewModel @Inject constructor(
 
     fun updateName(newName: String) {
         if (nameIsValid(newName)) {
-            disUpdName = Single.fromCallable { firebaseRepo.updateName(newName) }
+            disUpdName = Single.fromCallable {
+                firebaseRepo.updateName(newName)
+            }
                 .doOnSubscribe { _progressLiveData.postValue(true) }
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
