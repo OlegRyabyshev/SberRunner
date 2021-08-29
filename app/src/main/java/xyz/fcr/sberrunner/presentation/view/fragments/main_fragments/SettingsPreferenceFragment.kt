@@ -1,6 +1,5 @@
 package xyz.fcr.sberrunner.presentation.view.fragments.main_fragments
 
-import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.InputType

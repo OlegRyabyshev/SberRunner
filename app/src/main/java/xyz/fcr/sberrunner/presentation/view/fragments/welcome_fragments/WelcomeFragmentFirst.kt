@@ -15,5 +15,4 @@ class WelcomeFragmentFirst : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_welcome_first, container, false)
     }
-
 }

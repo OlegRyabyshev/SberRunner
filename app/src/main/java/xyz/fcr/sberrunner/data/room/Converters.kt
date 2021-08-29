@@ -2,12 +2,8 @@ package xyz.fcr.sberrunner.data.room
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.text.style.TtsSpan
-import android.widget.Toast
 import androidx.room.TypeConverter
 import java.io.ByteArrayOutputStream
-import java.text.SimpleDateFormat
-import java.util.*
 
 /**
  * Converter class to save bitmaps in the Room Database

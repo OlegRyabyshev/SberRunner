@@ -127,7 +127,7 @@ class RunningService : LifecycleService() {
     private fun updateLocationChecking(isTracking: Boolean) {
         if (isTracking) {
             if (TrackingUtility.hasLocationPermissions(this)) {
-                val request = LocationRequest().apply {
+                val request = LocationRequest.create().apply {
                     interval = LOCATION_UPDATE_INTERVAL
                     fastestInterval = FASTEST_LOCATION_UPDATE_INTERVAL
                     priority = PRIORITY_HIGH_ACCURACY
