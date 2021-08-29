@@ -52,6 +52,7 @@ class RunningService : LifecycleService() {
     companion object {
         val timeRunInMillis = MutableLiveData<Long>()
         val isTracking = MutableLiveData<Boolean>()
+        val isPaused = MutableLiveData<Boolean>()
         val pathPoints = MutableLiveData<Polylines>()
     }
 
@@ -81,6 +82,7 @@ class RunningService : LifecycleService() {
     private fun postInitialValues() {
         timeRunInMillis.postValue(0L)
         isTracking.postValue(false)
+        isPaused.postValue(false)
         pathPoints.postValue(mutableListOf())
         timeRunInSeconds.postValue(0L)
     }
@@ -88,30 +90,31 @@ class RunningService : LifecycleService() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
             when (it.action) {
-                ACTION_START_OR_RESUME_SERVICE -> {
-                    if (isFirstRun) {
-                        startForegroundService()
-                        isFirstRun = false
-                        serviceKilled = false
-                    } else {
-                        startTimer()
-                    }
-                }
-                ACTION_PAUSE_SERVICE -> {
-                    pauseService()
-                }
-                ACTION_STOP_SERVICE -> {
-                    stopService()
-                }
+                ACTION_START_OR_RESUME_SERVICE -> startOrResumeService()
+                ACTION_PAUSE_SERVICE -> pauseService()
+                ACTION_STOP_SERVICE -> stopService()
             }
         }
 
         return super.onStartCommand(intent, flags, startId)
     }
 
+    private fun startOrResumeService(){
+        isPaused.postValue(false)
+
+        if (isFirstRun) {
+            startForegroundService()
+            isFirstRun = false
+            serviceKilled = false
+        } else {
+            startTimer()
+        }
+    }
+
     private fun pauseService() {
         isTimerEnabled = false
         isTracking.postValue(false)
+        isPaused.postValue(true)
     }
 
     private fun stopService() {
@@ -155,9 +158,9 @@ class RunningService : LifecycleService() {
     }
 
     private var isTimerEnabled = false
-    private var lapTime = 0L // time since we started the timer
-    private var timeRun = 0L // total time of the timer
-    private var timeStarted = 0L // the time when we started the timer
+    private var lapTime = 0L
+    private var timeRun = 0L
+    private var timeStarted = 0L
     private var lastSecondTimestamp = 0L
 
     private fun startTimer() {
@@ -207,9 +210,7 @@ class RunningService : LifecycleService() {
      * Starts this service as a foreground service and creates the necessary notification
      */
     private fun startForegroundService() {
-
-        val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel(notificationManager)
@@ -219,7 +220,6 @@ class RunningService : LifecycleService() {
         startTimer()
         isTracking.postValue(true)
 
-        // updating notification
         timeRunInSeconds.observe(this) {
             if (!serviceKilled) {
                 val notification =

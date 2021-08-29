@@ -31,9 +31,9 @@ import xyz.fcr.sberrunner.utils.Constants.ACTION_PAUSE_SERVICE
 import xyz.fcr.sberrunner.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 import xyz.fcr.sberrunner.utils.Constants.ACTION_STOP_SERVICE
 import xyz.fcr.sberrunner.utils.Constants.MAP_TRACKING_ZOOM
-import xyz.fcr.sberrunner.utils.Constants.RUN_PERMISSIONS
 import xyz.fcr.sberrunner.utils.Constants.POLYLINE_WIDTH
 import xyz.fcr.sberrunner.utils.Constants.REQUEST_CODE_LOCATION_PERMISSION
+import xyz.fcr.sberrunner.utils.Constants.RUN_PERMISSIONS
 import xyz.fcr.sberrunner.utils.TrackingUtility
 import java.util.*
 import javax.inject.Inject
@@ -76,6 +76,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         binding.mapView.getMapAsync {
             map = it
             enableDarkThemeIfRequired()
+            viewModel.setToLastKnownLocationIfAny()
             addAllPolylines()
         }
 
@@ -110,7 +111,11 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun subscribeToObservers() {
         RunningService.isTracking.observe(viewLifecycleOwner, {
-            updateTracking(it)
+            updateTrackingUI(it)
+        })
+
+        RunningService.isPaused.observe(viewLifecycleOwner, {
+            updatePausedUI(it)
         })
 
         RunningService.pathPoints.observe(viewLifecycleOwner, {
@@ -124,6 +129,13 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             val formattedTime = TrackingUtility.getFormattedStopWatchTime(it)
             binding.durationTv.text = formattedTime
         })
+
+        viewModel.historyLiveData.observe(viewLifecycleOwner, {
+            map?.apply {
+                moveCamera(CameraUpdateFactory.newLatLng(it))
+                animateCamera(CameraUpdateFactory.newLatLngZoom(it, MAP_TRACKING_ZOOM))
+            }
+        })
     }
 
     /**
@@ -136,6 +148,8 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     pathPoints.last().last(),
                     MAP_TRACKING_ZOOM
                 )
+
+
             )
         }
     }
@@ -173,18 +187,22 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
-    private fun updateTracking(isTracking: Boolean) {
+    private fun updateTrackingUI(isTracking: Boolean) {
         this.isTracking = isTracking
 
         if (!isTracking && curTimeInMillis > 0L) {
             binding.fabStart.isVisible = true
             binding.fabPause.isVisible = false
-            binding.fabFinish.isVisible = false
         } else if (isTracking) {
             binding.fabStart.isVisible = false
             binding.fabPause.isVisible = true
-            binding.fabFinish.isVisible = true
+            binding.fabFinish.isVisible = false
         }
+    }
+
+    private fun updatePausedUI(isPaused: Boolean) {
+        binding.fabFinish.isVisible = isPaused
+        binding.fabStart.text = if (isPaused) getString(R.string.resume) else getString(R.string.start)
     }
 
     private fun zoomToWholeTrack() {
@@ -234,9 +252,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             val run = RunEntity(timestamp, avgSpeed, distanceInMeters, curTimeInMillis, caloriesBurned, bmp)
 
             viewModel.insertRun(run)
-
-            Toasty.success(requireContext(), "Success", Toasty.LENGTH_SHORT).show()
-
+            Toasty.success(requireContext(), "Run saved", Toasty.LENGTH_SHORT).show()
             stopRun()
         }
     }

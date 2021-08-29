@@ -69,4 +69,9 @@ object Constants {
     }
 
     const val MAP_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION
+
+    // FirebaseConst
+    const val USER = "user"
+    const val NAME = "name"
+    const val WEIGHT = "weight"
 }

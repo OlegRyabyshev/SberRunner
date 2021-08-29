@@ -109,5 +109,9 @@
     <string name="settings_page">Settings</string>
     <string name="resume">Resume</string>
     <string name="permission_rationale">SberRunner needs your location permission to launch tracking activity</string>
+    <string name="run_initial_distane">00:00:00</string>
+    <string name="run_initial_pace">00:00</string>
+    <string name="run_initial_distance">0.00</string>
+    <string name="run_initial_calories">0</string>
 
 </resources>

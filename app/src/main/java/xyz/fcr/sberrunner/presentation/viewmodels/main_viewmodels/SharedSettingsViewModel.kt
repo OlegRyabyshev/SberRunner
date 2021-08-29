@@ -63,7 +63,7 @@ class SharedSettingsViewModel @Inject constructor(
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
                 .subscribe { task ->
-                    task?.addOnCompleteListener {
+                    task.addOnCompleteListener {
                         when {
                             it.isSuccessful -> {
                                 saveToSharedPrefs("weight_key", newWeight)
@@ -74,10 +74,6 @@ class SharedSettingsViewModel @Inject constructor(
                                 _progressLiveData.postValue(false)
                             }
                         }
-                    }
-
-                    if (task == null) {
-                        _progressLiveData.postValue(false)
                     }
                 }
         }
@@ -92,7 +88,7 @@ class SharedSettingsViewModel @Inject constructor(
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
                 .subscribe { task ->
-                    task?.addOnCompleteListener {
+                    task.addOnCompleteListener {
                         when {
                             it.isSuccessful -> {
                                 saveToSharedPrefs("name_key", newName)
@@ -103,10 +99,6 @@ class SharedSettingsViewModel @Inject constructor(
                                 _progressLiveData.postValue(false)
                             }
                         }
-                    }
-
-                    if (task == null) {
-                        _progressLiveData.postValue(false)
                     }
                 }
         }
