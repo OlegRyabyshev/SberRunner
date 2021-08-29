@@ -125,12 +125,10 @@ class SharedSettingsViewModel @Inject constructor(
     }
 
     private fun weightIsValid(weightToCheck: String): Boolean {
-        if (weightToCheck.startsWith("0")) return false
-
         val weight = weightToCheck.toIntOrNull()
 
         return when {
-            weight == null || weight > 350 || weight <= 0 -> {
+            weight == null || weight > 350 || weight <= 0 || weightToCheck.startsWith("0") -> {
                 _errorLiveData.postValue("Weight is not valid")
                 false
             }

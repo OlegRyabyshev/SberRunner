@@ -1,16 +1,17 @@
 package xyz.fcr.sberrunner.presentation.viewmodels.firebase_viewmodels
 
-import android.annotation.SuppressLint
 import android.content.SharedPreferences
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.repository.FirebaseRepository
-import xyz.fcr.sberrunner.utils.Constants.VALID
-import xyz.fcr.sberrunner.utils.SchedulersProviderInterface
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
+import xyz.fcr.sberrunner.utils.Constants.NAME_KEY
+import xyz.fcr.sberrunner.utils.Constants.VALID
+import xyz.fcr.sberrunner.utils.Constants.WEIGHT_KEY
+import xyz.fcr.sberrunner.utils.SchedulersProviderInterface
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(
@@ -65,8 +66,8 @@ class RegistrationViewModel @Inject constructor(
 
     private fun saveToSharedPrefs(name: String, weight: String) {
         sharedPreferences.edit().apply{
-            putString("name_key", name)
-            putString("weight_key", weight)
+            putString(NAME_KEY, name)
+            putString(WEIGHT_KEY, weight)
             apply()
         }
     }
@@ -125,10 +126,11 @@ class RegistrationViewModel @Inject constructor(
     }
 
     private fun weightIsValid(weightToCheck: String): Boolean {
+
         val weight = weightToCheck.toIntOrNull()
 
         return when {
-            weight == null || weight > 350 || weight <= 0 -> {
+            weight == null || weight > 350 || weight <= 0 || weightToCheck.startsWith("0") -> {
                 _errorWeight.postValue("Weight is not valid")
                 false
             }
