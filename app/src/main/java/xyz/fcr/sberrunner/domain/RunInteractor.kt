@@ -10,9 +10,9 @@ class RunInteractor @Inject constructor (private val runDao: RunDao) {
     suspend fun deleteRun(run: Run) = runDao.deleteRun(run)
 
     fun getAllRuns() = runDao.getAllRuns()
-    fun getTotalDistance() = runDao.getTotalDistance()
-    fun getTotalAvgSpeed() = runDao.getTotalAvgSpeed()
-    fun getTotalTimeInMillis() = runDao.getTotalTimeInMillis()
-    fun getTotalCaloriesBurned() = runDao.getTotalCaloriesBurned()
+//    fun getTotalDistance() = runDao.getTotalDistance()
+//    fun getTotalAvgSpeed() = runDao.getTotalAvgSpeed()
+//    fun getTotalTimeInMillis() = runDao.getTotalTimeInMillis()
+//    fun getTotalCaloriesBurned() = runDao.getTotalCaloriesBurned()
 
 }

@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.core.Scheduler
  */
 interface ISchedulersProvider {
     /**
-     * Возвращает Scheduler для сетевых запросов.
+     * Возвращает Scheduler для i/o запросов.
      */
     fun io(): Scheduler
 

@@ -1,49 +1,77 @@
 package xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapter
 
-import android.annotation.SuppressLint
 import androidx.recyclerview.widget.RecyclerView
-import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapter.RunRecyclerAdapter.RunnerViewHolder
 import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
+import kotlinx.android.synthetic.main.run_item.view.*
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.model.Run
-import xyz.fcr.sberrunner.databinding.RunItemBinding
+import xyz.fcr.sberrunner.utils.TrackingUtility
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
- *
- *
- * @param runModelList [Run]
  * @param listener [ItemClickListener]
- *
- * @author Рябышев Олег on 05.08.2021
  */
-class RunRecyclerAdapter(
-    private val runModelList: List<Run>,
-    private val listener: ItemClickListener
-) : RecyclerView.Adapter<RunnerViewHolder>() {
+class RunRecyclerAdapter(private val listener: ItemClickListener) :
+    RecyclerView.Adapter<RunRecyclerAdapter.RunViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RunnerViewHolder {
-        return RunnerViewHolder(
+    inner class RunViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+    fun submitList(list: List<Run>) = differ.submitList(list)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RunViewHolder {
+        return RunViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.run_item, parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: RunnerViewHolder, position: Int) {
-        holder.bindView(runModelList[position])
-        holder.itemView.setOnClickListener { listener.onItemClick(position) }
+    override fun getItemCount(): Int {
+        return differ.currentList.size
     }
 
-    override fun getItemCount() = runModelList.size
+    override fun onBindViewHolder(holder: RunViewHolder, position: Int) {
+        val run = differ.currentList[position]
 
-    class RunnerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding: RunItemBinding = RunItemBinding.bind(itemView)
+        holder.itemView.setOnClickListener {
+            listener.onItemClick(position)
+        }
 
-        @SuppressLint("SetTextI18n")
-        fun bindView(weatherModel: Run) {
-//            binding.dayTextView.text = "Day ${weatherModel.day}:"
-//            binding.tempTextView.text = weatherModel.max
-//            binding.weatherImage.setImageResource(weatherModel.icon)
+        holder.itemView.apply {
+            Glide.with(this)
+                .load(run.mapImage)
+                .apply(RequestOptions.bitmapTransform(RoundedCorners(15)))
+                .centerCrop()
+                .into(map_item_image_view)
+
+            distance_item_tv.text = (run.distanceInMeters / 1000f).toString()
+            duration_item_tv.text = TrackingUtility.getFormattedStopWatchTime(run.timeInMillis)
+            avg_speed_item_tv.text = run.avgSpeedInKMH.toString()
+
+            val calendar = Calendar.getInstance().apply {
+                timeInMillis = run.timestamp
+            }
+
+            val dateFormat = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
+            date_item_tv.text = dateFormat.format(calendar.time)
         }
     }
+
+    private val diffCallback = object : DiffUtil.ItemCallback<Run>() {
+        override fun areItemsTheSame(oldItem: Run, newItem: Run): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Run, newItem: Run): Boolean {
+            return oldItem.hashCode() == newItem.hashCode()
+        }
+    }
+
+    val differ = AsyncListDiffer(this, diffCallback)
 }

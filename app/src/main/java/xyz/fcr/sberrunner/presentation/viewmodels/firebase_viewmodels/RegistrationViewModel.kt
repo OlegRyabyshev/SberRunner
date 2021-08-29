@@ -29,7 +29,6 @@ class RegistrationViewModel @Inject constructor(
     private val _errorPass = SingleLiveEvent<String>()
     private val _errorWeight = SingleLiveEvent<String>()
 
-
     private var disposable: Disposable? = null
 
     fun initRegistration(name: String, email: String, pass: String, weight: String) {

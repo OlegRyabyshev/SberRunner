@@ -14,79 +14,66 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/map_preview_image"
+            android:id="@+id/map_item_image_view"
             android:layout_width="150dp"
             android:layout_height="80dp"
             android:layout_margin="10dp"
-            android:contentDescription="Image of map"
-            android:src="@drawable/ic_map"
+            android:contentDescription="@string/map_preview"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/distance_tv"
+            android:id="@+id/distance_item_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_light"
-            android:textColor="@color/background_color"
+            android:fontFamily="@font/poppins"
             android:paddingStart="@dimen/padding_medium"
-            app:layout_constraintBottom_toTopOf="@+id/duration_tv"
-            app:layout_constraintStart_toEndOf="@+id/map_preview_image"
+            android:text="@string/distance"
+            android:textColor="@color/background_color"
+            app:layout_constraintBottom_toTopOf="@+id/duration_item_tv"
+            app:layout_constraintStart_toEndOf="@+id/map_item_image_view"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="RtlSymmetry"
-            tools:text="0.00 km" />
+            tools:ignore="RtlSymmetry" />
 
         <TextView
-            android:id="@+id/duration_tv"
+            android:id="@+id/duration_item_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_light"
+            android:fontFamily="@font/poppins"
             android:paddingStart="@dimen/padding_medium"
+            android:text="@string/duration"
             android:textColor="@color/background_color"
-            app:layout_constraintBottom_toTopOf="@+id/avg_pace_tv"
-            app:layout_constraintStart_toEndOf="@+id/map_preview_image"
-            app:layout_constraintTop_toBottomOf="@+id/distance_tv"
-            tools:ignore="RtlSymmetry"
-            tools:text="00:00:00" />
+            app:layout_constraintBottom_toTopOf="@+id/avg_speed_item_tv"
+            app:layout_constraintStart_toEndOf="@+id/map_item_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/distance_item_tv"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
-            android:id="@+id/avg_pace_tv"
+            android:id="@+id/avg_speed_item_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_light"
+            android:fontFamily="@font/poppins"
             android:paddingStart="@dimen/padding_medium"
-            app:layout_constraintBottom_toTopOf="@+id/calories_tv"
-            app:layout_constraintStart_toEndOf="@+id/map_preview_image"
-            app:layout_constraintTop_toBottomOf="@+id/duration_tv"
-            android:textColor="@color/background_color"
-            tools:ignore="RtlSymmetry"
-            tools:text="00:00 m/km" />
-
-        <TextView
-            android:id="@+id/calories_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_light"
-            android:paddingStart="@dimen/padding_medium"
+            android:text="@string/avg_speed"
             android:textColor="@color/background_color"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/map_preview_image"
-            app:layout_constraintTop_toBottomOf="@+id/avg_pace_tv"
-            tools:ignore="RtlSymmetry"
-            tools:text="0 kcal" />
+            app:layout_constraintStart_toEndOf="@+id/map_item_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/duration_item_tv"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
-            android:id="@+id/date_tv"
+            android:id="@+id/date_item_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/padding_medium"
-            android:fontFamily="@font/poppins_light"
+            android:fontFamily="@font/poppins"
+            android:text="@string/date"
             android:textColor="@color/background_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="RtlSymmetry"
-            tools:text="01/01/2021" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlSymmetry" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

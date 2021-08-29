@@ -18,7 +18,7 @@ class RunViewModel @Inject constructor(
     private val _historyLiveData = MutableLiveData<LatLng>()
 
     fun insertRun(run: Run) {
-        databaseRepository.insertRun(run)
+        databaseRepository.addRun(run)
     }
 
     fun setToLastKnownLocationIfAny() {

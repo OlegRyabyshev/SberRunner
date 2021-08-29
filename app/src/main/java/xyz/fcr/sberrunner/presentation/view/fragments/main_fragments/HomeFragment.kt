@@ -1,17 +1,20 @@
 package xyz.fcr.sberrunner.presentation.view.fragments.main_fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import es.dmoral.toasty.Toasty
-import xyz.fcr.sberrunner.data.model.Run
+import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentHomeBinding
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapter.ItemClickListener
@@ -24,9 +27,7 @@ class HomeFragment : Fragment(), ItemClickListener {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var adapter: RunRecyclerAdapter
-    private lateinit var recyclerView: RecyclerView
-    private var listOfRuns : List<Run>? = null
+    private lateinit var recyclerAdapter: RunRecyclerAdapter
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -48,30 +49,28 @@ class HomeFragment : Fragment(), ItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recyclerView = binding.recyclerViewRuns
+        setupRecyclerView()
 
-        viewModel.loadListOfRuns()
+        viewModel.syncWithCloud()
         observeLiveData()
     }
 
     private fun observeLiveData() {
         viewModel.progressLiveData.observe(viewLifecycleOwner, { isVisible: Boolean -> showProgress(isVisible) })
-        viewModel.successLiveData.observe(viewLifecycleOwner, { listOfRuns: List<Run>? -> fillAdapter(listOfRuns) })
+
         viewModel.errorLiveData.observe(viewLifecycleOwner, { error: String -> showError(error) })
+
+        viewModel.listOfRuns.observe(viewLifecycleOwner, { runs ->
+            if (runs != null) {
+                recyclerAdapter.submitList(runs)
+                displayRecycler(true)
+            } else {
+                displayRecycler(false)
+            }
+        })
     }
 
-    private fun fillAdapter(list: List<Run>?) {
-        listOfRuns = list
-
-        if (listOfRuns != null) {
-            recyclerView.adapter = RunRecyclerAdapter(listOfRuns!!, this)
-            adapterIsVisible(true)
-        } else {
-            adapterIsVisible(false)
-        }
-    }
-
-    private fun adapterIsVisible(isVisible: Boolean) {
+    private fun displayRecycler(isVisible: Boolean) {
         binding.recyclerViewRuns.isVisible = isVisible
         binding.lottieEmptyList.isVisible = !isVisible
         binding.textViewWelcome.isVisible = !isVisible
@@ -85,7 +84,42 @@ class HomeFragment : Fragment(), ItemClickListener {
         binding.progressCircularHome.isVisible = isVisible
     }
 
+    private fun setupRecyclerView() {
+        recyclerAdapter = RunRecyclerAdapter(this)
+        binding.recyclerViewRuns.apply {
+            adapter = recyclerAdapter
+            layoutManager = LinearLayoutManager(activity)
+            ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(this)
+        }
+    }
+
+    private val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+        ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+    ) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return true
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val position = viewHolder.layoutPosition
+            val run = recyclerAdapter.differ.currentList[position]
+            viewModel.deleteRun(run)
+
+            Snackbar.make(requireView(), getString(R.string.run_deleted), Snackbar.LENGTH_INDEFINITE).apply {
+                setAction(getString(R.string.undo)) {
+                    viewModel.addRun(run)
+                }
+                show()
+            }
+        }
+    }
+
     override fun onItemClick(position: Int) {
+        val run = recyclerAdapter.differ.currentList[position]
 
     }
 }

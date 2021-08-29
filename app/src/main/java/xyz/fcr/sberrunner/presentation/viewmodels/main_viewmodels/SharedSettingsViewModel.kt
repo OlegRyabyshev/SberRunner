@@ -45,13 +45,11 @@ class SharedSettingsViewModel @Inject constructor(
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
             .subscribe { task ->
-                task?.addOnCompleteListener {
+                task.addOnCompleteListener {
                     when {
                         it.isSuccessful -> _deleteLiveData.postValue(true)
                         else -> _deleteLiveData.postValue(false)
                     }
-
-                    _progressLiveData.postValue(false)
                 }
             }
     }

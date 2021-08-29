@@ -89,8 +89,13 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
 
         binding.fabFinish.setOnClickListener {
-            zoomToWholeTrack()
-            endRunAndSaveToDB()
+            if (pathPoints.size >= 2) {
+                zoomToWholeTrack()
+                endRunAndSaveToDB()
+            } else {
+                stopRun()
+                Toasty.info(requireContext(), getString(R.string.not_enough_data), Toasty.LENGTH_SHORT).show()
+            }
         }
 
         subscribeToObservers()
