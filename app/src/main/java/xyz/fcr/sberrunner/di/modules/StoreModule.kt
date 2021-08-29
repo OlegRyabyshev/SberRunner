@@ -8,8 +8,7 @@ import dagger.Provides
 import xyz.fcr.sberrunner.utils.Constants.NAME_KEY
 import xyz.fcr.sberrunner.utils.Constants.WEIGHT_KEY
 import xyz.fcr.sberrunner.utils.SchedulersProvider
-import xyz.fcr.sberrunner.utils.SchedulersProviderInterface
-import javax.inject.Named
+import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Singleton
 
 @Module
@@ -31,11 +30,5 @@ class StoreModule {
     @Provides
     fun provideWeight(sharedPreferences: SharedPreferences) : Int {
        return sharedPreferences.getString(WEIGHT_KEY, "70")!!.toInt()
-    }
-
-    @Singleton
-    @Provides
-    fun provideSchedulersProvider(): SchedulersProviderInterface {
-        return SchedulersProvider()
     }
 }

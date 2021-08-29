@@ -4,7 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
-import xyz.fcr.sberrunner.data.repository.FirebaseRepository
+import xyz.fcr.sberrunner.data.repository.firebase.FirebaseRepository
 import javax.inject.Singleton
 
 @Module

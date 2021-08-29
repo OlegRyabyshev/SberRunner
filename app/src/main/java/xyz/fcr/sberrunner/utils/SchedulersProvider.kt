@@ -7,10 +7,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 /**
  * Получения объектов класса Scheduler
- *
- * @author Рябышев Олег on 05.08.2021
  */
-class SchedulersProvider : SchedulersProviderInterface {
+class SchedulersProvider : ISchedulersProvider {
     override fun io(): Scheduler {
         return Schedulers.io()
     }

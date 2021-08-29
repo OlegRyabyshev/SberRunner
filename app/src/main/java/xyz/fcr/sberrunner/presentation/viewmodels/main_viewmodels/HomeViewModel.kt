@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.Disposable
-import xyz.fcr.sberrunner.data.room.RunEntity
+import xyz.fcr.sberrunner.data.model.Run
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor() : ViewModel() {
 
     private val _progressLiveData = MutableLiveData<Boolean>()
-    private val _successLiveData = MutableLiveData<List<RunEntity>?>()
+    private val _successLiveData = MutableLiveData<List<Run>?>()
     private val _errorLiveData = SingleLiveEvent<String>()
 
     private var disposable: Disposable? = null
@@ -29,7 +29,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
     val progressLiveData: LiveData<Boolean>
         get() = _progressLiveData
-    val successLiveData: LiveData<List<RunEntity>?>
+    val successLiveData: LiveData<List<Run>?>
         get() = _successLiveData
     val errorLiveData: LiveData<String>
         get() = _errorLiveData

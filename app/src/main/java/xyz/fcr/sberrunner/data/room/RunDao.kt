@@ -1,12 +1,13 @@
 package xyz.fcr.sberrunner.data.room
 
 import androidx.room.*
+import xyz.fcr.sberrunner.data.model.Run
 import xyz.fcr.sberrunner.utils.Constants.DB_NAME
 
 @Dao
 interface RunDao {
     @Query("SELECT * FROM $DB_NAME ORDER BY timestamp DESC")
-    fun getAllRuns(): List<RunEntity>
+    fun getAllRuns(): List<Run>
 
     @Query("SELECT SUM(timeInMillis) FROM $DB_NAME")
     fun getTotalTimeInMillis(): Long
@@ -18,11 +19,11 @@ interface RunDao {
     fun getTotalAvgSpeed(): Float
 
     @Query("SELECT SUM(calories) FROM $DB_NAME")
-    fun getTotalCaloriesBurned(): Long
+    fun getTotalCaloriesBurned(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertRun(run: RunEntity)
+    fun addRun(run: Run)
 
     @Delete
-    fun deleteRun(run: RunEntity)
+    fun deleteRun(run: Run)
 }

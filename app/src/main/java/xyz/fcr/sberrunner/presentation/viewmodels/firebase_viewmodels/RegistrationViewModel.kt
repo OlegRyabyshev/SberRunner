@@ -6,17 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
-import xyz.fcr.sberrunner.data.repository.FirebaseRepository
+import xyz.fcr.sberrunner.data.repository.firebase.FirebaseRepository
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.Constants.NAME_KEY
 import xyz.fcr.sberrunner.utils.Constants.VALID
 import xyz.fcr.sberrunner.utils.Constants.WEIGHT_KEY
-import xyz.fcr.sberrunner.utils.SchedulersProviderInterface
+import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(
     private val firebaseRepo: FirebaseRepository,
-    private val schedulersProvider: SchedulersProviderInterface,
+    private val schedulersProvider: ISchedulersProvider,
     private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 

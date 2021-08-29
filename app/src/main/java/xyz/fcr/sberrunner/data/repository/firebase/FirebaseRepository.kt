@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.data.repository
+package xyz.fcr.sberrunner.data.repository.firebase
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult

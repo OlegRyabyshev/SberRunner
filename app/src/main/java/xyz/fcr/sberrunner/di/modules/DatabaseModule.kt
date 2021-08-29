@@ -4,13 +4,23 @@ import android.app.Application
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
+import xyz.fcr.sberrunner.data.repository.db.DatabaseRepository
+import xyz.fcr.sberrunner.data.repository.db.IDatabaseRepository
 import xyz.fcr.sberrunner.data.room.RunDao
 import xyz.fcr.sberrunner.data.room.RunDatabase
 import xyz.fcr.sberrunner.utils.Constants.DB_NAME
+import xyz.fcr.sberrunner.utils.ISchedulersProvider
+import xyz.fcr.sberrunner.utils.SchedulersProvider
 import javax.inject.Singleton
 
 @Module
-object RoomModule {
+object DatabaseModule {
+
+    @Singleton
+    @Provides
+    fun provideDatabaseRepository(runDao: RunDao, schedulersProvider: ISchedulersProvider) : IDatabaseRepository {
+        return DatabaseRepository(runDao, schedulersProvider)
+    }
 
     @Singleton
     @Provides
@@ -24,5 +34,11 @@ object RoomModule {
     @Provides
     fun provideRunDao(db: RunDatabase): RunDao {
         return db.getRunDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideSchedulersProvider(): ISchedulersProvider {
+        return SchedulersProvider()
     }
 }

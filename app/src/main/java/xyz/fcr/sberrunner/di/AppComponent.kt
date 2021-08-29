@@ -19,7 +19,7 @@ import javax.inject.Singleton
     modules = [
         AppModule::class,
         StoreModule::class,
-        RoomModule::class,
+        DatabaseModule::class,
         FirebaseModule::class,
         ViewModelFactoryModule::class
     ]

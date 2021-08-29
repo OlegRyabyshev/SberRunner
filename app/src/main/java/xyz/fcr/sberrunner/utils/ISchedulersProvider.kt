@@ -4,10 +4,8 @@ import io.reactivex.rxjava3.core.Scheduler
 
 /**
  * Интерфейс получения объектов класса Scheduler
- *
- * @author Рябышев Олег on 05.08.2021
  */
-interface SchedulersProviderInterface {
+interface ISchedulersProvider {
     /**
      * Возвращает Scheduler для сетевых запросов.
      */

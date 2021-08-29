@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.data.room
+package xyz.fcr.sberrunner.data.util
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -6,7 +6,7 @@ import androidx.room.TypeConverter
 import java.io.ByteArrayOutputStream
 
 /**
- * Converter class to save bitmaps in the Room Database
+ * Класс конвертации изображений для Room
  */
 class Converters {
 
@@ -21,5 +21,4 @@ class Converters {
         bmp.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
         return outputStream.toByteArray()
     }
-
 }

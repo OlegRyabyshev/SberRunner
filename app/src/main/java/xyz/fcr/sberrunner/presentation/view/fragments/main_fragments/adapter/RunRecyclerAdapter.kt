@@ -7,19 +7,19 @@ import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.view.View
 import xyz.fcr.sberrunner.R
-import xyz.fcr.sberrunner.data.room.RunEntity
+import xyz.fcr.sberrunner.data.model.Run
 import xyz.fcr.sberrunner.databinding.RunItemBinding
 
 /**
  *
  *
- * @param runModelList [RunEntity]
+ * @param runModelList [Run]
  * @param listener [ItemClickListener]
  *
  * @author Рябышев Олег on 05.08.2021
  */
 class RunRecyclerAdapter(
-    private val runModelList: List<RunEntity>,
+    private val runModelList: List<Run>,
     private val listener: ItemClickListener
 ) : RecyclerView.Adapter<RunnerViewHolder>() {
 
@@ -40,7 +40,7 @@ class RunRecyclerAdapter(
         private val binding: RunItemBinding = RunItemBinding.bind(itemView)
 
         @SuppressLint("SetTextI18n")
-        fun bindView(weatherModel: RunEntity) {
+        fun bindView(weatherModel: Run) {
 //            binding.dayTextView.text = "Day ${weatherModel.day}:"
 //            binding.tempTextView.text = weatherModel.max
 //            binding.weatherImage.setImageResource(weatherModel.icon)

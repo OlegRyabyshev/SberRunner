@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import es.dmoral.toasty.Toasty
-import xyz.fcr.sberrunner.data.room.RunEntity
+import xyz.fcr.sberrunner.data.model.Run
 import xyz.fcr.sberrunner.databinding.FragmentHomeBinding
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapter.ItemClickListener
@@ -26,7 +26,7 @@ class HomeFragment : Fragment(), ItemClickListener {
 
     private lateinit var adapter: RunRecyclerAdapter
     private lateinit var recyclerView: RecyclerView
-    private var listOfRuns : List<RunEntity>? = null
+    private var listOfRuns : List<Run>? = null
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
@@ -56,11 +56,11 @@ class HomeFragment : Fragment(), ItemClickListener {
 
     private fun observeLiveData() {
         viewModel.progressLiveData.observe(viewLifecycleOwner, { isVisible: Boolean -> showProgress(isVisible) })
-        viewModel.successLiveData.observe(viewLifecycleOwner, { listOfRuns: List<RunEntity>? -> fillAdapter(listOfRuns) })
+        viewModel.successLiveData.observe(viewLifecycleOwner, { listOfRuns: List<Run>? -> fillAdapter(listOfRuns) })
         viewModel.errorLiveData.observe(viewLifecycleOwner, { error: String -> showError(error) })
     }
 
-    private fun fillAdapter(list: List<RunEntity>?) {
+    private fun fillAdapter(list: List<Run>?) {
         listOfRuns = list
 
         if (listOfRuns != null) {

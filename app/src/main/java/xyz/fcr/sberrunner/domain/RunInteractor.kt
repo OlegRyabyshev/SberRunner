@@ -1,13 +1,13 @@
 package xyz.fcr.sberrunner.domain
 
 import xyz.fcr.sberrunner.data.room.RunDao
-import xyz.fcr.sberrunner.data.room.RunEntity
+import xyz.fcr.sberrunner.data.model.Run
 import javax.inject.Inject
 
 class RunInteractor @Inject constructor (private val runDao: RunDao) {
 
-    suspend fun insertRun(run: RunEntity) = runDao.insertRun(run)
-    suspend fun deleteRun(run: RunEntity) = runDao.deleteRun(run)
+    suspend fun insertRun(run: Run) = runDao.addRun(run)
+    suspend fun deleteRun(run: Run) = runDao.deleteRun(run)
 
     fun getAllRuns() = runDao.getAllRuns()
     fun getTotalDistance() = runDao.getTotalDistance()

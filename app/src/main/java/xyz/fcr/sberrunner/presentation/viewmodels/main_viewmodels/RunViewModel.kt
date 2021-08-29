@@ -5,15 +5,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
-import xyz.fcr.sberrunner.data.room.RunEntity
+import xyz.fcr.sberrunner.data.model.Run
+import xyz.fcr.sberrunner.data.repository.db.IDatabaseRepository
 import xyz.fcr.sberrunner.utils.Constants
 import javax.inject.Inject
 
-class RunViewModel @Inject constructor(private val sharedPreferences: SharedPreferences) : ViewModel() {
+class RunViewModel @Inject constructor(
+    private val databaseRepository: IDatabaseRepository,
+    private val sharedPreferences: SharedPreferences
+) : ViewModel() {
 
     private val _historyLiveData = MutableLiveData<LatLng>()
 
-    fun insertRun(run: RunEntity) {}
+    fun insertRun(run: Run) {
+        databaseRepository.insertRun(run)
+    }
 
     fun setToLastKnownLocationIfAny() {
         val lat = sharedPreferences.getFloat(Constants.MAP_LAT_KEY, Constants.MOSCOW_LAT)
