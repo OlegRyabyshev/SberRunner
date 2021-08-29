@@ -46,18 +46,18 @@ class MapViewModel @Inject constructor(
                 when {
                     it.isSuccessful -> {
                         _progressLiveData.postValue(false)
-                        _locationLiveData.postValue(it.result)
 
-                        sharedPreferences.edit().apply {
-                            putFloat(MAP_LAT_KEY, it.result.latitude.toFloat())
-                            putFloat(MAP_LON_KEY, it.result.longitude.toFloat())
-                            apply()
+                        if (it.result != null) {
+                            _locationLiveData.postValue(it.result)
+
+                            sharedPreferences.edit().apply {
+                                putFloat(MAP_LAT_KEY, it.result.latitude.toFloat())
+                                putFloat(MAP_LON_KEY, it.result.longitude.toFloat())
+                                apply()
+                            }
+                        } else {
+                            _errorLiveData.postValue(NON_VALID)
                         }
-                    }
-
-                    else -> {
-                        _progressLiveData.postValue(false)
-                        _errorLiveData.postValue(NON_VALID)
                     }
                 }
 
