@@ -3,6 +3,10 @@ package xyz.fcr.sberrunner.utils
 import android.Manifest
 import android.os.Build
 
+
+/**
+ * Хранилище константных значений.
+ */
 object Constants {
     const val VALID = "valid"
     const val NON_VALID = "non-valid"

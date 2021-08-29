@@ -14,4 +14,5 @@ import xyz.fcr.sberrunner.data.util.Converters
 abstract class RunDatabase : RoomDatabase() {
 
     abstract fun getRunDao(): RunDao
+
 }

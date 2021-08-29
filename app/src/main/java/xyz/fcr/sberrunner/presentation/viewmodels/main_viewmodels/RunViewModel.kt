@@ -22,8 +22,8 @@ class RunViewModel @Inject constructor(
     }
 
     fun setToLastKnownLocationIfAny() {
-        val lat = sharedPreferences.getFloat(Constants.MAP_LAT_KEY, Constants.MOSCOW_LAT)
-        val lon = sharedPreferences.getFloat(Constants.MAP_LON_KEY, Constants.MOSCOW_LON)
+        val lat = sharedPreferences.getFloat(Constants.RUN_LAT_KEY, Constants.MOSCOW_LAT)
+        val lon = sharedPreferences.getFloat(Constants.RUN_LON_KEY, Constants.MOSCOW_LON)
         _historyLiveData.postValue(LatLng(lat.toDouble(), lon.toDouble()))
     }
 

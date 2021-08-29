@@ -10,11 +10,21 @@ import java.io.ByteArrayOutputStream
  */
 class Converters {
 
+    /**
+     * Конвертация ByteArray в Bitmap
+     *
+     * @return Bitmap
+     */
     @TypeConverter
     fun toBitmap(bytes: ByteArray): Bitmap {
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
     }
 
+    /**
+     * Конвертация Bitmap в ByteArray
+     *
+     * @return ByteArray
+     */
     @TypeConverter
     fun fromBitmap(bmp: Bitmap): ByteArray {
         val outputStream = ByteArrayOutputStream()

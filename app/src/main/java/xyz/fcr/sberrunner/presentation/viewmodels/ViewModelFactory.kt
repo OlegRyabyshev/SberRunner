@@ -1,11 +1,16 @@
 package xyz.fcr.sberrunner.presentation.viewmodels
 
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
 
+
+/**
+ * Класс-фабрика ViewModel-ей (используется для @Inject зависимостей в конструктор вьюмоделей)
+ */
 @Singleton
 class ViewModelFactory @Inject constructor(
     private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>

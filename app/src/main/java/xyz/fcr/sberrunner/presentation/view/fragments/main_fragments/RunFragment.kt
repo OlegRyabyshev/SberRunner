@@ -153,14 +153,12 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     pathPoints.last().last(),
                     MAP_TRACKING_ZOOM
                 )
-
-
             )
         }
     }
 
     /**
-     * Добавляет все polyline (линии) в лист pathPoints для отображения после смены конфигурации
+     * Добавляет все polyline (линии) в лист pathPoints для отображения
      */
     private fun addAllPolylines() {
         for (polyline in pathPoints) {
@@ -173,7 +171,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     /**
-     * Отображает polyline (линию) между двумя последними координатами.
+     * Отображает polyline (линию) между двумя последними координатами
      */
     private fun addLatestPolyline() {
         // only add polyline if we have at least two elements in the last polyline

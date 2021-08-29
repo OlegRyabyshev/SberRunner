@@ -12,8 +12,8 @@ import xyz.fcr.sberrunner.utils.Constants.WEIGHT
 class FirebaseRepository(
     private val firebaseAuth: FirebaseAuth,
     private val fireStore: FirebaseFirestore
-) {
-    fun registration(name: String, email: String, password: String, weight: String): Task<AuthResult> {
+) : IFirebaseRepository {
+    override fun registration(name: String, email: String, password: String, weight: String): Task<AuthResult> {
         return firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -32,7 +32,7 @@ class FirebaseRepository(
         }
     }
 
-    fun getDocumentFirestore(): Task<DocumentSnapshot>? {
+    override fun getDocumentFirestore(): Task<DocumentSnapshot>? {
         val userId = firebaseAuth.currentUser?.uid
         var document: Task<DocumentSnapshot>? = null
 
@@ -43,30 +43,30 @@ class FirebaseRepository(
         return document
     }
 
-    fun login(email: String, password: String): Task<AuthResult> {
+    override fun login(email: String, password: String): Task<AuthResult> {
         return firebaseAuth.signInWithEmailAndPassword(email, password)
     }
 
-    fun sendResetEmail(email: String): Task<Void> {
+    override fun sendResetEmail(email: String): Task<Void> {
         return firebaseAuth.sendPasswordResetEmail(email)
     }
 
-    fun signOut() {
+    override fun signOut() {
         firebaseAuth.signOut()
     }
 
-    fun deleteAccount(): Task<Void> {
+    override fun deleteAccount(): Task<Void> {
         val user = firebaseAuth.currentUser
         return user!!.delete()
     }
 
-    fun updateName(newName: String): Task<Void> {
+    override fun updateName(newName: String): Task<Void> {
         val userId = firebaseAuth.currentUser?.uid
         val document = fireStore.collection(USER).document(userId!!)
         return document.update(NAME, newName)
     }
 
-    fun updateWeight(newWeight: String): Task<Void> {
+    override fun updateWeight(newWeight: String): Task<Void> {
         val userId = firebaseAuth.currentUser?.uid
         val document = fireStore.collection(USER).document(userId!!)
         return document.update(WEIGHT, newWeight)
