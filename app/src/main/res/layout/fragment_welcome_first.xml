@@ -11,7 +11,6 @@
         android:id="@+id/text_view_welcome"
         style="@style/Theme.SberRunner.Welcome.Title"
         android:text="@string/title_welcome_one"
-        app:layout_constraintBottom_toTopOf="@+id/text_view_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>

@@ -93,7 +93,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
 
         binding.fabFinish.setOnClickListener {
-            if (pathPoints.size >= 2) {
+            if (isEnoughDataToFinish()) {
                 zoomToWholeTrack()
                 endRunAndSaveToDB()
             } else {
@@ -103,6 +103,18 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
 
         subscribeToObservers()
+    }
+
+    private fun isEnoughDataToFinish(): Boolean {
+        var pointsCounter = 0
+
+        for (polyline in pathPoints) {
+            for (point in polyline) {
+               pointsCounter++
+            }
+        }
+
+        return pointsCounter >= 2
     }
 
     private fun enableDarkThemeIfRequired() {
@@ -196,7 +208,6 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
      * Отображает polyline (линию) между двумя последними координатами
      */
     private fun addLatestPolyline() {
-        // only add polyline if we have at least two elements in the last polyline
         if (pathPoints.isNotEmpty() && pathPoints.last().size > 1) {
 
             val preLastLatLng = pathPoints.last()[pathPoints.last().size - 2]
