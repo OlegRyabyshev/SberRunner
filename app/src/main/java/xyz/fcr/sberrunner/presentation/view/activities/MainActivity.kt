@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.settings_container, fragmentToOpen, tag)
+            .replace(R.id.main_container, fragmentToOpen, tag)
             .commit()
     }
 

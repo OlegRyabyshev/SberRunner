@@ -48,4 +48,13 @@ class DatabaseRepository @Inject constructor(
     override fun getAllRuns(): LiveData<List<Run>> {
         return runDao.getAllRuns()
     }
+
+    /**
+     * Метод получения объкта бега из БД по ID
+     *
+     * @return - LiveData объект забега
+     */
+    override fun getRun(runId: Int): LiveData<Run> {
+        return runDao.getRun(runId)
+    }
 }

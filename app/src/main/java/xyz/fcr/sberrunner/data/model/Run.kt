@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import xyz.fcr.sberrunner.data.util.Converters
+import xyz.fcr.sberrunner.data.util.BitmapConverter
 import xyz.fcr.sberrunner.utils.Constants.DB_NAME
 
 /**
@@ -25,7 +25,7 @@ data class Run(
     var timeInMillis: Long = 0,
     var avgSpeedInKMH: Float = 0f,
     var calories: Int = 0,
-    @TypeConverters(Converters::class)
+    @TypeConverters(BitmapConverter::class)
     var mapImage: Bitmap? = null
 ) {
     @PrimaryKey(autoGenerate = true)

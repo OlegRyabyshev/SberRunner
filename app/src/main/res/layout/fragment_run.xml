@@ -31,11 +31,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/pace_tv"
+            android:id="@+id/speed_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_small"
-            android:text="@string/run_initial_pace"
+            android:text="@string/zero_dot"
             android:textColor="@color/background_color"
             android:textSize="@dimen/text_medium"
             app:fontFamily="sans-serif-medium"
@@ -89,17 +89,17 @@
             app:layout_constraintTop_toBottomOf="@+id/duration_tv" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/pace_info"
+            android:id="@+id/speed_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
-            android:text="@string/avg_pace"
+            android:text="@string/avg_speed"
             android:textColor="@color/text_color"
             android:textSize="@dimen/text_small"
             app:fontFamily="@font/poppins"
-            app:layout_constraintEnd_toEndOf="@+id/pace_tv"
-            app:layout_constraintStart_toStartOf="@+id/pace_tv"
-            app:layout_constraintTop_toBottomOf="@+id/pace_tv" />
+            app:layout_constraintEnd_toEndOf="@+id/speed_tv"
+            app:layout_constraintStart_toStartOf="@+id/speed_tv"
+            app:layout_constraintTop_toBottomOf="@+id/speed_tv" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/distance_info"

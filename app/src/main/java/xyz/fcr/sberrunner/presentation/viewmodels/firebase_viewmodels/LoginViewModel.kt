@@ -7,14 +7,14 @@ import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.DocumentSnapshot
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
-import xyz.fcr.sberrunner.data.repository.firebase.FirebaseRepository
+import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
 import xyz.fcr.sberrunner.utils.Constants.VALID
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
-    private val firebaseRepo: FirebaseRepository,
+    private val firebaseRepo: IFirebaseRepository,
     private val schedulersProvider: ISchedulersProvider,
     private val sharedPreferences: SharedPreferences
 ) : ViewModel() {

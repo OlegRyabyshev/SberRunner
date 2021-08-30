@@ -29,7 +29,9 @@
 
     <string name="show_current_location">Show current location</string>
 
-    <string name="zero">0.0</string>
+    <string name="zero">0</string>
+    <string name="zero_dot">0.0</string>
+
     <string name="duration_zero">00:00:00</string>
 
     <string name="total_distance">Total distance</string>
@@ -129,5 +131,15 @@
 
     <string name="run_deleted">Successfully deleted run</string>
     <string name="not_enough_data">Not enough data to save this run</string>
+    <string name="service_channel">SberRunner Service Channel</string>
+    <string name="time_filler">9:02am</string>
+    <string name="date_filler">Tuesday, July 05, 2021</string>
+    <string name="back_button">Back button</string>
+    <string name="kilometers">Kilometers</string>
+    <string name="miles">Miles</string>
+    <string name="km_h">km/h</string>
+    <string name="mph">mph</string>
+    <string name="time">Time</string>
+    <string name="you_don_t_have_any_runs_history_yet">you don\'t have any runs history yet...</string>
 
 </resources>

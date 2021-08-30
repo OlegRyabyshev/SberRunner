@@ -16,4 +16,7 @@ interface RunDao {
 
     @Query("SELECT * FROM $DB_NAME ORDER BY timestamp DESC")
     fun getAllRuns(): LiveData<List<Run>>
+
+    @Query("SELECT * FROM $DB_NAME WHERE id = :runId")
+    fun getRun(runId: Int): LiveData<Run>
 }

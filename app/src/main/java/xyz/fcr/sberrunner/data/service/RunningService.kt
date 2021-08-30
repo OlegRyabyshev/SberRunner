@@ -38,23 +38,12 @@ import xyz.fcr.sberrunner.utils.Constants.NOTIFICATION_CHANNEL_NAME
 import xyz.fcr.sberrunner.utils.Constants.NOTIFICATION_ID
 import xyz.fcr.sberrunner.utils.TrackingUtility
 import javax.inject.Inject
+import kotlin.math.round
 
 typealias Polyline = MutableList<LatLng>
 typealias Polylines = MutableList<Polyline>
 
 class RunningService : LifecycleService() {
-
-    private val timeRunInSeconds = MutableLiveData<Long>()
-
-    private var isFirstRun = true
-    private var serviceKilled = false
-
-    companion object {
-        val timeRunInMillis = MutableLiveData<Long>()
-        val isTracking = MutableLiveData<Boolean>()
-        val isPaused = MutableLiveData<Boolean>()
-        val pathPoints = MutableLiveData<Polylines>()
-    }
 
     @Inject
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -63,6 +52,23 @@ class RunningService : LifecycleService() {
     lateinit var baseNotificationBuilder: NotificationCompat.Builder
 
     private lateinit var currentNotification: NotificationCompat.Builder
+
+    private val timeRunInSeconds = MutableLiveData<Long>()
+
+    private var isFirstRun = true
+    private var serviceKilled = false
+
+    companion object {
+        val timeRunInMillis = MutableLiveData<Long>()
+
+        val avgSpeed = MutableLiveData<Float>()
+        val distance = MutableLiveData<Float>()
+        val calories = MutableLiveData<Float>()
+
+        val isTracking = MutableLiveData<Boolean>()
+        val isPaused = MutableLiveData<Boolean>()
+        val pathPoints = MutableLiveData<Polylines>()
+    }
 
     init {
         App.appComponent.inject(this)
@@ -81,12 +87,20 @@ class RunningService : LifecycleService() {
 
     private fun postInitialValues() {
         timeRunInMillis.postValue(0L)
+
+        avgSpeed.postValue(0.0f)
+        distance.postValue(0.0f)
+        calories.postValue(0.0f)
+
         isTracking.postValue(false)
         isPaused.postValue(false)
         pathPoints.postValue(mutableListOf())
         timeRunInSeconds.postValue(0L)
     }
 
+    /**
+     * Обработка событий из вне через intent
+     */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
             when (it.action) {
@@ -99,7 +113,10 @@ class RunningService : LifecycleService() {
         return super.onStartCommand(intent, flags, startId)
     }
 
-    private fun startOrResumeService(){
+    /**
+     * Запуск сервиса (или возобновление работы, если был в паузе)
+     */
+    private fun startOrResumeService() {
         isPaused.postValue(false)
 
         if (isFirstRun) {
@@ -111,12 +128,18 @@ class RunningService : LifecycleService() {
         }
     }
 
+    /**
+     * Пауза в работе сервиса
+     */
     private fun pauseService() {
         isTimerEnabled = false
         isTracking.postValue(false)
         isPaused.postValue(true)
     }
 
+    /**
+     * Остановка сервиса
+     */
     private fun stopService() {
         serviceKilled = true
         isFirstRun = true
@@ -142,7 +165,6 @@ class RunningService : LifecycleService() {
         }
     }
 
-
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult) {
             super.onLocationResult(result)
@@ -163,30 +185,50 @@ class RunningService : LifecycleService() {
     private var timeStarted = 0L
     private var lastSecondTimestamp = 0L
 
+    /**
+     * Запуск таймера
+     */
     private fun startTimer() {
         addEmptyPolyline()
         isTracking.postValue(true)
         timeStarted = System.currentTimeMillis()
         isTimerEnabled = true
+
         CoroutineScope(Dispatchers.Main).launch {
             while (isTracking.value!!) {
-                // time difference between now and time started
                 lapTime = System.currentTimeMillis() - timeStarted
-                // post the new laptime
                 timeRunInMillis.postValue(timeRun + lapTime)
-                // if a new second was reached, we want to update timeRunInSeconds, too
                 if (timeRunInMillis.value!! >= lastSecondTimestamp + 1000L) {
                     timeRunInSeconds.postValue(timeRunInSeconds.value!! + 1)
                     lastSecondTimestamp += 1000L
+                    updateInfo()
                 }
+
                 delay(Constants.TIMER_UPDATE_INTERVAL)
             }
             timeRun += lapTime
         }
     }
 
+    private fun updateInfo() {
+        var distanceInMeters = 0f
+
+        val paths = pathPoints.value
+        val time = timeRunInMillis.value
+
+        if (paths != null && time != null) {
+            for (polyline in pathPoints.value!!) {
+                distanceInMeters += TrackingUtility.calculatePolylineLength(polyline).toInt()
+            }
+
+            distance.postValue(distanceInMeters / 1000f)
+            avgSpeed.postValue((round((distanceInMeters / 1000f) / (time / 1000f / 60 / 60) * 10) / 10f))
+            calories.postValue(distanceInMeters / 1000f)
+        }
+    }
+
     /**
-     * This adds the location to the last list of pathPoints.
+     * Добавление геопозиции в лист PathPoints
      */
     private fun addPathPoint(location: Location?) {
         location?.let {
@@ -199,7 +241,7 @@ class RunningService : LifecycleService() {
     }
 
     /**
-     * Will add an empty polyline in the pathPoints list or initialize it if empty.
+     * Добавление пустой polyline в лист pathPoints или инициализаация при пустом значении
      */
     private fun addEmptyPolyline() = pathPoints.value?.apply {
         add(mutableListOf())
@@ -207,7 +249,7 @@ class RunningService : LifecycleService() {
     } ?: pathPoints.postValue(mutableListOf(mutableListOf()))
 
     /**
-     * Starts this service as a foreground service and creates the necessary notification
+     * Запускает foreground сервис и создет нотификацию
      */
     private fun startForegroundService() {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -231,7 +273,7 @@ class RunningService : LifecycleService() {
     }
 
     /**
-     * Updates the action buttons of the notification
+     * Обработка событий в нотификациях
      */
     private fun updateNotificationTrackingState(isTracking: Boolean) {
         val notificationActionText = if (isTracking) "Pause" else "Resume"
@@ -263,6 +305,9 @@ class RunningService : LifecycleService() {
         }
     }
 
+    /**
+     * Нотификация для Android O+
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(notificationManager: NotificationManager) {
         val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, IMPORTANCE_LOW)

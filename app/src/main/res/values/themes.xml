@@ -53,7 +53,7 @@
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/background_color</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">@dimen/text_medium</item>
     </style>
 
     <style name="Theme.SberRunner.Table.Texts" parent="">
@@ -62,12 +62,27 @@
         <item name="android:fontFamily">@font/poppins_light</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/text_color</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
+    <style name="Theme.SberRunner.Table.Detailed.Numbers" parent="">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/background_color</item>
+        <item name="android:textSize">@dimen/text_detailed</item>
+        <item name="android:textStyle">italic|bold</item>
+    </style>
+
+    <style name="Theme.SberRunner.Table.Detailed.Texts" parent="">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/background_color</item>
+        <item name="android:textSize">@dimen/text_small</item>
     </style>
 
     <style name="Theme.SberRunner.Welcome.Title" parent="">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/margin_big</item>
         <item name="android:ellipsize">end</item>
         <item name="android:lines">1</item>

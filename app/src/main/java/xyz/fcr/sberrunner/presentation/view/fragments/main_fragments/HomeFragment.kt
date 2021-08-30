@@ -20,6 +20,7 @@ import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapter.ItemClickListener
 import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapter.RunRecyclerAdapter
 import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.HomeViewModel
+import xyz.fcr.sberrunner.utils.Constants.CURRENT_RUN_ID
 import javax.inject.Inject
 
 class HomeFragment : Fragment(), ItemClickListener {
@@ -61,7 +62,7 @@ class HomeFragment : Fragment(), ItemClickListener {
         viewModel.errorLiveData.observe(viewLifecycleOwner, { error: String -> showError(error) })
 
         viewModel.listOfRuns.observe(viewLifecycleOwner, { runs ->
-            if (runs != null) {
+            if (runs.isNotEmpty()) {
                 recyclerAdapter.submitList(runs)
                 displayRecycler(true)
             } else {
@@ -121,5 +122,20 @@ class HomeFragment : Fragment(), ItemClickListener {
     override fun onItemClick(position: Int) {
         val run = recyclerAdapter.differ.currentList[position]
 
+        if (run.id != null) {
+            val bundle = Bundle().apply {
+                putInt(CURRENT_RUN_ID, run.id!!)
+            }
+
+            val fragment = DetailedRunFragment()
+            fragment.arguments = bundle
+
+            parentFragmentManager
+                .beginTransaction()
+                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                .replace(R.id.main_container, fragment)
+                .addToBackStack(tag)
+                .commit()
+        }
     }
 }

@@ -34,6 +34,7 @@ import xyz.fcr.sberrunner.utils.Constants.MAP_TRACKING_ZOOM
 import xyz.fcr.sberrunner.utils.Constants.POLYLINE_WIDTH
 import xyz.fcr.sberrunner.utils.Constants.REQUEST_CODE_LOCATION_PERMISSION
 import xyz.fcr.sberrunner.utils.Constants.RUN_PERMISSIONS
+import xyz.fcr.sberrunner.utils.Constants.UNIT_RATIO
 import xyz.fcr.sberrunner.utils.TrackingUtility
 import java.util.*
 import javax.inject.Inject
@@ -55,6 +56,9 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     @set:Inject
     var weight: Int = 70
+
+    @set:Inject
+    var isMetric: Boolean = true
 
     init {
         App.appComponent.inject(this)
@@ -135,6 +139,26 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             binding.durationTv.text = formattedTime
         })
 
+        RunningService.avgSpeed.observe(viewLifecycleOwner, {
+            if (isMetric) {
+                binding.speedTv.text = it.toString()
+            } else {
+                binding.speedTv.text = String.format("%.02f", it * UNIT_RATIO)
+            }
+        })
+
+        RunningService.distance.observe(viewLifecycleOwner, {
+            if (isMetric) {
+                binding.distanceTv.text = String.format("%.02f", it)
+            } else {
+                binding.distanceTv.text = String.format("%.02f", it * UNIT_RATIO)
+            }
+        })
+
+        RunningService.calories.observe(viewLifecycleOwner, {
+            binding.caloriesTv.text = ((it * weight).toInt()).toString()
+        })
+
         viewModel.historyLiveData.observe(viewLifecycleOwner, {
             map?.apply {
                 moveCamera(CameraUpdateFactory.newLatLng(it))
@@ -149,11 +173,9 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private fun moveCameraToUser() {
         if (pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
             map?.animateCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                    pathPoints.last().last(),
-                    MAP_TRACKING_ZOOM
-                )
+                CameraUpdateFactory.newLatLngZoom(pathPoints.last().last(), MAP_TRACKING_ZOOM)
             )
+            viewModel.saveLastLocation(pathPoints.last().last())
         }
     }
 
@@ -249,6 +271,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             for (polyline in pathPoints) {
                 distanceInMeters += TrackingUtility.calculatePolylineLength(polyline).toInt()
             }
+
             val avgSpeed = round((distanceInMeters / 1000f) / (curTimeInMillis / 1000f / 60 / 60) * 10) / 10f
             val timestamp = Calendar.getInstance().timeInMillis
             val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()

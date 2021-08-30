@@ -8,7 +8,7 @@ import java.io.ByteArrayOutputStream
 /**
  * Класс конвертации изображений для Room
  */
-class Converters {
+class BitmapConverter {
 
     /**
      * Конвертация ByteArray в Bitmap

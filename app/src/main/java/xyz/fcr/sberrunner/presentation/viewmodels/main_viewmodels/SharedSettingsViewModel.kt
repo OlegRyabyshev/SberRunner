@@ -6,13 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
-import xyz.fcr.sberrunner.data.repository.firebase.FirebaseRepository
+import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Inject
 
 class SharedSettingsViewModel @Inject constructor(
-    private val firebaseRepo: FirebaseRepository,
+    private val firebaseRepo: IFirebaseRepository,
     private val schedulersProvider: ISchedulersProvider,
     private val sharedPreferences: SharedPreferences
 ) : ViewModel() {

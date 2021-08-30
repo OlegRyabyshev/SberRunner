@@ -13,6 +13,7 @@ class FirebaseRepository(
     private val firebaseAuth: FirebaseAuth,
     private val fireStore: FirebaseFirestore
 ) : IFirebaseRepository {
+
     override fun registration(name: String, email: String, password: String, weight: String): Task<AuthResult> {
         return firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -32,15 +33,9 @@ class FirebaseRepository(
         }
     }
 
-    override fun getDocumentFirestore(): Task<DocumentSnapshot>? {
+    override fun getDocumentFirestore(): Task<DocumentSnapshot> {
         val userId = firebaseAuth.currentUser?.uid
-        var document: Task<DocumentSnapshot>? = null
-
-        if (userId != null) {
-            document = fireStore.collection(USER).document(userId).get()
-        }
-
-        return document
+        return fireStore.collection(USER).document(userId!!).get()
     }
 
     override fun login(email: String, password: String): Task<AuthResult> {

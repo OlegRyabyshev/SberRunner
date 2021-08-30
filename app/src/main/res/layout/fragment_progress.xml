@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="@string/zero"
+            android:text="@string/zero_dot"
             android:textColor="@color/background_color"
             android:textSize="60sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,17 +56,17 @@
                 <TextView
                     android:id="@+id/total_runs"
                     style="@style/Theme.SberRunner.Table.Numbers"
-                    android:text="@string/zero" />
+                    android:text="@string/zero_dot" />
 
                 <TextView
                     android:id="@+id/total_avg_pace"
                     style="@style/Theme.SberRunner.Table.Numbers"
-                    android:text="@string/zero" />
+                    android:text="@string/zero_dot" />
 
                 <TextView
                     android:id="@+id/total_avg_duration"
                     style="@style/Theme.SberRunner.Table.Numbers"
-                    android:text="@string/zero" />
+                    android:text="@string/zero_dot" />
             </TableRow>
 
             <TableRow
@@ -112,17 +112,17 @@
                 <TextView
                     android:id="@+id/total_avg_speed"
                     style="@style/Theme.SberRunner.Table.Numbers"
-                    android:text="@string/zero" />
+                    android:text="@string/zero_dot" />
 
                 <TextView
                     android:id="@+id/total_avg_calories"
                     style="@style/Theme.SberRunner.Table.Numbers"
-                    android:text="@string/zero" />
+                    android:text="@string/zero_dot" />
 
                 <TextView
                     android:id="@+id/total_avg_distance"
                     style="@style/Theme.SberRunner.Table.Numbers"
-                    android:text="@string/zero" />
+                    android:text="@string/zero_dot" />
             </TableRow>
 
             <TableRow

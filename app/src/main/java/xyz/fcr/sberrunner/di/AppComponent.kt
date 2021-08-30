@@ -35,6 +35,8 @@ interface AppComponent {
     // Fragments
     fun inject(fragment: LoginFragment)
     fun inject(fragment: RegistrationFragment)
+
+    fun inject(fragment: DetailedRunFragment)
     fun inject(fragment: HomeFragment)
     fun inject(fragment: MapFragment)
     fun inject(fragment: RunFragment)

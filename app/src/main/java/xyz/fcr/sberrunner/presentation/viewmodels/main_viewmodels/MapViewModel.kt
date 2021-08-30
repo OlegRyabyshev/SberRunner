@@ -18,6 +18,12 @@ import xyz.fcr.sberrunner.utils.Constants.MOSCOW_LON
 import xyz.fcr.sberrunner.utils.Constants.NON_VALID
 import javax.inject.Inject
 
+/**
+ * ViewModel экрана "Дом" со списком из всех забегов
+ *
+ * @param fusedLocationProviderClient [FusedLocationProviderClient] - объект для отслеживания геопозиции
+ * @param sharedPreferences [SharedPreferences] - получения объекта SharedPreferences для сохранения данных
+ */
 class MapViewModel @Inject constructor(
     private val fusedLocationProviderClient: FusedLocationProviderClient,
     private val sharedPreferences: SharedPreferences
@@ -31,6 +37,10 @@ class MapViewModel @Inject constructor(
     private var cancellationToken: CancellationTokenSource? = null
     private var isAlreadyLoading = false
 
+
+    /**
+     * Метод обновления текущей геопозиции
+     */
     @SuppressLint("MissingPermission")
     fun getCurrentLocation() {
 
@@ -49,12 +59,7 @@ class MapViewModel @Inject constructor(
 
                         if (it.result != null) {
                             _locationLiveData.postValue(it.result)
-
-                            sharedPreferences.edit().apply {
-                                putFloat(MAP_LAT_KEY, it.result.latitude.toFloat())
-                                putFloat(MAP_LON_KEY, it.result.longitude.toFloat())
-                                apply()
-                            }
+                            saveLocation(it.result)
                         } else {
                             _errorLiveData.postValue(NON_VALID)
                         }
@@ -66,6 +71,20 @@ class MapViewModel @Inject constructor(
 
     }
 
+    /**
+     * Сохранение последей геопозиции
+     */
+    private fun saveLocation(location: Location) {
+        sharedPreferences.edit().apply {
+            putFloat(MAP_LAT_KEY, location.latitude.toFloat())
+            putFloat(MAP_LON_KEY, location.longitude.toFloat())
+            apply()
+        }
+    }
+
+    /**
+     * Метод получения последней геопозиции (или получения дефолтных значений, если их нету)
+     */
     fun setToLastKnownLocationIfAny() {
         val lat = sharedPreferences.getFloat(MAP_LAT_KEY, MOSCOW_LAT)
         val lon = sharedPreferences.getFloat(MAP_LON_KEY, MOSCOW_LON)

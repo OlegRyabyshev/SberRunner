@@ -5,14 +5,25 @@ import android.location.Location
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.fcr.sberrunner.data.service.Polyline
 import xyz.fcr.sberrunner.utils.Constants.RUN_PERMISSIONS
+import xyz.fcr.sberrunner.utils.Constants.UNIT_RATIO
 import java.util.concurrent.TimeUnit
+import kotlin.math.roundToInt
 
+/**
+ * Класс для выполнения доп. логики сервиса бега
+ */
 class TrackingUtility {
 
     companion object {
 
-        fun getFormattedStopWatchTime(ms: Long): String {
-            var milliseconds = ms
+        /**
+         * Выводит время в отформатированном виде
+         *
+         * @param timeInMs [Long] - время в миллисекундах
+         * @return [String] - отформатированное время вида 02:02:21
+         */
+        fun getFormattedStopWatchTime(timeInMs: Long): String {
+            var milliseconds = timeInMs
             val hours = TimeUnit.MILLISECONDS.toHours(milliseconds)
 
             milliseconds -= TimeUnit.HOURS.toMillis(hours)
@@ -26,6 +37,12 @@ class TrackingUtility {
                     "${if (seconds < 10) "0" else ""}$seconds"
         }
 
+        /**
+         * Производит расчёт длины ломанной линии (polyline)
+         *
+         * @param polyline [Polyline] - ломаная линия (маршрут бега)
+         * @return [Float] - длина ломаной линии
+         */
         fun calculatePolylineLength(polyline: Polyline): Float {
             var distance = 0f
             for (i in 0..polyline.size - 2) {
@@ -44,8 +61,24 @@ class TrackingUtility {
             return distance
         }
 
+        /**
+         * Проверка на наличие разрешений
+         *
+         * @param context [Context] - контекст
+         * @return [Boolean] - значение доступа (да или нет)
+         */
         fun hasLocationPermissions(context: Context): Boolean {
             return EasyPermissions.hasPermissions(context, *RUN_PERMISSIONS)
+        }
+
+        fun convertMetersToMiles(distanceInMeters: Int): Float {
+            val distanceInMiles = (distanceInMeters / 1000.0f) * UNIT_RATIO
+            return (distanceInMiles * 100.0f).roundToInt() / 100.0f
+        }
+
+        fun convertKMHtoMPH(speedInKMH: Float): Any {
+            val distanceInMiles = speedInKMH * UNIT_RATIO
+            return (distanceInMiles * 100.0f).roundToInt() / 100.0f
         }
     }
 }

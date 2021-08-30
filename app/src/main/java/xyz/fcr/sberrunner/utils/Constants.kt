@@ -3,7 +3,6 @@ package xyz.fcr.sberrunner.utils
 import android.Manifest
 import android.os.Build
 
-
 /**
  * Хранилище константных значений.
  */
@@ -27,6 +26,7 @@ object Constants {
 
     const val LOCATION_REQUEST_CODE = 10001
     const val TIMER_UPDATE_INTERVAL = 50L
+    const val DELAY = 1000L
 
     //Shared const
     const val THEME_KEY = "theme_key"
@@ -38,6 +38,12 @@ object Constants {
 
     const val RUN_LAT_KEY = "run_lat_key"
     const val RUN_LON_KEY = "run_lon_key"
+
+    const val CURRENT_RUN_ID = "current_run_id"
+
+    const val UNITS_KEY = "units_key"
+    const val IMPERIAL_UNIT = "imperial_unit"
+    const val METRIC_UNIT = "metric_unit"
 
     const val MOSCOW_LAT = 55.75f
     const val MOSCOW_LON = 37.61f
@@ -66,10 +72,12 @@ object Constants {
     val RUN_PERMISSIONS = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+        )
     } else {
         arrayOf(
-            Manifest.permission.ACCESS_FINE_LOCATION)
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
     }
 
     const val MAP_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION
@@ -78,4 +86,6 @@ object Constants {
     const val USER = "user"
     const val NAME = "name"
     const val WEIGHT = "weight"
+
+    const val UNIT_RATIO = 0.6214f
 }

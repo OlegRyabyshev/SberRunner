@@ -4,13 +4,13 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import xyz.fcr.sberrunner.data.model.Run
-import xyz.fcr.sberrunner.data.util.Converters
+import xyz.fcr.sberrunner.data.util.BitmapConverter
 
 @Database(
     entities = [Run::class],
     version = 1,
     exportSchema = false)
-@TypeConverters(Converters::class)
+@TypeConverters(BitmapConverter::class)
 abstract class RunDatabase : RoomDatabase() {
 
     abstract fun getRunDao(): RunDao

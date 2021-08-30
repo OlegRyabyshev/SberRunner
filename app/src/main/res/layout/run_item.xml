@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/map_item_image_view"
             android:layout_width="150dp"
-            android:layout_height="80dp"
+            android:layout_height="160dp"
             android:layout_margin="10dp"
             android:contentDescription="@string/map_preview"
             app:layout_constraintBottom_toBottomOf="parent"

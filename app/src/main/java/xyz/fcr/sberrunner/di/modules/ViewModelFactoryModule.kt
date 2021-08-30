@@ -34,6 +34,11 @@ abstract class ViewModelFactoryModule {
 
     @Binds
     @IntoMap
+    @ViewModelKey(DetailedRunViewModel::class)
+    internal abstract fun bindDetailedRunViewModel(viewModel: DetailedRunViewModel): ViewModel
+
+    @Binds
+    @IntoMap
     @ViewModelKey(MapViewModel::class)
     internal abstract fun bindMapViewModel(viewModel: MapViewModel): ViewModel
 

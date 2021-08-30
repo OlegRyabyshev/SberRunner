@@ -8,32 +8,47 @@ import xyz.fcr.sberrunner.data.repository.db.IDatabaseRepository
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import javax.inject.Inject
 
+/**
+ * ViewModel экрана "Дом" со списком из всех забегов
+ *
+ * @param databaseRepository [IDatabaseRepository] - репозиторий базы данных забегов
+ */
 class HomeViewModel @Inject constructor(
     private val databaseRepository: IDatabaseRepository
 ) : ViewModel() {
 
     private val _progressLiveData = MutableLiveData<Boolean>()
-    private val _listLiveData = MutableLiveData<List<Run>>()
     private val _errorLiveData = SingleLiveEvent<String>()
 
     val listOfRuns = databaseRepository.getAllRuns()
 
+    /**
+     * Метод синхронизации данных БД с облачным БД FireStore
+     */
     fun syncWithCloud() {
 
     }
 
+    /**
+     * Метод добавления забегов в БД
+     *
+     * @param run [Run] - один забег
+     */
     fun addRun(run: Run) {
         databaseRepository.addRun(run)
     }
 
+    /**
+     * Метод удааления забегов из БД
+     *
+     * @param run [Run] - один забег
+     */
     fun deleteRun(run: Run) {
         databaseRepository.deleteRun(run)
     }
 
     val progressLiveData: LiveData<Boolean>
         get() = _progressLiveData
-    val listLiveData: LiveData<List<Run>>
-        get() = _listLiveData
     val errorLiveData: LiveData<String>
         get() = _errorLiveData
 }

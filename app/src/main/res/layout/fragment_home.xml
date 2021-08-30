@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="@dimen/margin_bar"
     android:background="@color/background_color"
     tools:context=".presentation.view.fragments.main_fragments.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/margin_bar">
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_circular_home"
@@ -45,7 +45,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/poppins_light"
             android:lines="1"
-            android:text="you don't have any runs history yet..."
+            android:text="@string/you_don_t_have_any_runs_history_yet"
             android:textColor="@color/main_green"
             android:textSize="@dimen/text_small"
             android:textStyle="bold"

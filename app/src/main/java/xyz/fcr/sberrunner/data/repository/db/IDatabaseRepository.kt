@@ -28,4 +28,11 @@ interface IDatabaseRepository {
      * @return - LiveData лист из забегов
      */
     fun getAllRuns() : LiveData<List<Run>>
+
+    /**
+     * Метод получения объкта бега из БД по ID
+     *
+     * @return - LiveData объект забега
+     */
+    fun getRun(runId: Int) : LiveData<Run>
 }
