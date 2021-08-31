@@ -9,7 +9,6 @@ import java.util.concurrent.atomic.AtomicBoolean
 /**
  * Класс-обёртка над MutableLiveData
  * Используется для пересылки (emit) единственного значения во view
- * без повторного переиспользования
  */
 class SingleLiveEvent<T> : MutableLiveData<T>() {
     private val mPending = AtomicBoolean(false)

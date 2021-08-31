@@ -26,7 +26,6 @@ object Constants {
 
     const val LOCATION_REQUEST_CODE = 10001
     const val TIMER_UPDATE_INTERVAL = 50L
-    const val DELAY = 1000L
 
     //Shared const
     const val THEME_KEY = "theme_key"
@@ -42,7 +41,6 @@ object Constants {
     const val CURRENT_RUN_ID = "current_run_id"
 
     const val UNITS_KEY = "units_key"
-    const val IMPERIAL_UNIT = "imperial_unit"
     const val METRIC_UNIT = "metric_unit"
 
     const val MOSCOW_LAT = 55.75f

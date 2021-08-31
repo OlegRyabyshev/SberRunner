@@ -85,6 +85,9 @@ class RunningService : LifecycleService() {
         }
     }
 
+    /**
+     * Инициализация MutableLiveData начальными значениями
+     */
     private fun postInitialValues() {
         timeRunInMillis.postValue(0L)
 

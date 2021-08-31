@@ -1,22 +1,22 @@
 package xyz.fcr.sberrunner.presentation.viewmodels.firebase_viewmodels
 
-import android.content.SharedPreferences
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.DocumentSnapshot
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
+import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.Constants.VALID
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
-import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
     private val firebaseRepo: IFirebaseRepository,
     private val schedulersProvider: ISchedulersProvider,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferenceWrapper: ISharedPreferenceWrapper
 ) : ViewModel() {
 
     private val _progressLiveData = MutableLiveData<Boolean>()
@@ -80,7 +80,7 @@ class LoginViewModel @Inject constructor(
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
             .subscribe { task ->
-                task?.addOnCompleteListener {
+                task.addOnCompleteListener {
                     when {
                         it.isSuccessful -> {
                             saveToSharedPrefs(it.result)
@@ -93,18 +93,16 @@ class LoginViewModel @Inject constructor(
                         }
                     }
                 }
-
-                if (task == null) {
-                    _progressLiveData.postValue(false)
-                }
             }
     }
 
     private fun saveToSharedPrefs(result: DocumentSnapshot) {
-        sharedPreferences.edit().apply {
-            putString("name_key", result.getString("name"))
-            putString("weight_key", result.getString("weight"))
-            apply()
+        val name = result.getString("name")
+        val weight = result.getString("weight")
+
+        if (name != null && weight != null) {
+            sharedPreferenceWrapper.saveName(name)
+            sharedPreferenceWrapper.saveWeight(weight)
         }
     }
 

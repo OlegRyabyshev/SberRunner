@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_tiny"
+    android:layout_margin="@dimen/margin_small"
     android:backgroundTint="@color/main_green"
     android:elevation="@dimen/elevation"
     app:cardCornerRadius="@dimen/corner_radius">
@@ -16,64 +16,89 @@
         <ImageView
             android:id="@+id/map_item_image_view"
             android:layout_width="150dp"
-            android:layout_height="160dp"
-            android:layout_margin="10dp"
+            android:layout_height="0dp"
             android:contentDescription="@string/map_preview"
+            android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/detailed_distance_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:padding="@dimen/padding_small"
+            android:src="@drawable/ic_detailed_distance"
+            app:layout_constraintBottom_toTopOf="@+id/detailed_duration_image"
+            app:layout_constraintStart_toEndOf="@+id/map_item_image_view"
+            app:layout_constraintTop_toTopOf="@+id/map_item_image_view"
+            tools:ignore="ContentDescription"
+            app:tint="@color/background_color" />
+
+        <ImageView
+            android:id="@+id/detailed_duration_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_small"
+            android:src="@drawable/ic_detailed_time"
+            app:layout_constraintBottom_toTopOf="@+id/detailed_date_image"
+            app:layout_constraintStart_toEndOf="@+id/map_item_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/detailed_distance_image"
+            tools:ignore="ContentDescription"
+            app:tint="@color/background_color"/>
+
+        <ImageView
+            android:id="@+id/detailed_date_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:padding="@dimen/padding_small"
+            android:src="@drawable/ic_detailed_date"
+            app:layout_constraintBottom_toBottomOf="@+id/map_item_image_view"
+            app:layout_constraintStart_toEndOf="@+id/map_item_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/detailed_duration_image"
+            tools:ignore="ContentDescription"
+            app:tint="@color/background_color"/>
 
         <TextView
             android:id="@+id/distance_item_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins"
-            android:paddingStart="@dimen/padding_medium"
+            android:padding="@dimen/padding_small"
             android:text="@string/distance"
             android:textColor="@color/background_color"
-            app:layout_constraintBottom_toTopOf="@+id/duration_item_tv"
-            app:layout_constraintStart_toEndOf="@+id/map_item_image_view"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="RtlSymmetry" />
+            android:textSize="@dimen/text_small"
+            app:layout_constraintBottom_toBottomOf="@+id/detailed_distance_image"
+            app:layout_constraintStart_toEndOf="@+id/detailed_distance_image"
+            app:layout_constraintTop_toTopOf="@+id/detailed_distance_image" />
 
         <TextView
             android:id="@+id/duration_item_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins"
-            android:paddingStart="@dimen/padding_medium"
+            android:padding="@dimen/padding_small"
             android:text="@string/duration"
             android:textColor="@color/background_color"
-            app:layout_constraintBottom_toTopOf="@+id/avg_speed_item_tv"
-            app:layout_constraintStart_toEndOf="@+id/map_item_image_view"
-            app:layout_constraintTop_toBottomOf="@+id/distance_item_tv"
-            tools:ignore="RtlSymmetry" />
-
-        <TextView
-            android:id="@+id/avg_speed_item_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins"
-            android:paddingStart="@dimen/padding_medium"
-            android:text="@string/avg_speed"
-            android:textColor="@color/background_color"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/map_item_image_view"
-            app:layout_constraintTop_toBottomOf="@+id/duration_item_tv"
-            tools:ignore="RtlSymmetry" />
+            android:textSize="@dimen/text_small"
+            app:layout_constraintBottom_toBottomOf="@+id/detailed_duration_image"
+            app:layout_constraintStart_toEndOf="@+id/detailed_duration_image"
+            app:layout_constraintTop_toTopOf="@+id/detailed_duration_image" />
 
         <TextView
             android:id="@+id/date_item_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/padding_medium"
             android:fontFamily="@font/poppins"
-            android:text="@string/date"
+            android:padding="@dimen/padding_small"
+            android:text="@string/date_filler"
             android:textColor="@color/background_color"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="RtlSymmetry" />
+            android:textSize="@dimen/text_small"
+            app:layout_constraintBottom_toBottomOf="@id/detailed_date_image"
+            app:layout_constraintStart_toEndOf="@+id/detailed_date_image"
+            app:layout_constraintTop_toTopOf="@id/detailed_date_image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

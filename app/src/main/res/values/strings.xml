@@ -88,7 +88,7 @@
     <string name="settings_theme">Change displayed theme</string>
 
     <string name="settings_title_voice">Voice assistant</string>
-    <string name="settings_voice">Sound notification during runs</string>
+    <string name="settings_voice">Play notifications during runs</string>
 
     <string name="settings_version">Version</string>
     <string name="settings_title_log_out">Log out</string>
@@ -114,6 +114,7 @@
 
     <string name="home_page">Home</string>
     <string name="map_page">Map</string>
+    <string name="run">Run</string>
     <string name="progress_page">Progress</string>
     <string name="settings_page">Settings</string>
 
@@ -130,7 +131,7 @@
     <string name="undo">Undo</string>
 
     <string name="run_deleted">Successfully deleted run</string>
-    <string name="not_enough_data">Not enough data to save this run</string>
+    <string name="not_enough_data">Run will not be saved</string>
     <string name="service_channel">SberRunner Service Channel</string>
     <string name="time_filler">9:02am</string>
     <string name="date_filler">Tuesday, July 05, 2021</string>
@@ -140,6 +141,12 @@
     <string name="km_h">km/h</string>
     <string name="mph">mph</string>
     <string name="time">Time</string>
-    <string name="you_don_t_have_any_runs_history_yet">you don\'t have any runs history yet...</string>
+    <string name="you_don_t_have_any_runs_history_yet">you don\'t have any runs history yet…</string>
+    <string name="cancel">cancel</string>
+    <string name="not_enough_data_msg">There is not enough information to save this run, you sure you want to finish it?</string>
+
+    <string name="km_addition">\u0020km</string>
+    <string name="miles_addition">\u0020miles</string>
+    <string name="run_saved">Run saved</string>
 
 </resources>

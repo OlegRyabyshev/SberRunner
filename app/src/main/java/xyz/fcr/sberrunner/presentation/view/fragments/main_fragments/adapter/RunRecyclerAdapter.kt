@@ -1,26 +1,39 @@
 package xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapter
 
-import androidx.recyclerview.widget.RecyclerView
-import android.view.ViewGroup
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.run_item.view.*
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.model.Run
+import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.presentation.App
+import xyz.fcr.sberrunner.utils.Constants.UNIT_RATIO
 import xyz.fcr.sberrunner.utils.TrackingUtility
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
+import kotlin.math.roundToInt
 
 /**
  * @param listener [ItemClickListener]
  */
 class RunRecyclerAdapter(private val listener: ItemClickListener) :
     RecyclerView.Adapter<RunRecyclerAdapter.RunViewHolder>() {
+
+    @Inject
+    lateinit var sharedPrefWrapper: ISharedPreferenceWrapper
+
+    init {
+        App.appComponent.inject(this)
+    }
 
     inner class RunViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -36,6 +49,7 @@ class RunRecyclerAdapter(private val listener: ItemClickListener) :
         return differ.currentList.size
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RunViewHolder, position: Int) {
         val run = differ.currentList[position]
 
@@ -50,15 +64,21 @@ class RunRecyclerAdapter(private val listener: ItemClickListener) :
                 .centerCrop()
                 .into(map_item_image_view)
 
-            distance_item_tv.text = (run.distanceInMeters / 1000f).toString()
+            if (sharedPrefWrapper.isMetric()) {
+                val distance = ((((run.distanceInMeters / 1000f) * 100f)).roundToInt() / 100f).toString()
+                distance_item_tv.text = distance + holder.itemView.context.getString(R.string.km_addition)
+            } else {
+                val distance = (((run.distanceInMeters / 1000f * UNIT_RATIO) * 100f).roundToInt() / 100f).toString()
+                distance_item_tv.text = distance + holder.itemView.context.getString(R.string.miles_addition)
+            }
+
             duration_item_tv.text = TrackingUtility.getFormattedStopWatchTime(run.timeInMillis)
-            avg_speed_item_tv.text = run.avgSpeedInKMH.toString()
 
             val calendar = Calendar.getInstance().apply {
                 timeInMillis = run.timestamp
             }
 
-            val dateFormat = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("E, dd MMM KK:mm a", Locale.getDefault())
             date_item_tv.text = dateFormat.format(calendar.time)
         }
     }

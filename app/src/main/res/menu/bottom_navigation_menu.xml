@@ -11,9 +11,9 @@
         android:title="@string/map_page" />
 
     <item
-        android:id="@+id/nav_placeholder"
-        android:enabled="false"
-        android:title="" />
+        android:id="@+id/nav_run"
+        android:icon="@drawable/ic_run"
+        android:title="@string/run" />
 
     <item
         android:id="@+id/nav_progress"

@@ -1,12 +1,12 @@
 package xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels
 
-import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
+import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Inject
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class SharedSettingsViewModel @Inject constructor(
     private val firebaseRepo: IFirebaseRepository,
     private val schedulersProvider: ISchedulersProvider,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferenceWrapper: ISharedPreferenceWrapper
 ) : ViewModel() {
 
     private val _progressLiveData = MutableLiveData<Boolean>()
@@ -30,8 +30,8 @@ class SharedSettingsViewModel @Inject constructor(
     private var disUpdName: Disposable? = null
 
     fun displayNameAndWeightInSummary() {
-        _nameSummaryLiveData.postValue(sharedPreferences.getString("name_key", "error in name"))
-        _weightSummaryLiveData.postValue(sharedPreferences.getString("weight_key", "error in weight"))
+        _nameSummaryLiveData.postValue(sharedPreferenceWrapper.getName())
+        _weightSummaryLiveData.postValue(sharedPreferenceWrapper.getWeight())
     }
 
     fun exitAccount() {
@@ -64,7 +64,7 @@ class SharedSettingsViewModel @Inject constructor(
                     task.addOnCompleteListener {
                         when {
                             it.isSuccessful -> {
-                                saveToSharedPrefs("weight_key", newWeight)
+                                sharedPreferenceWrapper.saveWeight(newWeight)
                                 _weightSummaryLiveData.postValue(newWeight)
                                 _progressLiveData.postValue(false)
                             }
@@ -89,7 +89,7 @@ class SharedSettingsViewModel @Inject constructor(
                     task.addOnCompleteListener {
                         when {
                             it.isSuccessful -> {
-                                saveToSharedPrefs("name_key", newName)
+                                sharedPreferenceWrapper.saveName(newName)
                                 _nameSummaryLiveData.postValue(newName)
                                 _progressLiveData.postValue(false)
                             }
@@ -123,13 +123,6 @@ class SharedSettingsViewModel @Inject constructor(
                 false
             }
             else -> true
-        }
-    }
-
-    private fun saveToSharedPrefs(key: String, value: String) {
-        sharedPreferences.edit().apply {
-            putString(key, value)
-            apply()
         }
     }
 

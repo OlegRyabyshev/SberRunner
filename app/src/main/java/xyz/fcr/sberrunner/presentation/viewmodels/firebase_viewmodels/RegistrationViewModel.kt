@@ -1,23 +1,21 @@
 package xyz.fcr.sberrunner.presentation.viewmodels.firebase_viewmodels
 
-import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
+import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
-import xyz.fcr.sberrunner.utils.Constants.NAME_KEY
 import xyz.fcr.sberrunner.utils.Constants.VALID
-import xyz.fcr.sberrunner.utils.Constants.WEIGHT_KEY
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(
     private val firebaseRepo: IFirebaseRepository,
     private val schedulersProvider: ISchedulersProvider,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferenceWrapper: ISharedPreferenceWrapper
 ) : ViewModel() {
 
     private val _progressLiveData = MutableLiveData<Boolean>()
@@ -64,11 +62,8 @@ class RegistrationViewModel @Inject constructor(
     }
 
     private fun saveToSharedPrefs(name: String, weight: String) {
-        sharedPreferences.edit().apply{
-            putString(NAME_KEY, name)
-            putString(WEIGHT_KEY, weight)
-            apply()
-        }
+        sharedPreferenceWrapper.saveName(name)
+        sharedPreferenceWrapper.saveWeight(weight)
     }
 
     private fun nameIsValid(nameToCheck: String): Boolean {

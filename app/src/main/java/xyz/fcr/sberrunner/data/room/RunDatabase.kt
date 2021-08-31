@@ -14,5 +14,4 @@ import xyz.fcr.sberrunner.data.util.BitmapConverter
 abstract class RunDatabase : RoomDatabase() {
 
     abstract fun getRunDao(): RunDao
-
 }

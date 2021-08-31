@@ -9,11 +9,27 @@ import xyz.fcr.sberrunner.utils.Constants.NAME
 import xyz.fcr.sberrunner.utils.Constants.USER
 import xyz.fcr.sberrunner.utils.Constants.WEIGHT
 
+/**
+ * Имплементация интерфейса [IFirebaseRepository], служит для взаимодействия с объектами FirebaseAuth и FirebaseStore
+ *
+ * @param firebaseAuth [FirebaseAuth] - объект аутентификации
+ * @param fireStore [FirebaseFirestore] - объект облачной NoSQL DB
+ */
 class FirebaseRepository(
     private val firebaseAuth: FirebaseAuth,
     private val fireStore: FirebaseFirestore
 ) : IFirebaseRepository {
 
+    /**
+     * Регистрация пользователя
+     *
+     * @param name [String] - имя пользователя
+     * @param email [String] - email пользователя
+     * @param password [String] - пароль пользователя
+     * @param weight [String] - вес пользователя
+     *
+     * @return Task<AuthResult> - асинхронный результат выполенения регистрации
+     */
     override fun registration(name: String, email: String, password: String, weight: String): Task<AuthResult> {
         return firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -23,6 +39,12 @@ class FirebaseRepository(
             }
     }
 
+    /**
+     * Сохранение данных пользователя
+     *
+     * @param name [String] - имя пользователя
+     * @param weight [String] - вес пользователя
+     */
     private fun fillUserDataInFirestore(name: String, weight: String) {
         val user = hashMapOf(NAME to name, WEIGHT to weight)
         val userId = firebaseAuth.currentUser?.uid
@@ -33,6 +55,11 @@ class FirebaseRepository(
         }
     }
 
+    /**
+     * Получение документа пользователя
+     *
+     * @return Task<DocumentSnapshot> - результат выполенения запроса
+     */
     override fun getDocumentFirestore(): Task<DocumentSnapshot> {
         val userId = firebaseAuth.currentUser?.uid
         return fireStore.collection(USER).document(userId!!).get()

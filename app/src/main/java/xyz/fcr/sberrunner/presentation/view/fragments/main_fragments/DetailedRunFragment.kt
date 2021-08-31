@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.model.Run
+import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.databinding.FragmentDetailedRunBinding
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.DetailedRunViewModel
@@ -33,8 +33,8 @@ class DetailedRunFragment : Fragment() {
         App.appComponent.inject(this)
     }
 
-    @set:Inject
-    var isMetric: Boolean = true
+    @Inject
+    lateinit var sharedPreferenceWrapper: ISharedPreferenceWrapper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,22 +74,18 @@ class DetailedRunFragment : Fragment() {
         val sdfDate = SimpleDateFormat("EEEE, dd MMM")
         binding.detailedDateOfRunTv.text = sdfDate.format(run.timestamp)
 
-        if (isMetric) {
+        if (sharedPreferenceWrapper.isMetric()) {
             binding.detailedDistance.text = run.distanceInMeters.toString()
-            binding.detailedDistanceText.text = getString(R.string.kilometers)
         } else {
             binding.detailedDistance.text = TrackingUtility.convertMetersToMiles(run.distanceInMeters).toString()
-            binding.detailedDistanceText.text = getString(R.string.miles)
         }
 
         binding.detailedTime.text = TrackingUtility.getFormattedStopWatchTime(run.timeInMillis)
 
-        if (isMetric) {
+        if (sharedPreferenceWrapper.isMetric()) {
             binding.detailedSpeed.text = run.avgSpeedInKMH.toString()
-            binding.detailedSpeedText.text = getString(R.string.km_h)
         } else {
             binding.detailedSpeed.text = TrackingUtility.convertKMHtoMPH(run.avgSpeedInKMH).toString()
-            binding.detailedSpeedText.text = getString(R.string.mph)
         }
 
         binding.detailedCalories.text = run.calories.toString()

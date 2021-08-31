@@ -14,13 +14,13 @@
     <dimen name="margin_bar">58dp</dimen>
     <dimen name="margin_bar_and_fab">100dp</dimen>
 
-    <dimen name="margin_fab_end">16dp</dimen>
-    <dimen name="margin_fab_bottom">74dp</dimen>
+    <dimen name="margin_fab">16dp</dimen>
 
     <dimen name="elevation">4dp</dimen>
     <dimen name="corner_radius">12dp</dimen>
 
     <dimen name="text_small">14sp</dimen>
+    <dimen name="text_preview">20sp</dimen>
     <dimen name="text_medium">24sp</dimen>
     <dimen name="text_detailed">28sp</dimen>
     <dimen name="text_big">32sp</dimen>

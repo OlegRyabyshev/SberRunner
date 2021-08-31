@@ -14,7 +14,6 @@ interface IFirebaseRepository {
      */
     fun registration(name: String, email: String, password: String, weight: String): Task<AuthResult>
 
-
     /**
      * Вход а аккаунт
      */

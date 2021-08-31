@@ -9,8 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/margin_bar_and_fab">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/detailed_back_button"
@@ -30,18 +29,22 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_big"
             android:text="@string/time_filler"
+            android:textSize="@dimen/text_medium"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/detailed_back_button"
             app:layout_constraintTop_toTopOf="@+id/detailed_back_button" />
 
         <TextView
             android:id="@+id/detailed_date_of_run_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_tiny"
             android:layout_marginEnd="@dimen/margin_big"
             android:text="@string/date_filler"
+            android:textSize="@dimen/text_medium"
             app:layout_constraintBottom_toBottomOf="@+id/detailed_back_button"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/detailed_back_button"
+            app:layout_constraintTop_toBottomOf="@+id/detailed_time_of_run_tv" />
 
 
         <androidx.cardview.widget.CardView
@@ -72,6 +75,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/detailed_distance"
                     app:layout_constraintStart_toStartOf="@+id/detailed_distance"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/background_color"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -82,14 +86,14 @@
                     android:text="@string/zero_dot"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/detailed_distance_image"/>
+                    app:layout_constraintTop_toBottomOf="@id/detailed_distance_image" />
 
                 <TextView
                     android:id="@+id/detailed_distance_text"
                     style="@style/Theme.SberRunner.Table.Detailed.Texts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/kilometers"
+                    android:text="@string/distance"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -126,6 +130,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/detailed_time"
                     app:layout_constraintStart_toStartOf="@+id/detailed_time"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/background_color"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -157,7 +162,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/margin_half_small"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_small"
             android:backgroundTint="@color/main_green"
             app:cardCornerRadius="@dimen/corner_radius"
@@ -180,6 +185,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/detailed_speed"
                     app:layout_constraintStart_toStartOf="@+id/detailed_speed"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/background_color"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -190,14 +196,14 @@
                     android:text="@string/zero_dot"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/detailed_speed_image"/>
+                    app:layout_constraintTop_toBottomOf="@id/detailed_speed_image" />
 
                 <TextView
                     android:id="@+id/detailed_speed_text"
                     style="@style/Theme.SberRunner.Table.Detailed.Texts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/km_h"
+                    android:text="@string/avg_speed"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -211,7 +217,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/margin_small"
-            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_half_small"
             android:backgroundTint="@color/main_green"
             app:cardCornerRadius="@dimen/corner_radius"
@@ -234,6 +240,7 @@
                     app:layout_constraintEnd_toEndOf="@+id/detailed_calories"
                     app:layout_constraintStart_toStartOf="@+id/detailed_calories"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/background_color"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -258,8 +265,8 @@
                     app:layout_constraintTop_toBottomOf="@id/detailed_calories" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
 
+        </androidx.cardview.widget.CardView>
 
         <ImageView
             android:id="@+id/detailed_map"

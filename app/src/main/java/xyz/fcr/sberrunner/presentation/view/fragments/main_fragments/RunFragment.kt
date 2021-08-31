@@ -17,12 +17,14 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import es.dmoral.toasty.Toasty
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.model.Run
+import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.data.service.RunningService
 import xyz.fcr.sberrunner.databinding.FragmentRunBinding
 import xyz.fcr.sberrunner.presentation.App
@@ -54,11 +56,8 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     lateinit var factory: ViewModelProvider.Factory
     val viewModel: RunViewModel by viewModels { factory }
 
-    @set:Inject
-    var weight: Int = 70
-
-    @set:Inject
-    var isMetric: Boolean = true
+    @Inject
+    lateinit var sharedPreferenceWrapper: ISharedPreferenceWrapper
 
     init {
         App.appComponent.inject(this)
@@ -97,12 +96,25 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 zoomToWholeTrack()
                 endRunAndSaveToDB()
             } else {
-                stopRun()
-                Toasty.info(requireContext(), getString(R.string.not_enough_data), Toasty.LENGTH_SHORT).show()
+                showWarningDialog()
             }
         }
 
         subscribeToObservers()
+    }
+
+    private fun showWarningDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.not_enough_data))
+            .setMessage(getString(R.string.not_enough_data_msg))
+            .setPositiveButton(resources.getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setNegativeButton(resources.getString(R.string.finish)) { dialog, _ ->
+                dialog.dismiss()
+                stopRun()
+            }
+            .show()
     }
 
     private fun isEnoughDataToFinish(): Boolean {
@@ -110,7 +122,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         for (polyline in pathPoints) {
             for (point in polyline) {
-               pointsCounter++
+                pointsCounter++
             }
         }
 
@@ -152,7 +164,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         })
 
         RunningService.avgSpeed.observe(viewLifecycleOwner, {
-            if (isMetric) {
+            if (sharedPreferenceWrapper.isMetric()) {
                 binding.speedTv.text = it.toString()
             } else {
                 binding.speedTv.text = String.format("%.02f", it * UNIT_RATIO)
@@ -160,7 +172,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         })
 
         RunningService.distance.observe(viewLifecycleOwner, {
-            if (isMetric) {
+            if (sharedPreferenceWrapper.isMetric()) {
                 binding.distanceTv.text = String.format("%.02f", it)
             } else {
                 binding.distanceTv.text = String.format("%.02f", it * UNIT_RATIO)
@@ -168,7 +180,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         })
 
         RunningService.calories.observe(viewLifecycleOwner, {
-            binding.caloriesTv.text = ((it * weight).toInt()).toString()
+            binding.caloriesTv.text = ((it * sharedPreferenceWrapper.getIntWeight()).toInt()).toString()
         })
 
         viewModel.historyLiveData.observe(viewLifecycleOwner, {
@@ -285,11 +297,11 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
             val avgSpeed = round((distanceInMeters / 1000f) / (curTimeInMillis / 1000f / 60 / 60) * 10) / 10f
             val timestamp = Calendar.getInstance().timeInMillis
-            val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
+            val caloriesBurned = ((distanceInMeters / 1000f) * sharedPreferenceWrapper.getIntWeight()).toInt()
             val run = Run(distanceInMeters, timestamp, curTimeInMillis, avgSpeed, caloriesBurned, bmp)
 
             viewModel.insertRun(run)
-            Toasty.success(requireContext(), "Run saved", Toasty.LENGTH_SHORT).show()
+            Toasty.success(requireContext(), getString(R.string.run_saved), Toasty.LENGTH_SHORT).show()
             stopRun()
         }
     }
@@ -308,9 +320,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        Toasty.info(requireContext(), "We have your permission", Toasty.LENGTH_SHORT).show()
-    }
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
         if (EasyPermissions.somePermissionDenied(this, *RUN_PERMISSIONS)) {
