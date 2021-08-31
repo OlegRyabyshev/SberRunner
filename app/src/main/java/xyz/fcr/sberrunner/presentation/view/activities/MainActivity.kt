@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         when (sharedPreferences.getString(THEME_KEY, "0")) {
             Configuration.UI_MODE_NIGHT_UNDEFINED.toString() ->
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_UNSPECIFIED)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             Configuration.UI_MODE_NIGHT_NO.toString() ->
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             Configuration.UI_MODE_NIGHT_YES.toString() ->

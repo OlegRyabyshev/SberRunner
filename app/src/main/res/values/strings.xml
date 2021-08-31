@@ -148,5 +148,6 @@
     <string name="km_addition">\u0020km</string>
     <string name="miles_addition">\u0020miles</string>
     <string name="run_saved">Run saved</string>
+    <string name="allowed_digits">0123456789</string>
 
 </resources>

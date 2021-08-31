@@ -69,7 +69,6 @@ class LoginFragment : Fragment() {
         viewModel.loginLiveData.observe(viewLifecycleOwner, { isSucceed: Boolean -> startMainActivity(isSucceed) })
         viewModel.resetLiveData.observe(viewLifecycleOwner, { result: Boolean -> showResetToast(result) })
         viewModel.errorFirebase.observe(viewLifecycleOwner, { string: String -> showError(string) })
-
         viewModel.errorEmail.observe(viewLifecycleOwner, { error: String -> setError(error, binding.signInEmailTv) })
         viewModel.errorPass.observe(viewLifecycleOwner, { error: String -> setError(error, binding.signInPasswordTv) })
     }

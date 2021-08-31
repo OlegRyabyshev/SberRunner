@@ -20,7 +20,7 @@
             android:icon="@drawable/ic_weight"
             android:key="weight_key"
             android:inputType="numberDecimal"
-            android:digits="0123456789"
+            android:digits="@string/allowed_digits"
             android:summary="@string/settings_weight"
             android:title="@string/settings_title_weight" />
 
