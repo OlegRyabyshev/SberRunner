@@ -4,20 +4,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
+import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.model.Run
 import xyz.fcr.sberrunner.data.repository.db.IDatabaseRepository
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Inject
 
 class RunViewModel @Inject constructor(
     private val databaseRepository: IDatabaseRepository,
+    private val schedulersProvider: ISchedulersProvider,
     private val sharedPreferenceWrapper: ISharedPreferenceWrapper
 ) : ViewModel() {
 
     private val _historyLiveData = MutableLiveData<LatLng>()
 
+    private var disposableAddRun: Disposable? = null
+
     fun insertRun(run: Run) {
-        databaseRepository.addRun(run)
+        disposableAddRun = databaseRepository.addRun(run)
+            .subscribeOn(schedulersProvider.io())
+            .subscribe()
     }
 
     fun setToLastKnownLocationIfAny() {
@@ -32,6 +39,13 @@ class RunViewModel @Inject constructor(
     fun saveLastLocation(location: LatLng) {
         sharedPreferenceWrapper.saveRunLatitude(location.latitude.toFloat())
         sharedPreferenceWrapper.saveMapLongitude(location.longitude.toFloat())
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        disposableAddRun?.dispose()
+        disposableAddRun = null
     }
 
     val historyLiveData: LiveData<LatLng>

@@ -49,7 +49,6 @@ class HomeViewModel @Inject constructor(
                 _progressLiveData.postValue(false)
             }
             .subscribeOn(schedulersProvider.io())
-            .observeOn(schedulersProvider.ui())
             .subscribe()
     }
 

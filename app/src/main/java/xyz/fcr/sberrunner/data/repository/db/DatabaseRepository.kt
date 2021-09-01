@@ -1,9 +1,7 @@
 package xyz.fcr.sberrunner.data.repository.db
 
 import androidx.lifecycle.LiveData
-import io.reactivex.rxjava3.annotations.NonNull
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.core.Completable
 import xyz.fcr.sberrunner.data.model.Run
 import xyz.fcr.sberrunner.data.room.RunDao
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
@@ -25,8 +23,8 @@ class DatabaseRepository @Inject constructor(
      *
      * @param run [Run] - объект бега на добавление
      */
-    override fun addRun(run: Run): Single<Unit> {
-        return Single.fromCallable { runDao.addRun(run) }
+    override fun addRun(run: Run): Completable {
+        return Completable.fromCallable { runDao.addRun(run) }
     }
 
     /**
@@ -34,8 +32,8 @@ class DatabaseRepository @Inject constructor(
      *
      * @param run [Run] - объект бега на удаление
      */
-    override fun deleteRun(run: Run): Single<Unit> {
-        return Single.fromCallable { runDao.deleteRun(run) }
+    override fun deleteRun(run: Run): Completable {
+        return Completable.fromCallable { runDao.deleteRun(run) }
     }
 
     /**
