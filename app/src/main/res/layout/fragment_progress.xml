@@ -12,15 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:padding="@dimen/padding_small"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:paddingStart="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_small"
+        android:paddingEnd="@dimen/padding_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:spanCount="2"
         tools:listitem="@layout/progress_item" />
-
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_view_progress"

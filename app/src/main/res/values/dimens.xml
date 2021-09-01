@@ -11,7 +11,7 @@
     <dimen name="margin_medium">20dp</dimen>
     <dimen name="margin_big">40dp</dimen>
 
-    <dimen name="margin_bar">58dp</dimen>
+    <dimen name="margin_bar">56dp</dimen>
     <dimen name="margin_bar_and_fab">100dp</dimen>
 
     <dimen name="margin_fab">16dp</dimen>
