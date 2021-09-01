@@ -7,148 +7,18 @@
     android:background="@color/background_color"
     tools:context=".presentation.view.fragments.main_fragments.ProgressFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_progress"
         android:layout_width="match_parent"
-        android:background="@color/main_green"
-        android:elevation="@dimen/elevation"
-        android:paddingTop = "@dimen/padding_big"
-        android:paddingBottom="@dimen/padding_big"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/total_distance_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="@string/zero_dot"
-            android:textColor="@color/background_color"
-            android:textSize="60sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/total_distance_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/total_distance"
-            style="@style/Theme.SberRunner.Table.Texts"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/total_distance_number" />
-
-        <TableLayout
-            android:id="@+id/table_first"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_big"
-            android:elevation="@dimen/elevation"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/total_distance_text">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/total_runs"
-                    style="@style/Theme.SberRunner.Table.Numbers"
-                    android:text="@string/zero_dot" />
-
-                <TextView
-                    android:id="@+id/total_avg_pace"
-                    style="@style/Theme.SberRunner.Table.Numbers"
-                    android:text="@string/zero_dot" />
-
-                <TextView
-                    android:id="@+id/total_avg_duration"
-                    style="@style/Theme.SberRunner.Table.Numbers"
-                    android:text="@string/zero_dot" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/total_runs_text"
-                    style="@style/Theme.SberRunner.Table.Texts"
-                    android:text="@string/total_runs" />
-
-                <TextView
-                    android:id="@+id/total_avg_pace_text"
-                    style="@style/Theme.SberRunner.Table.Texts"
-                    android:text="@string/avg_pace" />
-
-                <TextView
-                    android:id="@+id/total_avg_duration_text"
-                    style="@style/Theme.SberRunner.Table.Texts"
-                    android:text="@string/avg_duration" />
-
-            </TableRow>
-
-        </TableLayout>
-
-        <TableLayout
-            android:id="@+id/table_second"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_big"
-            android:elevation="@dimen/elevation"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/table_first">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/total_avg_speed"
-                    style="@style/Theme.SberRunner.Table.Numbers"
-                    android:text="@string/zero_dot" />
-
-                <TextView
-                    android:id="@+id/total_avg_calories"
-                    style="@style/Theme.SberRunner.Table.Numbers"
-                    android:text="@string/zero_dot" />
-
-                <TextView
-                    android:id="@+id/total_avg_distance"
-                    style="@style/Theme.SberRunner.Table.Numbers"
-                    android:text="@string/zero_dot" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/total_avg_speed_text"
-                    style="@style/Theme.SberRunner.Table.Texts"
-                    android:text="@string/avg_speed" />
-
-                <TextView
-                    android:id="@+id/total_avg_calories_text"
-                    style="@style/Theme.SberRunner.Table.Texts"
-                    android:text="@string/avg_calories" />
-
-                <TextView
-                    android:id="@+id/total_avg_distance_text"
-                    style="@style/Theme.SberRunner.Table.Texts"
-                    android:text="@string/avg_distance" />
-
-            </TableRow>
-
-        </TableLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_small"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:spanCount="1"
+        tools:listitem="@layout/progress_item" />
 
 </androidx.core.widget.NestedScrollView>

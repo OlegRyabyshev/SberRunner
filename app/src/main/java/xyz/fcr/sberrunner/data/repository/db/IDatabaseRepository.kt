@@ -1,6 +1,7 @@
 package xyz.fcr.sberrunner.data.repository.db
 
 import androidx.lifecycle.LiveData
+import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.model.Run
 
 /**
@@ -13,14 +14,14 @@ interface IDatabaseRepository {
      *
      * @param run [Run] - объект бега на добавление
      */
-    fun addRun(run: Run)
+    fun addRun(run: Run): Single<Unit>
 
     /**
      * Метод удаления объкта бега из БД
      *
      * @param run [Run] - объект бега на удаление
      */
-    fun deleteRun(run: Run)
+    fun deleteRun(run: Run): Single<Unit>
 
     /**
      * Метод добавления объкта бега в БД

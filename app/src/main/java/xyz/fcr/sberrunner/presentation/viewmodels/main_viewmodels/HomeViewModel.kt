@@ -3,9 +3,11 @@ package xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.model.Run
 import xyz.fcr.sberrunner.data.repository.db.IDatabaseRepository
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
+import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Inject
 
 /**
@@ -14,11 +16,15 @@ import javax.inject.Inject
  * @param databaseRepository [IDatabaseRepository] - репозиторий базы данных забегов
  */
 class HomeViewModel @Inject constructor(
-    private val databaseRepository: IDatabaseRepository
+    private val databaseRepository: IDatabaseRepository,
+    private val schedulersProvider: ISchedulersProvider
 ) : ViewModel() {
 
     private val _progressLiveData = MutableLiveData<Boolean>()
     private val _errorLiveData = SingleLiveEvent<String>()
+
+    private var disposableAddRun: Disposable? = null
+    private var disposableDeleteRun: Disposable? = null
 
     val listOfRuns = databaseRepository.getAllRuns()
 
@@ -35,7 +41,16 @@ class HomeViewModel @Inject constructor(
      * @param run [Run] - один забег
      */
     fun addRun(run: Run) {
-        databaseRepository.addRun(run)
+        disposableAddRun = databaseRepository.addRun(run)
+            .doOnSubscribe {
+                _progressLiveData.postValue(true)
+            }
+            .doAfterTerminate {
+                _progressLiveData.postValue(false)
+            }
+            .subscribeOn(schedulersProvider.io())
+            .observeOn(schedulersProvider.ui())
+            .subscribe()
     }
 
     /**
@@ -44,8 +59,28 @@ class HomeViewModel @Inject constructor(
      * @param run [Run] - один забег
      */
     fun deleteRun(run: Run) {
-        databaseRepository.deleteRun(run)
+        disposableDeleteRun = databaseRepository.deleteRun(run)
+            .doOnSubscribe {
+                _progressLiveData.postValue(true)
+            }
+            .doAfterTerminate {
+                _progressLiveData.postValue(false)
+            }
+            .subscribeOn(schedulersProvider.io())
+            .observeOn(schedulersProvider.ui())
+            .subscribe()
     }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        disposableDeleteRun?.dispose()
+        disposableDeleteRun = null
+
+        disposableAddRun?.dispose()
+        disposableAddRun = null
+    }
+
 
     val progressLiveData: LiveData<Boolean>
         get() = _progressLiveData
