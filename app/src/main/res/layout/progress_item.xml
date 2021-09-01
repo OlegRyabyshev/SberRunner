@@ -20,7 +20,7 @@
             android:paddingTop="@dimen/padding_medium"
             android:src="@drawable/ic_detailed_distance"
             android:layout_margin="@dimen/margin_small"
-            app:layout_constraintBottom_toTopOf="@+id/detailed_distance"
+            app:layout_constraintBottom_toTopOf="@+id/detailed_value"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,19 +29,19 @@
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/detailed_distance"
+            android:id="@+id/detailed_value"
             style="@style/Theme.SberRunner.Table.Detailed.Numbers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/zero_dot"
-            app:layout_constraintBottom_toTopOf="@+id/detailed_distance_text"
+            app:layout_constraintBottom_toTopOf="@+id/detailed_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detailed_distance_image" />
 
         <TextView
-            android:id="@+id/detailed_distance_text"
+            android:id="@+id/detailed_title"
             style="@style/Theme.SberRunner.Table.Detailed.Texts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailed_distance" />
+            app:layout_constraintTop_toBottomOf="@+id/detailed_value" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

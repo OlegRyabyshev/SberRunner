@@ -147,7 +147,14 @@
 
     <string name="km_addition">\u0020km</string>
     <string name="miles_addition">\u0020miles</string>
+    <string name="km_h_addition">\u0020km/h</string>
+    <string name="mph_addition">\u0020mph</string>
+    <string name="kcal_addition">\u0020kcal</string>
+
+
     <string name="run_saved">Run saved</string>
     <string name="allowed_digits">0123456789</string>
+    <string name="total_duraion">Total duration</string>
+    <string name="total_calories">Total calories</string>
 
 </resources>

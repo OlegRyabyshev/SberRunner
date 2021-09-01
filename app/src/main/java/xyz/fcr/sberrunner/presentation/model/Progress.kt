@@ -4,6 +4,6 @@ import android.graphics.drawable.Drawable
 
 data class Progress(
     var title: String?,
-    var info: String?,
+    var value: String?,
     var icon: Drawable?
 )
