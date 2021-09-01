@@ -110,7 +110,7 @@ class HomeFragment : Fragment(), ItemClickListener {
             val run = recyclerAdapter.differ.currentList[position]
             viewModel.deleteRun(run)
 
-            Snackbar.make(requireView(), getString(R.string.run_deleted), Snackbar.LENGTH_INDEFINITE).apply {
+            Snackbar.make(requireView(), getString(R.string.run_deleted), Snackbar.LENGTH_LONG).apply {
                 setAction(getString(R.string.undo)) {
                     viewModel.addRun(run)
                 }

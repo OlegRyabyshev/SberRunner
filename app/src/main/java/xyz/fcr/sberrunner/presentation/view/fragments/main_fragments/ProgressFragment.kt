@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -60,6 +61,9 @@ class ProgressFragment : Fragment() {
         viewModel.listOfRuns.observe(viewLifecycleOwner) { runs: List<Run> ->
             if (runs.isNotEmpty()) {
                 initRecycler(runs)
+                displayRecycler(true)
+            } else {
+                displayRecycler(false)
             }
         }
 
@@ -90,6 +94,12 @@ class ProgressFragment : Fragment() {
 
     }
 
+    private fun displayRecycler(isVisible: Boolean) {
+        binding.recyclerViewProgress.isVisible = isVisible
+        binding.lottieEmptyListProgress.isVisible = !isVisible
+        binding.textViewProgress.isVisible = !isVisible
+    }
+
     private fun progressTotalRuns(runs: List<Run>): Progress {
         val title: String = resources.getString(R.string.total_runs)
         val value: String = runs.size.toString()
@@ -118,13 +128,9 @@ class ProgressFragment : Fragment() {
     private fun progressTotalDistance(runs: List<Run>): Progress {
         val title: String = resources.getString(R.string.total_distance)
 
-        val totalDistance = if (isMetric) {
-            runs.sumOf { it.distanceInMeters } / 1000
-        } else {
-            (runs.sumOf { it.distanceInMeters } * UNIT_RATIO).roundToInt() / 1000
-        }
+        val distance: Double = runs.sumOf { it.distanceInMeters.getAverage(isMetric, 1) }
+        val value = String.format("%.2f", distance).addDistanceUnits(isMetric)
 
-        val value: String = totalDistance.toString().addDistanceUnits(isMetric)
         val icon: Drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_total_distance)!!
 
         return Progress(title, value, icon)

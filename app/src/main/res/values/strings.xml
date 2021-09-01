@@ -141,7 +141,10 @@
     <string name="km_h">km/h</string>
     <string name="mph">mph</string>
     <string name="time">Time</string>
-    <string name="you_don_t_have_any_runs_history_yet">you don\'t have any runs history yet…</string>
+
+    <string name="no_history_runs_home">you don\'t have any runs history yet…</string>
+    <string name="no_history_runs_progress">here will be your progress stats</string>
+
     <string name="cancel">cancel</string>
     <string name="not_enough_data_msg">There is not enough information to save this run, you sure you want to finish it?</string>
 
