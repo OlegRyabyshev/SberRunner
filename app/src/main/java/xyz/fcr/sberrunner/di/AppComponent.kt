@@ -2,6 +2,7 @@ package xyz.fcr.sberrunner.di
 
 import android.content.Context
 import dagger.Component
+import xyz.fcr.sberrunner.data.service.notification.AudioNotificator
 import xyz.fcr.sberrunner.data.service.RunningService
 import xyz.fcr.sberrunner.di.modules.*
 import xyz.fcr.sberrunner.presentation.view.activities.MainActivity
@@ -56,4 +57,5 @@ interface AppComponent {
 
     // Services
     fun inject(runningService: RunningService)
+    fun inject(audioNotificator: AudioNotificator)
 }

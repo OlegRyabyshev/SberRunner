@@ -19,4 +19,5 @@ interface ISharedPreferenceWrapper {
     fun getMapLongitude(): Float
     fun getRunLatitude(): Float
     fun getRunLongitude(): Float
+    fun getVoiceNotificationStatus(): Boolean
 }

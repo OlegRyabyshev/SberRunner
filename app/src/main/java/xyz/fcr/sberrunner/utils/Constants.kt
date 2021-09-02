@@ -46,6 +46,8 @@ object Constants {
     const val UNITS_KEY = "units_key"
     const val METRIC_UNIT = "metric_unit"
 
+    const val VOICE_KEY = "voice_enabled_key"
+
     const val MOSCOW_LAT = 55.75f
     const val MOSCOW_LON = 37.61f
 
@@ -57,6 +59,8 @@ object Constants {
     const val ACTION_START_OR_RESUME_SERVICE = "ACTION_START_SERVICE"
     const val ACTION_PAUSE_SERVICE = "ACTION_PAUSE_SERVICE"
     const val ACTION_STOP_SERVICE = "ACTION_STOP_SERVICE"
+    const val ACTION_MUTE = "ACTION_MUTE"
+    const val ACTION_UNMUTE = "ACTION_UNMUTE"
 
     // Service notification
     const val NOTIFICATION_CHANNEL_ID = "tracking_channel"

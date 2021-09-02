@@ -2,17 +2,13 @@ package xyz.fcr.sberrunner.di.modules
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.media.MediaPlayer
 import androidx.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.data.repository.shared.SharedPreferenceWrapper
-import xyz.fcr.sberrunner.utils.Constants.METRIC_UNIT
-import xyz.fcr.sberrunner.utils.Constants.NAME_KEY
-import xyz.fcr.sberrunner.utils.Constants.UNITS_KEY
-import xyz.fcr.sberrunner.utils.Constants.WEIGHT_KEY
-import xyz.fcr.sberrunner.utils.SchedulersProvider
-import xyz.fcr.sberrunner.utils.ISchedulersProvider
+import xyz.fcr.sberrunner.data.service.notification.AudioNotificator
 import javax.inject.Singleton
 
 @Module
@@ -28,5 +24,17 @@ class StoreModule {
     @Provides
     fun provideISharedPreferenceWrapper(sharedPreferences: SharedPreferences) : ISharedPreferenceWrapper{
         return SharedPreferenceWrapper(sharedPreferences)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAudioNotificator(mediaPlayer: MediaPlayer): AudioNotificator{
+        return AudioNotificator(mediaPlayer)
+    }
+
+    @Singleton
+    @Provides
+    fun provideMediaPlayer(): MediaPlayer{
+        return MediaPlayer()
     }
 }

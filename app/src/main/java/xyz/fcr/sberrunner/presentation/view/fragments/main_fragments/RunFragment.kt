@@ -28,9 +28,11 @@ import xyz.fcr.sberrunner.data.service.RunningService
 import xyz.fcr.sberrunner.databinding.FragmentRunBinding
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.RunViewModel
+import xyz.fcr.sberrunner.utils.Constants.ACTION_MUTE
 import xyz.fcr.sberrunner.utils.Constants.ACTION_PAUSE_SERVICE
 import xyz.fcr.sberrunner.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 import xyz.fcr.sberrunner.utils.Constants.ACTION_STOP_SERVICE
+import xyz.fcr.sberrunner.utils.Constants.ACTION_UNMUTE
 import xyz.fcr.sberrunner.utils.Constants.MAP_TRACKING_ZOOM
 import xyz.fcr.sberrunner.utils.Constants.POLYLINE_WIDTH
 import xyz.fcr.sberrunner.utils.Constants.REQUEST_CODE_BACKGROUND_PERMISSION
@@ -82,6 +84,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         viewModel.setUnits()
         viewModel.setWeight()
+        viewModel.setNotificationVolume()
 
         binding.mapView.getMapAsync {
             map = it
@@ -210,6 +213,11 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         viewModel.weightLiveData.observe(viewLifecycleOwner) { weightFromViewModel: Int ->
             weight = weightFromViewModel
+        }
+
+        viewModel.voiceLiveData.observe(viewLifecycleOwner) { voiceEnabled: Boolean ->
+            if (voiceEnabled) sendActionToService(ACTION_UNMUTE)
+            else sendActionToService(ACTION_MUTE)
         }
     }
 
