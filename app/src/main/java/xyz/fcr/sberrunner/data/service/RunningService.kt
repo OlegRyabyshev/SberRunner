@@ -26,19 +26,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import xyz.fcr.sberrunner.R
-import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
-import xyz.fcr.sberrunner.data.service.notification.AudioNotificator
 import xyz.fcr.sberrunner.data.service.notification.AudioNotificator.Companion.VOICE_COMPLETE
 import xyz.fcr.sberrunner.data.service.notification.AudioNotificator.Companion.VOICE_PAUSE
 import xyz.fcr.sberrunner.data.service.notification.AudioNotificator.Companion.VOICE_RESUME
 import xyz.fcr.sberrunner.data.service.notification.AudioNotificator.Companion.VOICE_START
+import xyz.fcr.sberrunner.data.service.notification.IAudioNotificator
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.utils.Constants
-import xyz.fcr.sberrunner.utils.Constants.ACTION_MUTE
 import xyz.fcr.sberrunner.utils.Constants.ACTION_PAUSE_SERVICE
 import xyz.fcr.sberrunner.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 import xyz.fcr.sberrunner.utils.Constants.ACTION_STOP_SERVICE
-import xyz.fcr.sberrunner.utils.Constants.ACTION_UNMUTE
 import xyz.fcr.sberrunner.utils.Constants.FASTEST_LOCATION_UPDATE_INTERVAL
 import xyz.fcr.sberrunner.utils.Constants.LOCATION_UPDATE_INTERVAL
 import xyz.fcr.sberrunner.utils.Constants.NOTIFICATION_CHANNEL_ID
@@ -61,7 +58,7 @@ class RunningService : LifecycleService() {
     lateinit var baseNotificationBuilder: NotificationCompat.Builder
 
     @Inject
-    lateinit var audioNotificator: AudioNotificator
+    lateinit var audioNotificator: IAudioNotificator
 
     private lateinit var currentNotification: NotificationCompat.Builder
 
@@ -122,16 +119,13 @@ class RunningService : LifecycleService() {
                     startOrResumeService()
                 }
                 ACTION_PAUSE_SERVICE -> {
-                    audioNotificator.voiceStartOfTheRun(VOICE_PAUSE)
+                    audioNotificator.play(VOICE_PAUSE)
                     pauseService()
                 }
                 ACTION_STOP_SERVICE -> {
-                    audioNotificator.voiceStartOfTheRun(VOICE_COMPLETE)
+                    audioNotificator.play(VOICE_COMPLETE)
                     stopService()
                 }
-
-                ACTION_MUTE -> audioNotificator.mute()
-                ACTION_UNMUTE -> audioNotificator.unmute()
             }
         }
 
@@ -145,12 +139,12 @@ class RunningService : LifecycleService() {
         isPaused.postValue(false)
 
         if (isFirstRun) {
-            audioNotificator.voiceStartOfTheRun(VOICE_START)
+            audioNotificator.play(VOICE_START)
             startForegroundService()
             isFirstRun = false
             serviceKilled = false
         } else {
-            audioNotificator.voiceStartOfTheRun(VOICE_RESUME)
+            audioNotificator.play(VOICE_RESUME)
             startTimer()
         }
     }
@@ -247,6 +241,8 @@ class RunningService : LifecycleService() {
             for (polyline in pathPoints.value!!) {
                 distanceInMeters += TrackingUtility.calculatePolylineLength(polyline).toInt()
             }
+
+            audioNotificator.checkIfVoiceNotificationNeeded(distance.value!!, distanceInMeters / 1000f)
 
             distance.postValue(distanceInMeters / 1000f)
             avgSpeed.postValue((round((distanceInMeters / 1000f) / (time / 1000f / 60 / 60) * 10) / 10f))

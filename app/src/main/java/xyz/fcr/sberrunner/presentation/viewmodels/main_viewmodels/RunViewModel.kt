@@ -20,7 +20,6 @@ class RunViewModel @Inject constructor(
     private val _historyLiveData = MutableLiveData<LatLng>()
     private val _unitsLiveData = MutableLiveData<Boolean>()
     private val _weightLiveData = MutableLiveData<Int>()
-    private val _voiceLiveData = MutableLiveData<Boolean>()
 
     private var disposableAddRun: Disposable? = null
 
@@ -33,6 +32,7 @@ class RunViewModel @Inject constructor(
     fun setToLastKnownLocationIfAny() {
         val lat = sharedPreferenceWrapper.getRunLatitude()
         val lon = sharedPreferenceWrapper.getRunLongitude()
+
         _historyLiveData.postValue(LatLng(lat.toDouble(), lon.toDouble()))
     }
 
@@ -49,11 +49,7 @@ class RunViewModel @Inject constructor(
      */
     fun saveLastLocation(location: LatLng) {
         sharedPreferenceWrapper.saveRunLatitude(location.latitude.toFloat())
-        sharedPreferenceWrapper.saveMapLongitude(location.longitude.toFloat())
-    }
-
-    fun setNotificationVolume() {
-        _voiceLiveData.postValue(sharedPreferenceWrapper.getVoiceNotificationStatus())
+        sharedPreferenceWrapper.saveRunLongitude(location.longitude.toFloat())
     }
 
     override fun onCleared() {
@@ -69,6 +65,4 @@ class RunViewModel @Inject constructor(
         get() = _unitsLiveData
     val weightLiveData: LiveData<Int>
         get() = _weightLiveData
-    val voiceLiveData: LiveData<Boolean>
-        get() = _voiceLiveData
 }

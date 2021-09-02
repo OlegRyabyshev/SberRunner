@@ -9,6 +9,7 @@ import dagger.Provides
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.data.repository.shared.SharedPreferenceWrapper
 import xyz.fcr.sberrunner.data.service.notification.AudioNotificator
+import xyz.fcr.sberrunner.data.service.notification.IAudioNotificator
 import javax.inject.Singleton
 
 @Module
@@ -16,25 +17,28 @@ class StoreModule {
 
     @Singleton
     @Provides
-    fun provideSharedPreferences(context: Context) : SharedPreferences{
+    fun provideSharedPreferences(context: Context): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)
     }
 
     @Singleton
     @Provides
-    fun provideISharedPreferenceWrapper(sharedPreferences: SharedPreferences) : ISharedPreferenceWrapper{
+    fun provideISharedPreferenceWrapper(sharedPreferences: SharedPreferences): ISharedPreferenceWrapper {
         return SharedPreferenceWrapper(sharedPreferences)
     }
 
     @Singleton
     @Provides
-    fun provideAudioNotificator(mediaPlayer: MediaPlayer): AudioNotificator{
-        return AudioNotificator(mediaPlayer)
+    fun provideAudioNotificator(
+        mediaPlayer: MediaPlayer,
+        sharedPreferences: ISharedPreferenceWrapper
+    ): IAudioNotificator {
+        return AudioNotificator(mediaPlayer, sharedPreferences)
     }
 
     @Singleton
     @Provides
-    fun provideMediaPlayer(): MediaPlayer{
+    fun provideMediaPlayer(): MediaPlayer {
         return MediaPlayer()
     }
 }

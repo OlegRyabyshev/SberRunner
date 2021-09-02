@@ -49,10 +49,8 @@ class FirebaseRepository(
         val user = hashMapOf(NAME to name, WEIGHT to weight)
         val userId = firebaseAuth.currentUser?.uid
 
-        if (userId != null) {
-            val document = fireStore.collection(USER).document(userId)
-            document.set(user)
-        }
+        val document = fireStore.collection(USER).document(userId!!)
+        document.set(user)
     }
 
     /**

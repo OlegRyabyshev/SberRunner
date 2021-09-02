@@ -3,13 +3,21 @@ package xyz.fcr.sberrunner.data.service.notification
 import android.media.MediaPlayer
 import android.net.Uri
 import xyz.fcr.sberrunner.R
+import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.presentation.App
+import xyz.fcr.sberrunner.utils.Constants.UNIT_RATIO
 import javax.inject.Inject
 
 
-class AudioNotificator @Inject constructor(private val mediaPlayer: MediaPlayer) {
+class AudioNotificator @Inject constructor(
+    private val mediaPlayer: MediaPlayer,
+    private val sharedPreferenceWrapper: ISharedPreferenceWrapper
+) : IAudioNotificator {
 
-    fun voiceStartOfTheRun(action: String) {
+    override fun play(action: String) {
+
+        updateVolume()
+
         var record: Int? = null
 
         when (action) {
@@ -40,12 +48,27 @@ class AudioNotificator @Inject constructor(private val mediaPlayer: MediaPlayer)
         }
     }
 
-    fun mute() {
-        mediaPlayer.setVolume(MUTED, MUTED)
+    override fun checkIfVoiceNotificationNeeded(oldDistance: Float, newDistance: Float) {
+        var unitRatio = 1f
+
+        if (!sharedPreferenceWrapper.isMetric()) unitRatio = UNIT_RATIO
+
+        when {
+            oldDistance * unitRatio < 0.5f && newDistance * unitRatio >= 0.5f -> play(VOICE_500)
+            oldDistance * unitRatio < 1f && newDistance * unitRatio >= 1f -> play(VOICE_1000)
+            oldDistance * unitRatio < 3f && newDistance * unitRatio >= 3f -> play(VOICE_3000)
+            oldDistance * unitRatio < 5f && newDistance * unitRatio >= 5f -> play(VOICE_5000)
+            oldDistance * unitRatio < 7f && newDistance * unitRatio >= 7f -> play(VOICE_7000)
+            oldDistance * unitRatio < 9f && newDistance * unitRatio >= 9f -> play(VOICE_9000)
+        }
     }
 
-    fun unmute() {
-        mediaPlayer.setVolume(UNMUTED, UNMUTED)
+    private fun updateVolume() {
+        if (sharedPreferenceWrapper.getVoiceNotificationStatus()) {
+            mediaPlayer.setVolume(UNMUTED, UNMUTED)
+        } else {
+            mediaPlayer.setVolume(MUTED, MUTED)
+        }
     }
 
     companion object {
