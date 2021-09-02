@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         applicationId "xyz.fcr.sberrunner"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
@@ -69,8 +69,8 @@ dependencies {
     testImplementation "androidx.room:room-testing:$room_version"
 
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.21"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.21"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.5.30"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.30"
 
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:1.2.1"

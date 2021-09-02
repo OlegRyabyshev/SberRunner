@@ -2,6 +2,7 @@ package xyz.fcr.sberrunner.utils
 
 import android.Manifest
 import android.os.Build
+import androidx.annotation.RequiresApi
 
 /**
  * Хранилище константных значений.
@@ -12,7 +13,9 @@ object Constants {
 
     const val LOCATION_UPDATE_INTERVAL = 5000L
     const val FASTEST_LOCATION_UPDATE_INTERVAL = 2000L
-    const val REQUEST_CODE_LOCATION_PERMISSION = 0
+
+    const val REQUEST_CODE_BASIC_PERMISSION = 100
+    const val REQUEST_CODE_BACKGROUND_PERMISSION = 101
 
     // Room
     const val DB_NAME = "sber_runner_table"
@@ -67,18 +70,22 @@ object Constants {
     const val MAP_ZOOMED_OUT = 13f
 
     // Permissions
-    val RUN_PERMISSIONS = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        arrayOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION
-        )
-    } else {
-        arrayOf(
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-    }
+    val RUN_BASIC_PERMISSIONS = arrayOf(
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION
+    )
 
-    const val MAP_PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION
+    @RequiresApi(Build.VERSION_CODES.Q)
+    val RUN_ADDITIONAL_PERMISSION_Q = arrayOf(
+        Manifest.permission.ACCESS_BACKGROUND_LOCATION
+    )
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    val ALL_PERMISSIONS = arrayOf(
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_BACKGROUND_LOCATION
+    )
 
     // FirebaseConst
     const val USER = "user"

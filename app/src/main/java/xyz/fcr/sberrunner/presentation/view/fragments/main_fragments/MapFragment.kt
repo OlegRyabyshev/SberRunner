@@ -26,10 +26,10 @@ import xyz.fcr.sberrunner.databinding.FragmentMapBinding
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.MapViewModel
 import xyz.fcr.sberrunner.utils.Constants
+import xyz.fcr.sberrunner.utils.Constants.MAP_TRACKING_ZOOM
 import xyz.fcr.sberrunner.utils.Constants.MAP_ZOOMED_OUT
 import xyz.fcr.sberrunner.utils.Constants.NON_VALID
-import xyz.fcr.sberrunner.utils.Constants.MAP_PERMISSION
-import xyz.fcr.sberrunner.utils.Constants.MAP_TRACKING_ZOOM
+import xyz.fcr.sberrunner.utils.Constants.RUN_BASIC_PERMISSIONS
 import javax.inject.Inject
 
 class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCallbacks {
@@ -121,7 +121,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
     }
 
     private fun getCurrentLocation() {
-        if (EasyPermissions.hasPermissions(requireContext(), MAP_PERMISSION)) {
+        if (EasyPermissions.hasPermissions(requireContext(), *RUN_BASIC_PERMISSIONS)) {
             viewModel.getCurrentLocation()
         } else {
             requestPermission()
@@ -133,7 +133,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
             this,
             getString(R.string.dialog_rationale_message),
             Constants.LOCATION_REQUEST_CODE,
-            MAP_PERMISSION
+            *RUN_BASIC_PERMISSIONS
         )
     }
 
@@ -145,7 +145,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        if (EasyPermissions.somePermissionDenied(this, MAP_PERMISSION)) {
+        if (EasyPermissions.somePermissionDenied(this, *RUN_BASIC_PERMISSIONS)) {
             AppSettingsDialog.Builder(this).build().show()
         }
     }

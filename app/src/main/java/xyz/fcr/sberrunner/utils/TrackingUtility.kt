@@ -4,10 +4,9 @@ import android.content.Context
 import android.location.Location
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.fcr.sberrunner.data.service.Polyline
-import xyz.fcr.sberrunner.utils.Constants.RUN_PERMISSIONS
-import xyz.fcr.sberrunner.utils.Constants.UNIT_RATIO
+import xyz.fcr.sberrunner.utils.Constants.RUN_ADDITIONAL_PERMISSION_Q
+import xyz.fcr.sberrunner.utils.Constants.RUN_BASIC_PERMISSIONS
 import java.util.concurrent.TimeUnit
-import kotlin.math.roundToInt
 
 /**
  * Класс для выполнения доп. логики сервиса бега
@@ -64,11 +63,19 @@ class TrackingUtility {
         /**
          * Проверка на наличие разрешений
          *
-         * @param context [Context] - контекст
          * @return [Boolean] - значение доступа (да или нет)
          */
-        fun hasLocationPermissions(context: Context): Boolean {
-            return EasyPermissions.hasPermissions(context, *RUN_PERMISSIONS)
+        fun Context.hasBasicLocationPermissions(): Boolean {
+            return EasyPermissions.hasPermissions(this, *RUN_BASIC_PERMISSIONS)
+        }
+
+        /**
+         * Проверка на наличие background разрешения
+         *
+         * @return [Boolean] - значение доступа (да или нет)
+         */
+        fun Context.hasBackgroundLocationPermission(): Boolean {
+            return EasyPermissions.hasPermissions(this, *RUN_ADDITIONAL_PERMISSION_Q)
         }
     }
 }

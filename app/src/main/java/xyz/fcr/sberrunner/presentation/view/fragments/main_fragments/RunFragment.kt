@@ -2,6 +2,7 @@ package xyz.fcr.sberrunner.presentation.view.fragments.main_fragments
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +20,6 @@ import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import es.dmoral.toasty.Toasty
-import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.fcr.sberrunner.R
@@ -33,13 +33,15 @@ import xyz.fcr.sberrunner.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 import xyz.fcr.sberrunner.utils.Constants.ACTION_STOP_SERVICE
 import xyz.fcr.sberrunner.utils.Constants.MAP_TRACKING_ZOOM
 import xyz.fcr.sberrunner.utils.Constants.POLYLINE_WIDTH
-import xyz.fcr.sberrunner.utils.Constants.REQUEST_CODE_LOCATION_PERMISSION
-import xyz.fcr.sberrunner.utils.Constants.RUN_PERMISSIONS
+import xyz.fcr.sberrunner.utils.Constants.REQUEST_CODE_BACKGROUND_PERMISSION
+import xyz.fcr.sberrunner.utils.Constants.REQUEST_CODE_BASIC_PERMISSION
+import xyz.fcr.sberrunner.utils.Constants.RUN_ADDITIONAL_PERMISSION_Q
+import xyz.fcr.sberrunner.utils.Constants.RUN_BASIC_PERMISSIONS
 import xyz.fcr.sberrunner.utils.Constants.UNIT_RATIO
 import xyz.fcr.sberrunner.utils.Constants.WEIGHT_INT_DEFAULT
 import xyz.fcr.sberrunner.utils.TrackingUtility
-import xyz.fcr.sberrunner.utils.addDistanceUnits
-import xyz.fcr.sberrunner.utils.addSpeedUnits
+import xyz.fcr.sberrunner.utils.TrackingUtility.Companion.hasBackgroundLocationPermission
+import xyz.fcr.sberrunner.utils.TrackingUtility.Companion.hasBasicLocationPermissions
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.round
@@ -295,16 +297,23 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         )
     }
 
-    @AfterPermissionGranted(REQUEST_CODE_LOCATION_PERMISSION)
     private fun toggleRun() {
-        if (EasyPermissions.hasPermissions(requireContext(), *RUN_PERMISSIONS)) {
+        if (requireContext().hasBasicLocationPermissions()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                if (!requireContext().hasBackgroundLocationPermission()) {
+                    requestBackgroundPermission()
+                    return
+                }
+            }
+
             if (isTracking) {
                 sendActionToService(ACTION_PAUSE_SERVICE)
             } else {
                 sendActionToService(ACTION_START_OR_RESUME_SERVICE)
             }
         } else {
-            requestPermissions()
+            requestBasicPermissions()
         }
     }
 
@@ -326,12 +335,21 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
-    private fun requestPermissions() {
+    private fun requestBasicPermissions() {
         EasyPermissions.requestPermissions(
             this,
             getString(R.string.permission_rationale),
-            REQUEST_CODE_LOCATION_PERMISSION,
-            *RUN_PERMISSIONS
+            REQUEST_CODE_BASIC_PERMISSION,
+            *RUN_BASIC_PERMISSIONS
+        )
+    }
+
+    private fun requestBackgroundPermission() {
+        EasyPermissions.requestPermissions(
+            this,
+            getString(R.string.permission_rationale_q),
+            REQUEST_CODE_BACKGROUND_PERMISSION,
+            *RUN_ADDITIONAL_PERMISSION_Q
         )
     }
 
@@ -340,11 +358,28 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+        when (requestCode) {
+            REQUEST_CODE_BASIC_PERMISSION -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    requestBackgroundPermission()
+                } else {
+                    toggleRun()
+                }
+            }
+            REQUEST_CODE_BACKGROUND_PERMISSION -> toggleRun()
+        }
+    }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        if (EasyPermissions.somePermissionDenied(this, *RUN_PERMISSIONS)) {
-            AppSettingsDialog.Builder(this).build().show()
+        if (requestCode == REQUEST_CODE_BASIC_PERMISSION) {
+            if (EasyPermissions.somePermissionDenied(this, *RUN_BASIC_PERMISSIONS)) {
+                AppSettingsDialog.Builder(this).build().show()
+            }
+        } else if (requestCode == REQUEST_CODE_BACKGROUND_PERMISSION) {
+            if (EasyPermissions.somePermissionDenied(this, *RUN_ADDITIONAL_PERMISSION_Q)) {
+                AppSettingsDialog.Builder(this).build().show()
+            }
         }
     }
 

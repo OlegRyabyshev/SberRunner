@@ -37,6 +37,7 @@ import xyz.fcr.sberrunner.utils.Constants.NOTIFICATION_CHANNEL_ID
 import xyz.fcr.sberrunner.utils.Constants.NOTIFICATION_CHANNEL_NAME
 import xyz.fcr.sberrunner.utils.Constants.NOTIFICATION_ID
 import xyz.fcr.sberrunner.utils.TrackingUtility
+import xyz.fcr.sberrunner.utils.TrackingUtility.Companion.hasBasicLocationPermissions
 import javax.inject.Inject
 import kotlin.math.round
 
@@ -155,7 +156,7 @@ class RunningService : LifecycleService() {
     @SuppressLint("MissingPermission")
     private fun updateLocationChecking(isTracking: Boolean) {
         if (isTracking) {
-            if (TrackingUtility.hasLocationPermissions(this)) {
+            if (this.hasBasicLocationPermissions()) {
                 val request = LocationRequest.create().apply {
                     interval = LOCATION_UPDATE_INTERVAL
                     fastestInterval = FASTEST_LOCATION_UPDATE_INTERVAL
