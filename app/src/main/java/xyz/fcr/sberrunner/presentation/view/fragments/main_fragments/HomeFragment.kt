@@ -95,7 +95,7 @@ class HomeFragment : Fragment(), ItemClickListener {
     }
 
     private val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-        ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
     ) {
         override fun onMove(
             recyclerView: RecyclerView,

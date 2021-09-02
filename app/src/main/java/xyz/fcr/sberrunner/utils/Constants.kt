@@ -88,4 +88,6 @@ object Constants {
     const val UNIT_RATIO = 0.6214f
 
     const val ROWS_IN_RECYCLER = 2
+
+    const val WEIGHT_INT_DEFAULT = 70
 }

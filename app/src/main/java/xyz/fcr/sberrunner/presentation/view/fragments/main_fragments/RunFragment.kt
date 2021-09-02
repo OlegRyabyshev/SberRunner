@@ -24,7 +24,6 @@ import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.model.Run
-import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.data.service.RunningService
 import xyz.fcr.sberrunner.databinding.FragmentRunBinding
 import xyz.fcr.sberrunner.presentation.App
@@ -37,7 +36,10 @@ import xyz.fcr.sberrunner.utils.Constants.POLYLINE_WIDTH
 import xyz.fcr.sberrunner.utils.Constants.REQUEST_CODE_LOCATION_PERMISSION
 import xyz.fcr.sberrunner.utils.Constants.RUN_PERMISSIONS
 import xyz.fcr.sberrunner.utils.Constants.UNIT_RATIO
+import xyz.fcr.sberrunner.utils.Constants.WEIGHT_INT_DEFAULT
 import xyz.fcr.sberrunner.utils.TrackingUtility
+import xyz.fcr.sberrunner.utils.addDistanceUnits
+import xyz.fcr.sberrunner.utils.addSpeedUnits
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.round
@@ -56,8 +58,8 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     lateinit var factory: ViewModelProvider.Factory
     val viewModel: RunViewModel by viewModels { factory }
 
-    @Inject
-    lateinit var sharedPreferenceWrapper: ISharedPreferenceWrapper
+    private var isMetric = false
+    private var weight = WEIGHT_INT_DEFAULT
 
     init {
         App.appComponent.inject(this)
@@ -75,6 +77,9 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.mapView.onCreate(savedInstanceState)
+
+        viewModel.setUnits()
+        viewModel.setWeight()
 
         binding.mapView.getMapAsync {
             map = it
@@ -164,23 +169,30 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         })
 
         RunningService.avgSpeed.observe(viewLifecycleOwner, {
-            if (sharedPreferenceWrapper.isMetric()) {
-                binding.speedTv.text = it.toString()
+            if (isMetric) {
+                binding.speedTv.text = it
+                    .toString()
+                binding.speedInfo.setText(R.string.km_h)
             } else {
-                binding.speedTv.text = String.format("%.02f", it * UNIT_RATIO)
+                binding.speedTv.text = String
+                    .format("%.02f", it * UNIT_RATIO)
+                binding.speedInfo.setText(R.string.mph)
             }
         })
 
         RunningService.distance.observe(viewLifecycleOwner, {
-            if (sharedPreferenceWrapper.isMetric()) {
+            if (isMetric) {
                 binding.distanceTv.text = String.format("%.02f", it)
+                binding.distanceInfo.setText(R.string.kilometers)
             } else {
                 binding.distanceTv.text = String.format("%.02f", it * UNIT_RATIO)
+                binding.distanceInfo.setText(R.string.miles)
             }
         })
 
         RunningService.calories.observe(viewLifecycleOwner, {
-            binding.caloriesTv.text = ((it * sharedPreferenceWrapper.getIntWeight()).toInt()).toString()
+            binding.caloriesTv.text = ((it * weight).toInt()).toString()
+            binding.caloriesInfo.setText(R.string.kcal)
         })
 
         viewModel.historyLiveData.observe(viewLifecycleOwner, {
@@ -189,6 +201,14 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 animateCamera(CameraUpdateFactory.newLatLngZoom(it, MAP_TRACKING_ZOOM))
             }
         })
+
+        viewModel.unitsLiveData.observe(viewLifecycleOwner) { isMetricFromViewModel: Boolean ->
+            isMetric = isMetricFromViewModel
+        }
+
+        viewModel.weightLiveData.observe(viewLifecycleOwner) { weightFromViewModel: Int ->
+            weight = weightFromViewModel
+        }
     }
 
     /**
@@ -297,7 +317,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
             val avgSpeed = round((distanceInMeters / 1000f) / (curTimeInMillis / 1000f / 60 / 60) * 10) / 10f
             val timestamp = Calendar.getInstance().timeInMillis
-            val caloriesBurned = ((distanceInMeters / 1000f) * sharedPreferenceWrapper.getIntWeight()).toInt()
+            val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
             val run = Run(distanceInMeters, timestamp, curTimeInMillis, avgSpeed, caloriesBurned, bmp)
 
             viewModel.insertRun(run)

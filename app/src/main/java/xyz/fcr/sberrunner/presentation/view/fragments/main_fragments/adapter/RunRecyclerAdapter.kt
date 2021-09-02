@@ -78,7 +78,7 @@ class RunRecyclerAdapter(private val listener: ItemClickListener) :
                 timeInMillis = run.timestamp
             }
 
-            val dateFormat = SimpleDateFormat("E, dd MMM KK:mm a", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy hh:mm", Locale.getDefault())
             date_item_tv.text = dateFormat.format(calendar.time)
         }
     }

@@ -18,6 +18,8 @@ class RunViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _historyLiveData = MutableLiveData<LatLng>()
+    private val _unitsLiveData = MutableLiveData<Boolean>()
+    private val _weightLiveData = MutableLiveData<Int>()
 
     private var disposableAddRun: Disposable? = null
 
@@ -31,6 +33,14 @@ class RunViewModel @Inject constructor(
         val lat = sharedPreferenceWrapper.getRunLatitude()
         val lon = sharedPreferenceWrapper.getRunLongitude()
         _historyLiveData.postValue(LatLng(lat.toDouble(), lon.toDouble()))
+    }
+
+    fun setUnits() {
+        _unitsLiveData.postValue(sharedPreferenceWrapper.isMetric())
+    }
+
+    fun setWeight() {
+        _weightLiveData.postValue(sharedPreferenceWrapper.getIntWeight())
     }
 
     /**
@@ -50,4 +60,8 @@ class RunViewModel @Inject constructor(
 
     val historyLiveData: LiveData<LatLng>
         get() = _historyLiveData
+    val unitsLiveData: LiveData<Boolean>
+        get() = _unitsLiveData
+    val weightLiveData: LiveData<Int>
+        get() = _weightLiveData
 }

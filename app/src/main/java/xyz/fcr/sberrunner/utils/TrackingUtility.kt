@@ -70,15 +70,5 @@ class TrackingUtility {
         fun hasLocationPermissions(context: Context): Boolean {
             return EasyPermissions.hasPermissions(context, *RUN_PERMISSIONS)
         }
-
-        fun convertMetersToMiles(distanceInMeters: Int): Float {
-            val distanceInMiles = (distanceInMeters / 1000.0f) * UNIT_RATIO
-            return (distanceInMiles * 100.0f).roundToInt() / 100.0f
-        }
-
-        fun convertKMHtoMPH(speedInKMH: Float): Any {
-            val distanceInMiles = speedInKMH * UNIT_RATIO
-            return (distanceInMiles * 100.0f).roundToInt() / 100.0f
-        }
     }
 }

@@ -18,11 +18,10 @@ import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.model.Progress
 import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapter.ProgressRecyclerAdapter
 import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.ProgressViewModel
+import xyz.fcr.sberrunner.utils.*
 import xyz.fcr.sberrunner.utils.Constants.ROWS_IN_RECYCLER
 import xyz.fcr.sberrunner.utils.Constants.UNIT_RATIO
-import xyz.fcr.sberrunner.utils.TrackingUtility
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 class ProgressFragment : Fragment() {
 
@@ -149,7 +148,7 @@ class ProgressFragment : Fragment() {
     }
 
     private fun progressTotalDuration(runs: List<Run>): Progress {
-        val title: String = resources.getString(R.string.total_duraion)
+        val title: String = resources.getString(R.string.total_duration)
         val value: String = TrackingUtility.getFormattedStopWatchTime(runs.sumOf { it.timeInMillis })
         val icon: Drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_total_duration)!!
 
@@ -183,32 +182,4 @@ class ProgressFragment : Fragment() {
 
         return Progress(title, value, icon)
     }
-}
-
-private fun Int.getAverage(isMetric: Boolean, count: Int): Double {
-    return if (isMetric) {
-        ((((this / 1000f) / count) * 100f).roundToInt() / 100f).toDouble()
-    } else {
-        ((((this / 1000f / count * UNIT_RATIO) * 100f)).roundToInt() / 100f).toDouble()
-    }
-}
-
-private fun String.addDistanceUnits(isMetric: Boolean): String {
-    return if (isMetric) {
-        this.plus(App.appComponent.context().resources.getString(R.string.km_addition))
-    } else {
-        this.plus(App.appComponent.context().resources.getString(R.string.miles_addition))
-    }
-}
-
-private fun String.addSpeedUnits(isMetric: Boolean): String {
-    return if (isMetric) {
-        this.plus(App.appComponent.context().resources.getString(R.string.km_h_addition))
-    } else {
-        this.plus(App.appComponent.context().resources.getString(R.string.mph_addition))
-    }
-}
-
-private fun String.addCalories(): String {
-    return this.plus(App.appComponent.context().resources.getString(R.string.kcal_addition))
 }

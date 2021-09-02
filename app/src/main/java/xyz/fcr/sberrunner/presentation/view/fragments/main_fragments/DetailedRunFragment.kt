@@ -12,12 +12,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import xyz.fcr.sberrunner.data.model.Run
-import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.databinding.FragmentDetailedRunBinding
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.DetailedRunViewModel
+import xyz.fcr.sberrunner.utils.*
 import xyz.fcr.sberrunner.utils.Constants.CURRENT_RUN_ID
-import xyz.fcr.sberrunner.utils.TrackingUtility
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
@@ -33,8 +32,7 @@ class DetailedRunFragment : Fragment() {
         App.appComponent.inject(this)
     }
 
-    @Inject
-    lateinit var sharedPreferenceWrapper: ISharedPreferenceWrapper
+    private var isMetric = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,31 +62,41 @@ class DetailedRunFragment : Fragment() {
 
     private fun observeLiveData() {
         viewModel.runLiveData.observe(viewLifecycleOwner) { run: Run -> showRunDetailsInfo(run)}
+        viewModel.unitsLiveData.observe(viewLifecycleOwner) { units: Boolean -> isMetric = units }
     }
 
     @SuppressLint("SimpleDateFormat")
     private fun showRunDetailsInfo(run: Run) {
-        val sdfTime = SimpleDateFormat("KK:mm a")
-        binding.detailedTimeOfRunTv.text = sdfTime.format(run.timestamp)
-
-        val sdfDate = SimpleDateFormat("EEEE, dd MMM")
+        val sdfDate = SimpleDateFormat("dd, MMM, yyyy HH:mm")
         binding.detailedDateOfRunTv.text = sdfDate.format(run.timestamp)
 
-        if (sharedPreferenceWrapper.isMetric()) {
-            binding.detailedDistance.text = run.distanceInMeters.toString()
+        if (isMetric) {
+            binding.detailedDistance.text = run.distanceInMeters
+                .toString()
+                .addDistanceUnits(isMetric)
         } else {
-            binding.detailedDistance.text = TrackingUtility.convertMetersToMiles(run.distanceInMeters).toString()
+            binding.detailedDistance.text = run.distanceInMeters
+                .convertMetersToMiles()
+                .toString()
+                .addDistanceUnits(isMetric)
         }
 
         binding.detailedTime.text = TrackingUtility.getFormattedStopWatchTime(run.timeInMillis)
 
-        if (sharedPreferenceWrapper.isMetric()) {
-            binding.detailedSpeed.text = run.avgSpeedInKMH.toString()
+        if (isMetric) {
+            binding.detailedSpeed.text = run.avgSpeedInKMH
+                .toString()
+                .addSpeedUnits(isMetric)
         } else {
-            binding.detailedSpeed.text = TrackingUtility.convertKMHtoMPH(run.avgSpeedInKMH).toString()
+            binding.detailedSpeed.text = run.avgSpeedInKMH
+                .convertKMHtoMPH()
+                .toString()
+                .addSpeedUnits(isMetric)
         }
 
-        binding.detailedCalories.text = run.calories.toString()
+        binding.detailedCalories.text = run.calories
+            .toString()
+            .addCalories()
 
         Glide.with(this)
             .load(run.mapImage)

@@ -121,7 +121,6 @@
     <string name="permission_rationale">SberRunner needs your location permission to launch tracking activity</string>
 
     <string name="run_initial_duration">00:00:00</string>
-    <string name="run_initial_pace">00:00</string>
     <string name="run_initial_distance">0.00</string>
     <string name="run_initial_calories">0</string>
 
@@ -134,30 +133,31 @@
     <string name="not_enough_data">Run will not be saved</string>
     <string name="service_channel">SberRunner Service Channel</string>
     <string name="time_filler">9:02am</string>
-    <string name="date_filler">Tuesday, July 05, 2021</string>
+    <string name="date_filler">19:02, July 05, 2021</string>
     <string name="back_button">Back button</string>
     <string name="kilometers">Kilometers</string>
     <string name="miles">Miles</string>
-    <string name="km_h">km/h</string>
-    <string name="mph">mph</string>
+    <string name="kcal">Kcal</string>
+    <string name="km_h">Km/h</string>
+    <string name="mph">Mph</string>
     <string name="time">Time</string>
 
     <string name="no_history_runs_home">you don\'t have any runs history yet…</string>
     <string name="no_history_runs_progress">here will be your progress stats</string>
+    <string name="cancel">Cancel</string>
 
-    <string name="cancel">cancel</string>
     <string name="not_enough_data_msg">There is not enough information to save this run, you sure you want to finish it?</string>
 
-    <string name="km_addition">\u0020km</string>
-    <string name="miles_addition">\u0020miles</string>
-    <string name="km_h_addition">\u0020km/h</string>
-    <string name="mph_addition">\u0020mph</string>
-    <string name="kcal_addition">\u0020kcal</string>
+    <string name="km_addition">\u0020Km</string>
+    <string name="miles_addition">\u0020Miles</string>
+    <string name="km_h_addition">\u0020Km/h</string>
+    <string name="mph_addition">\u0020Mph</string>
+    <string name="kcal_addition">\u0020Kcal</string>
 
 
     <string name="run_saved">Run saved</string>
     <string name="allowed_digits">0123456789</string>
-    <string name="total_duraion">Total duration</string>
+    <string name="total_duration">Total duration</string>
     <string name="total_calories">Total calories</string>
 
 </resources>

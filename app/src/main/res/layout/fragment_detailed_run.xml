@@ -24,27 +24,18 @@
             tools:ignore="HardcodedText" />
 
         <TextView
-            android:id="@+id/detailed_time_of_run_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_big"
-            android:text="@string/time_filler"
-            android:textSize="@dimen/text_medium"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/detailed_back_button"
-            app:layout_constraintTop_toTopOf="@+id/detailed_back_button" />
-
-        <TextView
             android:id="@+id/detailed_date_of_run_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_big"
             android:text="@string/date_filler"
+            android:fontFamily="@font/poppins_light"
             android:textSize="@dimen/text_medium"
+            android:textStyle="bold"
+            android:textColor="@color/text_color"
             app:layout_constraintBottom_toBottomOf="@+id/detailed_back_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/detailed_back_button"
-            app:layout_constraintTop_toBottomOf="@+id/detailed_time_of_run_tv" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/detailed_back_button" />
 
 
         <androidx.cardview.widget.CardView
@@ -272,7 +263,10 @@
             android:id="@+id/detailed_map"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_half_small"
+            android:layout_marginTop="@dimen/margin_half_small"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
             android:contentDescription="@string/map_preview"
             app:layout_constraintTop_toBottomOf="@id/calories_card_view" />
 
