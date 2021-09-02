@@ -40,8 +40,8 @@ import xyz.fcr.sberrunner.utils.Constants.RUN_BASIC_PERMISSIONS
 import xyz.fcr.sberrunner.utils.Constants.UNIT_RATIO
 import xyz.fcr.sberrunner.utils.Constants.WEIGHT_INT_DEFAULT
 import xyz.fcr.sberrunner.utils.TrackingUtility
-import xyz.fcr.sberrunner.utils.TrackingUtility.Companion.hasBackgroundLocationPermission
-import xyz.fcr.sberrunner.utils.TrackingUtility.Companion.hasBasicLocationPermissions
+import xyz.fcr.sberrunner.utils.hasBackgroundLocationPermission
+import xyz.fcr.sberrunner.utils.hasBasicLocationPermissions
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.round

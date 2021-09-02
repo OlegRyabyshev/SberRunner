@@ -30,6 +30,7 @@ import xyz.fcr.sberrunner.utils.Constants.MAP_TRACKING_ZOOM
 import xyz.fcr.sberrunner.utils.Constants.MAP_ZOOMED_OUT
 import xyz.fcr.sberrunner.utils.Constants.NON_VALID
 import xyz.fcr.sberrunner.utils.Constants.RUN_BASIC_PERMISSIONS
+import xyz.fcr.sberrunner.utils.hasBasicLocationPermissions
 import javax.inject.Inject
 
 class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCallbacks {
@@ -121,7 +122,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
     }
 
     private fun getCurrentLocation() {
-        if (EasyPermissions.hasPermissions(requireContext(), *RUN_BASIC_PERMISSIONS)) {
+        if (requireContext().hasBasicLocationPermissions()) {
             viewModel.getCurrentLocation()
         } else {
             requestPermission()

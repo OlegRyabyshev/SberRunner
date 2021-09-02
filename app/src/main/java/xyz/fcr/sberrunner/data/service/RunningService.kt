@@ -37,7 +37,7 @@ import xyz.fcr.sberrunner.utils.Constants.NOTIFICATION_CHANNEL_ID
 import xyz.fcr.sberrunner.utils.Constants.NOTIFICATION_CHANNEL_NAME
 import xyz.fcr.sberrunner.utils.Constants.NOTIFICATION_ID
 import xyz.fcr.sberrunner.utils.TrackingUtility
-import xyz.fcr.sberrunner.utils.TrackingUtility.Companion.hasBasicLocationPermissions
+import xyz.fcr.sberrunner.utils.hasBasicLocationPermissions
 import javax.inject.Inject
 import kotlin.math.round
 

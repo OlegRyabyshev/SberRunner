@@ -1,5 +1,7 @@
 package xyz.fcr.sberrunner.utils
 
+import android.content.Context
+import pub.devrel.easypermissions.EasyPermissions
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.presentation.App
 import kotlin.math.roundToInt
@@ -40,4 +42,22 @@ fun Int.convertMetersToMiles(): Float {
 fun Float.convertKMHtoMPH(): Float {
     val distanceInMiles = this * Constants.UNIT_RATIO
     return (distanceInMiles * 100.0f).roundToInt() / 100.0f
+}
+
+/**
+ * Проверка на наличие разрешений
+ *
+ * @return [Boolean] - значение доступа (да или нет)
+ */
+fun Context.hasBasicLocationPermissions(): Boolean {
+    return EasyPermissions.hasPermissions(this, *Constants.RUN_BASIC_PERMISSIONS)
+}
+
+/**
+ * Проверка на наличие background разрешения
+ *
+ * @return [Boolean] - значение доступа (да или нет)
+ */
+fun Context.hasBackgroundLocationPermission(): Boolean {
+    return EasyPermissions.hasPermissions(this, *Constants.RUN_ADDITIONAL_PERMISSION_Q)
 }

@@ -59,23 +59,5 @@ class TrackingUtility {
             }
             return distance
         }
-
-        /**
-         * Проверка на наличие разрешений
-         *
-         * @return [Boolean] - значение доступа (да или нет)
-         */
-        fun Context.hasBasicLocationPermissions(): Boolean {
-            return EasyPermissions.hasPermissions(this, *RUN_BASIC_PERMISSIONS)
-        }
-
-        /**
-         * Проверка на наличие background разрешения
-         *
-         * @return [Boolean] - значение доступа (да или нет)
-         */
-        fun Context.hasBackgroundLocationPermission(): Boolean {
-            return EasyPermissions.hasPermissions(this, *RUN_ADDITIONAL_PERMISSION_Q)
-        }
     }
 }
