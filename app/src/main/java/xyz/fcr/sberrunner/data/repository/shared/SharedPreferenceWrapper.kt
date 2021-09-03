@@ -8,7 +8,9 @@ import xyz.fcr.sberrunner.utils.Constants.RUN_LAT_KEY
 import xyz.fcr.sberrunner.utils.Constants.RUN_LON_KEY
 import xyz.fcr.sberrunner.utils.Constants.VOICE_KEY
 
-class SharedPreferenceWrapper (private val sharedPreferences: SharedPreferences) : ISharedPreferenceWrapper {
+class SharedPreferenceWrapper(
+    private val sharedPreferences: SharedPreferences
+) : ISharedPreferenceWrapper {
 
     override fun getName(): String {
         return sharedPreferences.getString(Constants.NAME_KEY, "Guest")!!
@@ -36,6 +38,7 @@ class SharedPreferenceWrapper (private val sharedPreferences: SharedPreferences)
             apply()
         }
     }
+
     override fun saveWeight(weight: String) {
         sharedPreferences.edit().apply {
             putString("weight_key", weight)
@@ -75,7 +78,7 @@ class SharedPreferenceWrapper (private val sharedPreferences: SharedPreferences)
         return sharedPreferences.getFloat(MAP_LAT_KEY, Constants.MOSCOW_LAT)
     }
 
-    override fun getMapLongitude() : Float {
+    override fun getMapLongitude(): Float {
         return sharedPreferences.getFloat(MAP_LON_KEY, Constants.MOSCOW_LON)
     }
 
@@ -83,11 +86,11 @@ class SharedPreferenceWrapper (private val sharedPreferences: SharedPreferences)
         return sharedPreferences.getFloat(RUN_LAT_KEY, Constants.MOSCOW_LAT)
     }
 
-    override fun getRunLongitude() : Float {
+    override fun getRunLongitude(): Float {
         return sharedPreferences.getFloat(RUN_LON_KEY, Constants.MOSCOW_LON)
     }
 
     override fun getVoiceNotificationStatus(): Boolean {
-       return sharedPreferences.getBoolean(VOICE_KEY, true)
+        return sharedPreferences.getBoolean(VOICE_KEY, true)
     }
 }

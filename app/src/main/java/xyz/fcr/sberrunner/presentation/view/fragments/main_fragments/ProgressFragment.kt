@@ -16,7 +16,7 @@ import xyz.fcr.sberrunner.data.model.Run
 import xyz.fcr.sberrunner.databinding.FragmentProgressBinding
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.model.Progress
-import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapter.ProgressRecyclerAdapter
+import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapters.ProgressRecyclerAdapter
 import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.ProgressViewModel
 import xyz.fcr.sberrunner.utils.*
 import xyz.fcr.sberrunner.utils.Constants.ROWS_IN_RECYCLER
@@ -51,13 +51,13 @@ class ProgressFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.setUnits()
+        viewModel.updateListOfRuns()
         observeLiveData()
     }
 
     private fun observeLiveData() {
-        viewModel.listOfRuns.observe(viewLifecycleOwner) { runs: List<Run> ->
+        viewModel.listOfRunsLiveData.observe(viewLifecycleOwner) { runs: List<Run> ->
             if (runs.isNotEmpty()) {
                 initRecycler(runs)
                 displayRecycler(true)

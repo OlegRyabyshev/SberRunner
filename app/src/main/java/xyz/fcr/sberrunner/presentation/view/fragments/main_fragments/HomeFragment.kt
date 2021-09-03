@@ -17,8 +17,8 @@ import es.dmoral.toasty.Toasty
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentHomeBinding
 import xyz.fcr.sberrunner.presentation.App
-import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapter.ItemClickListener
-import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapter.RunRecyclerAdapter
+import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapters.ItemClickListener
+import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapters.RunRecyclerAdapter
 import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.HomeViewModel
 import xyz.fcr.sberrunner.utils.Constants.CURRENT_RUN_ID
 import javax.inject.Inject
@@ -44,31 +44,39 @@ class HomeFragment : Fragment(), ItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        viewModel.syncWithCloud()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.updateListOfRuns()
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.syncWithCloud()
+        }
 
         setupRecyclerView()
-
-        viewModel.syncWithCloud()
         observeLiveData()
     }
 
     private fun observeLiveData() {
-        viewModel.progressLiveData.observe(viewLifecycleOwner, { isVisible: Boolean -> showProgress(isVisible) })
+        viewModel.progressLiveData.observe(viewLifecycleOwner) { isVisible: Boolean ->
+            showProgress(isVisible)
+        }
 
-        viewModel.errorLiveData.observe(viewLifecycleOwner, { error: String -> showError(error) })
+        viewModel.errorLiveData.observe(viewLifecycleOwner) { error: String ->
+            showError(error)
+        }
 
-        viewModel.listOfRuns.observe(viewLifecycleOwner, { runs ->
+        viewModel.listOfRunsLiveData.observe(viewLifecycleOwner) { runs ->
             if (runs.isNotEmpty()) {
                 recyclerAdapter.submitList(runs)
                 displayRecycler(true)
             } else {
                 displayRecycler(false)
             }
-        })
+        }
     }
 
     private fun displayRecycler(isVisible: Boolean) {
@@ -82,7 +90,9 @@ class HomeFragment : Fragment(), ItemClickListener {
     }
 
     private fun showProgress(isVisible: Boolean) {
-        binding.progressCircularHome.isVisible = isVisible
+        binding.swipeRefreshLayout.post {
+            binding.swipeRefreshLayout.isRefreshing = isVisible
+        }
     }
 
     private fun setupRecyclerView() {

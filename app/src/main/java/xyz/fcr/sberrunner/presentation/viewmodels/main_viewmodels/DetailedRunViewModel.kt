@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import xyz.fcr.sberrunner.data.model.Run
-import xyz.fcr.sberrunner.data.repository.db.IDatabaseRepository
+import xyz.fcr.sberrunner.domain.IDatabaseInteractor
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import javax.inject.Inject
 
 class DetailedRunViewModel @Inject constructor(
-    private val databaseRepository: IDatabaseRepository,
+    private val databaseRepository: IDatabaseInteractor,
     private val sharedPreferenceWrapper: ISharedPreferenceWrapper
 ) : ViewModel() {
 

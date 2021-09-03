@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.model.Run
-import xyz.fcr.sberrunner.data.repository.db.IDatabaseRepository
+import xyz.fcr.sberrunner.domain.IDatabaseInteractor
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Inject
 
 class RunViewModel @Inject constructor(
-    private val databaseRepository: IDatabaseRepository,
+    private val databaseRepository: IDatabaseInteractor,
     private val schedulersProvider: ISchedulersProvider,
     private val sharedPreferenceWrapper: ISharedPreferenceWrapper
 ) : ViewModel() {

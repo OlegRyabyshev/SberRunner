@@ -1,13 +1,14 @@
-package xyz.fcr.sberrunner.data.repository.db
+package xyz.fcr.sberrunner.domain
 
 import androidx.lifecycle.LiveData
 import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.model.Run
 
 /**
  * Интерфейс доступка к базе данных
  */
-interface IDatabaseRepository {
+interface IDatabaseInteractor {
 
     /**
      * Метод добавления объкта бега в БД
@@ -28,7 +29,7 @@ interface IDatabaseRepository {
      *
      * @return - LiveData лист из забегов
      */
-    fun getAllRuns() : LiveData<List<Run>>
+    fun getAllRuns() : Single<List<Run>>
 
     /**
      * Метод получения объкта бега из БД по ID
@@ -36,4 +37,6 @@ interface IDatabaseRepository {
      * @return - LiveData объект забега
      */
     fun getRun(runId: Int) : LiveData<Run>
+
+    fun syncWithCloud(): Completable
 }

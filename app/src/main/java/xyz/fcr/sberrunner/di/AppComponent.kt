@@ -10,7 +10,7 @@ import xyz.fcr.sberrunner.presentation.view.activities.SplashScreenActivity
 import xyz.fcr.sberrunner.presentation.view.fragments.firebase_fragments.LoginFragment
 import xyz.fcr.sberrunner.presentation.view.fragments.firebase_fragments.RegistrationFragment
 import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.*
-import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapter.RunRecyclerAdapter
+import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapters.RunRecyclerAdapter
 import xyz.fcr.sberrunner.presentation.viewmodels.firebase_viewmodels.LoginViewModel
 import xyz.fcr.sberrunner.presentation.viewmodels.firebase_viewmodels.RegistrationViewModel
 import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.MapViewModel

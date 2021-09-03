@@ -15,7 +15,7 @@ interface RunDao {
     fun deleteRun(run: Run)
 
     @Query("SELECT * FROM $DB_NAME ORDER BY timestamp DESC")
-    fun getAllRuns(): LiveData<List<Run>>
+    fun getAllRuns(): List<Run>
 
     @Query("SELECT * FROM $DB_NAME WHERE id = :runId")
     fun getRun(runId: Int): LiveData<Run>

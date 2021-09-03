@@ -1,22 +1,22 @@
-package xyz.fcr.sberrunner.data.repository.db
+package xyz.fcr.sberrunner.domain
 
 import androidx.lifecycle.LiveData
 import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.model.Run
+import xyz.fcr.sberrunner.data.repository.firestore.IFirestoreRepository
 import xyz.fcr.sberrunner.data.room.RunDao
-import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Inject
 
 /**
- * Имплементация интерфейса [IDatabaseRepository], служит для связи room dao <-> view model
+ * Имплементация интерфейса [IDatabaseInteractor], служит для связи room dao <-> view model
  *
  * @param runDao [RunDao] - data access objects для получения доступа к базе данных бега
- * @param schedulersProvider [ISchedulersProvider] - провайдер объектов Scheduler
  */
-class DatabaseRepository @Inject constructor(
+class DatabaseInteractor @Inject constructor(
     private val runDao: RunDao,
-    private val schedulersProvider: ISchedulersProvider
-) : IDatabaseRepository {
+    private val firestoreRepository: IFirestoreRepository
+) : IDatabaseInteractor {
 
     /**
      * Метод добавления объкта бега в БД
@@ -41,8 +41,8 @@ class DatabaseRepository @Inject constructor(
      *
      * @return - LiveData лист из забегов
      */
-    override fun getAllRuns(): LiveData<List<Run>> {
-        return runDao.getAllRuns()
+    override fun getAllRuns(): Single<List<Run>> {
+        return Single.fromCallable { runDao.getAllRuns() }
     }
 
     /**
@@ -52,5 +52,11 @@ class DatabaseRepository @Inject constructor(
      */
     override fun getRun(runId: Int): LiveData<Run> {
         return runDao.getRun(runId)
+    }
+
+    override fun syncWithCloud(): Completable {
+        return Completable.fromAction {
+            firestoreRepository.syncWithCloud()
+        }
     }
 }

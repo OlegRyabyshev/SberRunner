@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapter
+package xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapters
 
 import android.view.LayoutInflater
 import android.view.View

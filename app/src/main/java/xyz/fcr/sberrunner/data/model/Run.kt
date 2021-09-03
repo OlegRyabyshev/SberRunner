@@ -16,7 +16,6 @@ import xyz.fcr.sberrunner.utils.Constants.DB_NAME
  * @param avgSpeedInKMH [Float] - средняя скорость за забег
  * @param calories [Int] - потраченные калории за забег
  * @param mapImage [Bitmap] - отображение карты на момент конца забега
- *
  */
 @Entity(tableName = DB_NAME)
 data class Run(

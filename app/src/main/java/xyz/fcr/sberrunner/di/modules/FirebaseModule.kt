@@ -6,6 +6,9 @@ import dagger.Module
 import dagger.Provides
 import xyz.fcr.sberrunner.data.repository.firebase.FirebaseRepository
 import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
+import xyz.fcr.sberrunner.data.repository.firestore.FirestoreRepository
+import xyz.fcr.sberrunner.data.repository.firestore.IFirestoreRepository
+import xyz.fcr.sberrunner.data.room.RunDao
 import javax.inject.Singleton
 
 @Module
@@ -27,5 +30,11 @@ class FirebaseModule {
     @Singleton
     fun providesFirebaseRepository(auth: FirebaseAuth, store: FirebaseFirestore): IFirebaseRepository {
         return FirebaseRepository(auth, store)
+    }
+
+    @Provides
+    @Singleton
+    fun providesFirestoreRepository(runDao: RunDao, store: FirebaseFirestore): IFirestoreRepository {
+        return FirestoreRepository(store, runDao)
     }
 }
