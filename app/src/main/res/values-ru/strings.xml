@@ -1,0 +1,168 @@
+<resources>
+
+    <string name="new_to_sberrunner">Впервые в SberRunner? Зарестрируйтесь тут.</string>
+    <string name="part_to_click_login">Зарестрируйтесь</string>
+
+    <string name="already_have_an_account">Уже есть аккаунт? Залогиньтесь здесь.</string>
+    <string name="part_to_click_registration">Залогиньтесь</string>
+
+    <string name="dialog_rationale_title">Запрос геопозиции</string>
+    <string name="dialog_rationale_message">Чтобы отобразить текущее местоположение, приложению требуется доступ к геопозиции</string>
+    <string name="dialog_rationale_give_access">Разрешить</string>
+    <string name="dialog_rationale_decline">Не сейчас</string>
+
+    <string name="email">Почта</string>
+    <string name="password">Пароль</string>
+    <string name="name">Имя</string>
+    <string name="weight_kg">Вес (в кг)</string>
+
+    <string name="sign_up">Регистрация</string>
+    <string name="sign_in">Войти</string>
+
+    <string name="create_new_account">Создате ваш аккаунт!</string>
+    <string name="enter_with_your_account">Войдите в существующий аккаунт!</string>
+
+    <string name="forgot_password">Забыли пароль?</string>
+
+    <string name="show_current_location">Показать текущую геопозицию</string>
+
+    <string name="zero">0</string>
+    <string name="zero_dot">0.0</string>
+
+    <string name="duration_zero">00:00:00</string>
+
+    <string name="total_distance">Полная Дистанция</string>
+    <string name="avg_distance">Сред. Дистанция</string>
+    <string name="distance">Дистанция</string>
+
+    <string name="total_runs">Всего забегов</string>
+
+    <string name="avg_speed">Сред. Скорость</string>
+
+    <string name="avg_duration">Сред. Время</string>
+    <string name="duration">Время</string>
+
+    <string name="avg_calories">Сред. Калории</string>
+    <string name="calories">Калории</string>
+
+    <string name="theme_default_entries">Следовать системной теме</string>
+    <string name="theme_light_entries">Светлая</string>
+    <string name="theme_dark_entries">Тёмная</string>
+
+    <string name="theme_default_entry_value">0</string>
+    <string name="theme_light_entry_value">16</string>
+    <string name="theme_dark_entry_value">32</string>
+
+    <string name="unit_metric_entries">Метрическая</string>
+    <string name="unit_imperial_entries">Имперская</string>
+
+    <string name="start">Старт</string>
+    <string name="pause">Пауза</string>
+    <string name="finish">Закончить</string>
+    <string name="resume">Продолжить</string>
+
+    <string name="check_email_toast">Сообщение для восстановления пароль отправлено на почту</string>
+    <string name="failed_check_email_toast">Аккаунт не найден, проверьте корректность почты или подключение</string>
+    <string name="not_matching_email_password">Почта и пароль не совпадают, проверьте введенные данные или подключение</string>
+
+    <!--Settings-->
+    <string name="settings_title_name">Изменить имя</string>
+    <string name="settings_name">Нажмите, чтобы изменить имя</string>
+
+    <string name="settings_title_weight">Изменить вес</string>
+    <string name="settings_weight">Нажмите, чтобы изменить вес</string>
+
+    <string name="settings_title_units">Единицы измерения</string>
+    <string name="settings_units">Нажмите, чтобы переключиться между метрической/имперской системой</string>
+
+    <string name="settings_title_theme">Тема</string>
+    <string name="settings_theme">Изменить отображаему тему</string>
+
+    <string name="settings_title_voice">Голосовой ассистент</string>
+    <string name="settings_voice">Воспроизводить уведомления при активном забеге</string>
+
+    <string name="settings_version">Версия</string>
+    <string name="settings_title_log_out">Выйти из аккаунта</string>
+    <string name="settings_title_delete_account">Удалить аккаунт</string>
+
+    <string name="settings_category_account">Аккаунт</string>
+    <string name="settings_category_settings">Настройки</string>
+    <string name="settings_category_about">Подробнее</string>
+
+    <string name="cant_find_location">Не получается определить местоположение, проверьте подключение</string>
+
+    <string name="title_welcome_one">Добро пожаловать в SberRunner</string>
+    <string name="welcome_one">Простое приложение для отслеживание ваших забегов</string>
+
+    <string name="title_welcome_two">Ваш помощник в беге</string>
+    <string name="welcome_two">Совершенствуйтесь, анализируя историю бега</string>
+
+    <string name="title_welcome_three">Давйте начнём!</string>
+    <string name="welcome_three">Войдите в уже существующий аккаунт или создайте новый</string>
+
+    <string name="enter_with_account">ВОЙТИ В АККАУНТ</string>
+
+    <string name="home_page">Дом</string>
+    <string name="map_page">Карта</string>
+    <string name="run">Бег</string>
+    <string name="progress_page">Прогресс</string>
+    <string name="settings_page">Настройки</string>
+
+    <string name="permission_rationale">Для запуска активности бега необходим доступ к геолокации</string>
+    <string name="permission_rationale_q">Ваша версия Android требует дополнительного разрешения работы геолокации на фоне, нажмите "Разрешить в любом режиме"</string>
+
+    <string name="run_initial_duration">00:00:00</string>
+    <string name="run_initial_distance">0.00</string>
+    <string name="run_initial_calories">0</string>
+
+    <string name="map_preview">Превью карты</string>
+
+    <string name="date">Дата</string>
+    <string name="undo">Вернуть</string>
+
+    <string name="run_deleted">Забег успешно удалён</string>
+    <string name="not_enough_data">Забег не будет сохранён</string>
+    <string name="service_channel">SberRunner Service Channel</string>
+    <string name="time_filler">9:02am</string>
+    <string name="date_filler">19:02, July 05, 2021</string>
+    <string name="back_button">Back button</string>
+    <string name="kilometers">Километры</string>
+    <string name="miles">Мили</string>
+    <string name="kcal">Ккал</string>
+    <string name="km_h">Км/ч</string>
+    <string name="mph">Мили/ч</string>
+    <string name="time">Вермя</string>
+
+    <string name="no_history_runs_home">у вас пока что нету истории забегов…</string>
+    <string name="no_history_runs_progress">тут будет ваш прогресс бега</string>
+    <string name="cancel">Отменить</string>
+
+    <string name="not_enough_data_msg">Информации забега недостаточно для успешного сохранения. Вы уверены, что хотите закончить забег?</string>
+
+    <string name="km_addition">\u0020Км</string>
+    <string name="miles_addition">\u0020Мили</string>
+    <string name="km_h_addition">\u0020Км/ч</string>
+    <string name="mph_addition">\u0020Мили/ч</string>
+    <string name="kcal_addition">\u0020Ккал</string>
+
+
+    <string name="run_saved">Забег сохранён</string>
+    <string name="total_duration">Полная Длительность</string>
+    <string name="total_calories">Всего калорий</string>
+    <string name="running_app">Running App</string>
+    <string name="default_time">00:00:00</string>
+    <string name="log_out_from_accout">Выйти из аккаунта?</string>
+    <string name="exit">Выйти</string>
+    <string name="delete_accout">Удалить аккаунт?</string>
+    <string name="data_will_be_lost">Все данные и прогресс будут навсегда утеряны, вы уверенны?</string>
+    <string name="delete">Удалить</string>
+
+    <string name="name_cant_be_empty">Имя должно содержать символы</string>
+    <string name="email_cant_be_empty">Почта должно содержать символы</string>
+    <string name="wrong_email_format">Почта имеет неправильный формат</string>
+    <string name="password_cant_be_empty">Пароль должн содержать символы</string>
+    <string name="password_six_characters">Пароль должен содержать минимум 6 символов</string>
+    <string name="weight_not_valid">Некорректный вес</string>
+    <string name="current_location">Текущаая позиция</string>
+
+</resources>

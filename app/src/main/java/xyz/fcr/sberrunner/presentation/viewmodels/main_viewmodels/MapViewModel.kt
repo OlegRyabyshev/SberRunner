@@ -35,7 +35,7 @@ class MapViewModel @Inject constructor(
 
 
     /**
-     * Метод обновления текущей геопозиции
+     * Обновление текущей геопозиции
      */
     @SuppressLint("MissingPermission")
     fun getCurrentLocation() {

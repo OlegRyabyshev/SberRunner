@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.DocumentSnapshot
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
+import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.Constants.VALID
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
@@ -118,11 +120,11 @@ class LoginViewModel @Inject constructor(
 
         return when {
             email.isBlank() -> {
-                _errorEmail.postValue("Email can not be empty")
+                _errorEmail.postValue(App.appComponent.context().getString(R.string.email_cant_be_empty))
                 false
             }
             !(android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) -> {
-                _errorEmail.postValue("Wrong email format")
+                _errorEmail.postValue(App.appComponent.context().getString(R.string.wrong_email_format))
                 false
             }
             else -> {
@@ -137,11 +139,11 @@ class LoginViewModel @Inject constructor(
 
         return when {
             pass.isBlank() -> {
-                _errorPass.postValue("Password can not be empty")
+                _errorPass.postValue(App.appComponent.context().getString(R.string.password_cant_be_empty))
                 false
             }
             pass.length < 6 -> {
-                _errorPass.postValue("Password should be at least 6 charters")
+                _errorPass.postValue(App.appComponent.context().getString(R.string.password_six_characters))
                 false
             }
             else -> {

@@ -90,7 +90,7 @@ object Constants {
     const val NAME = "name"
     const val WEIGHT = "weight"
 
-
+    // Convert
     const val UNIT_RATIO = 0.6214f
 
     const val ROWS_IN_RECYCLER = 2

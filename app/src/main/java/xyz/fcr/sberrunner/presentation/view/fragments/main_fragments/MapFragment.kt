@@ -115,7 +115,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
         val currentLocation = LatLng(location.latitude, location.longitude)
 
         map?.apply {
-            addMarker(MarkerOptions().position(currentLocation).title("Current location"))
+            addMarker(MarkerOptions().position(currentLocation).title(getString(R.string.current_location)))
             moveCamera(CameraUpdateFactory.newLatLng(currentLocation))
             animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_TRACKING_ZOOM))
         }

@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
+import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.Constants.VALID
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
@@ -78,7 +80,7 @@ class RegistrationViewModel @Inject constructor(
 
         return when {
             name.isBlank() -> {
-                _errorName.postValue("Name can not be empty")
+                _errorName.postValue(App.appComponent.context().getString(R.string.name_cant_be_empty))
                 false
             }
             else -> {
@@ -93,11 +95,11 @@ class RegistrationViewModel @Inject constructor(
 
         return when {
             email.isBlank() -> {
-                _errorEmail.postValue("Email can not be empty")
+                _errorEmail.postValue(App.appComponent.context().getString(R.string.email_cant_be_empty))
                 false
             }
             !(android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) -> {
-                _errorEmail.postValue("Wrong email format")
+                _errorEmail.postValue(App.appComponent.context().getString(R.string.wrong_email_format))
                 false
             }
             else -> {
@@ -112,11 +114,11 @@ class RegistrationViewModel @Inject constructor(
 
         return when {
             pass.isBlank() -> {
-                _errorPass.postValue("Password can not be empty")
+                _errorPass.postValue(App.appComponent.context().getString(R.string.password_cant_be_empty))
                 false
             }
             pass.length < 6 -> {
-                _errorPass.postValue("Password should be at least 6 charters")
+                _errorPass.postValue(App.appComponent.context().getString(R.string.password_six_characters))
                 false
             }
             else -> {
@@ -132,7 +134,7 @@ class RegistrationViewModel @Inject constructor(
 
         return when {
             weight == null || weight > 350 || weight <= 0 || weightToCheck.startsWith("0") -> {
-                _errorWeight.postValue("Weight is not valid")
+                _errorWeight.postValue(App.appComponent.context().getString(R.string.weight_not_valid))
                 false
             }
             else -> {

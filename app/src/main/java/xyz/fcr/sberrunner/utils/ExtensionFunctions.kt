@@ -6,8 +6,17 @@ import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.presentation.App
 import kotlin.math.roundToInt
 
+/**
+ * Класс Extensions
+ */
 class ExtensionFunctions
 
+/**
+ * Добавляет единицы дистанции к строке
+ *
+ * @param isMetric [Boolean] - флаг системы измерений
+ * @return [Float] - полная строка со добавкой дистанции
+ */
 fun String.addDistanceUnits(isMetric: Boolean): String {
     return if (isMetric) {
         this.plus(App.appComponent.context().resources.getString(R.string.km_addition))
@@ -16,6 +25,12 @@ fun String.addDistanceUnits(isMetric: Boolean): String {
     }
 }
 
+/**
+ * Добавляет скорость к строке
+ *
+ * @param isMetric [Boolean] - флаг системы измерений
+ * @return [Float] - полная строка со скоростью
+ */
 fun String.addSpeedUnits(isMetric: Boolean): String {
     return if (isMetric) {
         this.plus(App.appComponent.context().resources.getString(R.string.km_h_addition))
@@ -24,10 +39,23 @@ fun String.addSpeedUnits(isMetric: Boolean): String {
     }
 }
 
+/**
+ * Добавляет калории к строке
+ *
+ * @return [Float] - полная строка с калориями
+ */
 fun String.addCalories(): String {
     return this.plus(App.appComponent.context().resources.getString(R.string.kcal_addition))
 }
 
+/**
+ * Получение среднего значения
+ *
+ * @param isMetric [Boolean] - флаг системы измерений
+ * @param count [Int] - количество значений
+ *
+ * @return [Float] - среднее значение
+ */
 fun Int.getAverage(isMetric: Boolean, count: Int): Double {
     return if (isMetric) {
         ((((this / 1000f) / count) * 100f).roundToInt() / 100f).toDouble()
@@ -36,16 +64,31 @@ fun Int.getAverage(isMetric: Boolean, count: Int): Double {
     }
 }
 
+/**
+ * Конвертация метров в мили
+ *
+ * @return [Float] - мили
+ */
 fun Int.convertMetersToMiles(): Float {
     val distanceInMiles = (this / 1000.0f) * Constants.UNIT_RATIO
     return (distanceInMiles * 100.0f).roundToInt() / 100.0f
 }
 
+/**
+ * Конвертация метров в километры
+ *
+ * @return [Float] - километры
+ */
 fun Int.convertMetersToKilometres(): Float {
     val distanceInMiles = this / 1000.0f
     return (distanceInMiles * 100.0f).roundToInt() / 100.0f
 }
 
+/**
+ * Конвертация Км/ч в Мили/ч
+ *
+ * @return [Float] - скорость в Мили/ч
+ */
 fun Float.convertKMHtoMPH(): Float {
     val distanceInMiles = this * Constants.UNIT_RATIO
     return (distanceInMiles * 100.0f).roundToInt() / 100.0f

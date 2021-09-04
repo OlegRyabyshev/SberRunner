@@ -72,7 +72,6 @@ class DetailedRunFragment : Fragment() {
         viewModel.unitsLiveData.observe(viewLifecycleOwner) { units: Boolean -> isMetric = units }
     }
 
-
     @SuppressLint("SimpleDateFormat")
     private fun showRunDetailsInfo(run: Run) {
         val sdfDate = SimpleDateFormat(PATTERN_DATE_DETAILED)

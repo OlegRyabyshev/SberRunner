@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
+import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Inject
@@ -132,7 +134,7 @@ class SharedSettingsViewModel @Inject constructor(
 
         return when {
             name.isBlank() -> {
-                _errorLiveData.postValue("Name can not be empty")
+                _errorLiveData.postValue(App.appComponent.context().getString(R.string.name_cant_be_empty))
                 false
             }
             else -> true
@@ -147,7 +149,7 @@ class SharedSettingsViewModel @Inject constructor(
 
         return when {
             weight == null || weight > 350 || weight <= 0 || weightToCheck.startsWith("0") -> {
-                _errorLiveData.postValue("Weight is not valid")
+                _errorLiveData.postValue(App.appComponent.context().getString(R.string.weight_not_valid))
                 false
             }
             else -> true

@@ -16,8 +16,12 @@ import xyz.fcr.sberrunner.data.model.Run
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.utils.Constants.PATTERN_DATE_HOME
+import xyz.fcr.sberrunner.utils.Constants.ROUNDING_CORNERS
 import xyz.fcr.sberrunner.utils.Constants.UNIT_RATIO
 import xyz.fcr.sberrunner.utils.TrackingUtility
+import xyz.fcr.sberrunner.utils.addDistanceUnits
+import xyz.fcr.sberrunner.utils.convertMetersToKilometres
+import xyz.fcr.sberrunner.utils.convertMetersToMiles
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -61,16 +65,22 @@ class RunRecyclerAdapter(private val listener: ItemClickListener) :
         holder.itemView.apply {
             Glide.with(this)
                 .load(run.mapImage)
-                .apply(RequestOptions.bitmapTransform(RoundedCorners(15)))
+                .apply(RequestOptions.bitmapTransform(RoundedCorners(ROUNDING_CORNERS)))
                 .centerCrop()
                 .into(map_item_image_view)
 
-            if (sharedPrefWrapper.isMetric()) {
-                val distance = ((((run.distanceInMeters / 1000f) * 100f)).roundToInt() / 100f).toString()
-                distance_item_tv.text = distance + holder.itemView.context.getString(R.string.km_addition)
+            val isMetric = sharedPrefWrapper.isMetric()
+
+            if (isMetric) {
+                distance_item_tv.text = run.distanceInMeters
+                    .convertMetersToKilometres()
+                    .toString()
+                    .addDistanceUnits(isMetric)
             } else {
-                val distance = (((run.distanceInMeters / 1000f * UNIT_RATIO) * 100f).roundToInt() / 100f).toString()
-                distance_item_tv.text = distance + holder.itemView.context.getString(R.string.miles_addition)
+                distance_item_tv.text = run.distanceInMeters
+                    .convertMetersToMiles()
+                    .toString()
+                    .addDistanceUnits(isMetric)
             }
 
             duration_item_tv.text = TrackingUtility.getFormattedStopWatchTime(run.timeInMillis)

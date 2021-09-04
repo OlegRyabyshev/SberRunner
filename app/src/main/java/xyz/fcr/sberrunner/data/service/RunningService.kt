@@ -310,7 +310,11 @@ class RunningService : LifecycleService() {
      * Обработка событий в нотификациях
      */
     private fun updateNotificationTrackingState(isTracking: Boolean) {
-        val notificationActionText = if (isTracking) "Pause" else "Resume"
+        val notificationActionText = if (isTracking) {
+            App.appComponent.context().getString(R.string.pause)
+        } else {
+            App.appComponent.context().getString(R.string.resume)
+        }
 
         val pendingIntent = if (isTracking) {
             val pauseIntent = Intent(this, RunningService::class.java).apply {
