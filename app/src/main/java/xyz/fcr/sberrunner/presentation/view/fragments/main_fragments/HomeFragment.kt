@@ -123,6 +123,7 @@ class HomeFragment : Fragment(), ItemClickListener {
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val position = viewHolder.layoutPosition
+
             val run = recyclerAdapter.differ.currentList[position]
             viewModel.deleteRun(run)
 

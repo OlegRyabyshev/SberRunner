@@ -42,23 +42,10 @@
         style="@style/Theme.SberRunner.MaterialButton.Normal"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginBottom="@dimen/margin_medium"
         android:backgroundTint="@color/background_color"
         android:text="@string/enter_with_account"
         android:textColor="@color/main_green"
-        app:layout_constraintBottom_toTopOf="@+id/tv_skip_login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tv_skip_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:padding="10dp"
-        android:text="@string/or_continue_without_account"
-        android:textColor="@color/background_color"
-        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
