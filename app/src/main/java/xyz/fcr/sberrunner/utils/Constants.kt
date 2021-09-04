@@ -35,6 +35,9 @@ object Constants {
     const val WEIGHT_KEY = "weight_key"
     const val NAME_KEY = "name_key"
 
+    const val LOG_OUT = "log_out"
+    const val DEL_ACCOUNT = "del_account"
+
     const val MAP_LAT_KEY = "map_lat_key"
     const val MAP_LON_KEY = "map_lon_key"
 
@@ -59,8 +62,6 @@ object Constants {
     const val ACTION_START_OR_RESUME_SERVICE = "ACTION_START_SERVICE"
     const val ACTION_PAUSE_SERVICE = "ACTION_PAUSE_SERVICE"
     const val ACTION_STOP_SERVICE = "ACTION_STOP_SERVICE"
-    const val ACTION_MUTE = "ACTION_MUTE"
-    const val ACTION_UNMUTE = "ACTION_UNMUTE"
 
     // Service notification
     const val NOTIFICATION_CHANNEL_ID = "tracking_channel"
@@ -84,21 +85,20 @@ object Constants {
         Manifest.permission.ACCESS_BACKGROUND_LOCATION
     )
 
-    @RequiresApi(Build.VERSION_CODES.Q)
-    val ALL_PERMISSIONS = arrayOf(
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_BACKGROUND_LOCATION
-    )
-
     // FirebaseConst
     const val USER = "user"
     const val NAME = "name"
     const val WEIGHT = "weight"
+
 
     const val UNIT_RATIO = 0.6214f
 
     const val ROWS_IN_RECYCLER = 2
 
     const val WEIGHT_INT_DEFAULT = 70
+
+    const val PATTERN_DATE_DETAILED = "dd, MMM, yyyy HH:mm"
+    const val PATTERN_DATE_HOME = "dd/MM/yyyy hh:mm"
+
+    const val ROUNDING_CORNERS = 40
 }

@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
-import xyz.fcr.sberrunner.data.repository.firestore.IFirestoreRepository
 import xyz.fcr.sberrunner.data.room.RunDao
 import xyz.fcr.sberrunner.data.room.RunDatabase
 import xyz.fcr.sberrunner.domain.DatabaseInteractor
@@ -19,8 +18,8 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideDatabaseRepository(runDao: RunDao, firestoreRepository: IFirestoreRepository): IDatabaseInteractor {
-        return DatabaseInteractor(runDao, firestoreRepository)
+    fun provideDatabaseRepository(runDao: RunDao): IDatabaseInteractor {
+        return DatabaseInteractor(runDao)
     }
 
     @Singleton

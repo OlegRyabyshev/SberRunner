@@ -16,8 +16,16 @@ import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.view.activities.MainActivity
 import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.SharedSettingsViewModel
+import xyz.fcr.sberrunner.utils.Constants.DEL_ACCOUNT
+import xyz.fcr.sberrunner.utils.Constants.LOG_OUT
+import xyz.fcr.sberrunner.utils.Constants.NAME_KEY
+import xyz.fcr.sberrunner.utils.Constants.THEME_KEY
+import xyz.fcr.sberrunner.utils.Constants.WEIGHT_KEY
 import javax.inject.Inject
 
+/**
+ * Фрагмент настроек.
+ */
 class SettingsPreferenceFragment : PreferenceFragmentCompat() {
 
     @Inject
@@ -45,13 +53,13 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
         viewModel.displayNameAndWeightInSummary()
 
 
-        namePref = findPreference("name_key")
+        namePref = findPreference(NAME_KEY)
         namePref?.setOnPreferenceChangeListener { _, newName ->
             viewModel.updateName(newName as String)
             return@setOnPreferenceChangeListener false
         }
 
-        weightPref = findPreference("weight_key")
+        weightPref = findPreference(WEIGHT_KEY)
         weightPref?.setOnBindEditTextListener {
             it.inputType = InputType.TYPE_CLASS_NUMBER
         }
@@ -60,7 +68,7 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
             return@setOnPreferenceChangeListener false
         }
 
-        val themePref: ListPreference? = findPreference("theme_key")
+        val themePref: ListPreference? = findPreference(THEME_KEY)
         themePref?.setOnPreferenceChangeListener { _, newValue ->
             when (newValue) {
                 Configuration.UI_MODE_NIGHT_UNDEFINED.toString() ->
@@ -73,14 +81,14 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
             return@setOnPreferenceChangeListener true
         }
 
-        val logOutPref: Preference? = findPreference("log_out")
+        val logOutPref: Preference? = findPreference(LOG_OUT)
         logOutPref?.setOnPreferenceClickListener {
             MaterialAlertDialogBuilder(requireContext()).apply {
-                setTitle("Log out from account?")
-                setNegativeButton("Cancel") { dialog, _ ->
+                setTitle(getString(R.string.log_out_from_accout))
+                setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                     dialog.dismiss()
                 }
-                setPositiveButton("Exit") { dialog, _ ->
+                setPositiveButton(getString(R.string.exit)) { dialog, _ ->
                     viewModel.exitAccount()
                     dialog.dismiss()
                 }
@@ -89,15 +97,15 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
             true
         }
 
-        val deleteAccountPref: Preference? = findPreference("del_account")
+        val deleteAccountPref: Preference? = findPreference(DEL_ACCOUNT)
         deleteAccountPref?.setOnPreferenceClickListener {
             MaterialAlertDialogBuilder(requireContext()).apply {
-                setTitle("Delete account?")
-                setMessage("All you data and progress will be lost, you sure?")
-                setNegativeButton("Cancel") { dialog, _ ->
+                setTitle(getString(R.string.delete_accout))
+                setMessage(getString(R.string.data_will_be_lost))
+                setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                     dialog.dismiss()
                 }
-                setPositiveButton("Delete") { dialog, _ ->
+                setPositiveButton(getString(R.string.delete)) { dialog, _ ->
                     viewModel.deleteAccount()
                     dialog.dismiss()
                 }
@@ -109,6 +117,9 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
         observeLiveData()
     }
 
+    /**
+     * Отслеживание изменений в livedata вьюмодели.
+     */
     private fun observeLiveData() {
         viewModel.nameSummaryLiveData.observe(viewLifecycleOwner) { name: String ->
             namePref?.summary = name

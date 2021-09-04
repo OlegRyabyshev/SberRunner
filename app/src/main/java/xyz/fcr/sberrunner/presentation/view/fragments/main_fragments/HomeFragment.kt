@@ -23,6 +23,9 @@ import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.HomeViewModel
 import xyz.fcr.sberrunner.utils.Constants.CURRENT_RUN_ID
 import javax.inject.Inject
 
+/**
+ * Фрагмент вывода информации о всех забегах пользователя.
+ */
 class HomeFragment : Fragment(), ItemClickListener {
 
     private var _binding: FragmentHomeBinding? = null
@@ -60,6 +63,9 @@ class HomeFragment : Fragment(), ItemClickListener {
         observeLiveData()
     }
 
+    /**
+     * Отслеживание изменений в livedata вьюмодели.
+     */
     private fun observeLiveData() {
         viewModel.progressLiveData.observe(viewLifecycleOwner) { isVisible: Boolean ->
             showProgress(isVisible)

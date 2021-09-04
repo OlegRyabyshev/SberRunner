@@ -10,42 +10,61 @@ import com.google.firebase.firestore.DocumentSnapshot
 interface IFirebaseRepository {
 
     /**
-     * Регистрация
+     * Регистрация пользователя
+     *
+     * @param name [String] - имя пользователя
+     * @param email [String] - email пользователя
+     * @param password [String] - пароль пользователя
+     * @param weight [String] - вес пользователя
+     *
+     * @return Task<AuthResult> - асинхронный результат выполенения регистрации
      */
     fun registration(name: String, email: String, password: String, weight: String): Task<AuthResult>
 
     /**
-     * Вход а аккаунт
+     * Вход в аккаунт
+     *
+     * @return Task<DocumentSnapshot> - результат асинхронного запроса входа в аккаунт
      */
     fun login(email: String, password: String): Task<AuthResult>
 
     /**
-     * Получения папки в Firestore
+     * Получение документа пользователя из Firestore
+     *
+     * @return Task<DocumentSnapshot> - результат асинхронного запроса получения документа
      */
     fun getDocumentFirestore(): Task<DocumentSnapshot>
 
     /**
-     * Отправка запроса на сброс пароля (сообщение на почту)
+     * Отправка сообщения на email пользователя со сбросом пароля
+     *
+     * @return Task<Void> - результат асинхронного запроса сброса
      */
     fun sendResetEmail(email: String): Task<Void>
 
     /**
-     * Удаление текущего пользователя
+     * Выход пользователя из аккаунта
      */
     fun signOut()
 
     /**
-     * Удаление аккаунта пользователя
+     * Удаление пользователем своего аккаунта
+     *
+     * @return Task<Void> - результат асинхронного запроса удаления аккаунта
      */
     fun deleteAccount(): Task<Void>
 
     /**
-     * Обновление имени пользователя в FireStore
+     * Запрос на обновление имени пользоваателя в Firestore
+     *
+     * @return Task<Void> - результат асинхронного запроса обновления имени
      */
     fun updateName(newName: String): Task<Void>
 
     /**
-     * Обновление веса пользователя в FireStore
+     * Запрос на обновление веса пользоваателя в Firestore
+     *
+     * @return Task<Void> - результат асинхронного запроса обновления веса
      */
     fun updateWeight(newWeight: String): Task<Void>
 

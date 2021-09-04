@@ -33,6 +33,10 @@ import xyz.fcr.sberrunner.utils.Constants.RUN_BASIC_PERMISSIONS
 import xyz.fcr.sberrunner.utils.hasBasicLocationPermissions
 import javax.inject.Inject
 
+/**
+ * Фрагмент с картой и кнопкой поиска текущего местоположения.
+ * Пользователь может использовать фрагмент для выбора маршрута бега.
+ */
 class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCallbacks {
 
     private var _binding: FragmentMapBinding? = null
@@ -81,6 +85,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
         observeLiveData()
     }
 
+    /**
+     * Отслеживание изменений в livedata вьюмодели.
+     */
     private fun observeLiveData() {
         viewModel.progressLiveData.observe(viewLifecycleOwner, { isVisible: Boolean -> showProgress(isVisible) })
         viewModel.locationLiveData.observe(viewLifecycleOwner, { location: Location -> displayLocation(location) })

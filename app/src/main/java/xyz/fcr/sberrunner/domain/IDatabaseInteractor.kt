@@ -25,9 +25,9 @@ interface IDatabaseInteractor {
     fun deleteRun(run: Run): Completable
 
     /**
-     * Метод добавления объкта бега в БД
+     * Метод получения объектов бега в из БД
      *
-     * @return - LiveData лист из забегов
+     * @return [Single<List<Run>>] - объекты бега
      */
     fun getAllRuns() : Single<List<Run>>
 
@@ -37,6 +37,4 @@ interface IDatabaseInteractor {
      * @return - LiveData объект забега
      */
     fun getRun(runId: Int) : LiveData<Run>
-
-    fun syncWithCloud(): Completable
 }

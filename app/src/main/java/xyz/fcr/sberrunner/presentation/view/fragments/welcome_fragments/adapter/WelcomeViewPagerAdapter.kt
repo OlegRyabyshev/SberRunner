@@ -8,6 +8,9 @@ import xyz.fcr.sberrunner.presentation.view.fragments.welcome_fragments.WelcomeF
 import xyz.fcr.sberrunner.presentation.view.fragments.welcome_fragments.WelcomeFragmentSecond
 import xyz.fcr.sberrunner.presentation.view.fragments.welcome_fragments.WelcomeFragmentThird
 
+/**
+ * ViewPager адаптер фрагмента приветствия.
+ */
 class WelcomeViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
 

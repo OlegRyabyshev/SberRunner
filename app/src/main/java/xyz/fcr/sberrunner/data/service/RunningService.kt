@@ -49,6 +49,9 @@ import kotlin.math.round
 typealias Polyline = MutableList<LatLng>
 typealias Polylines = MutableList<Polyline>
 
+/**
+ * Сервис бега. Выполняет и обновляет поиск координат бега, строит кривые бега, может работать независимо от Activity.
+ */
 class RunningService : LifecycleService() {
 
     @Inject
@@ -170,6 +173,11 @@ class RunningService : LifecycleService() {
         stopSelf()
     }
 
+    /**
+     * Обновление значений получения геопозиций
+     *
+     * @param isTracking [Boolean] - флаг отлеживания в текущем времени
+     */
     @SuppressLint("MissingPermission")
     private fun updateLocationChecking(isTracking: Boolean) {
         if (isTracking) {
@@ -231,6 +239,9 @@ class RunningService : LifecycleService() {
         }
     }
 
+    /**
+     * Обновление livedata значений
+     */
     private fun updateInfo() {
         var distanceInMeters = 0f
 

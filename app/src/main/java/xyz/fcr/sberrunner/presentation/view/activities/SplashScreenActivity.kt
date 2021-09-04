@@ -9,6 +9,10 @@ import com.google.firebase.auth.FirebaseAuth
 import xyz.fcr.sberrunner.presentation.App
 import javax.inject.Inject
 
+/**
+ * Активити SplashScreen.
+ * Служит для вывода изображение и осуществяет переход на окна логина и регистрации, если пользователя не существует.
+ */
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -26,6 +30,9 @@ class SplashScreenActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Переход на новое активити
+     */
     private fun startActivity(activity: Class<out Activity>) {
         val intent = Intent(this, activity)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME

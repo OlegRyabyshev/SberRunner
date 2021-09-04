@@ -8,6 +8,11 @@ import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.ProgressItemBinding
 import xyz.fcr.sberrunner.presentation.model.Progress
 
+/**
+ * Адаптер recyclerview для фрагмента Progress
+ *
+ * @param listOfProgress [List<Progress>] - список из значений прогресса.
+ */
 class ProgressRecyclerAdapter(
     private val listOfProgress: List<Progress>
 ) : RecyclerView.Adapter<ProgressRecyclerAdapter.ProgressViewHolder>() {

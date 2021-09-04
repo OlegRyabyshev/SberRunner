@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.model.Run
-import xyz.fcr.sberrunner.data.repository.firestore.IFirestoreRepository
 import xyz.fcr.sberrunner.data.room.RunDao
 import javax.inject.Inject
 
@@ -14,8 +13,7 @@ import javax.inject.Inject
  * @param runDao [RunDao] - data access objects для получения доступа к базе данных бега
  */
 class DatabaseInteractor @Inject constructor(
-    private val runDao: RunDao,
-    private val firestoreRepository: IFirestoreRepository
+    private val runDao: RunDao
 ) : IDatabaseInteractor {
 
     /**
@@ -28,7 +26,7 @@ class DatabaseInteractor @Inject constructor(
     }
 
     /**
-     * Метод удаления объкта бега из БД
+     * Метод удаления объекта бега из БД
      *
      * @param run [Run] - объект бега на удаление
      */
@@ -37,9 +35,9 @@ class DatabaseInteractor @Inject constructor(
     }
 
     /**
-     * Метод добавления объкта бега в БД
+     * Метод получения объектов бега в из БД
      *
-     * @return - LiveData лист из забегов
+     * @return [Single<List<Run>>] - объекты бега
      */
     override fun getAllRuns(): Single<List<Run>> {
         return Single.fromCallable { runDao.getAllRuns() }
@@ -52,11 +50,5 @@ class DatabaseInteractor @Inject constructor(
      */
     override fun getRun(runId: Int): LiveData<Run> {
         return runDao.getRun(runId)
-    }
-
-    override fun syncWithCloud(): Completable {
-        return Completable.fromAction {
-            firestoreRepository.syncWithCloud()
-        }
     }
 }

@@ -19,6 +19,9 @@ import xyz.fcr.sberrunner.presentation.view.activities.WelcomeActivity
 import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.SharedSettingsViewModel
 import javax.inject.Inject
 
+/**
+ * Фрагмент настроек приложения.
+ */
 class SettingsFragment : Fragment() {
 
     private var _binding: FragmentSettingsBinding? = null
@@ -49,14 +52,21 @@ class SettingsFragment : Fragment() {
         observeLiveData()
     }
 
+    /**
+     * Вывод настроек на экран.
+     */
     private fun showSettings() {
         val manager = childFragmentManager
+
         manager
             .beginTransaction()
             .replace(R.id.settings_container, SettingsPreferenceFragment())
             .commit()
     }
 
+    /**
+     * Отслеживание изменений в livedata вьюмодели.
+     */
     private fun observeLiveData() {
         viewModel.progressLiveData.observe(viewLifecycleOwner, { isVisible: Boolean -> showProgress(isVisible) })
         viewModel.signOutLiveData.observe(viewLifecycleOwner, { result: Boolean -> startWelcomeActivity(result) })
@@ -72,6 +82,9 @@ class SettingsFragment : Fragment() {
         Toasty.error(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
 
+    /**
+     * Выводит на экран приветствия в случае удаления аккаунта или выхода из него.
+     */
     private fun startWelcomeActivity(isSucceed: Boolean) {
         if (isSucceed) {
             val intent = Intent(activity, WelcomeActivity::class.java)

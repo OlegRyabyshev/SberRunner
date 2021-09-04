@@ -12,6 +12,13 @@ import xyz.fcr.sberrunner.utils.Constants.VALID
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Inject
 
+/**
+ * ViewModel экрана регистрации.
+ *
+ * @param firebaseRepo [IFirebaseRepository] - репозиторий для работы с объектом firebase
+ * @param schedulersProvider [ISchedulersProvider] - провайдер объектов Scheduler
+ * @param sharedPreferenceWrapper [ISharedPreferenceWrapper] - интерфейс упрощенного взаимодействия с SharedPreference
+ */
 class RegistrationViewModel @Inject constructor(
     private val firebaseRepo: IFirebaseRepository,
     private val schedulersProvider: ISchedulersProvider,
@@ -135,6 +142,9 @@ class RegistrationViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Обнуление disposable
+     */
     override fun onCleared() {
         super.onCleared()
 

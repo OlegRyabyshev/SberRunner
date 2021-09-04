@@ -7,7 +7,7 @@ import javax.inject.Provider
 import javax.inject.Singleton
 
 /**
- * Класс-фабрика ViewModel-ей (используется для @Inject зависимостей в конструктор вьюмоделей)
+ * Класс-фабрика ViewModel-ей (используется для @Inject зависимостей в конструктор ViewModel)
  */
 @Singleton
 class ViewModelFactory @Inject constructor(

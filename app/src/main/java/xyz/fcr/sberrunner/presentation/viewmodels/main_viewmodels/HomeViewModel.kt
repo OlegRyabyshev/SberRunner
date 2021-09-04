@@ -13,8 +13,9 @@ import javax.inject.Inject
 /**
  * ViewModel экрана "Дом" со списком из всех забегов
  *
- * @param databaseInteractor [IDatabaseInteractor] - репозиторий базы данных забегов
- */
+ * @param databaseInteractor [IDatabaseInteractor] - интерфейс взаимодейтвия с базой данных
+ * @param schedulersProvider [ISchedulersProvider] - провайдер объектов Scheduler
+*/
 class HomeViewModel @Inject constructor(
     private val databaseInteractor: IDatabaseInteractor,
     private val schedulersProvider: ISchedulersProvider
@@ -29,6 +30,9 @@ class HomeViewModel @Inject constructor(
     private var disposableAddRun: Disposable? = null
     private var disposableDeleteRun: Disposable? = null
 
+    /**
+     * Метод обновления списков забега
+     */
     fun updateListOfRuns() {
         disposableList = databaseInteractor.getAllRuns()
             .doOnSubscribe { _progressLiveData.postValue(true) }
@@ -45,19 +49,19 @@ class HomeViewModel @Inject constructor(
      * Метод синхронизации данных БД с облачным БД FireStore
      */
     fun syncWithCloud() {
-        disposableSync = databaseInteractor.syncWithCloud()
-            .doOnSubscribe {
-                _progressLiveData.postValue(true)
-            }
-            .doAfterTerminate {
-                _progressLiveData.postValue(false)
-            }
-            .subscribeOn(schedulersProvider.io())
-            .subscribe({
-                updateListOfRuns()
-            }, { e ->
-                _errorLiveData.postValue(e.message)
-            })
+//        disposableSync = databaseInteractor.syncWithCloud()
+//            .doOnSubscribe {
+//                _progressLiveData.postValue(true)
+//            }
+//            .doAfterTerminate {
+//                _progressLiveData.postValue(false)
+//            }
+//            .subscribeOn(schedulersProvider.io())
+//            .subscribe({
+//                updateListOfRuns()
+//            }, { e ->
+//                _errorLiveData.postValue(e.message)
+//            })
     }
 
     /**
@@ -99,6 +103,9 @@ class HomeViewModel @Inject constructor(
             .subscribe()
     }
 
+    /**
+     * Обнуление disposable
+     */
     override fun onCleared() {
         super.onCleared()
 

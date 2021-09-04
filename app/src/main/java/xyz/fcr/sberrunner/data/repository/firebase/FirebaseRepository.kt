@@ -40,6 +40,15 @@ class FirebaseRepository(
     }
 
     /**
+     * Вход в аккаунт
+     *
+     * @return Task<DocumentSnapshot> - результат асинхронного запроса входа в аккаунт
+     */
+    override fun login(email: String, password: String): Task<AuthResult> {
+        return firebaseAuth.signInWithEmailAndPassword(email, password)
+    }
+
+    /**
      * Сохранение данных пользователя
      *
      * @param name [String] - имя пользователя
@@ -54,38 +63,57 @@ class FirebaseRepository(
     }
 
     /**
-     * Получение документа пользователя
+     * Получение документа пользователя из Firestore
      *
-     * @return Task<DocumentSnapshot> - результат выполенения запроса
+     * @return Task<DocumentSnapshot> - результат асинхронного запроса получения документа
      */
     override fun getDocumentFirestore(): Task<DocumentSnapshot> {
         val userId = firebaseAuth.currentUser?.uid
         return fireStore.collection(USER).document(userId!!).get()
     }
 
-    override fun login(email: String, password: String): Task<AuthResult> {
-        return firebaseAuth.signInWithEmailAndPassword(email, password)
-    }
-
+    /**
+     * Отправка сообщения на email пользователя со сбросом пароля
+     *
+     * @return Task<Void> - результат асинхронного запроса сброса
+     */
     override fun sendResetEmail(email: String): Task<Void> {
         return firebaseAuth.sendPasswordResetEmail(email)
     }
 
+    /**
+     * Выход пользователя из аккаунта
+     */
     override fun signOut() {
         firebaseAuth.signOut()
     }
 
+    /**
+     * Удаление пользователем своего аккаунта
+     *
+     * @return Task<Void> - результат асинхронного запроса удаления аккаунта
+     */
     override fun deleteAccount(): Task<Void> {
         val user = firebaseAuth.currentUser
         return user!!.delete()
     }
 
+    /**
+     * Запрос на обновление имени пользоваателя в Firestore
+     *
+     * @return Task<Void> - результат асинхронного запроса обновления имени
+     */
     override fun updateName(newName: String): Task<Void> {
         val userId = firebaseAuth.currentUser?.uid
         val document = fireStore.collection(USER).document(userId!!)
         return document.update(NAME, newName)
     }
 
+    /**
+     * Запрос на обновление веса пользоваателя в Firestore
+     *
+     * @return Task<Void> - результат асинхронного запроса обновления веса
+     */
     override fun updateWeight(newWeight: String): Task<Void> {
         val userId = firebaseAuth.currentUser?.uid
         val document = fireStore.collection(USER).document(userId!!)

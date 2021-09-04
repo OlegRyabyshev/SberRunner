@@ -23,6 +23,9 @@ import xyz.fcr.sberrunner.utils.Constants.ROWS_IN_RECYCLER
 import xyz.fcr.sberrunner.utils.Constants.UNIT_RATIO
 import javax.inject.Inject
 
+/**
+ * Фрагмент с выводом инфомации о всех забегах в виде карточек-статистик.
+ */
 class ProgressFragment : Fragment() {
 
     private var _binding: FragmentProgressBinding? = null
@@ -56,6 +59,9 @@ class ProgressFragment : Fragment() {
         observeLiveData()
     }
 
+    /**
+     * Отслеживание изменений в livedata вьюмодели.
+     */
     private fun observeLiveData() {
         viewModel.listOfRunsLiveData.observe(viewLifecycleOwner) { runs: List<Run> ->
             if (runs.isNotEmpty()) {

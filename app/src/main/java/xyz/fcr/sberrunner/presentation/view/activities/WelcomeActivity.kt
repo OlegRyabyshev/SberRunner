@@ -6,6 +6,10 @@ import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.ActivityWelcomeBinding
 import xyz.fcr.sberrunner.presentation.view.fragments.welcome_fragments.WelcomeFragment
 
+/**
+ * Активити приветствия.
+ * Выводит начальную инфомацию о приложении и предлагает вход в приложение через аккаунт или регистрацию.
+ */
 class WelcomeActivity : AppCompatActivity() {
 
     private var _binding: ActivityWelcomeBinding? = null

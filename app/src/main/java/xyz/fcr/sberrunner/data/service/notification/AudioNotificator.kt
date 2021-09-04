@@ -8,14 +8,23 @@ import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.utils.Constants.UNIT_RATIO
 import javax.inject.Inject
 
-
+/**
+ * Имплементация интерфейса [IAudioNotificator], служит звуковых нотификаций во время бега
+ *
+ * @param mediaPlayer [MediaPlayer] - проигрыватель звуков
+ * @param sharedPreferenceWrapper [ISharedPreferenceWrapper] - интерфейс взаимодействия с SharedPreference
+ */
 class AudioNotificator @Inject constructor(
     private val mediaPlayer: MediaPlayer,
     private val sharedPreferenceWrapper: ISharedPreferenceWrapper
 ) : IAudioNotificator {
 
+    /**
+     * Воспроизведение звуков
+     *
+     * @param action [String] - выбранный звук для воспроизведения
+     */
     override fun play(action: String) {
-
         updateVolume()
 
         var record: Int? = null
@@ -48,21 +57,30 @@ class AudioNotificator @Inject constructor(
         }
     }
 
+    /**
+     * Функция нотификации пользователя при пересечении пограничных значений в дистанициях
+     *
+     * @param oldDistance [Float] - прошлая обновленная дистанция
+     * @param newDistance [Float] - новая обновленная дистанция
+     */
     override fun checkIfVoiceNotificationNeeded(oldDistance: Float, newDistance: Float) {
         var unitRatio = 1f
 
         if (!sharedPreferenceWrapper.isMetric()) unitRatio = UNIT_RATIO
 
         when {
-            oldDistance * unitRatio < 0.5f && newDistance * unitRatio >= 0.5f -> play(VOICE_500)
-            oldDistance * unitRatio < 1f && newDistance * unitRatio >= 1f -> play(VOICE_1000)
-            oldDistance * unitRatio < 3f && newDistance * unitRatio >= 3f -> play(VOICE_3000)
-            oldDistance * unitRatio < 5f && newDistance * unitRatio >= 5f -> play(VOICE_5000)
-            oldDistance * unitRatio < 7f && newDistance * unitRatio >= 7f -> play(VOICE_7000)
-            oldDistance * unitRatio < 9f && newDistance * unitRatio >= 9f -> play(VOICE_9000)
+            oldDistance * unitRatio < DISTANCE500 && newDistance * unitRatio >= DISTANCE500 -> play(VOICE_500)
+            oldDistance * unitRatio < DISTANCE1000 && newDistance * unitRatio >= DISTANCE1000 -> play(VOICE_1000)
+            oldDistance * unitRatio < DISTANCE3000 && newDistance * unitRatio >= DISTANCE3000 -> play(VOICE_3000)
+            oldDistance * unitRatio < DISTANCE5000 && newDistance * unitRatio >= DISTANCE5000 -> play(VOICE_5000)
+            oldDistance * unitRatio < DISTANCE7000 && newDistance * unitRatio >= DISTANCE7000 -> play(VOICE_7000)
+            oldDistance * unitRatio < DISTANCE9000 && newDistance * unitRatio >= DISTANCE9000 -> play(VOICE_9000)
         }
     }
 
+    /**
+     * Обновление громкости нотификатора по значению из SharedPreference
+     */
     private fun updateVolume() {
         if (sharedPreferenceWrapper.getVoiceNotificationStatus()) {
             mediaPlayer.setVolume(UNMUTED, UNMUTED)
@@ -83,6 +101,13 @@ class AudioNotificator @Inject constructor(
         const val VOICE_5000 = "VOICE_5000"
         const val VOICE_7000 = "VOICE_7000"
         const val VOICE_9000 = "VOICE_9000"
+
+        const val DISTANCE500 = 0.5f
+        const val DISTANCE1000 = 1f
+        const val DISTANCE3000 = 3f
+        const val DISTANCE5000 = 5f
+        const val DISTANCE7000 = 7f
+        const val DISTANCE9000 = 9f
 
         const val MUTED = 0f
         const val UNMUTED = 1f

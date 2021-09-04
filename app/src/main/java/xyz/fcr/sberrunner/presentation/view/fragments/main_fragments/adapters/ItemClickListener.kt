@@ -2,8 +2,6 @@ package xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapters
 
 /**
  * Интерфейс обработки нажатий в RecyclerView
- *
- * @author Рябышев Олег on 05.08.2021
  */
 interface ItemClickListener {
 

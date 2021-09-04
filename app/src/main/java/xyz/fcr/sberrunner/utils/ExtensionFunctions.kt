@@ -6,6 +6,8 @@ import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.presentation.App
 import kotlin.math.roundToInt
 
+class ExtensionFunctions
+
 fun String.addDistanceUnits(isMetric: Boolean): String {
     return if (isMetric) {
         this.plus(App.appComponent.context().resources.getString(R.string.km_addition))

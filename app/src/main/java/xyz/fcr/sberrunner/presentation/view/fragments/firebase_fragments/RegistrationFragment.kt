@@ -26,6 +26,10 @@ import xyz.fcr.sberrunner.presentation.view.activities.MainActivity
 import xyz.fcr.sberrunner.presentation.viewmodels.firebase_viewmodels.RegistrationViewModel
 import javax.inject.Inject
 
+/**
+ * Фрагмент регистрации.
+ * Пользователь вводит тут необходимые данные для регистрации и при успехе попадает в MainActivity.
+ */
 class RegistrationFragment : Fragment() {
 
     private var _binding: FragmentRegistrationBinding? = null
@@ -62,6 +66,9 @@ class RegistrationFragment : Fragment() {
         initSignInLink()
     }
 
+    /**
+     * Отслеживание изменений в livedata вьюмодели.
+     */
     private fun observeLiveData() {
         viewModel.progressLiveData.observe(viewLifecycleOwner, { isVisible: Boolean -> showProgress(isVisible) })
         viewModel.successLiveData.observe(viewLifecycleOwner, { string: String -> startMainActivity(string) })
@@ -104,6 +111,9 @@ class RegistrationFragment : Fragment() {
         }
     }
 
+    /**
+     * Подчеркивает Sign in для пользователя и делает ее ссылкой на фраагмент аутентификации
+     */
     private fun initSignInLink() {
         val fullString = getString(R.string.already_have_an_account)
         val partToClick = getString(R.string.part_to_click_registration)

@@ -11,6 +11,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import xyz.fcr.sberrunner.presentation.view.fragments.welcome_fragments.adapter.WelcomeViewPagerAdapter
 import xyz.fcr.sberrunner.databinding.FragmentWelcomeBinding
 
+/**
+ * Фрагмент-контейнер для вывода окон привествия.
+ */
 class WelcomeFragment : Fragment() {
 
     private var _binding: FragmentWelcomeBinding? = null

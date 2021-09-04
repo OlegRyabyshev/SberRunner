@@ -6,12 +6,15 @@ import androidx.room.TypeConverters
 import xyz.fcr.sberrunner.data.model.Run
 import xyz.fcr.sberrunner.data.util.BitmapConverter
 
+/**
+ * Абстрактный класс базы данных забегов
+ */
 @Database(
     entities = [Run::class],
     version = 1,
-    exportSchema = false)
+    exportSchema = false
+)
 @TypeConverters(BitmapConverter::class)
 abstract class RunDatabase : RoomDatabase() {
-
     abstract fun getRunDao(): RunDao
 }

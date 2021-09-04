@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import xyz.fcr.sberrunner.R
 
+/**
+ * Второй фрагмент приветствия.
+ */
 class WelcomeFragmentSecond : Fragment() {
 
     override fun onCreateView(

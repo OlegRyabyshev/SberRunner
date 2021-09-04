@@ -10,6 +10,9 @@ import xyz.fcr.sberrunner.di.DaggerAppComponent
 import xyz.fcr.sberrunner.di.modules.AppModule
 import xyz.fcr.sberrunner.utils.Constants.CHANNEL_ID
 
+/**
+ * Application-класс приложения, используется для инициализации Dagger и создания уведомления сервиса.
+ */
 class App : Application() {
     companion object {
         lateinit var appComponent: AppComponent

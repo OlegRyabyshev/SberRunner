@@ -11,6 +11,13 @@ import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Inject
 
+/**
+ * ViewModel экрана "Настройки".
+ *
+ * @param firebaseRepo [IFirebaseRepository] - репозиторий для работы с объектом firebase
+ * @param schedulersProvider [ISchedulersProvider] - провайдер объектов Scheduler
+ * @param sharedPreferenceWrapper [ISharedPreferenceWrapper] - интерфейс упрощенного взаимодействия с SharedPreference
+ */
 class SharedSettingsViewModel @Inject constructor(
     private val firebaseRepo: IFirebaseRepository,
     private val schedulersProvider: ISchedulersProvider,
@@ -29,16 +36,25 @@ class SharedSettingsViewModel @Inject constructor(
     private var disUpdWeight: Disposable? = null
     private var disUpdName: Disposable? = null
 
+    /**
+     * Выставляет имя и вес пользователя в summary настроек.
+     */
     fun displayNameAndWeightInSummary() {
         _nameSummaryLiveData.postValue(sharedPreferenceWrapper.getName())
         _weightSummaryLiveData.postValue(sharedPreferenceWrapper.getWeight())
     }
 
+    /**
+     * Выход из аккаунта.
+     */
     fun exitAccount() {
         firebaseRepo.signOut()
         _signOutLiveData.postValue(true)
     }
 
+    /**
+     * Удаление аккаунта.
+     */
     fun deleteAccount() {
         disDeleteAccount = Single.fromCallable { firebaseRepo.deleteAccount() }
             .doOnSubscribe { _progressLiveData.postValue(true) }
@@ -54,6 +70,9 @@ class SharedSettingsViewModel @Inject constructor(
             }
     }
 
+    /**
+     * Обновление веса пользователя.
+     */
     fun updateWeight(newWeight: String) {
         if (weightIsValid(newWeight)) {
             disUpdName = Single.fromCallable { firebaseRepo.updateWeight(newWeight) }
@@ -77,6 +96,9 @@ class SharedSettingsViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Обновление имени пользователя.
+     */
     fun updateName(newName: String) {
         if (nameIsValid(newName)) {
             disUpdName = Single.fromCallable {
@@ -102,6 +124,9 @@ class SharedSettingsViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Проверка нового имени пользователя.
+     */
     private fun nameIsValid(nameToCheck: String): Boolean {
         val name = nameToCheck.trim { it <= ' ' }
 
@@ -114,6 +139,9 @@ class SharedSettingsViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Проверка нового веса пользователя.
+     */
     private fun weightIsValid(weightToCheck: String): Boolean {
         val weight = weightToCheck.toIntOrNull()
 
@@ -126,6 +154,9 @@ class SharedSettingsViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Обнуление disposable
+     */
     override fun onCleared() {
         super.onCleared()
 

@@ -1,11 +1,7 @@
 package xyz.fcr.sberrunner.utils
 
-import android.content.Context
 import android.location.Location
-import pub.devrel.easypermissions.EasyPermissions
 import xyz.fcr.sberrunner.data.service.Polyline
-import xyz.fcr.sberrunner.utils.Constants.RUN_ADDITIONAL_PERMISSION_Q
-import xyz.fcr.sberrunner.utils.Constants.RUN_BASIC_PERMISSIONS
 import java.util.concurrent.TimeUnit
 
 /**

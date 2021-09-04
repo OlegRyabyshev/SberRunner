@@ -46,6 +46,10 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.math.round
 
+/**
+ * Фрагмент для запуска сервиса бега и отслеживаний текущей статистики бега,
+ * включая маршрут, дистанцию, время, затраченные калории и среднюю скорость.
+ */
 class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private var _binding: FragmentRunBinding? = null
@@ -107,9 +111,13 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             }
         }
 
-        subscribeToObservers()
+        observeLiveData()
     }
 
+    /**
+     * Вывод диалога при нажатии окончания забегаа, предупреждающего пользователя о том,
+     * что сервис не получил достаточное количество опорных точек геопозиции для сохранения объекта бега.
+     */
     private fun showWarningDialog() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.not_enough_data))
@@ -124,6 +132,9 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             .show()
     }
 
+    /**
+     * Проверка количества опорных точек геопозиции для сохранения объекта бега.
+     */
     private fun isEnoughDataToFinish(): Boolean {
         var pointsCounter = 0
 
@@ -136,12 +147,18 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         return pointsCounter >= 2
     }
 
+    /**
+     * Загрузка темной карты при включенной в приложении темной темы.
+     */
     private fun enableDarkThemeIfRequired() {
         if (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) {
             map?.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.maps_dark_theme))
         }
     }
 
+    /**
+     * Отправка интента на сервис (start/resume/pause/finish)
+     */
     private fun sendActionToService(action: String) {
         Intent(requireContext(), RunningService::class.java).also {
             it.action = action
@@ -149,7 +166,10 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
-    private fun subscribeToObservers() {
+    /**
+     * Отслеживание изменений в livedata вьюмодели и сервиса.
+     */
+    private fun observeLiveData() {
         RunningService.isTracking.observe(viewLifecycleOwner, {
             updateTrackingUI(it)
         })
@@ -257,6 +277,9 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
+    /**
+     * Обновление видимости кнопок.
+     */
     private fun updateTrackingUI(isTracking: Boolean) {
         this.isTracking = isTracking
 
@@ -270,11 +293,17 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
+    /**
+     * Обновление текста кнопки Start (Выводит Resume, если активность уже была запущена и находится в паузе)
+     */
     private fun updatePausedUI(isPaused: Boolean) {
         binding.fabFinish.isVisible = isPaused
         binding.fabStart.text = if (isPaused) getString(R.string.resume) else getString(R.string.start)
     }
 
+    /**
+     * Перемещает камеру, захватывая весь пройденный путь (для сохранения изображения)
+     */
     private fun zoomToWholeTrack() {
         val bounds = LatLngBounds.Builder()
 
@@ -297,6 +326,9 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         )
     }
 
+    /**
+     * Проверка разрешений бега и отпраавляет интект о запуске/паузе в сервис.
+     */
     private fun toggleRun() {
         if (requireContext().hasBasicLocationPermissions()) {
 
@@ -317,6 +349,9 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
+    /**
+     * Делает изображение маршрута и сохраняет объект бега
+     */
     private fun endRunAndSaveToDB() {
         map?.snapshot { bmp ->
             var distanceInMeters = 0
@@ -335,6 +370,9 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
+    /**
+     * Запрос на базовые разрешения отслеживания геопозиции.
+     */
     private fun requestBasicPermissions() {
         EasyPermissions.requestPermissions(
             this,
@@ -344,6 +382,9 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         )
     }
 
+    /**
+     * Запрос на фоновое разрешение отслеживания геопозиции.
+     */
     private fun requestBackgroundPermission() {
         EasyPermissions.requestPermissions(
             this,
@@ -383,6 +424,9 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
+    /**
+     * Остановка забега.
+     */
     private fun stopRun() {
         binding.durationTv.text = getString(R.string.duration_zero)
         sendActionToService(ACTION_STOP_SERVICE)

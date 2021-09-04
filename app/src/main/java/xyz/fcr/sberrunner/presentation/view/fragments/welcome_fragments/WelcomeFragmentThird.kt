@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.material.button.MaterialButton
-import es.dmoral.toasty.Toasty
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.presentation.view.fragments.firebase_fragments.LoginFragment
 
+/**
+ * Третий фрагмент приветствия. Пользователь может перейти отсюда на фрагменты аутентификации и регистрации.
+ */
 class WelcomeFragmentThird : Fragment() {
 
     override fun onCreateView(
@@ -25,7 +25,6 @@ class WelcomeFragmentThird : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val enterWithAccountButton: MaterialButton = view.findViewById(R.id.btn_enter_with_account)
-        val skipTextView: TextView = view.findViewById(R.id.tv_skip_login)
 
         enterWithAccountButton.setOnClickListener {
             val loginFragment = LoginFragment()
@@ -36,10 +35,6 @@ class WelcomeFragmentThird : Fragment() {
                 ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 ?.replace(R.id.welcome_container, loginFragment)
                 ?.commit()
-        }
-
-        skipTextView.setOnClickListener {
-            Toasty.info(requireContext(), "Not supported yet", Toast.LENGTH_SHORT).show()
         }
     }
 }

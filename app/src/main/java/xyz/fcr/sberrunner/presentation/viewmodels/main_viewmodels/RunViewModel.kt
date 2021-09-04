@@ -11,8 +11,15 @@ import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Inject
 
+/**
+ * ViewModel экрана "Бег".
+ *
+ * @param databaseInteractor [IDatabaseInteractor] - интерфейс взаимодейтвия с базой данных
+ * @param schedulersProvider [ISchedulersProvider] - провайдер объектов Scheduler
+ * @param sharedPreferenceWrapper [ISharedPreferenceWrapper] - интерфейс упрощенного взаимодействия с SharedPreference
+ */
 class RunViewModel @Inject constructor(
-    private val databaseRepository: IDatabaseInteractor,
+    private val databaseInteractor: IDatabaseInteractor,
     private val schedulersProvider: ISchedulersProvider,
     private val sharedPreferenceWrapper: ISharedPreferenceWrapper
 ) : ViewModel() {
@@ -23,12 +30,18 @@ class RunViewModel @Inject constructor(
 
     private var disposableAddRun: Disposable? = null
 
+    /**
+     * Отправка забега в базу данных
+     */
     fun insertRun(run: Run) {
-        disposableAddRun = databaseRepository.addRun(run)
+        disposableAddRun = databaseInteractor.addRun(run)
             .subscribeOn(schedulersProvider.io())
             .subscribe()
     }
 
+    /**
+     * Получение последних координат из SharedPreference
+     */
     fun setToLastKnownLocationIfAny() {
         val lat = sharedPreferenceWrapper.getRunLatitude()
         val lon = sharedPreferenceWrapper.getRunLongitude()
@@ -36,10 +49,16 @@ class RunViewModel @Inject constructor(
         _historyLiveData.postValue(LatLng(lat.toDouble(), lon.toDouble()))
     }
 
+    /**
+     * Выставление системы измерений.
+     */
     fun setUnits() {
         _unitsLiveData.postValue(sharedPreferenceWrapper.isMetric())
     }
 
+    /**
+     * Выставление веса пользователя.
+     */
     fun setWeight() {
         _weightLiveData.postValue(sharedPreferenceWrapper.getIntWeight())
     }
@@ -52,6 +71,9 @@ class RunViewModel @Inject constructor(
         sharedPreferenceWrapper.saveRunLongitude(location.longitude.toFloat())
     }
 
+    /**
+     * Обнуление disposable
+     */
     override fun onCleared() {
         super.onCleared()
 

@@ -18,7 +18,7 @@ import javax.inject.Inject
  * ViewModel экрана "Дом" со списком из всех забегов
  *
  * @param fusedLocationProviderClient [FusedLocationProviderClient] - объект для отслеживания геопозиции
- * @param sharedPreferenceWrapper [ISharedPreferenceWrapper] - получения класса взимодействия с SharedPreferences
+ * @param sharedPreferenceWrapper [ISharedPreferenceWrapper] - интерфейс упрощенного взаимодействия с SharedPreference
  */
 class MapViewModel @Inject constructor(
     private val fusedLocationProviderClient: FusedLocationProviderClient,
@@ -84,6 +84,9 @@ class MapViewModel @Inject constructor(
         _historyLiveData.postValue(LatLng(lat.toDouble(), lon.toDouble()))
     }
 
+    /**
+     * Обнуление disposable
+     */
     override fun onCleared() {
         super.onCleared()
 

@@ -37,8 +37,8 @@ class AppModule(private val application: Application) {
             .setAutoCancel(false)
             .setOngoing(true)
             .setSmallIcon(R.drawable.ic_map)
-            .setContentTitle("Running App")
-            .setContentText("00:00:00")
+            .setContentTitle(context.getString(R.string.running_app))
+            .setContentText(context.getString(R.string.default_time))
             .setContentIntent(pendingIntent)
     }
 

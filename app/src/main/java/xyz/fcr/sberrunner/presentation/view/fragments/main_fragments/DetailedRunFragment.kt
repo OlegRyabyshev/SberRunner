@@ -17,9 +17,14 @@ import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.DetailedRunViewModel
 import xyz.fcr.sberrunner.utils.*
 import xyz.fcr.sberrunner.utils.Constants.CURRENT_RUN_ID
+import xyz.fcr.sberrunner.utils.Constants.PATTERN_DATE_DETAILED
+import xyz.fcr.sberrunner.utils.Constants.ROUNDING_CORNERS
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
+/**
+ * Фрагмент детализированной информации о выбранном забеге.
+ */
 class DetailedRunFragment : Fragment() {
     private var _binding: FragmentDetailedRunBinding? = null
     private val binding get() = _binding!!
@@ -44,9 +49,9 @@ class DetailedRunFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.setUnits()
 
         val bundle = this.arguments
-
         if (bundle != null && bundle.containsKey(CURRENT_RUN_ID)) {
             val runID = bundle.getInt(CURRENT_RUN_ID)
             viewModel.getRunFromDB(runID)
@@ -59,15 +64,18 @@ class DetailedRunFragment : Fragment() {
         observeLiveData()
     }
 
-
+    /**
+     * Отслеживание изменений в livedata вьюмодели.
+     */
     private fun observeLiveData() {
-        viewModel.runLiveData.observe(viewLifecycleOwner) { run: Run -> showRunDetailsInfo(run)}
+        viewModel.runLiveData.observe(viewLifecycleOwner) { run: Run -> showRunDetailsInfo(run) }
         viewModel.unitsLiveData.observe(viewLifecycleOwner) { units: Boolean -> isMetric = units }
     }
 
+
     @SuppressLint("SimpleDateFormat")
     private fun showRunDetailsInfo(run: Run) {
-        val sdfDate = SimpleDateFormat("dd, MMM, yyyy HH:mm")
+        val sdfDate = SimpleDateFormat(PATTERN_DATE_DETAILED)
         binding.detailedDateOfRunTv.text = sdfDate.format(run.timestamp)
 
         if (isMetric) {
@@ -100,7 +108,7 @@ class DetailedRunFragment : Fragment() {
 
         Glide.with(this)
             .load(run.mapImage)
-            .apply(RequestOptions.bitmapTransform(RoundedCorners(40)))
+            .apply(RequestOptions.bitmapTransform(RoundedCorners(ROUNDING_CORNERS)))
             .into(binding.detailedMap)
     }
 }

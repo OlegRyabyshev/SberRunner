@@ -15,6 +15,7 @@ import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.model.Run
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.presentation.App
+import xyz.fcr.sberrunner.utils.Constants.PATTERN_DATE_HOME
 import xyz.fcr.sberrunner.utils.Constants.UNIT_RATIO
 import xyz.fcr.sberrunner.utils.TrackingUtility
 import java.text.SimpleDateFormat
@@ -23,7 +24,9 @@ import javax.inject.Inject
 import kotlin.math.roundToInt
 
 /**
- * @param listener [ItemClickListener]
+ * Адаптер recyclerview для фрагмента Run
+ *
+ * @param listener [ItemClickListener] - интерфейс, передающий информацию во врагмент о позиции нажатия.
  */
 class RunRecyclerAdapter(private val listener: ItemClickListener) :
     RecyclerView.Adapter<RunRecyclerAdapter.RunViewHolder>() {
@@ -45,9 +48,7 @@ class RunRecyclerAdapter(private val listener: ItemClickListener) :
         )
     }
 
-    override fun getItemCount(): Int {
-        return differ.currentList.size
-    }
+    override fun getItemCount() = differ.currentList.size
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RunViewHolder, position: Int) {
@@ -78,7 +79,7 @@ class RunRecyclerAdapter(private val listener: ItemClickListener) :
                 timeInMillis = run.timestamp
             }
 
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy hh:mm", Locale.getDefault())
+            val dateFormat = SimpleDateFormat(PATTERN_DATE_HOME, Locale.getDefault())
             date_item_tv.text = dateFormat.format(calendar.time)
         }
     }

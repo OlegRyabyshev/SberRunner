@@ -21,6 +21,9 @@ import xyz.fcr.sberrunner.utils.Constants.TAG_SETTINGS
 import xyz.fcr.sberrunner.utils.Constants.THEME_KEY
 import javax.inject.Inject
 
+/**
+ * Главное активити. Содержит в себе BottomNavigationView с фрагментами (Home, Map, Run, Progress, Settings)
+ */
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
@@ -45,6 +48,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Установка темы (значение берется из SharedPreference)
+     */
     private fun setTheme() {
         PreferenceManager.setDefaultValues(this, R.xml.settings_preference, false)
 
@@ -74,6 +80,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Открытие фрагмента по кликам в BottomNavigationBar
+     */
     private fun openScreen(fragmentToOpen: Fragment, tag: String) {
         if (currentFragment?.tag == tag) return
         currentFragment = fragmentToOpen
@@ -84,6 +93,9 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+    /**
+     * Открытие фрагмента бега по клику на нотификацию активного сервиса бега
+     */
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
