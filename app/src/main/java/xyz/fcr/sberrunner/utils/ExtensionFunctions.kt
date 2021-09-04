@@ -41,6 +41,11 @@ fun Int.convertMetersToMiles(): Float {
     return (distanceInMiles * 100.0f).roundToInt() / 100.0f
 }
 
+fun Int.convertMetersToKilometres(): Float {
+    val distanceInMiles = this / 1000.0f
+    return (distanceInMiles * 100.0f).roundToInt() / 100.0f
+}
+
 fun Float.convertKMHtoMPH(): Float {
     val distanceInMiles = this * Constants.UNIT_RATIO
     return (distanceInMiles * 100.0f).roundToInt() / 100.0f

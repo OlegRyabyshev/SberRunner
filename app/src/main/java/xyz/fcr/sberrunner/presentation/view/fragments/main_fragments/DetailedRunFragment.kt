@@ -80,6 +80,7 @@ class DetailedRunFragment : Fragment() {
 
         if (isMetric) {
             binding.detailedDistance.text = run.distanceInMeters
+                .convertMetersToKilometres()
                 .toString()
                 .addDistanceUnits(isMetric)
         } else {
