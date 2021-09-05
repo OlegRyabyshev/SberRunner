@@ -1,11 +1,13 @@
 <h1 align="center">SberRunner</h1>
 
-<p align="center">  
+<p align="justify">  
 Simple app to keep track of your runs.  
 With this app you can follow your running path, it calculates your distance speed and your calories burned.
 Your information stored internally in Room database and externally in Firestore Cloud allowing you to sync
 progress between multiple devices.
 </p>
+
+<br />
 
 <p float="center">
   <img src="screenshots/logo.png" width="220" />
@@ -13,9 +15,9 @@ progress between multiple devices.
 
 ## Tech stack & Open-source libraries
 - Minimum SDK level 23
-- [100% Kotlin](https://kotlinlang.org/)
-- [RxJava 3](https://github.com/ReactiveX/RxJava)
-- [Dagger 2](https://dagger.dev/) for dependency injection.
+- [Kotlin](https://kotlinlang.org/) - A modern programming language that makes developers happier.
+- [RxJava 3](https://github.com/ReactiveX/RxJava)  - library for composing asynchronous and event-based programs by using observable sequences.
+- [Dagger 2](https://dagger.dev/) - for dependency injection.
 - Firebase
     - Firebase Authentication - Login and registration handler.
     - FireStore - Cloud-hosted, NoSQL database
