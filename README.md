@@ -38,6 +38,11 @@ progress between multiple devices.
 Welcome Screens
 -----------
 
+<p float="left">
+  <img src="screenshots/hello_1.png" width="170" />
+  <img src="screenshots/hello_2.png" width="170" /> 
+</p>
+
 ![First Welcome Screen](screenshots/hello_1.png "First Welcome Screen")
 ![Second Welcome Screen](screenshots/hello_2.png "Second Welcome Screen")
 ![Third Welcome Screen](screenshots/hello_3.png "Third Welcome Screen")
