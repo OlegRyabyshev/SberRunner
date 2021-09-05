@@ -2,7 +2,8 @@
 
 <p align="justify">  
 Simple app to keep track of your runs.  
-With this app you can follow your running path, it calculates your distance speed and your calories burned.
+With this app you can follow your running path, it calculates your distance, speed and your calories burned.
+<br />
 Your information stored internally in Room database and externally in Firestore Cloud allowing you to sync
 progress between multiple devices.
 </p>
@@ -16,21 +17,21 @@ progress between multiple devices.
 ## Tech stack & Open-source libraries
 - Minimum SDK level 23
 - [Kotlin](https://kotlinlang.org/) - A modern programming language that makes developers happier.
-- [RxJava 3](https://github.com/ReactiveX/RxJava)  - library for composing asynchronous and event-based programs by using observable sequences.
-- [Dagger 2](https://dagger.dev/) - for dependency injection.
-- Firebase
-    - Firebase Authentication - Login and registration handler.
-    - FireStore - Cloud-hosted, NoSQL database
-- JetPack
-    - ViewModel - UI related data holder, lifecycle aware.
-    - Room - Constructing a database using the abstract layer.
-    - Constraint Layout - Position and size widgets in a flexible way with relative positioning. 
-    - RecyclerView - Display large sets of data in your UI while minimizing memory usage.
-    - ViewPager 2 - Display Views or Fragments in a swipeable format.
-    - ViewBinding - Allows you to more easily write code that interacts with views.
 - Architecture
     - MVVM Architecture (View - ViewModel - Interactor - Data)
     - Repository pattern
+- [RxJava 3](https://github.com/ReactiveX/RxJava) - library for composing asynchronous and event-based programs by using observable sequences.
+- [Dagger 2](https://dagger.dev/) - for dependency injection.
+- Firebase
+    - [Firebase Authentication](https://firebase.google.com/docs/auth) - Login and registration handler.
+    - [Cloud Firestore](https://firebase.google.com/docs/firestore) - Cloud-hosted, NoSQL database
+- JetPack
+    - ViewModel - UI related data holder, lifecycle aware.
+    - [Room](https://developer.android.com/training/data-storage/room) - Constructing a database using the abstract layer.
+    - Constraint Layout - Position and size widgets in a flexible way with relative positioning. 
+    - [RecyclerView](https://developer.android.com/guide/topics/ui/layout/recyclerview) - Display large sets of data in your UI while minimizing memory usage.
+    - [ViewPager 2](https://developer.android.com/jetpack/androidx/releases/viewpager2) - Display Views or Fragments in a swipeable format.
+    - [View Binding](https://developer.android.com/topic/libraries/view-binding) - Allows you to more easily write code that interacts with views.
 - [GoogleMaps](https://developers.google.com/maps) - View and interact with Google Maps using Api.
 - [Glide](https://github.com/bumptech/glide), [GlidePalette](https://github.com/florent37/GlidePalette) - Loading images.
 - [Material-Components](https://github.com/material-components/material-components-android) - Material design components like ripple animation, cardView.
