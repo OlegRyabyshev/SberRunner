@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.Disposable
-import xyz.fcr.sberrunner.data.model.Run
-import xyz.fcr.sberrunner.domain.IDatabaseInteractor
+import xyz.fcr.sberrunner.data.model.RunEntity
+import xyz.fcr.sberrunner.domain.db.IDatabaseInteractor
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Inject
@@ -23,7 +23,7 @@ class HomeViewModel @Inject constructor(
 
     private val _progressLiveData = MutableLiveData<Boolean>()
     private val _errorLiveData = SingleLiveEvent<String>()
-    private val _listOfRunsLiveData = MutableLiveData<List<Run>>()
+    private val _listOfRunsLiveData = MutableLiveData<List<RunEntity>>()
 
     private var disposableList: Disposable? = null
     private var disposableSync: Disposable? = null
@@ -67,9 +67,9 @@ class HomeViewModel @Inject constructor(
     /**
      * Метод добавления забегов в БД
      *
-     * @param run [Run] - один забег
+     * @param run [RunEntity] - один забег
      */
-    fun addRun(run: Run) {
+    fun addRun(run: RunEntity) {
         disposableAddRun = databaseInteractor.addRun(run)
             .doOnSubscribe {
                 _progressLiveData.postValue(true)
@@ -88,9 +88,9 @@ class HomeViewModel @Inject constructor(
     /**
      * Метод удааления забегов из БД
      *
-     * @param run [Run] - один забег
+     * @param run [RunEntity] - один забег
      */
-    fun deleteRun(run: Run) {
+    fun deleteRun(run: RunEntity) {
         disposableDeleteRun = databaseInteractor.deleteRun(run)
             .doOnSubscribe {
                 _progressLiveData.postValue(true)
@@ -126,6 +126,6 @@ class HomeViewModel @Inject constructor(
         get() = _progressLiveData
     val errorLiveData: LiveData<String>
         get() = _errorLiveData
-    val listOfRunsLiveData: LiveData<List<Run>>
+    val listOfRunsLiveData: LiveData<List<RunEntity>>
         get() = _listOfRunsLiveData
 }

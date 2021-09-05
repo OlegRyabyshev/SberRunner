@@ -6,6 +6,10 @@ import dagger.Module
 import dagger.Provides
 import xyz.fcr.sberrunner.data.repository.firebase.FirebaseRepository
 import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
+import xyz.fcr.sberrunner.data.repository.firestore.FirestoreRepository
+import xyz.fcr.sberrunner.data.repository.firestore.IFirestoreRepository
+import xyz.fcr.sberrunner.domain.firebase.FirebaseInteractor
+import xyz.fcr.sberrunner.domain.firebase.IFirebaseInteractor
 import javax.inject.Singleton
 
 @Module
@@ -25,13 +29,22 @@ class FirebaseModule {
 
     @Provides
     @Singleton
-    fun providesFirebaseRepository(auth: FirebaseAuth, store: FirebaseFirestore): IFirebaseRepository {
-        return FirebaseRepository(auth, store)
+    fun providesFirebaseRepository(auth: FirebaseAuth): IFirebaseRepository {
+        return FirebaseRepository(auth)
     }
 
-//    @Provides
-//    @Singleton
-//    fun providesFirestoreRepository(runDao: RunDao, store: FirebaseFirestore): IFirestoreRepository {
-//        return FirestoreRepository(store, runDao)
-//    }
+    @Provides
+    @Singleton
+    fun providesFirestoreRepository(auth: FirebaseAuth, store: FirebaseFirestore): IFirestoreRepository {
+        return FirestoreRepository(auth, store)
+    }
+
+    @Provides
+    @Singleton
+    fun providesFirebaseInteractor(
+        baseRepo: IFirebaseRepository,
+        storeRepo: IFirestoreRepository
+    ): IFirebaseInteractor {
+        return FirebaseInteractor(baseRepo, storeRepo)
+    }
 }

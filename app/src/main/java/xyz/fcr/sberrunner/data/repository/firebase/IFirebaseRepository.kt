@@ -5,7 +5,7 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.firestore.DocumentSnapshot
 
 /**
- * Интерфейс взаимодействия с объектами Firebase
+ * Интерфейс взаимодействия с объектом FirebaseAuth
  */
 interface IFirebaseRepository {
 
@@ -29,13 +29,6 @@ interface IFirebaseRepository {
     fun login(email: String, password: String): Task<AuthResult>
 
     /**
-     * Получение документа пользователя из Firestore
-     *
-     * @return Task<DocumentSnapshot> - результат асинхронного запроса получения документа
-     */
-    fun getDocumentFirestore(): Task<DocumentSnapshot>
-
-    /**
      * Отправка сообщения на email пользователя со сбросом пароля
      *
      * @return Task<Void> - результат асинхронного запроса сброса
@@ -53,18 +46,4 @@ interface IFirebaseRepository {
      * @return Task<Void> - результат асинхронного запроса удаления аккаунта
      */
     fun deleteAccount(): Task<Void>
-
-    /**
-     * Запрос на обновление имени пользоваателя в Firestore
-     *
-     * @return Task<Void> - результат асинхронного запроса обновления имени
-     */
-    fun updateName(newName: String): Task<Void>
-
-    /**
-     * Запрос на обновление веса пользоваателя в Firestore
-     *
-     * @return Task<Void> - результат асинхронного запроса обновления веса
-     */
-    fun updateWeight(newWeight: String): Task<Void>
 }

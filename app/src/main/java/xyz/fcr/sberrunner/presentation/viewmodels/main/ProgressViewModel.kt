@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.Disposable
-import xyz.fcr.sberrunner.data.model.Run
+import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
-import xyz.fcr.sberrunner.domain.IDatabaseInteractor
+import xyz.fcr.sberrunner.domain.db.IDatabaseInteractor
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Inject
 
@@ -24,7 +24,7 @@ class ProgressViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _unitsLiveData = MutableLiveData<Boolean>()
-    private val _listOfRunsLiveData = MutableLiveData<List<Run>>()
+    private val _listOfRunsLiveData = MutableLiveData<List<RunEntity>>()
 
     private var disposableList: Disposable? = null
 
@@ -57,6 +57,6 @@ class ProgressViewModel @Inject constructor(
 
     val unitsLiveData: LiveData<Boolean>
         get() = _unitsLiveData
-    val listOfRunsLiveData: LiveData<List<Run>>
+    val listOfRunsLiveData: LiveData<List<RunEntity>>
         get() = _listOfRunsLiveData
 }

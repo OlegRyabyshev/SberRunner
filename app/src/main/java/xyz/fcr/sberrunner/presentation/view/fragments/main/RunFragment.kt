@@ -23,7 +23,7 @@ import es.dmoral.toasty.Toasty
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.fcr.sberrunner.R
-import xyz.fcr.sberrunner.data.model.Run
+import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.data.service.RunningService
 import xyz.fcr.sberrunner.databinding.FragmentRunBinding
 import xyz.fcr.sberrunner.presentation.App
@@ -362,7 +362,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             val avgSpeed = round((distanceInMeters / 1000f) / (curTimeInMillis / 1000f / 60 / 60) * 10) / 10f
             val timestamp = Calendar.getInstance().timeInMillis
             val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
-            val run = Run(distanceInMeters, timestamp, curTimeInMillis, avgSpeed, caloriesBurned, bmp)
+            val run = RunEntity(distanceInMeters, timestamp, curTimeInMillis, avgSpeed, caloriesBurned, bmp)
 
             viewModel.insertRun(run)
             Toasty.success(requireContext(), getString(R.string.run_saved), Toasty.LENGTH_SHORT).show()

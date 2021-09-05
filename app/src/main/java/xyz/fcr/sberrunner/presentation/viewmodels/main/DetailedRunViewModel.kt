@@ -3,8 +3,8 @@ package xyz.fcr.sberrunner.presentation.viewmodels.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import xyz.fcr.sberrunner.data.model.Run
-import xyz.fcr.sberrunner.domain.IDatabaseInteractor
+import xyz.fcr.sberrunner.data.model.RunEntity
+import xyz.fcr.sberrunner.domain.db.IDatabaseInteractor
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import javax.inject.Inject
 
@@ -19,7 +19,7 @@ class DetailedRunViewModel @Inject constructor(
     private val sharedPreferenceWrapper: ISharedPreferenceWrapper
 ) : ViewModel() {
 
-    private lateinit var _runLiveData: LiveData<Run>
+    private lateinit var _runLiveData: LiveData<RunEntity>
 
     private val _unitsLiveData = MutableLiveData<Boolean>()
 
@@ -31,7 +31,7 @@ class DetailedRunViewModel @Inject constructor(
         _unitsLiveData.postValue(sharedPreferenceWrapper.isMetric())
     }
 
-    val runLiveData: LiveData<Run>
+    val runLiveData: LiveData<RunEntity>
         get() = _runLiveData
 
     val unitsLiveData: LiveData<Boolean>

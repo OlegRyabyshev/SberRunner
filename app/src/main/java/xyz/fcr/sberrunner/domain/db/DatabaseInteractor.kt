@@ -1,9 +1,9 @@
-package xyz.fcr.sberrunner.domain
+package xyz.fcr.sberrunner.domain.db
 
 import androidx.lifecycle.LiveData
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import xyz.fcr.sberrunner.data.model.Run
+import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.data.room.RunDao
 import javax.inject.Inject
 
@@ -19,18 +19,18 @@ class DatabaseInteractor @Inject constructor(
     /**
      * Метод добавления объкта бега в БД
      *
-     * @param run [Run] - объект бега на добавление
+     * @param run [RunEntity] - объект бега на добавление
      */
-    override fun addRun(run: Run): Completable {
+    override fun addRun(run: RunEntity): Completable {
         return Completable.fromCallable { runDao.addRun(run) }
     }
 
     /**
      * Метод удаления объекта бега из БД
      *
-     * @param run [Run] - объект бега на удаление
+     * @param run [RunEntity] - объект бега на удаление
      */
-    override fun deleteRun(run: Run): Completable {
+    override fun deleteRun(run: RunEntity): Completable {
         return Completable.fromCallable { runDao.deleteRun(run) }
     }
 
@@ -39,7 +39,7 @@ class DatabaseInteractor @Inject constructor(
      *
      * @return [Single<List<Run>>] - объекты бега
      */
-    override fun getAllRuns(): Single<List<Run>> {
+    override fun getAllRuns(): Single<List<RunEntity>> {
         return Single.fromCallable { runDao.getAllRuns() }
     }
 
@@ -48,7 +48,7 @@ class DatabaseInteractor @Inject constructor(
      *
      * @return - LiveData объект забега
      */
-    override fun getRun(runId: Int): LiveData<Run> {
+    override fun getRun(runId: Int): LiveData<RunEntity> {
         return runDao.getRun(runId)
     }
 }

@@ -18,7 +18,7 @@ import xyz.fcr.sberrunner.utils.Constants.DB_NAME
  * @param mapImage [Bitmap] - отображение карты на момент конца забега
  */
 @Entity(tableName = DB_NAME)
-data class Run(
+data class RunEntity(
     var distanceInMeters: Int = 0,
     var timestamp: Long = 0L,
     var timeInMillis: Long = 0,

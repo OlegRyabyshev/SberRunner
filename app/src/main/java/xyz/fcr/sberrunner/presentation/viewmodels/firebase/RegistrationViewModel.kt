@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.R
-import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.domain.firebase.IFirebaseInteractor
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.Constants.VALID
@@ -17,12 +17,12 @@ import javax.inject.Inject
 /**
  * ViewModel экрана регистрации.
  *
- * @param firebaseRepo [IFirebaseRepository] - репозиторий для работы с объектом firebase
+ * @param firebaseInteractor [IFirebaseInteractor] - интерфейс взаимодействия с firebase
  * @param schedulersProvider [ISchedulersProvider] - провайдер объектов Scheduler
  * @param sharedPreferenceWrapper [ISharedPreferenceWrapper] - интерфейс упрощенного взаимодействия с SharedPreference
  */
 class RegistrationViewModel @Inject constructor(
-    private val firebaseRepo: IFirebaseRepository,
+    private val firebaseInteractor: IFirebaseInteractor,
     private val schedulersProvider: ISchedulersProvider,
     private val sharedPreferenceWrapper: ISharedPreferenceWrapper
 ) : ViewModel() {
@@ -41,14 +41,12 @@ class RegistrationViewModel @Inject constructor(
     fun initRegistration(name: String, email: String, pass: String, weight: String) {
         if (nameIsValid(name) and emailIsValid(email) and passIsValid(pass) and weightIsValid(weight)) {
 
-            disposable = Single.fromCallable {
-                firebaseRepo.registration(
-                    name.trim { it <= ' ' },
-                    email.trim { it <= ' ' },
-                    pass.trim { it <= ' ' },
-                    weight
-                )
-            }
+            disposable = firebaseInteractor.registration(
+                name.trim { it <= ' ' },
+                email.trim { it <= ' ' },
+                pass.trim { it <= ' ' },
+                weight
+            )
                 .doOnSubscribe { _progressLiveData.postValue(true) }
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
@@ -58,6 +56,8 @@ class RegistrationViewModel @Inject constructor(
                             it.isSuccessful -> {
                                 _successLiveData.postValue(VALID)
                                 saveToSharedPrefs(name, weight)
+
+                                firebaseInteractor.fillUserDataInFirestore(name, weight)
                             }
                             else -> {
                                 _successLiveData.postValue(it.exception?.message.toString())

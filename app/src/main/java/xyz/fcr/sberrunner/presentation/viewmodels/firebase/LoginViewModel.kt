@@ -4,11 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.DocumentSnapshot
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.R
-import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.domain.firebase.IFirebaseInteractor
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.Constants.VALID
@@ -18,12 +17,12 @@ import javax.inject.Inject
 /**
  * ViewModel экрана аутентификации.
  *
- * @param firebaseRepo [IFirebaseRepository] - репозиторий для работы с объектом firebase
+ * @param firebaseInteractor [IFirebaseInteractor] - интерфейс взаимодействия с firebase
  * @param schedulersProvider [ISchedulersProvider] - провайдер объектов Scheduler
  * @param sharedPreferenceWrapper [ISharedPreferenceWrapper] - интерфейс упрощенного взаимодействия с SharedPreference
  */
 class LoginViewModel @Inject constructor(
-    private val firebaseRepo: IFirebaseRepository,
+    private val firebaseInteractor: IFirebaseInteractor,
     private val schedulersProvider: ISchedulersProvider,
     private val sharedPreferenceWrapper: ISharedPreferenceWrapper
 ) : ViewModel() {
@@ -42,7 +41,7 @@ class LoginViewModel @Inject constructor(
 
     fun initResetEmail(email: String) {
         if (emailIsValid(email)) {
-            disReset = Single.fromCallable { firebaseRepo.sendResetEmail(email.trim { it <= ' ' }) }
+            disReset = firebaseInteractor.sendResetEmail(email.trim { it <= ' ' })
                 .doOnSubscribe { _progressLiveData.postValue(true) }
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
@@ -61,12 +60,7 @@ class LoginViewModel @Inject constructor(
 
     fun initSignIn(email: String, pass: String) {
         if (emailIsValid(email) and passIsValid(pass)) {
-            disSignIn = Single.fromCallable {
-                firebaseRepo.login(
-                    email.trim { it <= ' ' },
-                    pass.trim { it <= ' ' },
-                )
-            }
+            disSignIn = firebaseInteractor.login(email.trim { it <= ' ' }, pass.trim { it <= ' ' })
                 .doOnSubscribe { _progressLiveData.postValue(true) }
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
@@ -85,7 +79,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun loadNameAndWeightFromFireStore() {
-        disSignIn = Single.fromCallable { firebaseRepo.getDocumentFirestore() }
+        disSignIn = firebaseInteractor.getDocumentFirestore()
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
             .subscribe { task ->

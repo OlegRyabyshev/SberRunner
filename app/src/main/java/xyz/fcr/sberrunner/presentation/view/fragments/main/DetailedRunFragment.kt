@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import xyz.fcr.sberrunner.data.model.Run
+import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.databinding.FragmentDetailedRunBinding
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.main.DetailedRunViewModel
@@ -68,12 +68,12 @@ class DetailedRunFragment : Fragment() {
      * Отслеживание изменений в livedata вьюмодели.
      */
     private fun observeLiveData() {
-        viewModel.runLiveData.observe(viewLifecycleOwner) { run: Run -> showRunDetailsInfo(run) }
+        viewModel.runLiveData.observe(viewLifecycleOwner) { run: RunEntity -> showRunDetailsInfo(run) }
         viewModel.unitsLiveData.observe(viewLifecycleOwner) { units: Boolean -> isMetric = units }
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun showRunDetailsInfo(run: Run) {
+    private fun showRunDetailsInfo(run: RunEntity) {
         val sdfDate = SimpleDateFormat(PATTERN_DATE_DETAILED)
         binding.detailedDateOfRunTv.text = sdfDate.format(run.timestamp)
 

@@ -3,11 +3,10 @@ package xyz.fcr.sberrunner.presentation.viewmodels.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.R
-import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.domain.firebase.IFirebaseInteractor
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
@@ -16,12 +15,12 @@ import javax.inject.Inject
 /**
  * ViewModel экрана "Настройки".
  *
- * @param firebaseRepo [IFirebaseRepository] - репозиторий для работы с объектом firebase
+ * @param firebaseInteractor [IFirebaseInteractor] - интерфейс взаимодействия с firebase
  * @param schedulersProvider [ISchedulersProvider] - провайдер объектов Scheduler
  * @param sharedPreferenceWrapper [ISharedPreferenceWrapper] - интерфейс упрощенного взаимодействия с SharedPreference
  */
 class SharedSettingsViewModel @Inject constructor(
-    private val firebaseRepo: IFirebaseRepository,
+    private val firebaseInteractor: IFirebaseInteractor,
     private val schedulersProvider: ISchedulersProvider,
     private val sharedPreferenceWrapper: ISharedPreferenceWrapper
 ) : ViewModel() {
@@ -50,7 +49,7 @@ class SharedSettingsViewModel @Inject constructor(
      * Выход из аккаунта.
      */
     fun exitAccount() {
-        firebaseRepo.signOut()
+        firebaseInteractor.signOut()
         _signOutLiveData.postValue(true)
     }
 
@@ -58,7 +57,7 @@ class SharedSettingsViewModel @Inject constructor(
      * Удаление аккаунта.
      */
     fun deleteAccount() {
-        disDeleteAccount = Single.fromCallable { firebaseRepo.deleteAccount() }
+        disDeleteAccount = firebaseInteractor.deleteAccount()
             .doOnSubscribe { _progressLiveData.postValue(true) }
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
@@ -77,7 +76,7 @@ class SharedSettingsViewModel @Inject constructor(
      */
     fun updateWeight(newWeight: String) {
         if (weightIsValid(newWeight)) {
-            disUpdName = Single.fromCallable { firebaseRepo.updateWeight(newWeight) }
+            disUpdName = firebaseInteractor.updateWeight(newWeight)
                 .doOnSubscribe { _progressLiveData.postValue(true) }
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
@@ -103,9 +102,7 @@ class SharedSettingsViewModel @Inject constructor(
      */
     fun updateName(newName: String) {
         if (nameIsValid(newName)) {
-            disUpdName = Single.fromCallable {
-                firebaseRepo.updateName(newName)
-            }
+            disUpdName = firebaseInteractor.updateName(newName)
                 .doOnSubscribe { _progressLiveData.postValue(true) }
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
