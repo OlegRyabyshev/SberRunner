@@ -39,42 +39,50 @@ Welcome Screens
 -----------
 
 <p float="left">
-  <img src="screenshots/hello_1.png" width="200" />
-  <img src="screenshots/hello_2.png" width="200" /> 
-  <img src="screenshots/hello_3.png" width="200" /> 
+  <img src="screenshots/hello_1.png" width="220" />
+  <img src="screenshots/hello_2.png" width="220" /> 
+  <img src="screenshots/hello_3.png" width="220" /> 
 </p>
 
 Login and Registration Screens
 -----------
 
-![Login Screen](screenshots/login_light.png "Login Screen")
-![Registration Screen](screenshots/registration_light.png "Registration Screen")
-![Login Screen](screenshots/login_dark.png "Login Screen")
-![Registration Screen](screenshots/registration_dark.png "Registration Screen")
+<p float="left">
+  <img src="screenshots/login_light.png" width="220" />
+  <img src="screenshots/registration_light.png" width="220" /> 
+  <img src="screenshots/login_dark.png" width="220" />
+  <img src="screenshots/registration_dark.png" width="220" /> 
+</p>
 
 List of Runs with Detailed Information Screens
 -----------
 
-![List Of Runs](screenshots/list_light.png "List Of Runs")
-![Detailed Information](screenshots/detailed_light.png "Detailed Information")
-![List Of Runs](screenshots/list_dark.png "List Of Runs")
-![Detailed Information](screenshots/detailed_dark.png "Detailed Information")
+<p float="left">
+  <img src="screenshots/list_light.png" width="220" />
+  <img src="screenshots/detailed_light.png" width="220" /> 
+  <img src="screenshots/list_dark.png" width="220" />
+  <img src="screenshots/detailed_dark.png" width="220" /> 
+</p>
 
 Running Activity and Map Screens
 -----------
 
-![Running Activity](screenshots/run_light.png "Running Activity")
-![Map](screenshots/map_light.png "Map")
-![Running Activity](screenshots/run_dark.png "Running Activity")
-![Map](screenshots/map_dark.png "Map")
+<p float="left">
+  <img src="screenshots/run_light.png" width="220" />
+  <img src="screenshots/map_light.png" width="220" /> 
+  <img src="screenshots/run_dark.png" width="220" />
+  <img src="screenshots/map_dark.png" width="220" /> 
+</p>
 
 Progress and Settings Screens
 -----------
 
-![Progress](screenshots/progress_light.png "Progress")
-![Settings](screenshots/settings_light.png "Settings")
-![Progress](screenshots/progress_dark.png "Progress")
-![Settings](screenshots/settings_dark.png "Settings")
+<p float="left">
+  <img src="screenshots/progress_light.png" width="220" />
+  <img src="screenshots/settings_light.png" width="220" /> 
+  <img src="screenshots/progress_dark.png" width="220" />
+  <img src="screenshots/settings_dark.png" width="220" /> 
+</p>
 
 # License
 ```
