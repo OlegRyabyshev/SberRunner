@@ -84,7 +84,7 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
         val logOutPref: Preference? = findPreference(LOG_OUT)
         logOutPref?.setOnPreferenceClickListener {
             MaterialAlertDialogBuilder(requireContext()).apply {
-                setTitle(getString(R.string.log_out_from_accout))
+                setTitle(getString(R.string.log_out_from_account))
                 setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                     dialog.dismiss()
                 }
@@ -100,7 +100,7 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
         val deleteAccountPref: Preference? = findPreference(DEL_ACCOUNT)
         deleteAccountPref?.setOnPreferenceClickListener {
             MaterialAlertDialogBuilder(requireContext()).apply {
-                setTitle(getString(R.string.delete_accout))
+                setTitle(getString(R.string.delete_account))
                 setMessage(getString(R.string.data_will_be_lost))
                 setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                     dialog.dismiss()

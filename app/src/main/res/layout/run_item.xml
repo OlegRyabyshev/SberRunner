@@ -64,11 +64,11 @@
             tools:ignore="ContentDescription"
             app:tint="@color/background_color"/>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/distance_item_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins"
+            android:fontFamily="sans-serif"
             android:padding="@dimen/padding_small"
             android:text="@string/distance"
             android:textColor="@color/background_color"
@@ -77,11 +77,11 @@
             app:layout_constraintStart_toEndOf="@+id/detailed_distance_image"
             app:layout_constraintTop_toTopOf="@+id/detailed_distance_image" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/duration_item_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins"
+            android:fontFamily="sans-serif"
             android:padding="@dimen/padding_small"
             android:text="@string/duration"
             android:textColor="@color/background_color"
@@ -90,11 +90,11 @@
             app:layout_constraintStart_toEndOf="@+id/detailed_duration_image"
             app:layout_constraintTop_toTopOf="@+id/detailed_duration_image" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/date_item_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins"
+            android:fontFamily="sans-serif"
             android:padding="@dimen/padding_small"
             android:text="@string/date_filler"
             android:textColor="@color/background_color"

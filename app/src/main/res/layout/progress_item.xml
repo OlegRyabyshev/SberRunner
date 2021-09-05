@@ -28,7 +28,7 @@
             app:tint="@color/background_color"
             tools:ignore="ContentDescription" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/detailed_value"
             style="@style/Theme.SberRunner.Table.Detailed.Numbers"
             android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detailed_distance_image" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/detailed_title"
             style="@style/Theme.SberRunner.Table.Detailed.Texts"
             android:layout_width="wrap_content"

@@ -12,13 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_view_welcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:ellipsize="end"
-            android:fontFamily="@font/poppins"
+            android:fontFamily="sans-serif-light"
             android:text="@string/sign_up"
             android:textColor="@color/background_color"
             android:textSize="28sp"
@@ -27,13 +27,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_view_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:ellipsize="end"
-            android:fontFamily="@font/poppins_light"
+            android:fontFamily="sans-serif"
             android:lines="1"
             android:text="@string/create_new_account"
             android:textColor="@color/background_color"
@@ -137,16 +137,18 @@
                 android:text="@string/sign_up"
                 android:textSize="16sp" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/sign_in_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_medium"
+                android:paddingEnd="@dimen/padding_medium"
+                android:paddingStart="@dimen/padding_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:ellipsize="end"
-                android:fontFamily="@font/poppins_light"
-                android:lines="1"
+                android:fontFamily="sans-serif"
+                android:singleLine="false"
                 android:text="@string/already_have_an_account"
                 android:textColor="@color/main_green"
                 android:textSize="14sp" />

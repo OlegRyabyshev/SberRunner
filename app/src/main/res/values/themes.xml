@@ -59,7 +59,7 @@
     <style name="Theme.SberRunner.Table.Texts" parent="">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:fontFamily">@font/poppins_light</item>
+        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/text_color</item>
         <item name="android:textSize">@dimen/text_small</item>
@@ -76,7 +76,7 @@
     </style>
 
     <style name="Theme.SberRunner.Table.Detailed.Texts" parent="">
-        <item name="android:fontFamily">@font/poppins</item>
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/background_color</item>
         <item name="android:textSize">@dimen/text_small</item>
@@ -86,23 +86,29 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/margin_big</item>
+        <item name="android:paddingEnd">@dimen/padding_medium</item>
+        <item name="android:paddingStart">@dimen/padding_medium</item>
+        <item name="android:gravity">center</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:lines">1</item>
+        <item name="android:singleLine">false</item>
         <item name="android:textColor">@color/text_welcome_color</item>
         <item name="android:textSize">@dimen/text_medium</item>
         <item name="android:textStyle">bold</item>
-        <item name="fontFamily">@font/poppins_light</item>
+        <item name="fontFamily">sans-serif-light</item>
     </style>
 
     <style name="Theme.SberRunner.Welcome.Content" parent="">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/margin_small</item>
+        <item name="android:paddingEnd">@dimen/padding_medium</item>
+        <item name="android:paddingStart">@dimen/padding_medium</item>
+        <item name="android:gravity">center</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:lines">1</item>
+        <item name="android:singleLine">false</item>
         <item name="android:textColor">@color/text_welcome_color</item>
         <item name="android:textSize">@dimen/text_small</item>
-        <item name="fontFamily">@font/poppins_light</item>
+        <item name="fontFamily">sans-serif-light</item>
     </style>
 
     <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
