@@ -7,7 +7,9 @@ Your information stored internally in Room database and externally in Firestore 
 progress between multiple devices.
 </p>
 
-![App Icon](screenshots/logo.png)
+<p float="center">
+  <img src="screenshots/logo.png" width="220" />
+</p>
 
 ## Tech stack & Open-source libraries
 - Minimum SDK level 23
