@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.ActivityWelcomeBinding
-import xyz.fcr.sberrunner.presentation.view.fragments.welcome_fragments.WelcomeFragment
+import xyz.fcr.sberrunner.presentation.view.fragments.welcome.WelcomeFragment
 
 /**
  * Активити приветствия.

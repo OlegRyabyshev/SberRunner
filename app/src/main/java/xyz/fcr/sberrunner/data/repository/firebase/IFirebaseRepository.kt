@@ -67,5 +67,4 @@ interface IFirebaseRepository {
      * @return Task<Void> - результат асинхронного запроса обновления веса
      */
     fun updateWeight(newWeight: String): Task<Void>
-
 }

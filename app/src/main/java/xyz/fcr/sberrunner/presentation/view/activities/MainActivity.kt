@@ -11,7 +11,7 @@ import androidx.preference.PreferenceManager
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.ActivityMainBinding
 import xyz.fcr.sberrunner.presentation.App
-import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.*
+import xyz.fcr.sberrunner.presentation.view.fragments.main.*
 import xyz.fcr.sberrunner.utils.Constants.ACTION_SHOW_TRACKING_FRAGMENT
 import xyz.fcr.sberrunner.utils.Constants.TAG_HOME
 import xyz.fcr.sberrunner.utils.Constants.TAG_MAP

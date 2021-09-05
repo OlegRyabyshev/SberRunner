@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_green"
-    tools:context=".presentation.view.fragments.welcome_fragments.WelcomeFragmentFirst">
+    tools:context=".presentation.view.fragments.welcome.WelcomeFragmentFirst">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_view_welcome"

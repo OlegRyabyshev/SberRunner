@@ -7,14 +7,14 @@ import xyz.fcr.sberrunner.data.service.RunningService
 import xyz.fcr.sberrunner.di.modules.*
 import xyz.fcr.sberrunner.presentation.view.activities.MainActivity
 import xyz.fcr.sberrunner.presentation.view.activities.SplashScreenActivity
-import xyz.fcr.sberrunner.presentation.view.fragments.firebase_fragments.LoginFragment
-import xyz.fcr.sberrunner.presentation.view.fragments.firebase_fragments.RegistrationFragment
-import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.*
-import xyz.fcr.sberrunner.presentation.view.fragments.main_fragments.adapters.RunRecyclerAdapter
-import xyz.fcr.sberrunner.presentation.viewmodels.firebase_viewmodels.LoginViewModel
-import xyz.fcr.sberrunner.presentation.viewmodels.firebase_viewmodels.RegistrationViewModel
-import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.MapViewModel
-import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.SharedSettingsViewModel
+import xyz.fcr.sberrunner.presentation.view.fragments.firebase.LoginFragment
+import xyz.fcr.sberrunner.presentation.view.fragments.firebase.RegistrationFragment
+import xyz.fcr.sberrunner.presentation.view.fragments.main.*
+import xyz.fcr.sberrunner.presentation.view.fragments.main.adapters.RunRecyclerAdapter
+import xyz.fcr.sberrunner.presentation.viewmodels.firebase.LoginViewModel
+import xyz.fcr.sberrunner.presentation.viewmodels.firebase.RegistrationViewModel
+import xyz.fcr.sberrunner.presentation.viewmodels.main.MapViewModel
+import xyz.fcr.sberrunner.presentation.viewmodels.main.SharedSettingsViewModel
 import javax.inject.Singleton
 
 @Component(

@@ -7,9 +7,9 @@ import dagger.Module
 import dagger.multibindings.IntoMap
 import xyz.fcr.sberrunner.di.ViewModelKey
 import xyz.fcr.sberrunner.presentation.viewmodels.ViewModelFactory
-import xyz.fcr.sberrunner.presentation.viewmodels.firebase_viewmodels.LoginViewModel
-import xyz.fcr.sberrunner.presentation.viewmodels.firebase_viewmodels.RegistrationViewModel
-import xyz.fcr.sberrunner.presentation.viewmodels.main_viewmodels.*
+import xyz.fcr.sberrunner.presentation.viewmodels.firebase.LoginViewModel
+import xyz.fcr.sberrunner.presentation.viewmodels.firebase.RegistrationViewModel
+import xyz.fcr.sberrunner.presentation.viewmodels.main.*
 
 @Module
 abstract class ViewModelFactoryModule {
