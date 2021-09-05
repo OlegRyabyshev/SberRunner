@@ -50,8 +50,6 @@ Login and Registration Screens
 <p float="left">
   <img src="screenshots/login_light.png" width="220" />
   <img src="screenshots/registration_light.png" width="220" /> 
-  <img src="screenshots/login_dark.png" width="220" />
-  <img src="screenshots/registration_dark.png" width="220" /> 
 </p>
 
 List of Runs with Detailed Information Screens
@@ -59,9 +57,7 @@ List of Runs with Detailed Information Screens
 
 <p float="left">
   <img src="screenshots/list_light.png" width="220" />
-  <img src="screenshots/detailed_light.png" width="220" /> 
-  <img src="screenshots/list_dark.png" width="220" />
-  <img src="screenshots/detailed_dark.png" width="220" /> 
+  <img src="screenshots/detailed_light.png" width="220" />
 </p>
 
 Running Activity and Map Screens
@@ -69,8 +65,6 @@ Running Activity and Map Screens
 
 <p float="left">
   <img src="screenshots/run_light.png" width="220" />
-  <img src="screenshots/map_light.png" width="220" /> 
-  <img src="screenshots/run_dark.png" width="220" />
   <img src="screenshots/map_dark.png" width="220" /> 
 </p>
 
@@ -80,8 +74,6 @@ Progress and Settings Screens
 <p float="left">
   <img src="screenshots/progress_light.png" width="220" />
   <img src="screenshots/settings_light.png" width="220" /> 
-  <img src="screenshots/progress_dark.png" width="220" />
-  <img src="screenshots/settings_dark.png" width="220" /> 
 </p>
 
 # License
