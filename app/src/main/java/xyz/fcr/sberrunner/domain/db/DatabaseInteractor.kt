@@ -1,7 +1,6 @@
 package xyz.fcr.sberrunner.domain.db
 
 import androidx.lifecycle.LiveData
-import io.reactivex.rxjava3.annotations.NonNull
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.model.RunEntity

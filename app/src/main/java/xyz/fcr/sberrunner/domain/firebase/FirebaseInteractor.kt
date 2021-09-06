@@ -4,7 +4,6 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
-import io.reactivex.rxjava3.annotations.NonNull
 import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
@@ -55,11 +54,18 @@ class FirebaseInteractor(
         return Single.fromCallable { firestore.fillUserDataInFirestore(name, weight) }
     }
 
-    override fun removeAllRunsFromCloud(): Single<Task<Void>> {
-        return Single.fromCallable { firestore.removeAllRuns() }
+
+
+
+    override fun setDeleteFlagsInCloud(filter: List<RunEntity>) {
+        return Single.fromCallable {  }
     }
 
-    override fun loadNewList(unitedList: List<RunEntity>): Single<Task<Void>> {
-        return Single.fromCallable { firestore.loadNewList(unitedList) }
+    override fun getMarkedToDeleteFromCloud() {
+        return Single.fromCallable {  }
+    }
+
+    override fun uploadMissingFromDbToCloud() {
+        return Single.fromCallable {  }
     }
 }

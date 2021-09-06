@@ -43,4 +43,6 @@ interface IDatabaseInteractor {
     fun addList(unitedList: List<RunEntity>): Single<Unit>
 
     fun switchToDeleteFlag(runID: Int, toDelete: Boolean): Single<Unit>
+
+    fun removeMarkedToDelete(): Any
 }

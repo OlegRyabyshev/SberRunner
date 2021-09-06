@@ -10,20 +10,21 @@ import xyz.fcr.sberrunner.utils.Constants.DB_NAME
 /**
  * Модель бега, содержущая основную информация о забеге.
  *
- * @param distanceInMeters [Int] - дистанция, пройденная юзером за забег (в метрах)
+ * @param distanceInMeters [Long] - дистанция, пройденная юзером за забег (в метрах)
  * @param timestamp [Long] - временная отметка
  * @param timeInMillis [Long] - время забега (в мс)
- * @param avgSpeedInKMH [Float] - средняя скорость за забег
+ * @param avgSpeedInKMH [String] - средняя скорость за забег
  * @param calories [Int] - потраченные калории за забег
  * @param mapImage [Bitmap] - отображение карты на момент конца забега
  */
 @Entity(tableName = DB_NAME)
 data class RunEntity(
-    var distanceInMeters: Int = 0,
-    var timestamp: Long = 0L,
+    var avgSpeedInKMH: String = "0.0",
+    var calories: Long = 0,
+    var distanceInMeters: Long = 0,
     var timeInMillis: Long = 0,
-    var avgSpeedInKMH: Float = 0f,
-    var calories: Int = 0,
+    var timestamp: Long = 0L,
+
     @TypeConverters(BitmapConverter::class)
     var mapImage: Bitmap? = null,
     var toDeleteFlag: Boolean = false

@@ -56,7 +56,7 @@ fun String.addCalories(): String {
  *
  * @return [Float] - среднее значение
  */
-fun Int.getAverage(isMetric: Boolean, count: Int): Double {
+fun Long.getAverage(isMetric: Boolean, count: Int): Double {
     return if (isMetric) {
         ((((this / 1000f) / count) * 100f).roundToInt() / 100f).toDouble()
     } else {
@@ -69,7 +69,7 @@ fun Int.getAverage(isMetric: Boolean, count: Int): Double {
  *
  * @return [Float] - мили
  */
-fun Int.convertMetersToMiles(): Float {
+fun Long.convertMetersToMiles(): Float {
     val distanceInMiles = (this / 1000.0f) * Constants.UNIT_RATIO
     return (distanceInMiles * 100.0f).roundToInt() / 100.0f
 }
@@ -79,7 +79,7 @@ fun Int.convertMetersToMiles(): Float {
  *
  * @return [Float] - километры
  */
-fun Int.convertMetersToKilometres(): Float {
+fun Long.convertMetersToKilometres(): Float {
     val distanceInMiles = this / 1000.0f
     return (distanceInMiles * 100.0f).roundToInt() / 100.0f
 }

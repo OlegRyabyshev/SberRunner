@@ -93,10 +93,10 @@ class DetailedRunFragment : Fragment() {
 
         if (isMetric) {
             binding.detailedSpeed.text = run.avgSpeedInKMH
-                .toString()
                 .addSpeedUnits(isMetric)
         } else {
             binding.detailedSpeed.text = run.avgSpeedInKMH
+                .toFloat()
                 .convertKMHtoMPH()
                 .toString()
                 .addSpeedUnits(isMetric)

@@ -354,15 +354,26 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
      */
     private fun endRunAndSaveToDB() {
         map?.snapshot { bmp ->
-            var distanceInMeters = 0
+            var distanceInMeters = 0L
             for (polyline in pathPoints) {
-                distanceInMeters += TrackingUtility.calculatePolylineLength(polyline).toInt()
+                distanceInMeters += TrackingUtility.calculatePolylineLength(polyline).toLong()
             }
 
-            val avgSpeed = round((distanceInMeters / 1000f) / (curTimeInMillis / 1000f / 60 / 60) * 10) / 10f
+            val avgSpeed =
+                (round((distanceInMeters / 1000f) / (curTimeInMillis / 1000f / 60 / 60) * 10) / 10f).toString()
+
             val timestamp = Calendar.getInstance().timeInMillis
-            val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
-            val run = RunEntity(distanceInMeters, timestamp, curTimeInMillis, avgSpeed, caloriesBurned, bmp)
+
+            val caloriesBurned = ((distanceInMeters / 1000f) * weight).toLong()
+
+            val run = RunEntity(
+                avgSpeed,
+                caloriesBurned,
+                distanceInMeters,
+                curTimeInMillis,
+                timestamp,
+                bmp
+            )
 
             viewModel.insertRun(run)
             Toasty.success(requireContext(), getString(R.string.run_saved), Toasty.LENGTH_SHORT).show()

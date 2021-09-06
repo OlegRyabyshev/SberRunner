@@ -24,12 +24,14 @@ class HomeViewModel @Inject constructor(
     private val schedulersProvider: ISchedulersProvider
 ) : ViewModel() {
 
-    private var unitedList: List<RunEntity>? = null
     private val _progressLiveData = MutableLiveData<Boolean>()
     private val _errorLiveData = SingleLiveEvent<String>()
     private val _listOfRunsLiveData = MutableLiveData<List<RunEntity>>()
 
     private var compositeDisposable = CompositeDisposable()
+
+    private var cloudListRuns: List<RunEntity> = emptyList()
+    private var dbListRuns: List<RunEntity> = emptyList()
 
     /**
      * Метод обновления списков забега
@@ -50,7 +52,8 @@ class HomeViewModel @Inject constructor(
     /**
      * Метод синхронизации данных БД с облачным БД FireStore
      */
-    fun initDbAndFirestoreSync() {
+    // 1
+    fun getAllRunsFromCloud() {
         compositeDisposable.add(firebaseInteractor.getAllRunsFromCloud()
             .doOnSubscribe {
                 _progressLiveData.postValue(true)
@@ -60,21 +63,25 @@ class HomeViewModel @Inject constructor(
                 task.addOnCompleteListener {
                     when {
                         task.isSuccessful -> {
-                            val listOfRuns = mutableListOf<RunEntity>()
-
                             task.result.forEach { document ->
-                                listOfRuns.add(
+
+                                val list = mutableListOf<RunEntity>()
+
+                                list.add(
                                     RunEntity(
-                                        distanceInMeters = document.get("distanceInMeters") as Int,
-                                        timestamp = document.get("timestamp") as Long,
+                                        avgSpeedInKMH = document.get("avgSpeedInKMH") as String,
+                                        calories = document.get("calories") as Long,
+                                        distanceInMeters = document.get("distanceInMeters") as Long,
                                         timeInMillis = document.get("timeInMillis") as Long,
-                                        avgSpeedInKMH = document.get("avgSpeedInKMH") as Float,
-                                        calories = document.get("calories") as Int
+                                        timestamp = document.get("timestamp") as Long,
+                                        toDeleteFlag = false
                                     )
                                 )
+
+                                cloudListRuns = list
                             }
 
-                            getAllRunsFromDB(listOfRuns)
+                            getAllRunsFromDB()
                         }
 
                         else -> {
@@ -87,14 +94,15 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun getAllRunsFromDB(listOfRuns: List<RunEntity>) {
+    // 2
+    private fun getAllRunsFromDB() {
         compositeDisposable.add(
             databaseInteractor.getAllRuns()
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
-                .subscribe({ value ->
-                    unitedList = getUnitedList(value, listOfRuns)
-                    clearExistingListInCloud()
+                .subscribe({ list ->
+                    dbListRuns = list
+                    getMissingRunsFromCloudToDb()
                 }, {
                     _errorLiveData.postValue("Error in getListFromDB")
                     _progressLiveData.postValue(false)
@@ -102,52 +110,29 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun clearExistingListInCloud() {
-        compositeDisposable.add(firebaseInteractor.removeAllRunsFromCloud()
-            .subscribeOn(schedulersProvider.io())
-            .observeOn(schedulersProvider.ui())
-            .subscribe { task ->
-                task.addOnCompleteListener {
-                    when {
-                        task.isSuccessful -> loadNewListToCloud()
-
-                        else -> {
-                            _errorLiveData.postValue("Error in loadDataToCloud")
-                            _progressLiveData.postValue(false)
-                        }
-                    }
-                }
-            }
-        )
-    }
-
-    private fun loadNewListToCloud() {
-        compositeDisposable.add(firebaseInteractor.loadNewList(unitedList!!)
-            .subscribeOn(schedulersProvider.io())
-            .observeOn(schedulersProvider.ui())
-            .subscribe { task ->
-                task.addOnCompleteListener {
-                    when {
-                        task.isSuccessful -> {
-                            clearExistingListInDB()
-                        }
-                        else -> {
-                            _errorLiveData.postValue("Error in loadNewListToCloud")
-                            _progressLiveData.postValue(false)
-                        }
-                    }
-                }
-            }
-        )
-    }
-
-    private fun clearExistingListInDB() {
+    // 3
+    private fun getMissingRunsFromCloudToDb() {
         compositeDisposable.add(
-            databaseInteractor.clearRuns()
+            firebaseInteractor.getMissingRunsFromCloudToDb(dbListRuns)
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
+                .subscribe({ missingRunsFromCloud ->
+                    uploadMissingRunsFromCloudToDb(missingRunsFromCloud)
+                }, {
+                    _errorLiveData.postValue("Error in getListFromDB")
+                    _progressLiveData.postValue(false)
+                })
+        )
+    }
+
+    // 3.1
+    private fun uploadMissingRunsFromCloudToDb(missingRunsFromCloud: List<RunEntity>) {
+        compositeDisposable.add(
+            databaseInteractor.addList(missingRunsFromCloud)
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
                 .subscribe({
-                    loadNewListToDB()
+                    setDeleteFlagsInCloud()
                 }, {
                     _errorLiveData.postValue("Error in clearExistingListInDB")
                     _progressLiveData.postValue(false)
@@ -155,55 +140,85 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun loadNewListToDB() {
-        if (unitedList != null) {
-            compositeDisposable.add(
-                databaseInteractor.addList(unitedList!!)
-                    .subscribeOn(schedulersProvider.io())
-                    .observeOn(schedulersProvider.ui())
-                    .subscribe({
-                        updateListOfRuns()
-                    }, {
-                        _errorLiveData.postValue("Error in loadNewListToDB")
-                        _progressLiveData.postValue(false)
-                    })
-            )
-        }
+    // 4
+    private fun setDeleteFlagsInCloud() {
+        compositeDisposable.add(
+            firebaseInteractor.setDeleteFlagsInCloud(dbListRuns.filter { it.toDeleteFlag })
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
+                .subscribe({
+                    removeMarkedToDeleteFromDb()
+                }, {
+                    _errorLiveData.postValue("Error in getListFromDB")
+                    _progressLiveData.postValue(false)
+                })
+        )
+    }
+    // 4.1
+    private fun removeMarkedToDeleteFromDb() {
+        compositeDisposable.add(
+            databaseInteractor.removeMarkedToDelete()
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
+                .subscribe({
+                    getMarkedToDeleteFromCloud()
+                }, {
+                    _errorLiveData.postValue("Error in getListFromDB")
+                    _progressLiveData.postValue(false)
+                })
+        )
     }
 
-    private fun getUnitedList(dbList: List<RunEntity>, firestoreList: List<RunEntity>): List<RunEntity> {
-        val unitedList = mutableListOf<RunEntity>()
-
-        unitedList.addAll(firestoreList)
-
-        dbList.forEach { dbEntity ->
-            if (dbEntity.toDeleteFlag) {
-                unitedList.forEach {
-                    if (it.timestamp == dbEntity.timestamp) {
-                        unitedList.remove(it)
-                    }
-                }
-            }
-        }
-
-        dbList.forEach { dbEntity ->
-            if (!dbEntity.toDeleteFlag) {
-                if (notContainsTimeStamp(unitedList, dbEntity.timestamp)) {
-                    unitedList.add(dbEntity)
-                }
-            }
-        }
-
-        return unitedList
+    // 5
+    private fun getMarkedToDeleteFromCloud() {
+        compositeDisposable.add(
+            firebaseInteractor.getMarkedToDeleteFromCloud()
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
+                .subscribe({ markedToDeleteFromCloud ->
+                    removeFromDb(markedToDeleteFromCloud)
+                }, {
+                    _errorLiveData.postValue("Error in getListFromDB")
+                    _progressLiveData.postValue(false)
+                })
+        )
+    }
+    // 5.1
+    private fun removeFromDb(markedToDeleteFromCloud: List<RunEntity>) {
+        compositeDisposable.add(
+            databaseInteractor.deleteRuns(markedToDeleteFromCloud)
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
+                .subscribe({
+                    uploadMissingRunsFromDbToCloud()
+                }, {
+                    _errorLiveData.postValue("Error in getListFromDB")
+                    _progressLiveData.postValue(false)
+                })
+        )
     }
 
-    private fun notContainsTimeStamp(unitedList: List<RunEntity>, timestamp: Long): Boolean {
-        unitedList.forEach { run ->
-            if (run.timestamp == timestamp) return false
-        }
-
-        return true
+    private fun uploadMissingRunsFromDbToCloud() {
+        compositeDisposable.add(
+            firebaseInteractor.uploadMissingFromDbToCloud()
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
+                .subscribe({
+                    _progressLiveData.postValue(true)
+                }, {
+                    _errorLiveData.postValue("Error in getListFromDB")
+                    _progressLiveData.postValue(false)
+                })
+        )
     }
+
+//    private fun notContainsTimeStamp(unitedList: List<RunEntity>, timestamp: Long): Boolean {
+//        unitedList.forEach { run ->
+//            if (run.timestamp == timestamp) return false
+//        }
+//
+//        return true
+//    }
 
     /**
      * Метод удааления забегов из БД

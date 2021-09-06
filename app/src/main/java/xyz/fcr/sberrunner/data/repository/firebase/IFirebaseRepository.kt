@@ -2,7 +2,6 @@ package xyz.fcr.sberrunner.data.repository.firebase
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.firestore.DocumentSnapshot
 
 /**
  * Интерфейс взаимодействия с объектом FirebaseAuth

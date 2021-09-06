@@ -5,7 +5,6 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.model.RunEntity
 
 interface IFirebaseInteractor {
@@ -28,6 +27,9 @@ interface IFirebaseInteractor {
      */
     fun getAllRunsFromCloud(): Single<Task<QuerySnapshot>>
     fun fillUserDataInFirestore(name: String, weight: String): Single<Task<Void>>
-    fun removeAllRunsFromCloud(): Single<Task<Void>>
-    fun loadNewList(unitedList: List<RunEntity>): Single<Task<Void>>
+
+
+    fun setDeleteFlagsInCloud(filter: List<RunEntity>): Any
+    fun getMarkedToDeleteFromCloud(): Any
+    fun uploadMissingFromDbToCloud(): Any
 }

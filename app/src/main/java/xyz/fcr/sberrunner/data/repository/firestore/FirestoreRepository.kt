@@ -67,31 +67,27 @@ class FirestoreRepository(
         return fireStore.collection(Constants.RUNS_TABLE).document(userId).collection(Constants.RUNS_TABLE).get()
     }
 
-    override fun removeAllRuns(): Task<Void> {
-       return fireStore.collection(Constants.RUNS_TABLE).document(userId).delete()
-    }
-
-    override fun loadNewList(unitedList: List<RunEntity>): Task<Void> {
-        val batch = fireStore.batch()
-
-        unitedList.forEach { run ->
-            val user = hashMapOf(
-                "distanceInMeters" to run.distanceInMeters,
-                "timestamp" to run.timestamp,
-                "timeInMillis" to run.timeInMillis,
-                "avgSpeedInKMH" to run.avgSpeedInKMH,
-                "calories" to run.calories
-            )
-
-            val docRef = fireStore
-                .collection(Constants.RUNS_TABLE)
-                .document(userId)
-                .collection(Constants.RUNS_TABLE)
-                .document()
-
-            batch.set(docRef, user)
-        }
-
-        return batch.commit()
-    }
+//    override fun loadNewList(unitedList: List<RunEntity>): Task<Void> {
+//        val batch = fireStore.batch()
+//
+//        unitedList.forEach { run ->
+//            val user = hashMapOf(
+//                "avgSpeedInKMH" to run.avgSpeedInKMH,
+//                "calories" to run.calories,
+//                "distanceInMeters" to run.distanceInMeters,
+//                "timeInMillis" to run.timeInMillis,
+//                "timestamp" to run.timestamp
+//            )
+//
+//            val docRef = fireStore
+//                .collection(Constants.RUNS_TABLE)
+//                .document(userId)
+//                .collection(Constants.RUNS_TABLE)
+//                .document()
+//
+//            batch.set(docRef, user)
+//        }
+//
+//        return batch.commit()
+//    }
 }

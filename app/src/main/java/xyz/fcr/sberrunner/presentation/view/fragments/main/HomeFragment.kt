@@ -47,7 +47,6 @@ class HomeFragment : Fragment(), ItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        viewModel.initDbAndFirestoreSync()
         return binding.root
     }
 
@@ -56,7 +55,7 @@ class HomeFragment : Fragment(), ItemClickListener {
         viewModel.updateListOfRuns()
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.initDbAndFirestoreSync()
+            viewModel.getAllRunsFromCloud()
         }
 
         setupRecyclerView()
