@@ -37,7 +37,9 @@ class AudioNotificator @Inject constructor(
 
             VOICE_500 -> record = R.raw.voice_500
             VOICE_1000 -> record = R.raw.voice_1000
+            VOICE_2000 -> record = R.raw.voice_2000
             VOICE_3000 -> record = R.raw.voice_3000
+            VOICE_4000 -> record = R.raw.voice_4000
             VOICE_5000 -> record = R.raw.voice_5000
             VOICE_7000 -> record = R.raw.voice_7000
             VOICE_9000 -> record = R.raw.voice_9000
@@ -71,7 +73,9 @@ class AudioNotificator @Inject constructor(
         when {
             oldDistance * unitRatio < DISTANCE500 && newDistance * unitRatio >= DISTANCE500 -> play(VOICE_500)
             oldDistance * unitRatio < DISTANCE1000 && newDistance * unitRatio >= DISTANCE1000 -> play(VOICE_1000)
+            oldDistance * unitRatio < DISTANCE2000 && newDistance * unitRatio >= DISTANCE2000 -> play(VOICE_2000)
             oldDistance * unitRatio < DISTANCE3000 && newDistance * unitRatio >= DISTANCE3000 -> play(VOICE_3000)
+            oldDistance * unitRatio < DISTANCE4000 && newDistance * unitRatio >= DISTANCE4000 -> play(VOICE_4000)
             oldDistance * unitRatio < DISTANCE5000 && newDistance * unitRatio >= DISTANCE5000 -> play(VOICE_5000)
             oldDistance * unitRatio < DISTANCE7000 && newDistance * unitRatio >= DISTANCE7000 -> play(VOICE_7000)
             oldDistance * unitRatio < DISTANCE9000 && newDistance * unitRatio >= DISTANCE9000 -> play(VOICE_9000)
@@ -97,14 +101,18 @@ class AudioNotificator @Inject constructor(
 
         const val VOICE_500 = "VOICE_500"
         const val VOICE_1000 = "VOICE_1000"
+        const val VOICE_2000 = "VOICE_2000"
         const val VOICE_3000 = "VOICE_3000"
+        const val VOICE_4000 = "VOICE_4000"
         const val VOICE_5000 = "VOICE_5000"
         const val VOICE_7000 = "VOICE_7000"
         const val VOICE_9000 = "VOICE_9000"
 
         const val DISTANCE500 = 0.5f
         const val DISTANCE1000 = 1f
+        const val DISTANCE2000 = 2f
         const val DISTANCE3000 = 3f
+        const val DISTANCE4000 = 4f
         const val DISTANCE5000 = 5f
         const val DISTANCE7000 = 7f
         const val DISTANCE9000 = 9f
