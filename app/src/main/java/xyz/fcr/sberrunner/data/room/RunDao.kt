@@ -49,4 +49,7 @@ interface RunDao {
      */
     @Query("SELECT * FROM $DB_NAME WHERE id = :runId")
     fun getRun(runId: Int): LiveData<RunEntity>
+
+    @Query("UPDATE $DB_NAME SET toDeleteFlag = :toDelete WHERE id = :runID")
+    fun switchToDeleteFlag(runID: Int, toDelete: Boolean)
 }

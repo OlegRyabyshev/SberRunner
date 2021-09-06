@@ -47,7 +47,7 @@ class HomeFragment : Fragment(), ItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        viewModel.syncWithCloud()
+        viewModel.initDbAndFirestoreSync()
         return binding.root
     }
 
@@ -56,7 +56,7 @@ class HomeFragment : Fragment(), ItemClickListener {
         viewModel.updateListOfRuns()
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.syncWithCloud()
+            viewModel.initDbAndFirestoreSync()
         }
 
         setupRecyclerView()
@@ -125,11 +125,11 @@ class HomeFragment : Fragment(), ItemClickListener {
             val position = viewHolder.layoutPosition
 
             val run = recyclerAdapter.differ.currentList[position]
-            viewModel.deleteRun(run)
+            viewModel.setFlag(run.id!!, true)
 
             Snackbar.make(requireView(), getString(R.string.run_deleted), Snackbar.LENGTH_LONG).apply {
                 setAction(getString(R.string.undo)) {
-                    viewModel.addRun(run)
+                    viewModel.setFlag(run.id!!, false)
                 }
                 show()
             }

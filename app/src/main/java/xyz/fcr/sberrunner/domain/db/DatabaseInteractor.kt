@@ -1,6 +1,7 @@
 package xyz.fcr.sberrunner.domain.db
 
 import androidx.lifecycle.LiveData
+import io.reactivex.rxjava3.annotations.NonNull
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.model.RunEntity
@@ -50,5 +51,21 @@ class DatabaseInteractor @Inject constructor(
      */
     override fun getRun(runId: Int): LiveData<RunEntity> {
         return runDao.getRun(runId)
+    }
+
+    override fun clearRuns(): Single<Unit> {
+        return Single.fromCallable { runDao.clearRuns() }
+    }
+
+    override fun addList(unitedList: List<RunEntity>): Single<Unit> {
+        return Single.fromCallable {
+            unitedList.forEach {
+                addRun(it)
+            }
+        }
+    }
+
+    override fun switchToDeleteFlag(runID: Int, toDelete: Boolean): Single<Unit> {
+        return Single.fromCallable { runDao.switchToDeleteFlag(runID, toDelete) }
     }
 }

@@ -4,6 +4,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
+import xyz.fcr.sberrunner.data.model.RunEntity
 
 interface IFirestoreRepository {
 
@@ -37,4 +38,8 @@ interface IFirestoreRepository {
     fun fillUserDataInFirestore(name: String, weight: String): Task<Void>
 
     fun getAllRuns(): Task<QuerySnapshot>
+
+    fun removeAllRuns(): Task<Void>
+
+    fun loadNewList(unitedList: List<RunEntity>): Task<Void>
 }

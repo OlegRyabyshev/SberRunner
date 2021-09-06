@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.utils.Constants
 
 /**
@@ -64,5 +65,33 @@ class FirestoreRepository(
 
     override fun getAllRuns(): Task<QuerySnapshot> {
         return fireStore.collection(Constants.RUNS_TABLE).document(userId).collection(Constants.RUNS_TABLE).get()
+    }
+
+    override fun removeAllRuns(): Task<Void> {
+       return fireStore.collection(Constants.RUNS_TABLE).document(userId).delete()
+    }
+
+    override fun loadNewList(unitedList: List<RunEntity>): Task<Void> {
+        val batch = fireStore.batch()
+
+        unitedList.forEach { run ->
+            val user = hashMapOf(
+                "distanceInMeters" to run.distanceInMeters,
+                "timestamp" to run.timestamp,
+                "timeInMillis" to run.timeInMillis,
+                "avgSpeedInKMH" to run.avgSpeedInKMH,
+                "calories" to run.calories
+            )
+
+            val docRef = fireStore
+                .collection(Constants.RUNS_TABLE)
+                .document(userId)
+                .collection(Constants.RUNS_TABLE)
+                .document()
+
+            batch.set(docRef, user)
+        }
+
+        return batch.commit()
     }
 }

@@ -37,4 +37,10 @@ interface IDatabaseInteractor {
      * @return - LiveData объект забега
      */
     fun getRun(runId: Int) : LiveData<RunEntity>
+
+    fun clearRuns(): Single<Unit>
+
+    fun addList(unitedList: List<RunEntity>): Single<Unit>
+
+    fun switchToDeleteFlag(runID: Int, toDelete: Boolean): Single<Unit>
 }

@@ -25,7 +25,8 @@ data class RunEntity(
     var avgSpeedInKMH: Float = 0f,
     var calories: Int = 0,
     @TypeConverters(BitmapConverter::class)
-    var mapImage: Bitmap? = null
+    var mapImage: Bitmap? = null,
+    var toDeleteFlag: Boolean = false
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

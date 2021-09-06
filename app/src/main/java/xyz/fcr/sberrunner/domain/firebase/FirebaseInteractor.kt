@@ -6,9 +6,9 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import io.reactivex.rxjava3.annotations.NonNull
 import io.reactivex.rxjava3.core.Single
+import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
 import xyz.fcr.sberrunner.data.repository.firestore.IFirestoreRepository
-import kotlin.contracts.Returns
 
 class FirebaseInteractor(
     private val firebase: IFirebaseRepository,
@@ -47,11 +47,19 @@ class FirebaseInteractor(
         return Single.fromCallable { firestore.updateName(name) }
     }
 
-    override fun getRunsDocumentsFromCloud(): Single<Task<QuerySnapshot>> {
+    override fun getAllRunsFromCloud(): Single<Task<QuerySnapshot>> {
         return Single.fromCallable { firestore.getAllRuns() }
     }
 
     override fun fillUserDataInFirestore(name: String, weight: String): Single<Task<Void>> {
-        return Single.fromCallable { firestore.fillUserDataInFirestore(name, weight)}
+        return Single.fromCallable { firestore.fillUserDataInFirestore(name, weight) }
+    }
+
+    override fun removeAllRunsFromCloud(): Single<Task<Void>> {
+        return Single.fromCallable { firestore.removeAllRuns() }
+    }
+
+    override fun loadNewList(unitedList: List<RunEntity>): Single<Task<Void>> {
+        return Single.fromCallable { firestore.loadNewList(unitedList) }
     }
 }
