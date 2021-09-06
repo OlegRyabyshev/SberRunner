@@ -1,12 +1,14 @@
 <h1 align="center">SberRunner</h1>
 
-<p align="justify">  
-Simple app to keep track of your runs.  
-With this app you can follow your running path, it calculates your distance, speed and your calories burned.
-<br />
-Your information stored internally in Room database and externally in Firestore Cloud allowing you to sync
-progress between multiple devices.
-</p>
+- Simple app to keep track of your runs
+- Calculate your distance, speed and calories burned in real time
+- Can work in the background using service
+- Your information stored internally in Room database and externally in Firestore Cloud 
+- Progress can be synced between multiple devices
+- Metric / Imperial units supported
+- Dark / Light theme available
+- Audio notificator during active runs: Provides information about your distance and current state
+- Progress page with useful information about your activities
 
 <br />
 
@@ -16,10 +18,9 @@ progress between multiple devices.
 
 ## Tech stack & Open-source libraries
 - Minimum SDK level 23
-- [Kotlin](https://kotlinlang.org/) - A modern programming language that makes developers happier.
+- [Kotlin](https://kotlinlang.org/) - 100%
 - Architecture
     - MVVM Architecture (View - ViewModel - Interactor - Data)
-    - Repository pattern
 - [RxJava 3](https://github.com/ReactiveX/RxJava) - library for composing asynchronous and event-based programs by using observable sequences.
 - [Dagger 2](https://dagger.dev/) - for dependency injection.
 - Firebase
@@ -37,16 +38,16 @@ progress between multiple devices.
 - [Material-Components](https://github.com/material-components/material-components-android) - Material design components like ripple animation, cardView.
 - [SwipeToRefresh](https://developer.android.com/reference/androidx/swiperefreshlayout/widget/SwipeRefreshLayout) - Refresh the contents of a view via a vertical swipe gesture.
 - [Easy Permissions](https://github.com/googlesamples/easypermissions) - Is a wrapper library to simplify basic system permissions logic.
-- [Toasty](https://github.com/GrenderG/Toasty) - The better looking version of Toast.
-- [Lottie](https://github.com/airbnb/lottie-android) - Parses Adobe After Effects animations exported as json with Bodymovin and renders them natively on mobile!
+- [Toasty](https://github.com/GrenderG/Toasty) - The better version of Toast.
+- [Lottie](https://github.com/airbnb/lottie-android) - Parses Adobe After Effects animations exported as json with Bodymovin and renders them natively on mobile.
 
 Welcome Screens
 -----------
 
 <p float="left">
-  <img src="screenshots/hello_1.png" width="220" />
-  <img src="screenshots/hello_2.png" width="220" /> 
-  <img src="screenshots/hello_3.png" width="220" /> 
+  <img src="screenshots/hello_1.png" width="200" />
+  <img src="screenshots/hello_2.png" width="200" /> 
+  <img src="screenshots/hello_3.png" width="200" /> 
 </p>
 
 Login and Registration Screens
