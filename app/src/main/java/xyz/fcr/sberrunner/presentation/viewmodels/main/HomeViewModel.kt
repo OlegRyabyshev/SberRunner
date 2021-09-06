@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.domain.db.IDatabaseInteractor
+import xyz.fcr.sberrunner.domain.firebase.IFirebaseInteractor
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Inject
@@ -14,10 +15,12 @@ import javax.inject.Inject
  * ViewModel экрана "Дом" со списком из всех забегов
  *
  * @param databaseInteractor [IDatabaseInteractor] - интерфейс взаимодейтвия с базой данных
+ * @param firebaseInteractor [IFirebaseInteractor] - интерфейс взаимодействия с firebase
  * @param schedulersProvider [ISchedulersProvider] - провайдер объектов Scheduler
 */
 class HomeViewModel @Inject constructor(
     private val databaseInteractor: IDatabaseInteractor,
+    private val firebaseInteractor: IFirebaseInteractor,
     private val schedulersProvider: ISchedulersProvider
 ) : ViewModel() {
 
@@ -49,19 +52,19 @@ class HomeViewModel @Inject constructor(
      * Метод синхронизации данных БД с облачным БД FireStore
      */
     fun syncWithCloud() {
-//        disposableSync = databaseInteractor.syncWithCloud()
-//            .doOnSubscribe {
-//                _progressLiveData.postValue(true)
-//            }
-//            .doAfterTerminate {
-//                _progressLiveData.postValue(false)
-//            }
-//            .subscribeOn(schedulersProvider.io())
-//            .subscribe({
-//                updateListOfRuns()
-//            }, { e ->
-//                _errorLiveData.postValue(e.message)
-//            })
+        disposableSync = firebaseInteractor.getRunsDocumentsFromCloud()
+            .doOnSubscribe {
+                _progressLiveData.postValue(true)
+            }
+            .doAfterTerminate {
+                _progressLiveData.postValue(false)
+            }
+            .subscribeOn(schedulersProvider.io())
+            .subscribe({
+                updateListOfRuns()
+            }, { e ->
+                _errorLiveData.postValue(e.message)
+            })
     }
 
     /**

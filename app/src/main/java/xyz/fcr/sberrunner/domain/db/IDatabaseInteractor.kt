@@ -25,7 +25,7 @@ interface IDatabaseInteractor {
     fun deleteRun(run: RunEntity): Completable
 
     /**
-     * Метод получения объектов бега в из БД
+     * Метод получения объектов бега из БД
      *
      * @return [Single<List<Run>>] - объекты бега
      */

@@ -3,7 +3,6 @@ package xyz.fcr.sberrunner.presentation.viewmodels.firebase
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
@@ -54,10 +53,7 @@ class RegistrationViewModel @Inject constructor(
                     task.addOnCompleteListener {
                         when {
                             it.isSuccessful -> {
-                                _successLiveData.postValue(VALID)
-                                saveToSharedPrefs(name, weight)
-
-                                firebaseInteractor.fillUserDataInFirestore(name, weight)
+                                initSaveFieldsToCloud(name, weight)
                             }
                             else -> {
                                 _successLiveData.postValue(it.exception?.message.toString())
@@ -68,6 +64,25 @@ class RegistrationViewModel @Inject constructor(
                     }
                 }
         }
+    }
+
+    private fun initSaveFieldsToCloud(name: String, weight: String) {
+        firebaseInteractor.fillUserDataInFirestore(name, weight)
+            .subscribeOn(schedulersProvider.io())
+            .observeOn(schedulersProvider.ui())
+            .subscribe { task ->
+                task.addOnCompleteListener {
+                    when {
+                        task.isSuccessful || task.isComplete -> {
+                            _successLiveData.postValue(VALID)
+                            saveToSharedPrefs(name, weight)
+                        }
+                        else -> {
+                            _successLiveData.postValue(task.exception?.message.toString())
+                        }
+                    }
+                }
+            }
     }
 
     private fun saveToSharedPrefs(name: String, weight: String) {

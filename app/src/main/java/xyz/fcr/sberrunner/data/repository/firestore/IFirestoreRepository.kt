@@ -1,7 +1,9 @@
 package xyz.fcr.sberrunner.data.repository.firestore
 
 import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.QuerySnapshot
 
 interface IFirestoreRepository {
 
@@ -32,5 +34,7 @@ interface IFirestoreRepository {
      * @param name [String] - имя пользователя
      * @param weight [String] - вес пользователя
      */
-    fun fillUserDataInFirestore(name: String, weight: String)
+    fun fillUserDataInFirestore(name: String, weight: String): Task<Void>
+
+    fun getAllRuns(): Task<QuerySnapshot>
 }

@@ -85,8 +85,10 @@ object Constants {
         Manifest.permission.ACCESS_BACKGROUND_LOCATION
     )
 
-    // FirebaseConst
-    const val USER = "user"
+    // Firestore
+    const val USER_TABLE = "user"
+    const val RUNS_TABLE = "runs"
+
     const val NAME = "name"
     const val WEIGHT = "weight"
 

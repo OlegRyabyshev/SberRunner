@@ -3,7 +3,9 @@ package xyz.fcr.sberrunner.domain.firebase
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.QuerySnapshot
 import io.reactivex.rxjava3.core.Single
+import xyz.fcr.sberrunner.data.model.RunEntity
 
 interface IFirebaseInteractor {
 
@@ -17,4 +19,12 @@ interface IFirebaseInteractor {
     fun getDocumentFirestore(): Single<Task<DocumentSnapshot>>
     fun updateWeight(weight: String): Single<Task<Void>>
     fun updateName(name: String): Single<Task<Void>>
+
+    /**
+     * Метод получения объектов бега из Firestore
+     *
+     * @return [Single<List<Run>>] - объекты бега
+     */
+    fun getRunsDocumentsFromCloud(): Single<Task<QuerySnapshot>>
+    fun fillUserDataInFirestore(name: String, weight: String): Single<Task<Void>>
 }

@@ -3,9 +3,12 @@ package xyz.fcr.sberrunner.domain.firebase
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.QuerySnapshot
+import io.reactivex.rxjava3.annotations.NonNull
 import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
 import xyz.fcr.sberrunner.data.repository.firestore.IFirestoreRepository
+import kotlin.contracts.Returns
 
 class FirebaseInteractor(
     private val firebase: IFirebaseRepository,
@@ -42,5 +45,13 @@ class FirebaseInteractor(
 
     override fun updateName(name: String): Single<Task<Void>> {
         return Single.fromCallable { firestore.updateName(name) }
+    }
+
+    override fun getRunsDocumentsFromCloud(): Single<Task<QuerySnapshot>> {
+        return Single.fromCallable { firestore.getAllRuns() }
+    }
+
+    override fun fillUserDataInFirestore(name: String, weight: String): Single<Task<Void>> {
+        return Single.fromCallable { firestore.fillUserDataInFirestore(name, weight)}
     }
 }
