@@ -372,6 +372,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 distanceInMeters,
                 curTimeInMillis,
                 timestamp,
+                false,
                 bmp
             )
 

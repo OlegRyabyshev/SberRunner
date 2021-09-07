@@ -1,5 +1,6 @@
 package xyz.fcr.sberrunner.presentation.view.fragments.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +48,7 @@ class HomeFragment : Fragment(), ItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        viewModel.initSync()
         return binding.root
     }
 
@@ -55,7 +57,7 @@ class HomeFragment : Fragment(), ItemClickListener {
         viewModel.updateListOfRuns()
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-            viewModel.getAllRunsFromCloud()
+            viewModel.initSync()
         }
 
         setupRecyclerView()
@@ -94,10 +96,8 @@ class HomeFragment : Fragment(), ItemClickListener {
         Toasty.error(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
 
-    private fun showProgress(isVisible: Boolean) {
-        binding.swipeRefreshLayout.post {
-            binding.swipeRefreshLayout.isRefreshing = isVisible
-        }
+    private fun showProgress(isRefreshing: Boolean) {
+        binding.swipeRefreshLayout.isRefreshing = isRefreshing
     }
 
     private fun setupRecyclerView() {

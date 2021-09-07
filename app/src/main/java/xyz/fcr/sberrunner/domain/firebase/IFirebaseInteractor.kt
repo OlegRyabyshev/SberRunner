@@ -29,7 +29,6 @@ interface IFirebaseInteractor {
     fun fillUserDataInFirestore(name: String, weight: String): Single<Task<Void>>
 
 
-    fun setDeleteFlagsInCloud(filter: List<RunEntity>): Any
-    fun getMarkedToDeleteFromCloud(): Any
-    fun uploadMissingFromDbToCloud(): Any
+    fun switchToDeleteFlagsInCloud(listToSwitch: List<RunEntity>): Single<Task<Void>>
+    fun uploadMissingFromDbToCloud(missingList: List<RunEntity>): Single<Task<Void>>
 }

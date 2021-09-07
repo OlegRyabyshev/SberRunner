@@ -56,15 +56,25 @@ class DatabaseInteractor @Inject constructor(
         return Single.fromCallable { runDao.clearRuns() }
     }
 
-    override fun addList(unitedList: List<RunEntity>): Single<Unit> {
+    override fun addList(list: List<RunEntity>): Single<Unit> {
         return Single.fromCallable {
-            unitedList.forEach {
-                addRun(it)
+            list.forEach {
+                runDao.addRun(it)
             }
         }
     }
 
     override fun switchToDeleteFlag(runID: Int, toDelete: Boolean): Single<Unit> {
         return Single.fromCallable { runDao.switchToDeleteFlag(runID, toDelete) }
+    }
+
+    override fun removeMarkedToDelete(): Single<Unit> {
+        return Single.fromCallable { runDao.removerMarkedToDelete() }
+    }
+
+    override fun removeRuns(markedToDeleteFromCloud: List<RunEntity>): Single<Unit> {
+        val timeStampList : List<Long> = markedToDeleteFromCloud.map { it.timestamp }
+
+        return Single.fromCallable { runDao.removeRuns(timeStampList) }
     }
 }

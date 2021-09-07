@@ -3,9 +3,10 @@ package xyz.fcr.sberrunner.presentation.viewmodels.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.domain.db.IDatabaseInteractor
 import xyz.fcr.sberrunner.domain.firebase.IFirebaseInteractor
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
@@ -21,21 +22,19 @@ import javax.inject.Inject
  */
 class SharedSettingsViewModel @Inject constructor(
     private val firebaseInteractor: IFirebaseInteractor,
+    private val databaseInteractor: IDatabaseInteractor,
     private val schedulersProvider: ISchedulersProvider,
     private val sharedPreferenceWrapper: ISharedPreferenceWrapper
 ) : ViewModel() {
 
     private val _progressLiveData = MutableLiveData<Boolean>()
     private val _signOutLiveData = MutableLiveData<Boolean>()
-    private val _deleteLiveData = MutableLiveData<Boolean>()
     private val _errorLiveData = SingleLiveEvent<String>()
 
     private val _nameSummaryLiveData = MutableLiveData<String>()
     private val _weightSummaryLiveData = MutableLiveData<String>()
 
-    private var disDeleteAccount: Disposable? = null
-    private var disUpdWeight: Disposable? = null
-    private var disUpdName: Disposable? = null
+    private var compositeDisposable = CompositeDisposable()
 
     /**
      * Выставляет имя и вес пользователя в summary настроек.
@@ -49,26 +48,51 @@ class SharedSettingsViewModel @Inject constructor(
      * Выход из аккаунта.
      */
     fun exitAccount() {
-        firebaseInteractor.signOut()
-        _signOutLiveData.postValue(true)
+        compositeDisposable.add(
+            databaseInteractor.clearRuns()
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
+                .subscribe({
+                    signOut()
+                }, {
+                    _errorLiveData.postValue(it.message)
+                })
+        )
+    }
+
+    private fun signOut() {
+        compositeDisposable.add(
+            firebaseInteractor.signOut()
+                .doOnSubscribe { _progressLiveData.postValue(true) }
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
+                .subscribe({
+                    _signOutLiveData.postValue(true)
+                }, {
+                    _errorLiveData.postValue(it.message)
+                })
+        )
     }
 
     /**
      * Удаление аккаунта.
      */
     fun deleteAccount() {
-        disDeleteAccount = firebaseInteractor.deleteAccount()
-            .doOnSubscribe { _progressLiveData.postValue(true) }
-            .subscribeOn(schedulersProvider.io())
-            .observeOn(schedulersProvider.ui())
-            .subscribe { task ->
-                task.addOnCompleteListener {
-                    when {
-                        it.isSuccessful -> _deleteLiveData.postValue(true)
-                        else -> _deleteLiveData.postValue(false)
+        compositeDisposable.add(
+            firebaseInteractor.deleteAccount()
+                .doOnSubscribe { _progressLiveData.postValue(true) }
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
+                .subscribe { task ->
+                    task.addOnCompleteListener {
+                        when {
+                            it.isSuccessful -> {
+                                signOut()
+                            }
+                        }
                     }
                 }
-            }
+        )
     }
 
     /**
@@ -76,7 +100,7 @@ class SharedSettingsViewModel @Inject constructor(
      */
     fun updateWeight(newWeight: String) {
         if (weightIsValid(newWeight)) {
-            disUpdName = firebaseInteractor.updateWeight(newWeight)
+            compositeDisposable.add(firebaseInteractor.updateWeight(newWeight)
                 .doOnSubscribe { _progressLiveData.postValue(true) }
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
@@ -94,6 +118,7 @@ class SharedSettingsViewModel @Inject constructor(
                         }
                     }
                 }
+            )
         }
     }
 
@@ -102,7 +127,7 @@ class SharedSettingsViewModel @Inject constructor(
      */
     fun updateName(newName: String) {
         if (nameIsValid(newName)) {
-            disUpdName = firebaseInteractor.updateName(newName)
+            compositeDisposable.add(firebaseInteractor.updateName(newName)
                 .doOnSubscribe { _progressLiveData.postValue(true) }
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
@@ -120,6 +145,7 @@ class SharedSettingsViewModel @Inject constructor(
                         }
                     }
                 }
+            )
         }
     }
 
@@ -159,22 +185,14 @@ class SharedSettingsViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
 
-        disDeleteAccount?.dispose()
-        disDeleteAccount = null
-
-        disUpdName?.dispose()
-        disUpdName = null
-
-        disUpdWeight?.dispose()
-        disUpdWeight = null
+        compositeDisposable.clear()
+        compositeDisposable.dispose()
     }
 
     val progressLiveData: LiveData<Boolean>
         get() = _progressLiveData
     val signOutLiveData: LiveData<Boolean>
         get() = _signOutLiveData
-    val deleteLiveData: LiveData<Boolean>
-        get() = _deleteLiveData
     val errorLiveData: LiveData<String>
         get() = _errorLiveData
     val nameSummaryLiveData: LiveData<String>

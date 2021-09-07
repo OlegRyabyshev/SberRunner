@@ -24,10 +24,10 @@ data class RunEntity(
     var distanceInMeters: Long = 0,
     var timeInMillis: Long = 0,
     var timestamp: Long = 0L,
+    var toDeleteFlag: Boolean = false,
 
     @TypeConverters(BitmapConverter::class)
-    var mapImage: Bitmap? = null,
-    var toDeleteFlag: Boolean = false
+    var mapImage: Bitmap? = null
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null

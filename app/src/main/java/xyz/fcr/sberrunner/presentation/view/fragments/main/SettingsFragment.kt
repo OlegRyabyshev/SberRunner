@@ -70,7 +70,6 @@ class SettingsFragment : Fragment() {
     private fun observeLiveData() {
         viewModel.progressLiveData.observe(viewLifecycleOwner, { isVisible: Boolean -> showProgress(isVisible) })
         viewModel.signOutLiveData.observe(viewLifecycleOwner, { result: Boolean -> startWelcomeActivity(result) })
-        viewModel.deleteLiveData.observe(viewLifecycleOwner, { result: Boolean -> startWelcomeActivity(result) })
         viewModel.errorLiveData.observe(viewLifecycleOwner, { error: String -> showError(error)})
     }
 

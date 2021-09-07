@@ -2,6 +2,7 @@ package xyz.fcr.sberrunner.data.repository.firestore
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -67,27 +68,46 @@ class FirestoreRepository(
         return fireStore.collection(Constants.RUNS_TABLE).document(userId).collection(Constants.RUNS_TABLE).get()
     }
 
-//    override fun loadNewList(unitedList: List<RunEntity>): Task<Void> {
-//        val batch = fireStore.batch()
-//
-//        unitedList.forEach { run ->
-//            val user = hashMapOf(
-//                "avgSpeedInKMH" to run.avgSpeedInKMH,
-//                "calories" to run.calories,
-//                "distanceInMeters" to run.distanceInMeters,
-//                "timeInMillis" to run.timeInMillis,
-//                "timestamp" to run.timestamp
-//            )
-//
-//            val docRef = fireStore
-//                .collection(Constants.RUNS_TABLE)
-//                .document(userId)
-//                .collection(Constants.RUNS_TABLE)
-//                .document()
-//
-//            batch.set(docRef, user)
-//        }
-//
-//        return batch.commit()
-//    }
+    override fun switchToDeleteFlags(listToSwitch: List<RunEntity>): Task<Void> {
+        val timeStampList: List<Long> = listToSwitch.map { it.timestamp }
+
+        val documents: List<DocumentReference> = timeStampList.map {
+            fireStore
+                .collection(Constants.RUNS_TABLE)
+                .document(userId)
+                .collection(Constants.RUNS_TABLE)
+                .document(it.toString())
+        }
+
+        return fireStore.runBatch { batch ->
+            documents.forEach { doc ->
+                batch.update(doc, "toDeleteFlag", true)
+            }
+        }
+    }
+
+    override fun addRunsToCloud(list: List<RunEntity>): Task<Void> {
+        val batch = fireStore.batch()
+
+        list.forEach { run ->
+            val user = hashMapOf(
+                "avgSpeedInKMH" to run.avgSpeedInKMH,
+                "calories" to run.calories,
+                "distanceInMeters" to run.distanceInMeters,
+                "timeInMillis" to run.timeInMillis,
+                "timestamp" to run.timestamp,
+                "toDeleteFlag" to run.toDeleteFlag
+            )
+
+            val docRef = fireStore
+                .collection(Constants.RUNS_TABLE)
+                .document(userId)
+                .collection(Constants.RUNS_TABLE)
+                .document(run.timestamp.toString())
+
+            batch.set(docRef, user)
+        }
+
+        return batch.commit()
+    }
 }

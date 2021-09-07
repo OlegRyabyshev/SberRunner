@@ -29,20 +29,22 @@ interface IDatabaseInteractor {
      *
      * @return [Single<List<Run>>] - объекты бега
      */
-    fun getAllRuns() : Single<List<RunEntity>>
+    fun getAllRuns(): Single<List<RunEntity>>
 
     /**
      * Метод получения объкта бега из БД по ID
      *
      * @return - LiveData объект забега
      */
-    fun getRun(runId: Int) : LiveData<RunEntity>
+    fun getRun(runId: Int): LiveData<RunEntity>
 
     fun clearRuns(): Single<Unit>
 
-    fun addList(unitedList: List<RunEntity>): Single<Unit>
+    fun addList(list: List<RunEntity>): Single<Unit>
 
     fun switchToDeleteFlag(runID: Int, toDelete: Boolean): Single<Unit>
 
-    fun removeMarkedToDelete(): Any
+    fun removeMarkedToDelete(): Single<Unit>
+
+    fun removeRuns(markedToDeleteFromCloud: List<RunEntity>): Single<Unit>
 }

@@ -12,12 +12,12 @@ interface IBitmapConverter {
      *
      * @return Bitmap
      */
-    fun toBitmap(bytes: ByteArray): Bitmap
+    fun toBitmap(bytes: ByteArray?): Bitmap?
 
     /**
      * Конвертация Bitmap в ByteArray
      *
      * @return ByteArray
      */
-    fun fromBitmap(bmp: Bitmap): ByteArray
+    fun fromBitmap(bmp: Bitmap?): ByteArray?
 }

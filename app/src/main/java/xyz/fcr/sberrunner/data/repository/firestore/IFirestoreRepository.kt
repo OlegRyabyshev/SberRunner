@@ -37,4 +37,7 @@ interface IFirestoreRepository {
     fun fillUserDataInFirestore(name: String, weight: String): Task<Void>
 
     fun getAllRuns(): Task<QuerySnapshot>
+
+    fun switchToDeleteFlags(listToSwitch: List<RunEntity>): Task<Void>
+    fun addRunsToCloud(unitedList: List<RunEntity>): Task<Void>
 }

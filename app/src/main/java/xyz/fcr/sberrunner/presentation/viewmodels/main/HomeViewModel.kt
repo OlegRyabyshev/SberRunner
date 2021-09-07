@@ -42,50 +42,74 @@ class HomeViewModel @Inject constructor(
             .doAfterTerminate { _progressLiveData.postValue(false) }
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
-            .subscribe(
-                { value -> _listOfRunsLiveData.postValue(value) },
-                { error -> _errorLiveData.postValue(error.message) }
-            )
+            .subscribe({ value ->
+                _listOfRunsLiveData.postValue(value)
+            }, { error ->
+                _errorLiveData.postValue(error.message)
+            })
+        )
+    }
+
+    // 1
+    fun initSync() {
+        compositeDisposable.add(
+            databaseInteractor.getAllRuns()
+                .doOnSubscribe { _progressLiveData.postValue(true) }
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
+                .subscribe({ list ->
+                    dbListRuns = list
+                    getAllRunsFromCloud()
+                }, {
+                    _errorLiveData.postValue("Error in initSync")
+                    _progressLiveData.postValue(false)
+                })
         )
     }
 
     /**
      * Метод синхронизации данных БД с облачным БД FireStore
      */
-    // 1
-    fun getAllRunsFromCloud() {
+    // 2
+    private fun getAllRunsFromCloud() {
         compositeDisposable.add(firebaseInteractor.getAllRunsFromCloud()
-            .doOnSubscribe {
-                _progressLiveData.postValue(true)
-            }
             .subscribeOn(schedulersProvider.io())
+            .observeOn(schedulersProvider.ui())
             .subscribe { task ->
                 task.addOnCompleteListener {
                     when {
                         task.isSuccessful -> {
-                            task.result.forEach { document ->
+                            val list = mutableListOf<RunEntity>()
 
-                                val list = mutableListOf<RunEntity>()
-
-                                list.add(
-                                    RunEntity(
-                                        avgSpeedInKMH = document.get("avgSpeedInKMH") as String,
-                                        calories = document.get("calories") as Long,
-                                        distanceInMeters = document.get("distanceInMeters") as Long,
-                                        timeInMillis = document.get("timeInMillis") as Long,
-                                        timestamp = document.get("timestamp") as Long,
-                                        toDeleteFlag = false
-                                    )
-                                )
-
-                                cloudListRuns = list
+                            if (!task.result.isEmpty) {
+                                task.result.forEach { document ->
+                                    if (!(document.get("toDeleteFlag") as Boolean)) {
+                                        list.add(
+                                            RunEntity(
+                                                avgSpeedInKMH = document.get("avgSpeedInKMH") as String,
+                                                calories = document.get("calories") as Long,
+                                                distanceInMeters = document.get("distanceInMeters") as Long,
+                                                timeInMillis = document.get("timeInMillis") as Long,
+                                                timestamp = document.get("timestamp") as Long,
+                                                toDeleteFlag = document.get("toDeleteFlag") as Boolean
+                                            )
+                                        )
+                                    }
+                                }
                             }
 
-                            getAllRunsFromDB()
+                            cloudListRuns = list
+                            val missingList = getMissingRunsFromCloudToDb()
+
+                            if (missingList.isEmpty()) {
+                                switchToDeleteFlagsInCloud()
+                            } else {
+                                uploadMissingRunsFromCloudToDb(missingList)
+                            }
                         }
 
                         else -> {
-                            _errorLiveData.postValue("Error in syncWithCloud")
+                            _errorLiveData.postValue("Error in getAllRunsFromCloud")
                             _progressLiveData.postValue(false)
                         }
                     }
@@ -94,131 +118,118 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    // 2
-    private fun getAllRunsFromDB() {
-        compositeDisposable.add(
-            databaseInteractor.getAllRuns()
-                .subscribeOn(schedulersProvider.io())
-                .observeOn(schedulersProvider.ui())
-                .subscribe({ list ->
-                    dbListRuns = list
-                    getMissingRunsFromCloudToDb()
-                }, {
-                    _errorLiveData.postValue("Error in getListFromDB")
-                    _progressLiveData.postValue(false)
-                })
-        )
-    }
-
     // 3
-    private fun getMissingRunsFromCloudToDb() {
-        compositeDisposable.add(
-            firebaseInteractor.getMissingRunsFromCloudToDb(dbListRuns)
-                .subscribeOn(schedulersProvider.io())
-                .observeOn(schedulersProvider.ui())
-                .subscribe({ missingRunsFromCloud ->
-                    uploadMissingRunsFromCloudToDb(missingRunsFromCloud)
-                }, {
-                    _errorLiveData.postValue("Error in getListFromDB")
-                    _progressLiveData.postValue(false)
-                })
-        )
-    }
-
-    // 3.1
     private fun uploadMissingRunsFromCloudToDb(missingRunsFromCloud: List<RunEntity>) {
         compositeDisposable.add(
             databaseInteractor.addList(missingRunsFromCloud)
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
                 .subscribe({
-                    setDeleteFlagsInCloud()
+                    switchToDeleteFlagsInCloud()
                 }, {
-                    _errorLiveData.postValue("Error in clearExistingListInDB")
+                    _errorLiveData.postValue("Error in uploadMissingRunsFromCloudToDb")
                     _progressLiveData.postValue(false)
                 })
         )
     }
 
     // 4
-    private fun setDeleteFlagsInCloud() {
-        compositeDisposable.add(
-            firebaseInteractor.setDeleteFlagsInCloud(dbListRuns.filter { it.toDeleteFlag })
-                .subscribeOn(schedulersProvider.io())
-                .observeOn(schedulersProvider.ui())
-                .subscribe({
-                    removeMarkedToDeleteFromDb()
-                }, {
-                    _errorLiveData.postValue("Error in getListFromDB")
-                    _progressLiveData.postValue(false)
-                })
-        )
+    private fun switchToDeleteFlagsInCloud() {
+        val listToSwitch: List<RunEntity> = getListToSwitch(dbListRuns.filter { it.toDeleteFlag }, cloudListRuns)
+
+        if (listToSwitch.isNotEmpty()) {
+            compositeDisposable.add(
+                firebaseInteractor.switchToDeleteFlagsInCloud(listToSwitch)
+                    .subscribeOn(schedulersProvider.io())
+                    .observeOn(schedulersProvider.ui())
+                    .subscribe({
+                        removeMarkedToDeleteFromDb()
+                    }, {
+                        _errorLiveData.postValue("Error in switchToDeleteFlagsInCloud")
+                        _progressLiveData.postValue(false)
+                    })
+            )
+        } else {
+            removeMarkedToDeleteFromDb()
+        }
     }
-    // 4.1
+
+    // 4.1 Удаляет все entity в DB, помеченные на удаление
     private fun removeMarkedToDeleteFromDb() {
         compositeDisposable.add(
             databaseInteractor.removeMarkedToDelete()
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
                 .subscribe({
-                    getMarkedToDeleteFromCloud()
+                    val listToRemove = cloudListRuns.filter { it.toDeleteFlag }
+
+                    if (listToRemove.isNotEmpty()) {
+                        removeFromDb(listToRemove)
+                    } else {
+                        getUpdatedListFromDb()
+                    }
                 }, {
-                    _errorLiveData.postValue("Error in getListFromDB")
+                    _errorLiveData.postValue("Error in removeMarkedToDeleteFromDb")
                     _progressLiveData.postValue(false)
                 })
         )
     }
 
-    // 5
-    private fun getMarkedToDeleteFromCloud() {
-        compositeDisposable.add(
-            firebaseInteractor.getMarkedToDeleteFromCloud()
-                .subscribeOn(schedulersProvider.io())
-                .observeOn(schedulersProvider.ui())
-                .subscribe({ markedToDeleteFromCloud ->
-                    removeFromDb(markedToDeleteFromCloud)
-                }, {
-                    _errorLiveData.postValue("Error in getListFromDB")
-                    _progressLiveData.postValue(false)
-                })
-        )
-    }
-    // 5.1
+    // 5.1 Удаляет все entity в DB, помеченные на удаление из firestore
     private fun removeFromDb(markedToDeleteFromCloud: List<RunEntity>) {
         compositeDisposable.add(
-            databaseInteractor.deleteRuns(markedToDeleteFromCloud)
+            databaseInteractor.removeRuns(markedToDeleteFromCloud)
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
                 .subscribe({
-                    uploadMissingRunsFromDbToCloud()
+                    getUpdatedListFromDb()
                 }, {
-                    _errorLiveData.postValue("Error in getListFromDB")
+                    _errorLiveData.postValue("Error in removeFromDb")
                     _progressLiveData.postValue(false)
                 })
         )
     }
 
-    private fun uploadMissingRunsFromDbToCloud() {
+    // 6
+    private fun getUpdatedListFromDb() {
         compositeDisposable.add(
-            firebaseInteractor.uploadMissingFromDbToCloud()
+            databaseInteractor.getAllRuns()
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
-                .subscribe({
-                    _progressLiveData.postValue(true)
+                .subscribe({ list ->
+                    dbListRuns = list
+                    val missingList = getMissingRunsFromDbToCloud()
+                    uploadMissingRunsFromDbToCloud(missingList)
                 }, {
-                    _errorLiveData.postValue("Error in getListFromDB")
+                    _errorLiveData.postValue("Error in getUpdatedListFromDb")
                     _progressLiveData.postValue(false)
                 })
         )
     }
 
-//    private fun notContainsTimeStamp(unitedList: List<RunEntity>, timestamp: Long): Boolean {
-//        unitedList.forEach { run ->
-//            if (run.timestamp == timestamp) return false
-//        }
-//
-//        return true
-//    }
+    // 6.1
+    private fun uploadMissingRunsFromDbToCloud(missingList: List<RunEntity>) {
+        compositeDisposable.add(
+            firebaseInteractor.uploadMissingFromDbToCloud(missingList)
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
+                .subscribe({
+                    _progressLiveData.postValue(false)
+                    updateListOfRuns()
+                }, {
+                    _errorLiveData.postValue("Error in uploadMissingRunsFromDbToCloud")
+                    _progressLiveData.postValue(false)
+                })
+        )
+    }
+
+    private fun containsTimeStamp(unitedList: List<RunEntity>, timestamp: Long): Boolean {
+        unitedList.forEach { run ->
+            if (run.timestamp == timestamp) return true
+        }
+
+        return false
+    }
 
     /**
      * Метод удааления забегов из БД
@@ -237,6 +248,42 @@ class HomeViewModel @Inject constructor(
             .observeOn(schedulersProvider.ui())
             .subscribe()
         )
+    }
+
+    private fun getMissingRunsFromCloudToDb(): List<RunEntity> {
+        val missingRunsFromCloud: MutableList<RunEntity> = mutableListOf()
+
+        cloudListRuns.forEach {
+            if (!it.toDeleteFlag && !containsTimeStamp(dbListRuns, it.timestamp)) {
+                missingRunsFromCloud.add(it)
+            }
+        }
+
+        return missingRunsFromCloud
+    }
+
+    private fun getMissingRunsFromDbToCloud(): List<RunEntity> {
+        val missingRunsFromDb: MutableList<RunEntity> = mutableListOf()
+
+        dbListRuns.forEach {
+            if (!containsTimeStamp(cloudListRuns, it.timestamp)) {
+                missingRunsFromDb.add(it)
+            }
+        }
+
+        return missingRunsFromDb
+    }
+
+    private fun getListToSwitch(dbSwitchedRuns: List<RunEntity>, cloudListRuns: List<RunEntity>): List<RunEntity> {
+        val listToSwitch: MutableList<RunEntity> = mutableListOf()
+
+        dbSwitchedRuns.forEach {
+            if (containsTimeStamp(cloudListRuns, it.timestamp)) {
+                listToSwitch.add(it)
+            }
+        }
+
+        return listToSwitch
     }
 
     /**

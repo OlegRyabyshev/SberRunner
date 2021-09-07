@@ -54,18 +54,11 @@ class FirebaseInteractor(
         return Single.fromCallable { firestore.fillUserDataInFirestore(name, weight) }
     }
 
-
-
-
-    override fun setDeleteFlagsInCloud(filter: List<RunEntity>) {
-        return Single.fromCallable {  }
+    override fun switchToDeleteFlagsInCloud(listToSwitch: List<RunEntity>): Single<Task<Void>> {
+        return Single.fromCallable { firestore.switchToDeleteFlags(listToSwitch) }
     }
 
-    override fun getMarkedToDeleteFromCloud() {
-        return Single.fromCallable {  }
-    }
-
-    override fun uploadMissingFromDbToCloud() {
-        return Single.fromCallable {  }
+    override fun uploadMissingFromDbToCloud(missingList: List<RunEntity>): Single<Task<Void>> {
+        return Single.fromCallable { firestore.addRunsToCloud(missingList) }
     }
 }

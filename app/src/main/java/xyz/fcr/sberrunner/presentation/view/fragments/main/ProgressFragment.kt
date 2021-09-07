@@ -118,7 +118,7 @@ class ProgressFragment : Fragment() {
         val title: String = resources.getString(R.string.avg_speed)
 
         val sum = if (isMetric) {
-            runs.sumOf { it.avgSpeedInKMH.toInt() }
+            runs.sumOf { it.avgSpeedInKMH.toFloat().toInt() }
         } else {
             runs.sumOf { (it.avgSpeedInKMH.toFloat() * UNIT_RATIO).toInt() }
         }
