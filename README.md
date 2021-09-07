@@ -26,6 +26,7 @@
 - Firebase
     - [Firebase Authentication](https://firebase.google.com/docs/auth) - Login and registration handler.
     - [Cloud Firestore](https://firebase.google.com/docs/firestore) - Cloud-hosted, NoSQL database
+    - [Firebase Storage](https://firebase.google.com/docs/storage) - Store and serve user-generated content, such as photos or videos.
 - JetPack
     - ViewModel - UI related data holder, lifecycle aware.
     - [Room](https://developer.android.com/training/data-storage/room) - Constructing a database using the abstract layer.
@@ -34,6 +35,7 @@
     - [ViewPager 2](https://developer.android.com/jetpack/androidx/releases/viewpager2) - Display Views or Fragments in a swipeable format.
     - [View Binding](https://developer.android.com/topic/libraries/view-binding) - Allows you to more easily write code that interacts with views.
 - [GoogleMaps](https://developers.google.com/maps) - View and interact with Google Maps using Api.
+- [MediaPlayer](https://developer.android.com/reference/android/media/MediaPlayer) - MediaPlayer can be used to control playback of audio/video files and streams.
 - [Glide](https://github.com/bumptech/glide) - Loading images.
 - [Material-Components](https://github.com/material-components/material-components-android) - Material design components like ripple animation, cardView.
 - [SwipeToRefresh](https://developer.android.com/reference/androidx/swiperefreshlayout/widget/SwipeRefreshLayout) - Refresh the contents of a view via a vertical swipe gesture.
