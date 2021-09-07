@@ -12,16 +12,16 @@ import xyz.fcr.sberrunner.utils.Constants
 /**
  * Имплементация интерфейса [IFirestoreRepository], служит для взаимодействия с объектами FirebaseAuth и FirebaseStore
  *
- * @param firebaseAuth [FirebaseAuth] - объект аутентификации
- * @param fireStore [FirebaseFirestore] - объект облачной NoSQL DB
+ * @param auth [FirebaseAuth] - объект аутентификации
+ * @param firestore [FirebaseFirestore] - объект облачной NoSQL DB
  */
 class FirestoreRepository(
-    private val firebaseAuth: FirebaseAuth,
-    private val fireStore: FirebaseFirestore
+    private val auth: FirebaseAuth,
+    private val firestore: FirebaseFirestore
 ) : IFirestoreRepository {
 
     private val userId
-        get() = firebaseAuth.currentUser?.uid ?: throw IllegalAccessError("Can't find user id")
+        get() = auth.currentUser?.uid ?: throw IllegalAccessError("Can't find user id")
 
     /**
      * Запрос на обновление имени пользоваателя в Firestore
@@ -29,7 +29,7 @@ class FirestoreRepository(
      * @return Task<Void> - результат асинхронного запроса обновления имени
      */
     override fun updateName(newName: String): Task<Void> {
-        val document = fireStore.collection(Constants.USER_TABLE).document(userId)
+        val document = firestore.collection(Constants.USER_TABLE).document(userId)
         return document.update(Constants.NAME, newName)
     }
 
@@ -39,7 +39,7 @@ class FirestoreRepository(
      * @return Task<Void> - результат асинхронного запроса обновления веса
      */
     override fun updateWeight(newWeight: String): Task<Void> {
-        val document = fireStore.collection(Constants.USER_TABLE).document(userId)
+        val document = firestore.collection(Constants.USER_TABLE).document(userId)
         return document.update(Constants.WEIGHT, newWeight)
     }
 
@@ -51,7 +51,7 @@ class FirestoreRepository(
      */
     override fun fillUserDataInFirestore(name: String, weight: String): Task<Void> {
         val user = hashMapOf(Constants.NAME to name, Constants.WEIGHT to weight)
-        val document = fireStore.collection(Constants.USER_TABLE).document(userId)
+        val document = firestore.collection(Constants.USER_TABLE).document(userId)
         return document.set(user)
     }
 
@@ -61,25 +61,25 @@ class FirestoreRepository(
      * @return Task<DocumentSnapshot> - результат асинхронного запроса получения документа
      */
     override fun getDocumentFirestore(): Task<DocumentSnapshot> {
-        return fireStore.collection(Constants.USER_TABLE).document(userId).get()
+        return firestore.collection(Constants.USER_TABLE).document(userId).get()
     }
 
     override fun getAllRuns(): Task<QuerySnapshot> {
-        return fireStore.collection(Constants.RUNS_TABLE).document(userId).collection(Constants.RUNS_TABLE).get()
+        return firestore.collection(Constants.RUNS_TABLE).document(userId).collection(Constants.RUNS_TABLE).get()
     }
 
     override fun switchToDeleteFlags(listToSwitch: List<RunEntity>): Task<Void> {
         val timeStampList: List<Long> = listToSwitch.map { it.timestamp }
 
         val documents: List<DocumentReference> = timeStampList.map {
-            fireStore
+            firestore
                 .collection(Constants.RUNS_TABLE)
                 .document(userId)
                 .collection(Constants.RUNS_TABLE)
                 .document(it.toString())
         }
 
-        return fireStore.runBatch { batch ->
+        return firestore.runBatch { batch ->
             documents.forEach { doc ->
                 batch.update(doc, "toDeleteFlag", true)
             }
@@ -87,7 +87,7 @@ class FirestoreRepository(
     }
 
     override fun addRunsToCloud(list: List<RunEntity>): Task<Void> {
-        val batch = fireStore.batch()
+        val batch = firestore.batch()
 
         list.forEach { run ->
             val user = hashMapOf(
@@ -99,7 +99,7 @@ class FirestoreRepository(
                 "toDeleteFlag" to run.toDeleteFlag
             )
 
-            val docRef = fireStore
+            val docRef = firestore
                 .collection(Constants.RUNS_TABLE)
                 .document(userId)
                 .collection(Constants.RUNS_TABLE)

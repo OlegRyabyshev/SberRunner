@@ -7,11 +7,13 @@ import com.google.firebase.firestore.QuerySnapshot
 import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
+import xyz.fcr.sberrunner.data.repository.firestorage.IStorageRepository
 import xyz.fcr.sberrunner.data.repository.firestore.IFirestoreRepository
 
 class FirebaseInteractor(
     private val firebase: IFirebaseRepository,
-    private val firestore: IFirestoreRepository
+    private val firestore: IFirestoreRepository,
+    private val storage: IStorageRepository
 ) : IFirebaseInteractor {
 
     override fun login(email: String, password: String): Single<Task<AuthResult>> {

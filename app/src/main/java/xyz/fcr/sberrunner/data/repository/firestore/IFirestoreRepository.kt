@@ -39,5 +39,5 @@ interface IFirestoreRepository {
     fun getAllRuns(): Task<QuerySnapshot>
 
     fun switchToDeleteFlags(listToSwitch: List<RunEntity>): Task<Void>
-    fun addRunsToCloud(unitedList: List<RunEntity>): Task<Void>
+    fun addRunsToCloud(list: List<RunEntity>): Task<Void>
 }

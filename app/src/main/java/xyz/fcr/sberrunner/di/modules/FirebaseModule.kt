@@ -2,10 +2,13 @@ package xyz.fcr.sberrunner.di.modules
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import xyz.fcr.sberrunner.data.repository.firebase.FirebaseRepository
 import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
+import xyz.fcr.sberrunner.data.repository.firestorage.IStorageRepository
+import xyz.fcr.sberrunner.data.repository.firestorage.StorageRepository
 import xyz.fcr.sberrunner.data.repository.firestore.FirestoreRepository
 import xyz.fcr.sberrunner.data.repository.firestore.IFirestoreRepository
 import xyz.fcr.sberrunner.domain.firebase.FirebaseInteractor
@@ -29,22 +32,43 @@ class FirebaseModule {
 
     @Provides
     @Singleton
-    fun providesFirebaseRepository(auth: FirebaseAuth): IFirebaseRepository {
+    fun providesFirebaseStorage(): FirebaseStorage {
+        return FirebaseStorage.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun providesFirebaseRepository(
+        auth: FirebaseAuth
+    ): IFirebaseRepository {
         return FirebaseRepository(auth)
     }
 
     @Provides
     @Singleton
-    fun providesFirestoreRepository(auth: FirebaseAuth, store: FirebaseFirestore): IFirestoreRepository {
+    fun providesFirestoreRepository(
+        auth: FirebaseAuth,
+        store: FirebaseFirestore
+    ): IFirestoreRepository {
         return FirestoreRepository(auth, store)
+    }
+
+    @Provides
+    @Singleton
+    fun providesStorageRepository(
+        auth: FirebaseAuth,
+        storage: FirebaseStorage
+    ): IStorageRepository {
+        return StorageRepository(auth, storage)
     }
 
     @Provides
     @Singleton
     fun providesFirebaseInteractor(
         baseRepo: IFirebaseRepository,
-        storeRepo: IFirestoreRepository
+        storeRepo: IFirestoreRepository,
+        storage: IStorageRepository
     ): IFirebaseInteractor {
-        return FirebaseInteractor(baseRepo, storeRepo)
+        return FirebaseInteractor(baseRepo, storeRepo, storage)
     }
 }
