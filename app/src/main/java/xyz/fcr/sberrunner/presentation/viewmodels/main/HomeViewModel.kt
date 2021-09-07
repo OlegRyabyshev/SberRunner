@@ -9,6 +9,7 @@ import xyz.fcr.sberrunner.domain.db.IDatabaseInteractor
 import xyz.fcr.sberrunner.domain.firebase.IFirebaseInteractor
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.ISchedulersProvider
+import xyz.fcr.sberrunner.utils.toBitmap
 import javax.inject.Inject
 
 /**
@@ -37,16 +38,15 @@ class HomeViewModel @Inject constructor(
      * Метод обновления списков забега
      */
     fun updateListOfRuns() {
-        compositeDisposable.add(databaseInteractor.getAllRuns()
-            .doOnSubscribe { _progressLiveData.postValue(true) }
-            .doAfterTerminate { _progressLiveData.postValue(false) }
-            .subscribeOn(schedulersProvider.io())
-            .observeOn(schedulersProvider.ui())
-            .subscribe({ value ->
-                _listOfRunsLiveData.postValue(value)
-            }, { error ->
-                _errorLiveData.postValue(error.message)
-            })
+        compositeDisposable.add(
+            databaseInteractor.getAllRuns()
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
+                .subscribe({ value ->
+                    _listOfRunsLiveData.postValue(value)
+                }, { error ->
+                    _errorLiveData.postValue(error.message)
+                })
         )
     }
 
@@ -62,7 +62,7 @@ class HomeViewModel @Inject constructor(
                     getAllRunsFromCloud()
                 }, {
                     _errorLiveData.postValue("Error in initSync")
-                    _progressLiveData.postValue(false)
+                    finishSync()
                 })
         )
     }
@@ -83,18 +83,16 @@ class HomeViewModel @Inject constructor(
 
                             if (!task.result.isEmpty) {
                                 task.result.forEach { document ->
-                                    if (!(document.get("toDeleteFlag") as Boolean)) {
-                                        list.add(
-                                            RunEntity(
-                                                avgSpeedInKMH = document.get("avgSpeedInKMH") as String,
-                                                calories = document.get("calories") as Long,
-                                                distanceInMeters = document.get("distanceInMeters") as Long,
-                                                timeInMillis = document.get("timeInMillis") as Long,
-                                                timestamp = document.get("timestamp") as Long,
-                                                toDeleteFlag = document.get("toDeleteFlag") as Boolean
-                                            )
+                                    list.add(
+                                        RunEntity(
+                                            avgSpeedInKMH = document.get("avgSpeedInKMH") as String,
+                                            calories = document.get("calories") as Long,
+                                            distanceInMeters = document.get("distanceInMeters") as Long,
+                                            timeInMillis = document.get("timeInMillis") as Long,
+                                            timestamp = document.get("timestamp") as Long,
+                                            toDeleteFlag = document.get("toDeleteFlag") as Boolean
                                         )
-                                    }
+                                    )
                                 }
                             }
 
@@ -104,13 +102,13 @@ class HomeViewModel @Inject constructor(
                             if (missingList.isEmpty()) {
                                 switchToDeleteFlagsInCloud()
                             } else {
-                                uploadMissingRunsFromCloudToDb(missingList)
+                                loadImagesLoList(missingList)
                             }
                         }
 
                         else -> {
                             _errorLiveData.postValue("Error in getAllRunsFromCloud")
-                            _progressLiveData.postValue(false)
+                            finishSync()
                         }
                     }
                 }
@@ -118,17 +116,51 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    // 3
+    private fun loadImagesLoList(missingList: List<RunEntity>) {
+        var counter = 0
+
+        missingList.forEach { run ->
+            compositeDisposable.add(
+                firebaseInteractor.downloadImageFromStorage(run)
+                    .subscribeOn(schedulersProvider.io())
+                    .observeOn(schedulersProvider.ui())
+                    .subscribe({ task ->
+                        task.addOnCompleteListener {
+                            when {
+                                task.isSuccessful -> {
+                                    counter++
+
+                                    run.mapImage = task.result.toBitmap()
+
+                                    if (counter == missingList.size) {
+                                        uploadMissingRunsFromCloudToDb(missingList)
+                                    }
+                                }
+                                else -> {
+                                    _errorLiveData.postValue("Error in loadImagesLoList")
+                                    finishSync()
+                                }
+                            }
+                        }
+                    }, {
+                        _errorLiveData.postValue("Error in loadImagesLoList")
+                        finishSync()
+                    })
+            )
+        }
+    }
+
+    // 3.1
     private fun uploadMissingRunsFromCloudToDb(missingRunsFromCloud: List<RunEntity>) {
         compositeDisposable.add(
-            databaseInteractor.addList(missingRunsFromCloud)
+            databaseInteractor.addList(missingRunsFromCloud.filter { !it.toDeleteFlag })
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
                 .subscribe({
                     switchToDeleteFlagsInCloud()
                 }, {
                     _errorLiveData.postValue("Error in uploadMissingRunsFromCloudToDb")
-                    _progressLiveData.postValue(false)
+                    finishSync()
                 })
         )
     }
@@ -146,7 +178,7 @@ class HomeViewModel @Inject constructor(
                         removeMarkedToDeleteFromDb()
                     }, {
                         _errorLiveData.postValue("Error in switchToDeleteFlagsInCloud")
-                        _progressLiveData.postValue(false)
+                        finishSync()
                     })
             )
         } else {
@@ -170,7 +202,7 @@ class HomeViewModel @Inject constructor(
                     }
                 }, {
                     _errorLiveData.postValue("Error in removeMarkedToDeleteFromDb")
-                    _progressLiveData.postValue(false)
+                    finishSync()
                 })
         )
     }
@@ -185,7 +217,7 @@ class HomeViewModel @Inject constructor(
                     getUpdatedListFromDb()
                 }, {
                     _errorLiveData.postValue("Error in removeFromDb")
-                    _progressLiveData.postValue(false)
+                    finishSync()
                 })
         )
     }
@@ -199,12 +231,49 @@ class HomeViewModel @Inject constructor(
                 .subscribe({ list ->
                     dbListRuns = list
                     val missingList = getMissingRunsFromDbToCloud()
-                    uploadMissingRunsFromDbToCloud(missingList)
+
+                    if (missingList.isNotEmpty()) {
+                        loadPicturesFromDbToStorage(missingList)
+                    } else {
+                        finishSync()
+                    }
                 }, {
                     _errorLiveData.postValue("Error in getUpdatedListFromDb")
-                    _progressLiveData.postValue(false)
+                    finishSync()
                 })
         )
+    }
+
+    private fun loadPicturesFromDbToStorage(missingList: List<RunEntity>) {
+        var counter = 0
+
+        missingList.forEach { run ->
+            compositeDisposable.add(
+                firebaseInteractor.uploadImageToStorage(run)
+                    .subscribeOn(schedulersProvider.io())
+                    .observeOn(schedulersProvider.ui())
+                    .subscribe({ task ->
+                        task.addOnCompleteListener {
+                            when {
+                                it.isSuccessful -> {
+                                    counter++
+                                    if (counter == missingList.size) {
+                                        uploadMissingRunsFromDbToCloud(missingList)
+                                    }
+                                }
+
+                                else -> {
+                                    _errorLiveData.postValue("Error in loadPicturesFromDbToStorage")
+                                    _progressLiveData.postValue(false)
+                                }
+                            }
+                        }
+                    }, {
+                        _errorLiveData.postValue("Error in loadPicturesFromDbToStorage")
+                        _progressLiveData.postValue(false)
+                    })
+            )
+        }
     }
 
     // 6.1
@@ -213,14 +282,30 @@ class HomeViewModel @Inject constructor(
             firebaseInteractor.uploadMissingFromDbToCloud(missingList)
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
-                .subscribe({
-                    _progressLiveData.postValue(false)
-                    updateListOfRuns()
+                .subscribe({ task ->
+                    task.addOnCompleteListener {
+                        when {
+                            it.isSuccessful || it.isComplete -> {
+                                _progressLiveData.postValue(false)
+                                updateListOfRuns()
+                            }
+
+                            else -> {
+                                _errorLiveData.postValue("Error in uploadMissingRunsFromDbToCloud")
+                                _progressLiveData.postValue(false)
+                            }
+                        }
+                    }
                 }, {
                     _errorLiveData.postValue("Error in uploadMissingRunsFromDbToCloud")
                     _progressLiveData.postValue(false)
                 })
         )
+    }
+
+    private fun finishSync() {
+        _progressLiveData.postValue(false)
+        updateListOfRuns()
     }
 
     private fun containsTimeStamp(unitedList: List<RunEntity>, timestamp: Long): Boolean {
@@ -234,7 +319,7 @@ class HomeViewModel @Inject constructor(
     /**
      * Метод удааления забегов из БД
      *
-     * @param run [RunEntity] - один забег
+     * @param runID [RunEntity] - один забег
      */
     fun setFlag(runID: Int, toDelete: Boolean) {
         compositeDisposable.add(databaseInteractor.switchToDeleteFlag(runID, toDelete)
@@ -246,7 +331,11 @@ class HomeViewModel @Inject constructor(
             }
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
-            .subscribe()
+            .subscribe({
+                updateListOfRuns()
+            }, {})
+
+
         )
     }
 

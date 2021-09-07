@@ -1,6 +1,8 @@
 package xyz.fcr.sberrunner.utils
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.presentation.App
@@ -110,4 +112,8 @@ fun Context.hasBasicLocationPermissions(): Boolean {
  */
 fun Context.hasBackgroundLocationPermission(): Boolean {
     return EasyPermissions.hasPermissions(this, *Constants.RUN_ADDITIONAL_PERMISSION_Q)
+}
+
+fun ByteArray.toBitmap(): Bitmap {
+    return BitmapFactory.decodeByteArray(this, 0, this.size)
 }

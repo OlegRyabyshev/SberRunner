@@ -77,8 +77,8 @@ class HomeFragment : Fragment(), ItemClickListener {
         }
 
         viewModel.listOfRunsLiveData.observe(viewLifecycleOwner) { runs ->
-            if (runs.isNotEmpty()) {
-                recyclerAdapter.submitList(runs)
+            if (runs.any { !it.toDeleteFlag }) {
+                recyclerAdapter.submitList(runs.filter { !it.toDeleteFlag })
                 displayRecycler(true)
             } else {
                 displayRecycler(false)
@@ -125,10 +125,12 @@ class HomeFragment : Fragment(), ItemClickListener {
 
             val run = recyclerAdapter.differ.currentList[position]
             viewModel.setFlag(run.id!!, true)
+            viewModel.updateListOfRuns()
 
             Snackbar.make(requireView(), getString(R.string.run_deleted), Snackbar.LENGTH_LONG).apply {
                 setAction(getString(R.string.undo)) {
                     viewModel.setFlag(run.id!!, false)
+                    viewModel.updateListOfRuns()
                 }
                 show()
             }

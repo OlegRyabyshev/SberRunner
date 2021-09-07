@@ -4,6 +4,8 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.storage.UploadTask
+import io.reactivex.rxjava3.annotations.NonNull
 import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
@@ -62,5 +64,13 @@ class FirebaseInteractor(
 
     override fun uploadMissingFromDbToCloud(missingList: List<RunEntity>): Single<Task<Void>> {
         return Single.fromCallable { firestore.addRunsToCloud(missingList) }
+    }
+
+    override fun uploadImageToStorage(run: RunEntity): Single<UploadTask> {
+        return Single.fromCallable { storage.addImage(run) }
+    }
+
+    override fun downloadImageFromStorage(run: RunEntity): Single<Task<ByteArray>> {
+        return Single.fromCallable { storage.getImage(run) }
     }
 }

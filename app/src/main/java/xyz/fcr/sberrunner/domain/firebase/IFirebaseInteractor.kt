@@ -4,6 +4,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.storage.UploadTask
 import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.model.RunEntity
 
@@ -31,4 +32,8 @@ interface IFirebaseInteractor {
 
     fun switchToDeleteFlagsInCloud(listToSwitch: List<RunEntity>): Single<Task<Void>>
     fun uploadMissingFromDbToCloud(missingList: List<RunEntity>): Single<Task<Void>>
+
+
+    fun uploadImageToStorage(run: RunEntity): Single<UploadTask>
+    fun downloadImageFromStorage(run: RunEntity): Single<Task<ByteArray>>
 }

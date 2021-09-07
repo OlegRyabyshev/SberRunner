@@ -1,7 +1,11 @@
 package xyz.fcr.sberrunner.data.repository.firestorage
 
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
+import xyz.fcr.sberrunner.data.model.RunEntity
+import xyz.fcr.sberrunner.data.util.BitmapConverter
 
 /**
  * Имплементация интерфейса [IStorageRepository], служит для взаимодействия с хранилищем Firebase
@@ -15,7 +19,24 @@ class StorageRepository(
     private val userId
         get() = firebaseAuth.currentUser?.uid ?: throw IllegalAccessError("Can't find user id")
 
-    override fun savePicture() {
-        var storageRef = storage.reference
+    override fun addImage(run: RunEntity): UploadTask {
+        val imageName = run.timestamp.toString()
+        val byteImage = BitmapConverter().fromBitmap(run.mapImage)
+
+        val storageRef = storage.reference.child("$userId/$imageName.png")
+
+        return storageRef.putBytes(byteImage!!)
+    }
+
+    override fun getImage(run: RunEntity): Task<ByteArray> {
+        val imageName = run.timestamp.toString()
+        val storageRef = storage.reference.child("$userId/$imageName.png")
+
+        return storageRef.getBytes(TEN_MEGABYTES)
+
+    }
+
+    private companion object {
+        private const val TEN_MEGABYTES: Long = 1024 * 1024 * 10
     }
 }
