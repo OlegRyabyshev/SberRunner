@@ -113,7 +113,7 @@
     <string name="settings_page">Settings</string>
 
     <string name="permission_rationale">SberRunner needs your location permission to launch tracking activity</string>
-    <string name="permission_rationale_q">In order to enable background location access, you must set the "Allow all the time" option</string>
+    <string name="permission_rationale_q">In order to enable background location access, you must set the *Allow all the time* option</string>
 
     <string name="run_initial_duration">00:00:00</string>
     <string name="run_initial_distance">0.00</string>
@@ -126,9 +126,9 @@
 
     <string name="run_deleted">Successfully deleted run</string>
     <string name="not_enough_data">Run will not be saved</string>
-    <string name="service_channel">SberRunner Service Channel</string>
-    <string name="time_filler">9:02am</string>
-    <string name="date_filler">19:02, July 05, 2021</string>
+    <string name="service_channel" translatable="false">SberRunner Service Channel</string>
+    <string name="time_filler" translatable="false">9:02am</string>
+    <string name="date_filler" translatable="false">19:02, July 05, 2021</string>
     <string name="back_button">Back button</string>
     <string name="kilometers">Kilometers</string>
     <string name="miles">Miles</string>
@@ -137,8 +137,8 @@
     <string name="mph">Mph</string>
     <string name="time">Time</string>
 
-    <string name="no_history_runs_home">you don\'t have any runs history yet…</string>
-    <string name="no_history_runs_progress">here will be your progress stats</string>
+    <string name="no_history_runs_home">You don\'t have any runs history yet</string>
+    <string name="no_history_runs_progress">Here will be your progress stats</string>
     <string name="cancel">Cancel</string>
 
     <string name="not_enough_data_msg">There is not enough information to save this run, you sure you want to finish it?</string>

@@ -109,7 +109,7 @@
     <string name="settings_page">Настройки</string>
 
     <string name="permission_rationale">Для запуска активности бега необходим доступ к геолокации</string>
-    <string name="permission_rationale_q">Ваша версия Android требует дополнительного разрешения работы геолокации на фоне, нажмите "Разрешить в любом режиме"</string>
+    <string name="permission_rationale_q">Ваша версия Android требует дополнительного разрешения работы геолокации на фоне, нажмите *Разрешить в любом режиме*"</string>
 
     <string name="run_initial_duration">00:00:00</string>
     <string name="run_initial_distance">0.00</string>
