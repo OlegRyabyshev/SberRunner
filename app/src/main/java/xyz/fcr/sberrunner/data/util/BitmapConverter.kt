@@ -16,8 +16,12 @@ class BitmapConverter : IBitmapConverter {
      * @return Bitmap
      */
     @TypeConverter
-    override fun toBitmap(bytes: ByteArray): Bitmap {
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+    override fun toBitmap(bytes: ByteArray?): Bitmap? {
+        return if (bytes != null) {
+            BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+        } else {
+            null
+        }
     }
 
     /**
@@ -26,9 +30,13 @@ class BitmapConverter : IBitmapConverter {
      * @return ByteArray
      */
     @TypeConverter
-    override fun fromBitmap(bmp: Bitmap): ByteArray {
-        val outputStream = ByteArrayOutputStream()
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        return outputStream.toByteArray()
+    override fun fromBitmap(bmp: Bitmap?): ByteArray? {
+        return if (bmp != null) {
+            val outputStream = ByteArrayOutputStream()
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            return outputStream.toByteArray()
+        } else {
+            null
+        }
     }
 }
