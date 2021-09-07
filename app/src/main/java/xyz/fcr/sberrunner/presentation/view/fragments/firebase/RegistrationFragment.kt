@@ -27,8 +27,8 @@ import xyz.fcr.sberrunner.presentation.viewmodels.firebase.RegistrationViewModel
 import javax.inject.Inject
 
 /**
- * Фрагмент регистрации.
- * Пользователь вводит тут необходимые данные для регистрации и при успехе попадает в MainActivity.
+ * Фрагмент регистрации
+ * Пользователь вводит тут необходимые данные для регистрации и при успехе попадает в MainActivity
  */
 class RegistrationFragment : Fragment() {
 
@@ -67,7 +67,7 @@ class RegistrationFragment : Fragment() {
     }
 
     /**
-     * Отслеживание изменений в livedata вьюмодели.
+     * Отслеживание изменений в livedata вьюмодели
      */
     private fun observeLiveData() {
         viewModel.progressLiveData.observe(viewLifecycleOwner, { isVisible: Boolean -> showProgress(isVisible) })
@@ -80,6 +80,9 @@ class RegistrationFragment : Fragment() {
         viewModel.errorWeight.observe(viewLifecycleOwner, { error: String -> setError(error, binding.signUpWeightTv) })
     }
 
+    /**
+     * Вывод ошибки
+     */
     private fun showError(text: String) {
         Toasty.error(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
@@ -98,6 +101,9 @@ class RegistrationFragment : Fragment() {
         }
     }
 
+    /**
+     * Заапуск главного активити при успешной регистрации
+     */
     private fun startMainActivity(error: String) {
         when (error) {
             VALID -> {

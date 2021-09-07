@@ -63,7 +63,7 @@ class AudioNotificator @Inject constructor(
      * Функция нотификации пользователя при пересечении пограничных значений в дистанициях
      *
      * @param oldDistance [Float] - прошлая обновленная дистанция
-     * @param newDistance [Float] - новая обновленная дистанция
+     * @param newDistance [Float] - текущаая обновленная дистанция
      */
     override fun checkIfVoiceNotificationNeeded(oldDistance: Float, newDistance: Float) {
         var unitRatio = 1f

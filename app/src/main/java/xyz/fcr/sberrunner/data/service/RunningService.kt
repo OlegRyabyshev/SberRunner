@@ -50,7 +50,9 @@ typealias Polyline = MutableList<LatLng>
 typealias Polylines = MutableList<Polyline>
 
 /**
- * Сервис бега. Выполняет и обновляет поиск координат бега, строит кривые бега, может работать независимо от Activity.
+ * Сервис бега.
+ * Выполняет и обновляет поиск координат бега, строит кривые бега.
+ * Может работать независимо от Activity.
  */
 class RunningService : LifecycleService() {
 

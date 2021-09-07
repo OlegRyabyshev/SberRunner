@@ -21,16 +21,24 @@ class FirebaseRepository(
      * @param password [String] - пароль пользователя
      * @param weight [String] - вес пользователя
      *
-     * @return Task<AuthResult> - асинхронный результат выполенения регистрации
+     * @return [Task] - асинхронный результат выполенения регистрации
      */
-    override fun registration(name: String, email: String, password: String, weight: String): Task<AuthResult> {
+    override fun registration(
+        name: String,
+        email: String,
+        password: String,
+        weight: String
+    ): Task<AuthResult> {
         return firebaseAuth.createUserWithEmailAndPassword(email, password)
     }
 
     /**
      * Вход в аккаунт
      *
-     * @return Task<DocumentSnapshot> - результат асинхронного запроса входа в аккаунт
+     * @param email [String] - email пользователя
+     * @param password [String] - пароль пользователя
+     *
+     * @return [Task] - результат асинхронного запроса входа в аккаунт
      */
     override fun login(email: String, password: String): Task<AuthResult> {
         return firebaseAuth.signInWithEmailAndPassword(email, password)
@@ -39,7 +47,9 @@ class FirebaseRepository(
     /**
      * Отправка сообщения на email пользователя со сбросом пароля
      *
-     * @return Task<Void> - результат асинхронного запроса сброса
+     * @param email [String] - email пользователя
+     *
+     * @return [Task] - результат асинхронного запроса сброса
      */
     override fun sendResetEmail(email: String): Task<Void> {
         return firebaseAuth.sendPasswordResetEmail(email)
@@ -49,13 +59,13 @@ class FirebaseRepository(
      * Выход пользователя из аккаунта
      */
     override fun signOut() {
-        firebaseAuth.signOut()
+       firebaseAuth.signOut()
     }
 
     /**
      * Удаление пользователем своего аккаунта
      *
-     * @return Task<Void> - результат асинхронного запроса удаления аккаунта
+     * @return [Task] - результат асинхронного запроса удаления аккаунта
      */
     override fun deleteAccount(): Task<Void> {
         val user = firebaseAuth.currentUser

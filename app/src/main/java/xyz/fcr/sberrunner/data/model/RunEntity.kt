@@ -8,13 +8,14 @@ import xyz.fcr.sberrunner.data.util.BitmapConverter
 import xyz.fcr.sberrunner.utils.Constants.DB_NAME
 
 /**
- * Модель бега, содержущая основную информация о забеге.
+ * Модель бега уровня Data, содержащая основную информация о забеге.
  *
- * @param distanceInMeters [Long] - дистанция, пройденная юзером за забег (в метрах)
- * @param timestamp [Long] - временная отметка
- * @param timeInMillis [Long] - время забега (в мс)
  * @param avgSpeedInKMH [String] - средняя скорость за забег
  * @param calories [Int] - потраченные калории за забег
+ * @param distanceInMeters [Long] - дистанция, пройденная юзером за забег (в метрах)
+ * @param timeInMillis [Long] - время забега (в мс)
+ * @param timestamp [Long] - временная отметка
+ * @param toDeleteFlag [Boolean] - отметка пользователя о том, что забег будет удалён при синхронизации
  * @param mapImage [Bitmap] - отображение карты на момент конца забега
  */
 @Entity(tableName = DB_NAME)

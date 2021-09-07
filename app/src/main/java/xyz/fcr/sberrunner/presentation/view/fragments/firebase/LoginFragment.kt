@@ -27,8 +27,8 @@ import xyz.fcr.sberrunner.presentation.viewmodels.firebase.LoginViewModel
 import javax.inject.Inject
 
 /**
- * Фрагмент аутентификации.
- * Пользователь вводит тут email и пароль и при успехе попадает в MainActivity.
+ * Фрагмент аутентификации
+ * Пользователь вводит тут email и пароль и при успехе попадает в MainActivity
  */
 class LoginFragment : Fragment() {
 
@@ -69,7 +69,7 @@ class LoginFragment : Fragment() {
     }
 
     /**
-     * Отслеживание изменений в livedata вьюмодели.
+     * Отслеживание изменений в livedata вьюмодели
      */
     private fun observeLiveData() {
         viewModel.progressLiveData.observe(viewLifecycleOwner, { isVisible: Boolean -> showProgress(isVisible) })
@@ -80,6 +80,9 @@ class LoginFragment : Fragment() {
         viewModel.errorPass.observe(viewLifecycleOwner, { error: String -> setError(error, binding.signInPasswordTv) })
     }
 
+    /**
+     * Уведобление пользователя о результах отправки восстановления пароля на почту
+     */
     private fun showResetToast(resetSent: Boolean) {
         if (resetSent) {
             Toasty.success(requireContext(), getString(R.string.check_email_toast), Toast.LENGTH_SHORT).show()
@@ -89,6 +92,9 @@ class LoginFragment : Fragment() {
         }
     }
 
+    /**
+     * Вывод ошибки
+     */
     private fun showError(text: String) {
         Toasty.error(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
@@ -107,6 +113,9 @@ class LoginFragment : Fragment() {
         }
     }
 
+    /**
+     * Заапуск главного активити при успешной авторизации
+     */
     private fun startMainActivity(isSucceed: Boolean) {
         if (isSucceed) {
             val intent = Intent(activity, MainActivity::class.java)

@@ -8,15 +8,17 @@ import java.io.ByteArrayOutputStream
 /**
  * Класс конвертации изображений для Room
  */
-class BitmapConverter : IBitmapConverter {
+class BitmapConverter {
 
     /**
      * Конвертация ByteArray в Bitmap
      *
-     * @return Bitmap
+     * @param bytes [ByteArray] - байтовый массив изображения забега
+     *
+     * @return [Bitmap] - изображение забега
      */
     @TypeConverter
-    override fun toBitmap(bytes: ByteArray?): Bitmap? {
+    fun toBitmap(bytes: ByteArray?): Bitmap? {
         return if (bytes != null) {
             BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
         } else {
@@ -27,10 +29,12 @@ class BitmapConverter : IBitmapConverter {
     /**
      * Конвертация Bitmap в ByteArray
      *
-     * @return ByteArray
+     * @param bmp [Bitmap] - изображение забега
+     *
+     * @return [ByteArray] - байтовый массив изображения забега
      */
     @TypeConverter
-    override fun fromBitmap(bmp: Bitmap?): ByteArray? {
+    fun fromBitmap(bmp: Bitmap?): ByteArray? {
         return if (bmp != null) {
             val outputStream = ByteArrayOutputStream()
             bmp.compress(Bitmap.CompressFormat.PNG, 100, outputStream)

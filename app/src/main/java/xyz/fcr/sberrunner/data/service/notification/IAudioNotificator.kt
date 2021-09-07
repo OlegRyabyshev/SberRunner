@@ -13,7 +13,10 @@ interface IAudioNotificator {
     fun play(action: String)
 
     /**
-     * Обновление громкости нотификатора по значению из SharedPreference
+     * Функция нотификации пользователя при пересечении пограничных значений в дистанициях
+     *
+     * @param oldDistance [Float] - прошлая обновленная дистанция
+     * @param newDistance [Float] - текущаая обновленная дистанция
      */
     fun checkIfVoiceNotificationNeeded(oldDistance: Float, newDistance: Float)
 }

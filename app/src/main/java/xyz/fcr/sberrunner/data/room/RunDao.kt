@@ -36,7 +36,7 @@ interface RunDao {
     /**
      * Получение всех забегов из базы данных
      *
-     * @return [List<Run>] - список забегов пользователя
+     * @return [List] - список забегов пользователя
      */
     @Query("SELECT * FROM $DB_NAME ORDER BY timestamp DESC")
     fun getAllRuns(): List<RunEntity>
@@ -50,12 +50,27 @@ interface RunDao {
     @Query("SELECT * FROM $DB_NAME WHERE id = :runId")
     fun getRun(runId: Int): LiveData<RunEntity>
 
+    /**
+     * Переключение флагов на удаление (при синхронизации забеги будут удалены)
+     *
+     * @param runID [Int] - ID забега
+     * @param toDelete [Boolean] - флаг на удаление
+     * @return [List] - список забегов пользователя
+     */
     @Query("UPDATE $DB_NAME SET toDeleteFlag = :toDelete WHERE id = :runID")
     fun switchToDeleteFlag(runID: Int, toDelete: Boolean)
 
+    /**
+     * Удаление всех забегов с флагом на удаление
+     */
     @Query("DELETE FROM $DB_NAME WHERE toDeleteFlag = 1")
     fun removerMarkedToDelete()
 
+    /**
+     * Удаление забегов из выбранного списка временных отметок
+     *
+     * @param timeStampList [List] - список временных отметок забегов
+     */
     @Query("DELETE FROM $DB_NAME WHERE timestamp in (:timeStampList)")
     fun removeRuns(timeStampList: List<Long>)
 }

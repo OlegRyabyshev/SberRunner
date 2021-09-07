@@ -4,11 +4,17 @@ import androidx.lifecycle.LiveData
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.model.RunEntity
+import xyz.fcr.sberrunner.data.room.RunDao
+import javax.inject.Inject
 
 /**
- * Интерфейс доступка к базе данных
+ * Имплементация интерфейса [IDatabaseInteractor], служит для связи Room <-> ViewModel
+ *
+ * @param runDao [RunDao] - data access objects для получения доступа к базе данных бега
  */
-interface IDatabaseInteractor {
+class RoomInteractor @Inject constructor(
+    private val runDao: RunDao
+) : IDatabaseInteractor {
 
     /**
      * Метод добавления объкта бега в БД
@@ -17,7 +23,9 @@ interface IDatabaseInteractor {
      *
      * @return [Completable] - результат выполнения добавления
      */
-    fun addRun(run: RunEntity): Completable
+    override fun addRun(run: RunEntity): Completable {
+        return Completable.fromCallable { runDao.addRun(run) }
+    }
 
     /**
      * Метод удаления объекта бега из БД
@@ -26,14 +34,18 @@ interface IDatabaseInteractor {
      *
      * @return [Completable] - результат выполнения удаления
      */
-    fun deleteRun(run: RunEntity): Completable
+    override fun deleteRun(run: RunEntity): Completable {
+        return Completable.fromCallable { runDao.deleteRun(run) }
+    }
 
     /**
      * Метод получения объектов бега из БД
      *
      * @return [Single] - результат получения списка забегов
      */
-    fun getAllRuns(): Single<List<RunEntity>>
+    override fun getAllRuns(): Single<List<RunEntity>> {
+        return Single.fromCallable { runDao.getAllRuns() }
+    }
 
     /**
      * Метод получения объкта бега из БД по ID
@@ -42,14 +54,18 @@ interface IDatabaseInteractor {
      *
      * @return [LiveData] - observable объект забега
      */
-    fun getRun(runId: Int): LiveData<RunEntity>
+    override fun getRun(runId: Int): LiveData<RunEntity> {
+        return runDao.getRun(runId)
+    }
 
     /**
      * Очистка всех объктов бега из БД
      *
      * @return [Completable] - результат выполнения удаления
      */
-    fun clearRuns(): Completable
+    override fun clearRuns(): Completable {
+        return Completable.fromCallable { runDao.clearRuns() }
+    }
 
     /**
      * Метод добавления объктов бега в БД
@@ -58,7 +74,13 @@ interface IDatabaseInteractor {
      *
      * @return [Completable] - результат выполнения добавления
      */
-    fun addList(list: List<RunEntity>): Completable
+    override fun addList(list: List<RunEntity>): Completable {
+        return Completable.fromCallable {
+            list.forEach {
+                runDao.addRun(it)
+            }
+        }
+    }
 
     /**
      * Метод переключения флага на удаление в БД
@@ -68,14 +90,18 @@ interface IDatabaseInteractor {
      *
      * @return [Completable] - результат выполнения переключения
      */
-    fun switchToDeleteFlag(runID: Int, toDelete: Boolean): Completable
+    override fun switchToDeleteFlag(runID: Int, toDelete: Boolean): Completable {
+        return Completable.fromCallable { runDao.switchToDeleteFlag(runID, toDelete) }
+    }
 
     /**
      * Метод удаления всех забегов с флагом на удаление
      *
      * @return [Completable] - результат выполнения удаления
      */
-    fun removeMarkedToDelete(): Completable
+    override fun removeMarkedToDelete(): Completable {
+        return Completable.fromCallable { runDao.removerMarkedToDelete() }
+    }
 
     /**
      * Метод удаления всех забегов из БД, помеченных на удаление в Firestore
@@ -84,5 +110,9 @@ interface IDatabaseInteractor {
      *
      * @return [Completable] - результат выполнения удаления
      */
-    fun removeRuns(markedToDeleteFromCloud: List<RunEntity>): Completable
+    override fun removeRuns(markedToDeleteFromCloud: List<RunEntity>): Completable {
+        val timeStampList : List<Long> = markedToDeleteFromCloud.map { it.timestamp }
+
+        return Completable.fromCallable { runDao.removeRuns(timeStampList) }
+    }
 }

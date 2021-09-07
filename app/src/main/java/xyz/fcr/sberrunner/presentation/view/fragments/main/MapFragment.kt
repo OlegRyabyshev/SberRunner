@@ -95,6 +95,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
         viewModel.errorLiveData.observe(viewLifecycleOwner, { error: String -> showError(error) })
     }
 
+    /**
+     * Вывод ошибки.
+     */
     private fun showError(text: String) {
         when (text) {
             NON_VALID -> Toasty.error(
@@ -111,6 +114,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
         }
     }
 
+    /**
+     * Перемещение карты на новую геопозицию
+     */
     private fun displayLocation(location: Location) {
         val currentLocation = LatLng(location.latitude, location.longitude)
 
@@ -121,6 +127,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
         }
     }
 
+    /**
+     * Перемещение карты на сохранённую геопозицию
+     */
     private fun displayLastKnownLocation(latLng: LatLng) {
         map?.apply {
             moveCamera(CameraUpdateFactory.newLatLng(latLng))
@@ -128,6 +137,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
         }
     }
 
+    /**
+     * Получение текущей геопозиции
+     */
     private fun getCurrentLocation() {
         if (requireContext().hasBasicLocationPermissions()) {
             viewModel.getCurrentLocation()
@@ -136,6 +148,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
         }
     }
 
+    /**
+     * Запрос разрешения геолокации
+     */
     private fun requestPermission() {
         EasyPermissions.requestPermissions(
             this,

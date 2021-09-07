@@ -26,7 +26,8 @@ class FirestoreRepository(
     /**
      * Запрос на обновление имени пользоваателя в Firestore
      *
-     * @return Task<Void> - результат асинхронного запроса обновления имени
+     * @param newName [String] - новое имя пользователя
+     * @return [Task] - результат асинхронного запроса обновления имени
      */
     override fun updateName(newName: String): Task<Void> {
         val document = firestore.collection(Constants.USER_TABLE).document(userId)
@@ -36,7 +37,8 @@ class FirestoreRepository(
     /**
      * Запрос на обновление веса пользоваателя в Firestore
      *
-     * @return Task<Void> - результат асинхронного запроса обновления веса
+     * @param newWeight [String] - новый вес пользователя
+     * @return [Task] - результат асинхронного запроса обновления веса
      */
     override fun updateWeight(newWeight: String): Task<Void> {
         val document = firestore.collection(Constants.USER_TABLE).document(userId)
@@ -48,6 +50,7 @@ class FirestoreRepository(
      *
      * @param name [String] - имя пользователя
      * @param weight [String] - вес пользователя
+     * @return [Task] - результат асинхронного запроса обновления информации о пользователе
      */
     override fun fillUserDataInFirestore(name: String, weight: String): Task<Void> {
         val user = hashMapOf(Constants.NAME to name, Constants.WEIGHT to weight)
@@ -58,16 +61,29 @@ class FirestoreRepository(
     /**
      * Получение документа пользователя из Firestore
      *
-     * @return Task<DocumentSnapshot> - результат асинхронного запроса получения документа
+     * @return [Task] - результат асинхронного запроса получения документа
      */
     override fun getDocumentFirestore(): Task<DocumentSnapshot> {
         return firestore.collection(Constants.USER_TABLE).document(userId).get()
     }
 
+    /**
+     * Получение всех забегов пользователя из Firestore
+     *
+     * @return [Task] - результат асинхронного запроса получения всех забегов
+     */
     override fun getAllRuns(): Task<QuerySnapshot> {
         return firestore.collection(Constants.RUNS_TABLE).document(userId).collection(Constants.RUNS_TABLE).get()
     }
 
+    /**
+     * Переключние флагов удаления забегов в Firestore
+     * (они будут удалены со всех устройств при синхронизации)
+     *
+     * @param listToSwitch [List] - список забегов на переключение
+     *
+     * @return [Task] - результат асинхронного запроса на переключение флагов
+     */
     override fun switchToDeleteFlags(listToSwitch: List<RunEntity>): Task<Void> {
         val timeStampList: List<Long> = listToSwitch.map { it.timestamp }
 
@@ -86,6 +102,13 @@ class FirestoreRepository(
         }
     }
 
+    /**
+     * Добавление забегов в Firestore
+     *
+     * @param list [List] - список забегов на добавление
+     *
+     * @return [Task] - результат асинхронного запроса добавления всех забегов
+     */
     override fun addRunsToCloud(list: List<RunEntity>): Task<Void> {
         val batch = firestore.batch()
 
