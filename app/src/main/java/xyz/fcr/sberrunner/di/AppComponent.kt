@@ -17,27 +17,37 @@ import xyz.fcr.sberrunner.presentation.viewmodels.main.MapViewModel
 import xyz.fcr.sberrunner.presentation.viewmodels.main.SharedSettingsViewModel
 import javax.inject.Singleton
 
+/**
+ * Главный интерфейс компонента приложения
+ */
 @Component(
     modules = [
         AppModule::class,
-        StoreModule::class,
+        SharedPreferenceModule::class,
         DatabaseModule::class,
         FirebaseModule::class,
-        ViewModelFactoryModule::class
+        ViewModelFactoryModule::class,
+        UtilModule::class
     ]
 )
 @Singleton
 interface AppComponent {
     fun context(): Context
 
-    // Activity
+    /**
+     * Внедрение зависимостей в Activity
+     */
     fun inject(activity: MainActivity)
     fun inject(activity: SplashScreenActivity)
 
-    // Adapter
+    /**
+     * Внедрение зависимостей в Adapter
+     */
     fun inject(adapter: RunRecyclerAdapter)
 
-    // Fragments
+    /**
+     * Внедрение зависимостей в Fragment
+     */
     fun inject(fragment: LoginFragment)
     fun inject(fragment: RegistrationFragment)
 
@@ -49,13 +59,17 @@ interface AppComponent {
     fun inject(fragment: SettingsPreferenceFragment)
     fun inject(fragment: ProgressFragment)
 
-    // ViewModels
+    /**
+     * Внедрение зависимостей во ViewModel
+     */
     fun inject(viewModel: LoginViewModel)
     fun inject(viewModel: RegistrationViewModel)
     fun inject(viewModel: SharedSettingsViewModel)
     fun inject(viewModel: MapViewModel)
 
-    // Services
+    /**
+     * Внедрение зависимостей для сервиса
+     */
     fun inject(runningService: RunningService)
     fun inject(audioNotificator: AudioNotificator)
 }

@@ -15,27 +15,52 @@ import xyz.fcr.sberrunner.domain.firebase.FirebaseInteractor
 import xyz.fcr.sberrunner.domain.firebase.IFirebaseInteractor
 import javax.inject.Singleton
 
+/**
+ * Модуль приложения, предоставляющий зависимости Firebase
+ */
 @Module
 class FirebaseModule {
 
+    /**
+     * Предоставление зависимости класса аутентификации
+     *
+     * @return [FirebaseAuth] - класс взаимодействия с аутентификацией
+     */
     @Provides
     @Singleton
     fun providesFirebaseAuthInstance(): FirebaseAuth {
         return FirebaseAuth.getInstance()
     }
 
+    /**
+     * Предоставление зависимости класса Firestore
+     *
+     * @return [FirebaseFirestore] - объект облачной базы данных
+     */
     @Provides
     @Singleton
     fun providesFirebaseFirestore(): FirebaseFirestore {
         return FirebaseFirestore.getInstance()
     }
 
+    /**
+     * Предоставление зависимости класса FirebaseStorage
+     *
+     * @return [FirebaseStorage] - объект облачного хранилища данных
+     */
     @Provides
     @Singleton
     fun providesFirebaseStorage(): FirebaseStorage {
         return FirebaseStorage.getInstance()
     }
 
+    /**
+     * Предоставление репозитория взаимодействия с Firebase
+     *
+     * @param auth [FirebaseAuth] - класс взаимодействия с аутентификацией
+     *
+     * @return [IFirebaseRepository] - интерфейс взаимодействия с Firebase
+     */
     @Provides
     @Singleton
     fun providesFirebaseRepository(
@@ -44,6 +69,14 @@ class FirebaseModule {
         return FirebaseRepository(auth)
     }
 
+    /**
+     * Предоставление репозитория взаимодействия с Firestore
+     *
+     * @param auth [FirebaseAuth] - объект взаимодействия с аутентификацией
+     * @param store [FirebaseFirestore] - объект взаимодействия с Firestore
+     *
+     * @return [IFirestoreRepository] - интерфейс взаимодействия с Firestore
+     */
     @Provides
     @Singleton
     fun providesFirestoreRepository(
@@ -53,6 +86,14 @@ class FirebaseModule {
         return FirestoreRepository(auth, store)
     }
 
+    /**
+     * Предоставление репозитория взаимодействия с Firebase Storage
+     *
+     * @param auth [FirebaseAuth] - объект взаимодействия с аутентификацией
+     * @param storage [FirebaseStorage] - объект взаимодействия с Firebase Storage
+     *
+     * @return [IStorageRepository] - интерфейс взаимодействия с Firebase Storage
+     */
     @Provides
     @Singleton
     fun providesStorageRepository(
@@ -62,13 +103,22 @@ class FirebaseModule {
         return StorageRepository(auth, storage)
     }
 
+    /**
+     * Предоставление интерактора взаимодействия с Firebase (auth/firestore/storage)
+     *
+     * @param firebaseRepo [IFirebaseRepository] - репозиторий взаимодействия с Firebase
+     * @param storeRepo [IFirestoreRepository] - репозиторий взаимодействия с Firestore
+     * @param storage [IStorageRepository] - репозиторий взаимодействия с Firebase Storage
+     *
+     * @return [IFirebaseInteractor] - интерактора взаимодействия с Firebase
+     */
     @Provides
     @Singleton
     fun providesFirebaseInteractor(
-        baseRepo: IFirebaseRepository,
+        firebaseRepo: IFirebaseRepository,
         storeRepo: IFirestoreRepository,
         storage: IStorageRepository
     ): IFirebaseInteractor {
-        return FirebaseInteractor(baseRepo, storeRepo, storage)
+        return FirebaseInteractor(firebaseRepo, storeRepo, storage)
     }
 }
