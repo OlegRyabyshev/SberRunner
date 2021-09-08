@@ -23,10 +23,18 @@ class DetailedRunViewModel @Inject constructor(
 
     private val _unitsLiveData = MutableLiveData<Boolean>()
 
+    /**
+     * Обновление livedata с текущим забегом
+     *
+     * @param runId [Int] - ID забега
+     */
     fun getRunFromDB(runId: Int) {
         _runLiveData = databaseInteractor.getRun(runId)
     }
 
+    /**
+     * Обновление livedata с текущей выбранной системой измерения
+     */
     fun setUnits() {
         _unitsLiveData.postValue(sharedPreferenceWrapper.isMetric())
     }

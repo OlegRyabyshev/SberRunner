@@ -97,36 +97,9 @@ class SharedSettingsViewModel @Inject constructor(
     }
 
     /**
-     * Обновление веса пользователя
-     */
-    fun updateWeight(newWeight: String) {
-        if (weightIsValid(newWeight)) {
-            compositeDisposable.add(
-                firebaseInteractor.updateWeight(newWeight)
-                    .doOnSubscribe { _progressLiveData.postValue(true) }
-                    .subscribeOn(schedulersProvider.io())
-                    .observeOn(schedulersProvider.ui())
-                    .subscribe({ task ->
-                        task.addOnCompleteListener {
-                            when {
-                                it.isSuccessful -> {
-                                    sharedPreferenceWrapper.saveWeight(newWeight)
-                                    _weightSummaryLiveData.postValue(newWeight)
-                                    _progressLiveData.postValue(false)
-                                }
-
-                                else -> _progressLiveData.postValue(false)
-                            }
-                        }
-                    }, {
-                        _progressLiveData.postValue(false)
-                    })
-            )
-        }
-    }
-
-    /**
      * Обновление имени пользователя
+     *
+     * @param newName [String] - новое имя пользователя
      */
     fun updateName(newName: String) {
         if (nameIsValid(newName)) {
@@ -156,7 +129,41 @@ class SharedSettingsViewModel @Inject constructor(
     }
 
     /**
-     * Проверка нового имени пользователя
+     * Обновление веса пользователя
+     *
+     * @param newWeight [String] - новый вес пользователя
+     */
+    fun updateWeight(newWeight: String) {
+        if (weightIsValid(newWeight)) {
+            compositeDisposable.add(
+                firebaseInteractor.updateWeight(newWeight)
+                    .doOnSubscribe { _progressLiveData.postValue(true) }
+                    .subscribeOn(schedulersProvider.io())
+                    .observeOn(schedulersProvider.ui())
+                    .subscribe({ task ->
+                        task.addOnCompleteListener {
+                            when {
+                                it.isSuccessful -> {
+                                    sharedPreferenceWrapper.saveWeight(newWeight)
+                                    _weightSummaryLiveData.postValue(newWeight)
+                                    _progressLiveData.postValue(false)
+                                }
+
+                                else -> _progressLiveData.postValue(false)
+                            }
+                        }
+                    }, {
+                        _progressLiveData.postValue(false)
+                    })
+            )
+        }
+    }
+
+    /**
+     * Проверка корректности нового имени пользователя
+     *
+     * @param nameToCheck [String] - имя пользователя
+     * @return [Boolean] - корректеный ввод (true) / некорректный ввод (false)
      */
     private fun nameIsValid(nameToCheck: String): Boolean {
         val name = nameToCheck.trim { it <= ' ' }
@@ -171,7 +178,10 @@ class SharedSettingsViewModel @Inject constructor(
     }
 
     /**
-     * Проверка нового веса пользователя.
+     * Проверка корректности нового веса пользователя
+     *
+     * @param weightToCheck [String] - вес пользователя
+     * @return [Boolean] - корректеный ввод (true) / некорректный ввод (false)
      */
     private fun weightIsValid(weightToCheck: String): Boolean {
         val weight = weightToCheck.toIntOrNull()

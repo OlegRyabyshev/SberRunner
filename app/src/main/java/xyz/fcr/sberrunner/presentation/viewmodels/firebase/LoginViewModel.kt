@@ -39,6 +39,11 @@ class LoginViewModel @Inject constructor(
 
     private var compositeDisposable = CompositeDisposable()
 
+    /**
+     * Отправка сообщения со сбросом пароля на почту пользователя
+     *
+     * @param email [String] - почта пользователя
+     */
     fun initResetEmail(email: String) {
         if (emailIsValid(email)) {
             compositeDisposable.add(
@@ -61,6 +66,12 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Выполнение входа в учетную запись пользователя
+     *
+     * @param email [String] - почта пользователя
+     * @param pass [String] - пароль пользователя
+     */
     fun initSignIn(email: String, pass: String) {
         if (emailIsValid(email) and passIsValid(pass)) {
             compositeDisposable.add(
@@ -83,6 +94,9 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Загрузка имени и веса пользователя в Firestore
+     */
     private fun loadNameAndWeightFromFireStore() {
         compositeDisposable.add(
             firebaseInteractor.getDocumentFirestore()
@@ -106,6 +120,11 @@ class LoginViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Сохранение копии имени и веса пользователя локать в SharedPreferences
+     *
+     * @param result [DocumentSnapshot] - документ пользователя из Firestore
+     */
     private fun saveToSharedPrefs(result: DocumentSnapshot) {
         val name = result.getString(NAME)
         val weight = result.getString(WEIGHT)
@@ -116,6 +135,11 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Проверка почты на корретный ввод
+     *
+     * @param emailToCheck [String] - почта пользователя
+     */
     private fun emailIsValid(emailToCheck: String): Boolean {
         val email = emailToCheck.trim { it <= ' ' }
 
@@ -135,6 +159,11 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Проверка пароля на корретный ввод
+     *
+     * @param passToCheck [String] - почта пользователя
+     */
     private fun passIsValid(passToCheck: String): Boolean {
         val pass = passToCheck.trim { it <= ' ' }
 

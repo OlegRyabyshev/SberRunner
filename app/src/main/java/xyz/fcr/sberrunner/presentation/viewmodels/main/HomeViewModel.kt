@@ -50,7 +50,10 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    // 1
+    /**
+     * Метод инициализации процесса синхронизации.
+     * Получение локального списка забегов из БД для последующего сравнения.
+     */
     fun initSync() {
         compositeDisposable.add(
             databaseInteractor.getAllRuns()
@@ -68,9 +71,8 @@ class HomeViewModel @Inject constructor(
     }
 
     /**
-     * Метод синхронизации данных БД с облачным БД FireStore
+     * Получение списка забегов из Firestore.
      */
-    // 2
     private fun getAllRunsFromCloud() {
         compositeDisposable.add(firebaseInteractor.getAllRunsFromCloud()
             .subscribeOn(schedulersProvider.io())
@@ -116,6 +118,10 @@ class HomeViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Загрузка изображений из локальной БД на Firebase Storage
+     * @param missingList [List] - список забегов
+     */
     private fun loadImagesLoList(missingList: List<RunEntity>) {
         var counter = 0
 
@@ -150,7 +156,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    // 3.1
+    /**
+     * Загрузка недостоющих забегов из Firestore в локальную БД
+     * @param missingRunsFromCloud [List] - список забегов
+     */
     private fun uploadMissingRunsFromCloudToDb(missingRunsFromCloud: List<RunEntity>) {
         compositeDisposable.add(
             databaseInteractor.addList(missingRunsFromCloud.filter { !it.toDeleteFlag })
@@ -165,7 +174,10 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    // 4
+    /**
+     * Переключение флагов на удаление в облаке
+     * Это позволит при последующей синхронизации других устройств удалить эти забеги и там
+     */
     private fun switchToDeleteFlagsInCloud() {
         val listToSwitch: List<RunEntity> = getListToSwitch(dbListRuns.filter { it.toDeleteFlag }, cloudListRuns)
 
@@ -196,7 +208,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    // 4.1 Удаляет все entity в DB, помеченные на удаление
+    /**
+     * Удаление всех забегов из локальной БД, отмеченных флагом на удаление
+     */
     private fun removeMarkedToDeleteFromDb() {
         compositeDisposable.add(
             databaseInteractor.removeMarkedToDelete()
@@ -217,7 +231,11 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    // 5.1 Удаляет все entity в DB, помеченные на удаление из firestore
+    /**
+     * Удаление всех забегов из локальной БД, отмеченных на сервере флагом на удаление
+     *
+     * @param markedToDeleteFromCloud [List] - список забегов
+     */
     private fun removeFromDb(markedToDeleteFromCloud: List<RunEntity>) {
         compositeDisposable.add(
             databaseInteractor.removeRuns(markedToDeleteFromCloud)
@@ -232,7 +250,9 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    // 6
+    /**
+     * Получение обновленного списка из локальной БД
+     */
     private fun getUpdatedListFromDb() {
         compositeDisposable.add(
             databaseInteractor.getAllRuns()
@@ -254,6 +274,11 @@ class HomeViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Отправка изображений недостоющих забегов в Firebase Storage.
+     *
+     * @param missingList [List] - список забегов
+     */
     private fun loadPicturesFromDbToStorage(missingList: List<RunEntity>) {
         var counter = 0
 
@@ -286,7 +311,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    // 6.1
+    /**
+     * Отправка изображений недостоющих забегов в Firebase Storage.
+     *
+     * @param missingList [List] - список забегов
+     */
     private fun uploadMissingRunsFromDbToCloud(missingList: List<RunEntity>) {
         compositeDisposable.add(
             firebaseInteractor.uploadMissingFromDbToCloud(missingList)
@@ -312,13 +341,24 @@ class HomeViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Завершение синхронизации
+     */
     private fun finishSync() {
         _progressLiveData.postValue(false)
         updateListOfRuns()
     }
 
-    private fun containsTimeStamp(unitedList: List<RunEntity>, timestamp: Long): Boolean {
-        unitedList.forEach { run ->
+    /**
+     * Проверка содержит ли список забег с выбранной временной отметкой
+     *
+     * @param list [List] - список забегов
+     * @param timestamp [Long] - временная отметка
+     *
+     * @return [Boolean] - отметка содержится (true)/ не содержится (false)
+     */
+    private fun containsTimeStamp(list: List<RunEntity>, timestamp: Long): Boolean {
+        list.forEach { run ->
             if (run.timestamp == timestamp) return true
         }
 
@@ -326,12 +366,14 @@ class HomeViewModel @Inject constructor(
     }
 
     /**
-     * Метод удааления забегов из БД
+     * Метод переключения флага на удаление в БД
      *
-     * @param runID [RunEntity] - один забег
+     * @param runID [RunEntity] - ID забега
+     * @param toDelete [Boolean] - флаг на удаление
      */
     fun setFlag(runID: Int, toDelete: Boolean) {
-        compositeDisposable.add(databaseInteractor.switchToDeleteFlag(runID, toDelete)
+        compositeDisposable.add(
+            databaseInteractor.switchToDeleteFlag(runID, toDelete)
             .doOnSubscribe {
                 _progressLiveData.postValue(true)
             }
@@ -343,11 +385,14 @@ class HomeViewModel @Inject constructor(
             .subscribe({
                 updateListOfRuns()
             }, {})
-
-
         )
     }
 
+    /**
+     * Получение списка забегов, имеющихся в Firestore, но отсутствующих в локальной БД
+     *
+     * @return [List] - список забегов
+     */
     private fun getMissingRunsFromCloudToDb(): List<RunEntity> {
         val missingRunsFromCloud: MutableList<RunEntity> = mutableListOf()
 
@@ -360,6 +405,11 @@ class HomeViewModel @Inject constructor(
         return missingRunsFromCloud
     }
 
+    /**
+     * Получение списка забегов, имеющихся в локальной БД, но отсутствующих в Firestore
+     *
+     * @return [List] - список забегов
+     */
     private fun getMissingRunsFromDbToCloud(): List<RunEntity> {
         val missingRunsFromDb: MutableList<RunEntity> = mutableListOf()
 
@@ -372,6 +422,14 @@ class HomeViewModel @Inject constructor(
         return missingRunsFromDb
     }
 
+    /**
+     * Получение списка забегов на переключение флагов на удаление
+     *
+     * @param dbSwitchedRuns [List] - список забегов из локальной БД
+     * @param cloudListRuns [List] - список забегов из Firestore
+     *
+     * @return [List] - список забегов
+     */
     private fun getListToSwitch(dbSwitchedRuns: List<RunEntity>, cloudListRuns: List<RunEntity>): List<RunEntity> {
         val listToSwitch: MutableList<RunEntity> = mutableListOf()
 

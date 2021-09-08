@@ -38,6 +38,14 @@ class RegistrationViewModel @Inject constructor(
 
     private var compositeDisposable = CompositeDisposable()
 
+    /**
+     * Процесс регистрации пользователя
+     *
+     * @param name [String] - имя пользователя
+     * @param email [String] - почта пользователя
+     * @param pass [String] - пароль пользователя
+     * @param weight [String] - вес пользователя
+     */
     fun initRegistration(name: String, email: String, pass: String, weight: String) {
 
         if (nameIsValid(name) and emailIsValid(email) and passIsValid(pass) and weightIsValid(weight)) {
@@ -69,6 +77,12 @@ class RegistrationViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Сохранение имени и веса пользователя в документ Firestore
+     *
+     * @param name [String] - имя пользователя
+     * @param weight [String] - вес пользователя
+     */
     private fun initSaveFieldsToCloud(name: String, weight: String) {
         compositeDisposable.add(
             firebaseInteractor.fillUserDataInFirestore(name, weight)
@@ -93,11 +107,23 @@ class RegistrationViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Сохранение имени и веса пользователя в SharedPreference
+     *
+     * @param name [String] - имя пользователя
+     * @param weight [String] - вес пользователя
+     */
     private fun saveToSharedPrefs(name: String, weight: String) {
         sharedPreferenceWrapper.saveName(name)
         sharedPreferenceWrapper.saveWeight(weight)
     }
 
+    /**
+     * Проверка корректности введенного имени
+     *
+     * @param nameToCheck [String] - имя пользователя
+     * @return [Boolean] - корректеный ввод (true) / некорректный ввод (false)
+     */
     private fun nameIsValid(nameToCheck: String): Boolean {
         val name = nameToCheck.trim { it <= ' ' }
 
@@ -113,6 +139,12 @@ class RegistrationViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Проверка корректности введенной почты
+     *
+     * @param emailToCheck [String] - почта пользователя
+     * @return [Boolean] - корректеный ввод (true) / некорректный ввод (false)
+     */
     private fun emailIsValid(emailToCheck: String): Boolean {
         val email = emailToCheck.trim { it <= ' ' }
 
@@ -132,6 +164,12 @@ class RegistrationViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Проверка корректности введенного пароля
+     *
+     * @param passToCheck [String] - пароль пользователя
+     * @return [Boolean] - корректеный ввод (true) / некорректный ввод (false)
+     */
     private fun passIsValid(passToCheck: String): Boolean {
         val pass = passToCheck.trim { it <= ' ' }
 
@@ -151,6 +189,12 @@ class RegistrationViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Проверка корректности введенного веса
+     *
+     * @param weightToCheck [String] - вес пользователя
+     * @return [Boolean] - корректеный ввод (true) / некорректный ввод (false)
+     */
     private fun weightIsValid(weightToCheck: String): Boolean {
 
         val weight = weightToCheck.toIntOrNull()
