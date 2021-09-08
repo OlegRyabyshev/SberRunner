@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import xyz.fcr.sberrunner.data.model.RunEntity
-import xyz.fcr.sberrunner.domain.db.IDatabaseInteractor
+import xyz.fcr.sberrunner.domain.interactor.db.IDatabaseInteractor
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import javax.inject.Inject
 

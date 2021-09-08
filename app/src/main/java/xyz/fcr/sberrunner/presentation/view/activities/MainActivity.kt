@@ -13,6 +13,8 @@ import xyz.fcr.sberrunner.databinding.ActivityMainBinding
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.view.fragments.main.*
 import xyz.fcr.sberrunner.utils.Constants.ACTION_SHOW_TRACKING_FRAGMENT
+import xyz.fcr.sberrunner.utils.Constants.START_SYNC
+import xyz.fcr.sberrunner.utils.Constants.START_SYNC_KEY
 import xyz.fcr.sberrunner.utils.Constants.TAG_HOME
 import xyz.fcr.sberrunner.utils.Constants.TAG_MAP
 import xyz.fcr.sberrunner.utils.Constants.TAG_PROGRESS
@@ -44,7 +46,14 @@ class MainActivity : AppCompatActivity() {
         if (intent?.action == ACTION_SHOW_TRACKING_FRAGMENT) {
             openScreen(RunFragment(), TAG_RUN)
         } else if (savedInstanceState == null) {
-            openScreen(HomeFragment(), TAG_HOME)
+
+            val bundle = Bundle().apply {
+                putString(START_SYNC_KEY, START_SYNC)
+            }
+            val homeFragment = HomeFragment()
+            homeFragment.arguments = bundle
+
+            openScreen(homeFragment, TAG_HOME)
         }
     }
 

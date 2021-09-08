@@ -21,6 +21,8 @@ import xyz.fcr.sberrunner.presentation.view.fragments.main.adapters.ItemClickLis
 import xyz.fcr.sberrunner.presentation.view.fragments.main.adapters.RunRecyclerAdapter
 import xyz.fcr.sberrunner.presentation.viewmodels.main.HomeViewModel
 import xyz.fcr.sberrunner.utils.Constants.CURRENT_RUN_ID
+import xyz.fcr.sberrunner.utils.Constants.START_SYNC
+import xyz.fcr.sberrunner.utils.Constants.START_SYNC_KEY
 import javax.inject.Inject
 
 /**
@@ -47,7 +49,13 @@ class HomeFragment : Fragment(), ItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        viewModel.initSync()
+
+        val action = arguments?.getString(START_SYNC_KEY)
+
+        if (action == START_SYNC) {
+            viewModel.initSync()
+        }
+
         return binding.root
     }
 
@@ -57,6 +65,8 @@ class HomeFragment : Fragment(), ItemClickListener {
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             viewModel.initSync()
+
+            binding.swipeRefreshLayout.isRefreshing = false
         }
 
         setupRecyclerView()
@@ -104,8 +114,9 @@ class HomeFragment : Fragment(), ItemClickListener {
     /**
      * Визуализация загрузки
      */
-    private fun showProgress(isRefreshing: Boolean) {
-        binding.swipeRefreshLayout.isRefreshing = isRefreshing
+    private fun showProgress(isActive: Boolean) {
+        binding.homeLoadingLayout.isVisible = isActive
+        displayRecycler(true)
     }
 
     /**

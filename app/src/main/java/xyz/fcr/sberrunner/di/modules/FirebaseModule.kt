@@ -11,8 +11,8 @@ import xyz.fcr.sberrunner.data.repository.firestorage.IStorageRepository
 import xyz.fcr.sberrunner.data.repository.firestorage.StorageRepository
 import xyz.fcr.sberrunner.data.repository.firestore.FirestoreRepository
 import xyz.fcr.sberrunner.data.repository.firestore.IFirestoreRepository
-import xyz.fcr.sberrunner.domain.firebase.FirebaseInteractor
-import xyz.fcr.sberrunner.domain.firebase.IFirebaseInteractor
+import xyz.fcr.sberrunner.domain.interactor.firebase.FirebaseInteractor
+import xyz.fcr.sberrunner.domain.interactor.firebase.IFirebaseInteractor
 import javax.inject.Singleton
 
 /**

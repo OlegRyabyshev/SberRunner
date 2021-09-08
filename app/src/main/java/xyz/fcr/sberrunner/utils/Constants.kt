@@ -107,4 +107,9 @@ object Constants {
     const val WEIGHT_INT_DEFAULT = 70
 
     const val ROUNDING_CORNERS = 40
+
+    // Syncing
+
+    const val START_SYNC = "START_SYNC"
+    const val START_SYNC_KEY = "START_SYNC_KEY"
 }

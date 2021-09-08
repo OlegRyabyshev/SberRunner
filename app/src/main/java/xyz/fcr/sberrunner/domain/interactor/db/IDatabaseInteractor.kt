@@ -1,20 +1,14 @@
-package xyz.fcr.sberrunner.domain.db
+package xyz.fcr.sberrunner.domain.interactor.db
 
 import androidx.lifecycle.LiveData
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.model.RunEntity
-import xyz.fcr.sberrunner.data.room.RunDao
-import javax.inject.Inject
 
 /**
- * Имплементация интерфейса [IDatabaseInteractor], служит для связи Room <-> ViewModel
- *
- * @param runDao [RunDao] - data access objects для получения доступа к базе данных бега
+ * Интерфейс доступка к базе данных
  */
-class RoomInteractor @Inject constructor(
-    private val runDao: RunDao
-) : IDatabaseInteractor {
+interface IDatabaseInteractor {
 
     /**
      * Метод добавления объкта бега в БД
@@ -23,9 +17,7 @@ class RoomInteractor @Inject constructor(
      *
      * @return [Completable] - результат выполнения добавления
      */
-    override fun addRun(run: RunEntity): Completable {
-        return Completable.fromCallable { runDao.addRun(run) }
-    }
+    fun addRun(run: RunEntity): Completable
 
     /**
      * Метод удаления объекта бега из БД
@@ -34,18 +26,14 @@ class RoomInteractor @Inject constructor(
      *
      * @return [Completable] - результат выполнения удаления
      */
-    override fun deleteRun(run: RunEntity): Completable {
-        return Completable.fromCallable { runDao.deleteRun(run) }
-    }
+    fun deleteRun(run: RunEntity): Completable
 
     /**
      * Метод получения объектов бега из БД
      *
      * @return [Single] - результат получения списка забегов
      */
-    override fun getAllRuns(): Single<List<RunEntity>> {
-        return Single.fromCallable { runDao.getAllRuns() }
-    }
+    fun getAllRuns(): Single<List<RunEntity>>
 
     /**
      * Метод получения объкта бега из БД по ID
@@ -54,18 +42,14 @@ class RoomInteractor @Inject constructor(
      *
      * @return [LiveData] - observable объект забега
      */
-    override fun getRun(runId: Int): LiveData<RunEntity> {
-        return runDao.getRun(runId)
-    }
+    fun getRun(runId: Int): LiveData<RunEntity>
 
     /**
      * Очистка всех объктов бега из БД
      *
      * @return [Completable] - результат выполнения удаления
      */
-    override fun clearRuns(): Completable {
-        return Completable.fromCallable { runDao.clearRuns() }
-    }
+    fun clearRuns(): Completable
 
     /**
      * Метод добавления объктов бега в БД
@@ -74,13 +58,7 @@ class RoomInteractor @Inject constructor(
      *
      * @return [Completable] - результат выполнения добавления
      */
-    override fun addList(list: List<RunEntity>): Completable {
-        return Completable.fromCallable {
-            list.forEach {
-                runDao.addRun(it)
-            }
-        }
-    }
+    fun addList(list: List<RunEntity>): Completable
 
     /**
      * Метод переключения флага на удаление в БД
@@ -90,18 +68,14 @@ class RoomInteractor @Inject constructor(
      *
      * @return [Completable] - результат выполнения переключения
      */
-    override fun switchToDeleteFlag(runID: Int, toDelete: Boolean): Completable {
-        return Completable.fromCallable { runDao.switchToDeleteFlag(runID, toDelete) }
-    }
+    fun switchToDeleteFlag(runID: Int, toDelete: Boolean): Completable
 
     /**
      * Метод удаления всех забегов с флагом на удаление
      *
      * @return [Completable] - результат выполнения удаления
      */
-    override fun removeMarkedToDelete(): Completable {
-        return Completable.fromCallable { runDao.removerMarkedToDelete() }
-    }
+    fun removeMarkedToDelete(): Completable
 
     /**
      * Метод удаления всех забегов из БД, помеченных на удаление в Firestore
@@ -110,9 +84,5 @@ class RoomInteractor @Inject constructor(
      *
      * @return [Completable] - результат выполнения удаления
      */
-    override fun removeRuns(markedToDeleteFromCloud: List<RunEntity>): Completable {
-        val timeStampList : List<Long> = markedToDeleteFromCloud.map { it.timestamp }
-
-        return Completable.fromCallable { runDao.removeRuns(timeStampList) }
-    }
+    fun removeRuns(markedToDeleteFromCloud: List<RunEntity>): Completable
 }

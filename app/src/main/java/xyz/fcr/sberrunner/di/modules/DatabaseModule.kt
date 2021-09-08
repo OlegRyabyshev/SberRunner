@@ -6,8 +6,8 @@ import dagger.Module
 import dagger.Provides
 import xyz.fcr.sberrunner.data.room.RunDao
 import xyz.fcr.sberrunner.data.room.RunDatabase
-import xyz.fcr.sberrunner.domain.db.IDatabaseInteractor
-import xyz.fcr.sberrunner.domain.db.RoomInteractor
+import xyz.fcr.sberrunner.domain.interactor.db.IDatabaseInteractor
+import xyz.fcr.sberrunner.domain.interactor.db.RoomInteractor
 import xyz.fcr.sberrunner.utils.Constants.DB_NAME
 import javax.inject.Singleton
 
