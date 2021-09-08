@@ -11,7 +11,7 @@ import xyz.fcr.sberrunner.domain.firebase.IFirebaseInteractor
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.Constants.VALID
-import xyz.fcr.sberrunner.utils.ISchedulersProvider
+import xyz.fcr.sberrunner.utils.schedulers.ISchedulersProvider
 import javax.inject.Inject
 
 /**
@@ -42,6 +42,7 @@ class LoginViewModel @Inject constructor(
             compositeDisposable.add(
                 firebaseInteractor.sendResetEmail(email.trim { it <= ' ' })
                     .doOnSubscribe { _progressLiveData.postValue(true) }
+                    .doAfterTerminate { _progressLiveData.postValue(false) }
                     .subscribeOn(schedulersProvider.io())
                     .observeOn(schedulersProvider.ui())
                     .subscribe({

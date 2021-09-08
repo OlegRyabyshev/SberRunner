@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.utils
+package xyz.fcr.sberrunner.utils.schedulers
 
 import io.reactivex.rxjava3.core.Scheduler
 

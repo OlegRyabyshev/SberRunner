@@ -8,9 +8,11 @@ import androidx.annotation.RequiresApi
  * Хранилище константных значений.
  */
 object Constants {
+    // Validation
     const val VALID = "valid"
     const val NON_VALID = "non-valid"
 
+    // Location
     const val LOCATION_UPDATE_INTERVAL = 5000L
     const val FASTEST_LOCATION_UPDATE_INTERVAL = 2000L
 
@@ -20,7 +22,7 @@ object Constants {
     // Room
     const val DB_NAME = "sber_runner_table"
 
-    // Tags or tabs
+    // Tags of fragments
     const val TAG_HOME = "TAG_HOME"
     const val TAG_MAP = "TAG_MAP"
     const val TAG_RUN = "TAG_RUN"
@@ -29,6 +31,12 @@ object Constants {
 
     const val LOCATION_REQUEST_CODE = 10001
     const val TIMER_UPDATE_INTERVAL = 50L
+
+    // Map Options
+    const val POLYLINE_WIDTH = 12f
+
+    const val MAP_TRACKING_ZOOM = 17f
+    const val MAP_ZOOMED_OUT = 13f
 
     //Shared const
     const val THEME_KEY = "theme_key"
@@ -68,12 +76,6 @@ object Constants {
     const val NOTIFICATION_CHANNEL_NAME = "Tracking"
     const val NOTIFICATION_ID = 1
 
-    // Map Options
-    const val POLYLINE_WIDTH = 12f
-
-    const val MAP_TRACKING_ZOOM = 17f
-    const val MAP_ZOOMED_OUT = 13f
-
     // Permissions
     val RUN_BASIC_PERMISSIONS = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -95,12 +97,14 @@ object Constants {
     // Convert
     const val UNIT_RATIO = 0.6214f
 
+    // Simple date format
+    const val PATTERN_DATE_DETAILED = "dd, MMM, yyyy HH:mm"
+    const val PATTERN_DATE_HOME = "dd/MM/yyyy hh:mm"
+
+    // UI
     const val ROWS_IN_RECYCLER = 2
 
     const val WEIGHT_INT_DEFAULT = 70
-
-    const val PATTERN_DATE_DETAILED = "dd, MMM, yyyy HH:mm"
-    const val PATTERN_DATE_HOME = "dd/MM/yyyy hh:mm"
 
     const val ROUNDING_CORNERS = 40
 }

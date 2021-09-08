@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.domain.db.IDatabaseInteractor
-import xyz.fcr.sberrunner.utils.ISchedulersProvider
+import xyz.fcr.sberrunner.utils.schedulers.ISchedulersProvider
 import javax.inject.Inject
 
 /**

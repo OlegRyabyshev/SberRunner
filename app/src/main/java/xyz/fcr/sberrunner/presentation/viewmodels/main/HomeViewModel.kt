@@ -8,7 +8,7 @@ import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.domain.db.IDatabaseInteractor
 import xyz.fcr.sberrunner.domain.firebase.IFirebaseInteractor
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
-import xyz.fcr.sberrunner.utils.ISchedulersProvider
+import xyz.fcr.sberrunner.utils.schedulers.ISchedulersProvider
 import xyz.fcr.sberrunner.utils.toBitmap
 import javax.inject.Inject
 
