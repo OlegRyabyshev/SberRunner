@@ -77,6 +77,9 @@ class ProgressFragment : Fragment() {
         }
     }
 
+    /**
+     * Инициализация и заполнение RecyclerView
+     */
     private fun initRecycler(runs: List<RunEntity>) {
 
         val listOfProgressInfo = listOf(
@@ -99,12 +102,18 @@ class ProgressFragment : Fragment() {
 
     }
 
+    /**
+     * Визуальное отображение RecyclerView в зависимости от полученного списка забегов
+     */
     private fun displayRecycler(isVisible: Boolean) {
         binding.recyclerViewProgress.isVisible = isVisible
         binding.lottieEmptyListProgress.isVisible = !isVisible
         binding.textViewProgress.isVisible = !isVisible
     }
 
+    /**
+     * Вывод карточки с кол-вом забегов
+     */
     private fun progressTotalRuns(runs: List<RunEntity>): Progress {
         val title: String = resources.getString(R.string.total_runs)
         val value: String = runs.size.toString()
@@ -113,6 +122,9 @@ class ProgressFragment : Fragment() {
         return Progress(title, value, icon)
     }
 
+    /**
+     * Вывод карточки с средней скоростью забегов
+     */
     private fun progressAvgSpeed(runs: List<RunEntity>): Progress {
         val count = runs.size
         val title: String = resources.getString(R.string.avg_speed)
@@ -130,6 +142,9 @@ class ProgressFragment : Fragment() {
         return Progress(title, value, icon)
     }
 
+    /**
+     * Вывод карточки с полной пройденной дистаницей
+     */
     private fun progressTotalDistance(runs: List<RunEntity>): Progress {
         val title: String = resources.getString(R.string.total_distance)
 
@@ -141,6 +156,9 @@ class ProgressFragment : Fragment() {
         return Progress(title, value, icon)
     }
 
+    /**
+     * Вывод карточки с средней пройденной дистаницей всех забегов
+     */
     private fun progressAvgDistance(runs: List<RunEntity>): Progress {
         val count = runs.size
         val title: String = resources.getString(R.string.avg_distance)
@@ -153,6 +171,9 @@ class ProgressFragment : Fragment() {
         return Progress(title, value, icon)
     }
 
+    /**
+     * Вывод карточки с полным затраченным временем на забеги
+     */
     private fun progressTotalDuration(runs: List<RunEntity>): Progress {
         val title: String = resources.getString(R.string.total_duration)
         val value: String = TrackingUtility.getFormattedStopWatchTime(runs.sumOf { it.timeInMillis })
@@ -161,6 +182,9 @@ class ProgressFragment : Fragment() {
         return Progress(title, value, icon)
     }
 
+    /**
+     * Вывод карточки с среднем затраченным временем на забеги
+     */
     private fun progressAvgDuration(runs: List<RunEntity>): Progress {
         val count = runs.size
 
@@ -171,6 +195,9 @@ class ProgressFragment : Fragment() {
         return Progress(title, value, icon)
     }
 
+    /**
+     * Вывод карточки с полным кол-вом сожженных калорий
+     */
     private fun progressTotalCalories(runs: List<RunEntity>): Progress {
         val title: String = resources.getString(R.string.total_calories)
         val value: String = runs.sumOf { it.calories }.toString().addCalories()
@@ -179,6 +206,9 @@ class ProgressFragment : Fragment() {
         return Progress(title, value, icon)
     }
 
+    /**
+     * Вывод карточки с средним кол-вом сожженных калорий
+     */
     private fun progressAvgCalories(runs: List<RunEntity>): Progress {
         val count = runs.size
 

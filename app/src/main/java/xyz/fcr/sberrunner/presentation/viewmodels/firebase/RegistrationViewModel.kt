@@ -3,7 +3,7 @@ package xyz.fcr.sberrunner.presentation.viewmodels.firebase
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.domain.firebase.IFirebaseInteractor
@@ -35,54 +35,51 @@ class RegistrationViewModel @Inject constructor(
     private val _errorPass = SingleLiveEvent<String>()
     private val _errorWeight = SingleLiveEvent<String>()
 
-    private var disposable: Disposable? = null
+    private var compositeDisposable = CompositeDisposable()
 
     fun initRegistration(name: String, email: String, pass: String, weight: String) {
         if (nameIsValid(name) and emailIsValid(email) and passIsValid(pass) and weightIsValid(weight)) {
 
-            disposable = firebaseInteractor.registration(
-                name.trim { it <= ' ' },
-                email.trim { it <= ' ' },
-                pass.trim { it <= ' ' },
-                weight
-            )
-                .doOnSubscribe { _progressLiveData.postValue(true) }
-                .subscribeOn(schedulersProvider.io())
-                .observeOn(schedulersProvider.ui())
-                .subscribe { task ->
-                    task.addOnCompleteListener {
-                        when {
-                            it.isSuccessful -> {
-                                initSaveFieldsToCloud(name, weight)
+            compositeDisposable.add(
+                firebaseInteractor.registration(
+                    name.trim { it <= ' ' },
+                    email.trim { it <= ' ' },
+                    pass.trim { it <= ' ' },
+                    weight
+                )
+                    .doOnSubscribe { _progressLiveData.postValue(true) }
+                    .subscribeOn(schedulersProvider.io())
+                    .observeOn(schedulersProvider.ui())
+                    .subscribe { task ->
+                        task.addOnCompleteListener {
+                            when {
+                                it.isSuccessful -> {
+                                    initSaveFieldsToCloud(name, weight)
+                                }
+                                else -> {
+                                    _successLiveData.postValue(it.exception?.message.toString())
+                                }
                             }
-                            else -> {
-                                _successLiveData.postValue(it.exception?.message.toString())
-                            }
-                        }
 
-                        _progressLiveData.postValue(false)
+                            _progressLiveData.postValue(false)
+                        }
                     }
-                }
+            )
         }
     }
 
     private fun initSaveFieldsToCloud(name: String, weight: String) {
-        firebaseInteractor.fillUserDataInFirestore(name, weight)
-            .subscribeOn(schedulersProvider.io())
-            .observeOn(schedulersProvider.ui())
-            .subscribe { task ->
-                task.addOnCompleteListener {
-                    when {
-                        task.isSuccessful || task.isComplete -> {
-                            _successLiveData.postValue(VALID)
-                            saveToSharedPrefs(name, weight)
-                        }
-                        else -> {
-                            _successLiveData.postValue(task.exception?.message.toString())
-                        }
-                    }
-                }
-            }
+        compositeDisposable.add(
+            firebaseInteractor.fillUserDataInFirestore(name, weight)
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
+                .subscribe({
+                    _successLiveData.postValue(VALID)
+                    saveToSharedPrefs(name, weight)
+                }, {
+                    _successLiveData.postValue(it.message)
+                })
+        )
     }
 
     private fun saveToSharedPrefs(name: String, weight: String) {
@@ -165,8 +162,8 @@ class RegistrationViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
 
-        disposable?.dispose()
-        disposable = null
+        compositeDisposable.clear()
+        compositeDisposable.dispose()
     }
 
     val progressLiveData: LiveData<Boolean>

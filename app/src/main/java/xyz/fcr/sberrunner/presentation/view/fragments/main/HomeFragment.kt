@@ -85,20 +85,32 @@ class HomeFragment : Fragment(), ItemClickListener {
         }
     }
 
+    /**
+     * Отображение RecyclerView в зависимости от полученного списка
+     */
     private fun displayRecycler(isVisible: Boolean) {
         binding.recyclerViewRuns.isVisible = isVisible
         binding.lottieEmptyList.isVisible = !isVisible
         binding.textViewWelcome.isVisible = !isVisible
     }
 
+    /**
+     * Вывод ошибок из ViewModel
+     */
     private fun showError(text: String) {
         Toasty.error(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
 
+    /**
+     * Визуализация загрузки
+     */
     private fun showProgress(isRefreshing: Boolean) {
         binding.swipeRefreshLayout.isRefreshing = isRefreshing
     }
 
+    /**
+     * Инициализация RecyclerView
+     */
     private fun setupRecyclerView() {
         recyclerAdapter = RunRecyclerAdapter(this)
         binding.recyclerViewRuns.apply {
@@ -136,6 +148,9 @@ class HomeFragment : Fragment(), ItemClickListener {
         }
     }
 
+    /**
+     * Отработка нажатия на элемент RecyclerView
+     */
     override fun onItemClick(position: Int) {
         val run = recyclerAdapter.differ.currentList[position]
 

@@ -33,7 +33,6 @@ class MapViewModel @Inject constructor(
     private var cancellationToken: CancellationTokenSource? = null
     private var isAlreadyLoading = false
 
-
     /**
      * Обновление текущей геопозиции
      */
@@ -64,7 +63,6 @@ class MapViewModel @Inject constructor(
 
                 isAlreadyLoading = false
             }
-
     }
 
     /**

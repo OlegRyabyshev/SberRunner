@@ -24,6 +24,9 @@ class App : Application() {
         initializeDagger()
     }
 
+    /**
+     * Создание канала уведомлений сервиса
+     */
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val serviceChannel = NotificationChannel(
@@ -36,6 +39,9 @@ class App : Application() {
         }
     }
 
+    /**
+     * Инициализация Dagger для внедрения зависимостей в приложение
+     */
     private fun initializeDagger() {
         appComponent = DaggerAppComponent
             .builder()

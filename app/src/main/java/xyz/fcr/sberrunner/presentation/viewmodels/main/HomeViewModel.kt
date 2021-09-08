@@ -282,20 +282,9 @@ class HomeViewModel @Inject constructor(
             firebaseInteractor.uploadMissingFromDbToCloud(missingList)
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
-                .subscribe({ task ->
-                    task.addOnCompleteListener {
-                        when {
-                            it.isSuccessful || it.isComplete -> {
-                                _progressLiveData.postValue(false)
-                                updateListOfRuns()
-                            }
-
-                            else -> {
-                                _errorLiveData.postValue("Error in uploadMissingRunsFromDbToCloud")
-                                _progressLiveData.postValue(false)
-                            }
-                        }
-                    }
+                .subscribe({
+                    _progressLiveData.postValue(false)
+                    updateListOfRuns()
                 }, {
                     _errorLiveData.postValue("Error in uploadMissingRunsFromDbToCloud")
                     _progressLiveData.postValue(false)

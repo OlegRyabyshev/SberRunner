@@ -14,7 +14,7 @@ import xyz.fcr.sberrunner.utils.ISchedulersProvider
 import javax.inject.Inject
 
 /**
- * ViewModel экрана "Настройки".
+ * ViewModel экрана "Настройки"
  *
  * @param firebaseInteractor [IFirebaseInteractor] - интерфейс взаимодействия с firebase
  * @param schedulersProvider [ISchedulersProvider] - провайдер объектов Scheduler
@@ -37,7 +37,7 @@ class SharedSettingsViewModel @Inject constructor(
     private var compositeDisposable = CompositeDisposable()
 
     /**
-     * Выставляет имя и вес пользователя в summary настроек.
+     * Выставляет имя и вес пользователя в summary настроек
      */
     fun displayNameAndWeightInSummary() {
         _nameSummaryLiveData.postValue(sharedPreferenceWrapper.getName())
@@ -45,7 +45,7 @@ class SharedSettingsViewModel @Inject constructor(
     }
 
     /**
-     * Выход из аккаунта.
+     * Выход из аккаунта
      */
     fun exitAccount() {
         compositeDisposable.add(
@@ -75,7 +75,7 @@ class SharedSettingsViewModel @Inject constructor(
     }
 
     /**
-     * Удаление аккаунта.
+     * Удаление аккаунта
      */
     fun deleteAccount() {
         compositeDisposable.add(
@@ -83,74 +83,54 @@ class SharedSettingsViewModel @Inject constructor(
                 .doOnSubscribe { _progressLiveData.postValue(true) }
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
-                .subscribe { task ->
-                    task.addOnCompleteListener {
-                        when {
-                            it.isSuccessful -> {
-                                signOut()
-                            }
-                        }
-                    }
-                }
+                .subscribe { signOut() }
         )
     }
 
     /**
-     * Обновление веса пользователя.
+     * Обновление веса пользователя
      */
     fun updateWeight(newWeight: String) {
         if (weightIsValid(newWeight)) {
-            compositeDisposable.add(firebaseInteractor.updateWeight(newWeight)
-                .doOnSubscribe { _progressLiveData.postValue(true) }
-                .subscribeOn(schedulersProvider.io())
-                .observeOn(schedulersProvider.ui())
-                .subscribe { task ->
-                    task.addOnCompleteListener {
-                        when {
-                            it.isSuccessful -> {
-                                sharedPreferenceWrapper.saveWeight(newWeight)
-                                _weightSummaryLiveData.postValue(newWeight)
-                                _progressLiveData.postValue(false)
-                            }
-                            else -> {
-                                _progressLiveData.postValue(false)
-                            }
-                        }
-                    }
-                }
+            compositeDisposable.add(
+                firebaseInteractor.updateWeight(newWeight)
+                    .doOnSubscribe { _progressLiveData.postValue(true) }
+                    .subscribeOn(schedulersProvider.io())
+                    .observeOn(schedulersProvider.ui())
+                    .subscribe({
+                        sharedPreferenceWrapper.saveWeight(newWeight)
+                        _weightSummaryLiveData.postValue(newWeight)
+                        _progressLiveData.postValue(false)
+                    }, {
+                        _progressLiveData.postValue(false)
+                    })
             )
         }
     }
 
     /**
-     * Обновление имени пользователя.
+     * Обновление имени пользователя
      */
     fun updateName(newName: String) {
         if (nameIsValid(newName)) {
-            compositeDisposable.add(firebaseInteractor.updateName(newName)
-                .doOnSubscribe { _progressLiveData.postValue(true) }
-                .subscribeOn(schedulersProvider.io())
-                .observeOn(schedulersProvider.ui())
-                .subscribe { task ->
-                    task.addOnCompleteListener {
-                        when {
-                            it.isSuccessful -> {
-                                sharedPreferenceWrapper.saveName(newName)
-                                _nameSummaryLiveData.postValue(newName)
-                                _progressLiveData.postValue(false)
-                            }
-                            else -> {
-                                _progressLiveData.postValue(false)
-                            }
-                        }
-                    }
-                }
+            compositeDisposable.add(
+                firebaseInteractor.updateName(newName)
+                    .doOnSubscribe { _progressLiveData.postValue(true) }
+                    .subscribeOn(schedulersProvider.io())
+                    .observeOn(schedulersProvider.ui())
+                    .subscribe({
+                        sharedPreferenceWrapper.saveName(newName)
+                        _nameSummaryLiveData.postValue(newName)
+                        _progressLiveData.postValue(false)
+                    }, {
+                        _progressLiveData.postValue(false)
+                    })
             )
         }
     }
 
     /**
-     * Проверка нового имени пользователя.
+     * Проверка нового имени пользователя
      */
     private fun nameIsValid(nameToCheck: String): Boolean {
         val name = nameToCheck.trim { it <= ' ' }

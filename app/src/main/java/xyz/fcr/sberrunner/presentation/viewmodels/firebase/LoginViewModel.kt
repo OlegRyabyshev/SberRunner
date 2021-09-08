@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.DocumentSnapshot
-import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.domain.firebase.IFirebaseInteractor
@@ -35,39 +35,59 @@ class LoginViewModel @Inject constructor(
     private val _errorPass = SingleLiveEvent<String>()
     private val _errorFirebase = SingleLiveEvent<String>()
 
-    private var disReset: Disposable? = null
-    private var disSignIn: Disposable? = null
-    private var disNameAndWeightLoader: Disposable? = null
+    private var compositeDisposable = CompositeDisposable()
 
     fun initResetEmail(email: String) {
         if (emailIsValid(email)) {
-            disReset = firebaseInteractor.sendResetEmail(email.trim { it <= ' ' })
-                .doOnSubscribe { _progressLiveData.postValue(true) }
-                .subscribeOn(schedulersProvider.io())
-                .observeOn(schedulersProvider.ui())
-                .subscribe { task ->
-                    task.addOnCompleteListener {
-                        when {
-                            it.isSuccessful -> _resetLiveData.postValue(true)
-                            else -> _resetLiveData.postValue(false)
-                        }
-
-                        _progressLiveData.postValue(false)
-                    }
-                }
+            compositeDisposable.add(
+                firebaseInteractor.sendResetEmail(email.trim { it <= ' ' })
+                    .doOnSubscribe { _progressLiveData.postValue(true) }
+                    .subscribeOn(schedulersProvider.io())
+                    .observeOn(schedulersProvider.ui())
+                    .subscribe({
+                        _resetLiveData.postValue(true)
+                    }, {
+                        _resetLiveData.postValue(false)
+                    })
+            )
         }
     }
 
     fun initSignIn(email: String, pass: String) {
         if (emailIsValid(email) and passIsValid(pass)) {
-            disSignIn = firebaseInteractor.login(email.trim { it <= ' ' }, pass.trim { it <= ' ' })
-                .doOnSubscribe { _progressLiveData.postValue(true) }
+            compositeDisposable.add(
+                firebaseInteractor.login(email.trim { it <= ' ' }, pass.trim { it <= ' ' })
+                    .doOnSubscribe { _progressLiveData.postValue(true) }
+                    .subscribeOn(schedulersProvider.io())
+                    .observeOn(schedulersProvider.ui())
+                    .subscribe { task ->
+                        task.addOnCompleteListener {
+                            when {
+                                it.isSuccessful -> loadNameAndWeightFromFireStore()
+                                else -> {
+                                    _loginLiveData.postValue(false)
+                                    _progressLiveData.postValue(false)
+                                }
+                            }
+                        }
+                    }
+            )
+        }
+    }
+
+    private fun loadNameAndWeightFromFireStore() {
+        compositeDisposable.add(
+            firebaseInteractor.getDocumentFirestore()
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
                 .subscribe { task ->
                     task.addOnCompleteListener {
                         when {
-                            it.isSuccessful -> loadNameAndWeightFromFireStore()
+                            it.isSuccessful -> {
+                                saveToSharedPrefs(it.result)
+                                _loginLiveData.postValue(true)
+                                _progressLiveData.postValue(false)
+                            }
                             else -> {
                                 _loginLiveData.postValue(false)
                                 _progressLiveData.postValue(false)
@@ -75,28 +95,7 @@ class LoginViewModel @Inject constructor(
                         }
                     }
                 }
-        }
-    }
-
-    private fun loadNameAndWeightFromFireStore() {
-        disSignIn = firebaseInteractor.getDocumentFirestore()
-            .subscribeOn(schedulersProvider.io())
-            .observeOn(schedulersProvider.ui())
-            .subscribe { task ->
-                task.addOnCompleteListener {
-                    when {
-                        it.isSuccessful -> {
-                            saveToSharedPrefs(it.result)
-                            _loginLiveData.postValue(true)
-                            _progressLiveData.postValue(false)
-                        }
-                        else -> {
-                            _loginLiveData.postValue(false)
-                            _progressLiveData.postValue(false)
-                        }
-                    }
-                }
-            }
+        )
     }
 
     private fun saveToSharedPrefs(result: DocumentSnapshot) {
@@ -153,14 +152,8 @@ class LoginViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
 
-        disReset?.dispose()
-        disReset = null
-
-        disSignIn?.dispose()
-        disSignIn = null
-
-        disNameAndWeightLoader?.dispose()
-        disNameAndWeightLoader = null
+        compositeDisposable.clear()
+        compositeDisposable.dispose()
     }
 
     val progressLiveData: LiveData<Boolean>

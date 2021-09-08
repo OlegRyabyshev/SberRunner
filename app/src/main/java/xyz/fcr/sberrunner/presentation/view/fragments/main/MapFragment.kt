@@ -173,6 +173,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
         }
     }
 
+    /**
+     * Визуализация загрузки местоположения
+     */
     private fun showProgress(isVisible: Boolean) {
         binding.progressCircularMap.isVisible = isVisible
     }
