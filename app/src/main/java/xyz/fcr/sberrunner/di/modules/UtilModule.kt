@@ -6,8 +6,8 @@ import dagger.Provides
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.data.service.notification.AudioNotificator
 import xyz.fcr.sberrunner.data.service.notification.IAudioNotificator
-import xyz.fcr.sberrunner.utils.ISchedulersProvider
-import xyz.fcr.sberrunner.utils.SchedulersProvider
+import xyz.fcr.sberrunner.utils.schedulers.ISchedulersProvider
+import xyz.fcr.sberrunner.utils.schedulers.SchedulersProvider
 import javax.inject.Singleton
 
 /**
