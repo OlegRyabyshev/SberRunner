@@ -2,10 +2,7 @@ package xyz.fcr.sberrunner.data.repository.firestore
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
 import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.utils.Constants
 
@@ -73,7 +70,10 @@ class FirestoreRepository(
      * @return [Task] - результат асинхронного запроса получения всех забегов
      */
     override fun getAllRuns(): Task<QuerySnapshot> {
-        return firestore.collection(Constants.RUNS_TABLE).document(userId).collection(Constants.RUNS_TABLE).get()
+        return firestore.collection(Constants.RUNS_TABLE)
+            .document(userId)
+            .collection(Constants.RUNS_TABLE)
+            .get(Source.SERVER)
     }
 
     /**

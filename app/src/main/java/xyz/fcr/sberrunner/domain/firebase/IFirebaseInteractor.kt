@@ -41,9 +41,9 @@ interface IFirebaseInteractor {
      *
      * @param email [String] - email пользователя
      *
-     * @return [Completable] - асинхронный результат отправки сообщения
+     * @return [Single] - асинхронный результат отправки сообщения
      */
-    fun sendResetEmail(email: String): Completable
+    fun sendResetEmail(email: String): Single<Task<Void>>
 
     /**
      * Отправка запроса на выход пользователя из приложения в Firebase
@@ -55,9 +55,9 @@ interface IFirebaseInteractor {
     /**
      * Удаление аккаунта текущего пользователя из Firebase
      *
-     * @return [Completable] - асинхронный результат удаления
+     * @return [Single] - асинхронный результат удаления
      */
-    fun deleteAccount(): Completable
+    fun deleteAccount(): Single<Task<Void>>
 
     /**
      * Получение документа из Firestore
@@ -71,18 +71,18 @@ interface IFirebaseInteractor {
      *
      * @param weight [String] - вес пользователя
      *
-     * @return [Completable] - асинхронный результат обновления веса
+     * @return [Single] - асинхронный результат обновления веса
      */
-    fun updateWeight(weight: String): Completable
+    fun updateWeight(weight: String): Single<Task<Void>>
 
     /**
      * Обновление имени пользователя в Firestore
      *
      * @param name [String] - имя пользователя
      *
-     * @return [Completable] - асинхронный результат обновления имени
+     * @return [Single] - асинхронный результат обновления имени
      */
-    fun updateName(name: String): Completable
+    fun updateName(name: String): Single<Task<Void>>
 
     /**
      * Получение запроса на список всех забегов из Firestore
@@ -97,27 +97,27 @@ interface IFirebaseInteractor {
      * @param name [String] - имя пользователя
      * @param weight [String] - вес пользователя
      *
-     * @return [Completable] - асинхронный результат занесения данных
+     * @return [Single] - асинхронный результат занесения данных
      */
-    fun fillUserDataInFirestore(name: String, weight: String): Completable
+    fun fillUserDataInFirestore(name: String, weight: String): Single<Task<Void>>
 
     /**
      * Результат изменения флагов на удаление в Firestore
      *
      * @param listToSwitch [List] - список забегов
      *
-     * @return [Completable] - асинхронный результат изменения флагов
+     * @return [Single] - асинхронный результат изменения флагов
      */
-    fun switchToDeleteFlagsInCloud(listToSwitch: List<RunEntity>): Completable
+    fun switchToDeleteFlagsInCloud(listToSwitch: List<RunEntity>): Single<Task<Void>>
 
     /**
      * Результат загрузки недостоющих забегов в Firestore
      *
      * @param missingList [List] - список забегов
      *
-     * @return [Completable] - асинхронный результат загрузки забегов
+     * @return [Single] - асинхронный результат загрузки забегов
      */
-    fun uploadMissingFromDbToCloud(missingList: List<RunEntity>): Completable
+    fun uploadMissingFromDbToCloud(missingList: List<RunEntity>): Single<Task<Void>>
 
     /**
      * Результат загрузки изображения в Firebase Storage

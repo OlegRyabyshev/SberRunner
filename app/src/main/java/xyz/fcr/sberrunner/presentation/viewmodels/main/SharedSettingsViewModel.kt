@@ -75,7 +75,7 @@ class SharedSettingsViewModel @Inject constructor(
     }
 
     /**
-     * Удаление аккаунта
+     * Удаление аккаунта пользователя
      */
     fun deleteAccount() {
         compositeDisposable.add(
@@ -83,7 +83,16 @@ class SharedSettingsViewModel @Inject constructor(
                 .doOnSubscribe { _progressLiveData.postValue(true) }
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
-                .subscribe { signOut() }
+                .subscribe({ task ->
+                    task.addOnCompleteListener {
+                        when {
+                            task.isSuccessful -> signOut()
+                            else -> _progressLiveData.postValue(false)
+                        }
+                    }
+                }, {
+                    _progressLiveData.postValue(false)
+                })
         )
     }
 
@@ -97,10 +106,18 @@ class SharedSettingsViewModel @Inject constructor(
                     .doOnSubscribe { _progressLiveData.postValue(true) }
                     .subscribeOn(schedulersProvider.io())
                     .observeOn(schedulersProvider.ui())
-                    .subscribe({
-                        sharedPreferenceWrapper.saveWeight(newWeight)
-                        _weightSummaryLiveData.postValue(newWeight)
-                        _progressLiveData.postValue(false)
+                    .subscribe({ task ->
+                        task.addOnCompleteListener {
+                            when {
+                                it.isSuccessful -> {
+                                    sharedPreferenceWrapper.saveWeight(newWeight)
+                                    _weightSummaryLiveData.postValue(newWeight)
+                                    _progressLiveData.postValue(false)
+                                }
+
+                                else -> _progressLiveData.postValue(false)
+                            }
+                        }
                     }, {
                         _progressLiveData.postValue(false)
                     })
@@ -118,10 +135,19 @@ class SharedSettingsViewModel @Inject constructor(
                     .doOnSubscribe { _progressLiveData.postValue(true) }
                     .subscribeOn(schedulersProvider.io())
                     .observeOn(schedulersProvider.ui())
-                    .subscribe({
-                        sharedPreferenceWrapper.saveName(newName)
-                        _nameSummaryLiveData.postValue(newName)
-                        _progressLiveData.postValue(false)
+                    .subscribe({ task ->
+                        task.addOnCompleteListener {
+                            when {
+                                task.isSuccessful -> {
+                                    sharedPreferenceWrapper.saveName(newName)
+                                    _nameSummaryLiveData.postValue(newName)
+                                    _progressLiveData.postValue(false)
+                                }
+                                else -> {
+                                    _progressLiveData.postValue(false)
+                                }
+                            }
+                        }
                     }, {
                         _progressLiveData.postValue(false)
                     })

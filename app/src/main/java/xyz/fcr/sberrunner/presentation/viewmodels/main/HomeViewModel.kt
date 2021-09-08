@@ -107,7 +107,7 @@ class HomeViewModel @Inject constructor(
                         }
 
                         else -> {
-                            _errorLiveData.postValue("Error in getAllRunsFromCloud")
+                            _errorLiveData.postValue("No access to internet")
                             finishSync()
                         }
                     }
@@ -174,8 +174,18 @@ class HomeViewModel @Inject constructor(
                 firebaseInteractor.switchToDeleteFlagsInCloud(listToSwitch)
                     .subscribeOn(schedulersProvider.io())
                     .observeOn(schedulersProvider.ui())
-                    .subscribe({
-                        removeMarkedToDeleteFromDb()
+                    .subscribe({ task ->
+                        task.addOnCompleteListener {
+                            when {
+                                task.isSuccessful -> {
+                                    removeMarkedToDeleteFromDb()
+                                }
+                                else -> {
+                                    _errorLiveData.postValue("Error in switchToDeleteFlagsInCloud")
+                                    finishSync()
+                                }
+                            }
+                        }
                     }, {
                         _errorLiveData.postValue("Error in switchToDeleteFlagsInCloud")
                         finishSync()
@@ -282,9 +292,19 @@ class HomeViewModel @Inject constructor(
             firebaseInteractor.uploadMissingFromDbToCloud(missingList)
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
-                .subscribe({
-                    _progressLiveData.postValue(false)
-                    updateListOfRuns()
+                .subscribe({ task ->
+                    task.addOnCompleteListener {
+                        when {
+                            task.isSuccessful -> {
+                                _progressLiveData.postValue(false)
+                                updateListOfRuns()
+                            }
+                            else -> {
+                                _errorLiveData.postValue("Error in uploadMissingRunsFromDbToCloud")
+                                _progressLiveData.postValue(false)
+                            }
+                        }
+                    }
                 }, {
                     _errorLiveData.postValue("Error in uploadMissingRunsFromDbToCloud")
                     _progressLiveData.postValue(false)

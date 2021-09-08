@@ -10,7 +10,9 @@ import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.domain.firebase.IFirebaseInteractor
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
+import xyz.fcr.sberrunner.utils.Constants.NAME
 import xyz.fcr.sberrunner.utils.Constants.VALID
+import xyz.fcr.sberrunner.utils.Constants.WEIGHT
 import xyz.fcr.sberrunner.utils.schedulers.ISchedulersProvider
 import javax.inject.Inject
 
@@ -45,8 +47,13 @@ class LoginViewModel @Inject constructor(
                     .doAfterTerminate { _progressLiveData.postValue(false) }
                     .subscribeOn(schedulersProvider.io())
                     .observeOn(schedulersProvider.ui())
-                    .subscribe({
-                        _resetLiveData.postValue(true)
+                    .subscribe({ task ->
+                        task.addOnCompleteListener {
+                            when{
+                                task.isSuccessful -> _resetLiveData.postValue(true)
+                                else -> _resetLiveData.postValue(false)
+                            }
+                        }
                     }, {
                         _resetLiveData.postValue(false)
                     })
@@ -100,8 +107,8 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun saveToSharedPrefs(result: DocumentSnapshot) {
-        val name = result.getString("name")
-        val weight = result.getString("weight")
+        val name = result.getString(NAME)
+        val weight = result.getString(WEIGHT)
 
         if (name != null && weight != null) {
             sharedPreferenceWrapper.saveName(name)

@@ -102,7 +102,7 @@ class RegistrationFragment : Fragment() {
     }
 
     /**
-     * Заапуск главного активити при успешной регистрации
+     * Запуск главного активити при успешной регистрации
      */
     private fun startMainActivity(error: String) {
         when (error) {
@@ -118,7 +118,7 @@ class RegistrationFragment : Fragment() {
     }
 
     /**
-     * Подчеркивает Sign in для пользователя и делает ее ссылкой на фраагмент аутентификации
+     * Подчеркивает Sign in для пользователя и делает ее ссылкой на фрагмент аутентификации
      */
     private fun initSignInLink() {
         val fullString = getString(R.string.already_have_an_account)

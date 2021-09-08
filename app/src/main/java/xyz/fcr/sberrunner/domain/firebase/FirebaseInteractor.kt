@@ -5,6 +5,7 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.UploadTask
+import io.reactivex.rxjava3.annotations.NonNull
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.model.RunEntity
@@ -62,10 +63,10 @@ class FirebaseInteractor(
      *
      * @param email [String] - email пользователя
      *
-     * @return [Completable] - асинхронный результат отправки сообщения
+     * @return [Single] - асинхронный результат отправки сообщения
      */
-    override fun sendResetEmail(email: String): Completable {
-        return Completable.fromCallable { firebase.sendResetEmail(email) }
+    override fun sendResetEmail(email: String): Single<Task<Void>> {
+        return Single.fromCallable { firebase.sendResetEmail(email) }
     }
 
     /**
@@ -80,10 +81,10 @@ class FirebaseInteractor(
     /**
      * Удаление аккаунта текущего пользователя из Firebase
      *
-     * @return [Completable] - асинхронный результат удаления
+     * @return [Single] - асинхронный результат удаления
      */
-    override fun deleteAccount(): Completable {
-        return Completable.fromCallable { firebase.deleteAccount() }
+    override fun deleteAccount(): Single<Task<Void>>{
+        return Single.fromCallable { firebase.deleteAccount() }
     }
 
     /**
@@ -100,10 +101,10 @@ class FirebaseInteractor(
      *
      * @param weight [String] - вес пользователя
      *
-     * @return [Completable] - асинхронный результат обновления веса
+     * @return [Single] - асинхронный результат обновления веса
      */
-    override fun updateWeight(weight: String): Completable {
-        return Completable.fromCallable { firestore.updateWeight(weight) }
+    override fun updateWeight(weight: String): Single<Task<Void>> {
+        return Single.fromCallable { firestore.updateWeight(weight) }
     }
 
     /**
@@ -111,10 +112,10 @@ class FirebaseInteractor(
      *
      * @param name [String] - имя пользователя
      *
-     * @return [Completable] - асинхронный результат обновления имени
+     * @return [Single] - асинхронный результат обновления имени
      */
-    override fun updateName(name: String): Completable {
-        return Completable.fromCallable { firestore.updateName(name) }
+    override fun updateName(name: String): Single<Task<Void>> {
+        return Single.fromCallable { firestore.updateName(name) }
     }
 
     /**
@@ -132,10 +133,10 @@ class FirebaseInteractor(
      * @param name [String] - имя пользователя
      * @param weight [String] - вес пользователя
      *
-     * @return [Completable] - асинхронный результат занесения данных
+     * @return [Single] - асинхронный результат занесения данных
      */
-    override fun fillUserDataInFirestore(name: String, weight: String): Completable {
-        return Completable.fromCallable { firestore.fillUserDataInFirestore(name, weight) }
+    override fun fillUserDataInFirestore(name: String, weight: String): Single<Task<Void>> {
+        return Single.fromCallable { firestore.fillUserDataInFirestore(name, weight) }
     }
 
     /**
@@ -143,10 +144,10 @@ class FirebaseInteractor(
      *
      * @param listToSwitch [List] - список забегов
      *
-     * @return [Completable] - асинхронный результат изменения флагов
+     * @return [Single] - асинхронный результат изменения флагов
      */
-    override fun switchToDeleteFlagsInCloud(listToSwitch: List<RunEntity>): Completable {
-        return Completable.fromCallable { firestore.switchToDeleteFlags(listToSwitch) }
+    override fun switchToDeleteFlagsInCloud(listToSwitch: List<RunEntity>): Single<Task<Void>> {
+        return Single.fromCallable { firestore.switchToDeleteFlags(listToSwitch) }
     }
 
     /**
@@ -154,10 +155,10 @@ class FirebaseInteractor(
      *
      * @param missingList [List] - список забегов
      *
-     * @return [Completable] - асинхронный результат загрузки забегов
+     * @return [Single] - асинхронный результат загрузки забегов
      */
-    override fun uploadMissingFromDbToCloud(missingList: List<RunEntity>): Completable {
-        return Completable.fromCallable { firestore.addRunsToCloud(missingList) }
+    override fun uploadMissingFromDbToCloud(missingList: List<RunEntity>): Single<Task<Void>> {
+        return Single.fromCallable { firestore.addRunsToCloud(missingList) }
     }
 
     /**

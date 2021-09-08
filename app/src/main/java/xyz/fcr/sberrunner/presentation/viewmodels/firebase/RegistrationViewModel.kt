@@ -9,6 +9,7 @@ import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.domain.firebase.IFirebaseInteractor
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
+import xyz.fcr.sberrunner.utils.Constants.NON_VALID
 import xyz.fcr.sberrunner.utils.Constants.VALID
 import xyz.fcr.sberrunner.utils.schedulers.ISchedulersProvider
 import javax.inject.Inject
@@ -38,8 +39,8 @@ class RegistrationViewModel @Inject constructor(
     private var compositeDisposable = CompositeDisposable()
 
     fun initRegistration(name: String, email: String, pass: String, weight: String) {
-        if (nameIsValid(name) and emailIsValid(email) and passIsValid(pass) and weightIsValid(weight)) {
 
+        if (nameIsValid(name) and emailIsValid(email) and passIsValid(pass) and weightIsValid(weight)) {
             compositeDisposable.add(
                 firebaseInteractor.registration(
                     name.trim { it <= ' ' },
@@ -73,9 +74,19 @@ class RegistrationViewModel @Inject constructor(
             firebaseInteractor.fillUserDataInFirestore(name, weight)
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
-                .subscribe({
-                    _successLiveData.postValue(VALID)
-                    saveToSharedPrefs(name, weight)
+                .subscribe({ task ->
+                    task.addOnCompleteListener {
+                        when {
+                            task.isSuccessful -> {
+                                _successLiveData.postValue(VALID)
+                                saveToSharedPrefs(name, weight)
+                            }
+                            else -> {
+                                _successLiveData.postValue(NON_VALID)
+                                saveToSharedPrefs(name, weight)
+                            }
+                        }
+                    }
                 }, {
                     _successLiveData.postValue(it.message)
                 })
