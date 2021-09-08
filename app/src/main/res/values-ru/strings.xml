@@ -32,17 +32,17 @@
     <string name="duration_zero">00:00:00</string>
 
     <string name="total_distance">Полная Дистанция</string>
-    <string name="avg_distance">Ср. Дистанция</string>
+    <string name="avg_distance">Сред. Дистанция</string>
     <string name="distance">Дистанция</string>
 
     <string name="total_runs">Всего забегов</string>
 
-    <string name="avg_speed">Ср. Скорость</string>
+    <string name="avg_speed">Сред. Скорость</string>
 
-    <string name="avg_duration">Ср. Время</string>
+    <string name="avg_duration">Сред. Время</string>
     <string name="duration">Время</string>
 
-    <string name="avg_calories">Ср. Калории</string>
+    <string name="avg_calories">Сред. Калории</string>
     <string name="calories">Калории</string>
 
     <string name="theme_default_entries">Следовать системной теме</string>

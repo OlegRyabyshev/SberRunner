@@ -47,26 +47,14 @@ class SharedSettingsViewModel @Inject constructor(
     /**
      * Выход из аккаунта
      */
-    fun exitAccount() {
-        compositeDisposable.add(
-            databaseInteractor.clearRuns()
-                .subscribeOn(schedulersProvider.io())
-                .observeOn(schedulersProvider.ui())
-                .subscribe({
-                    signOut()
-                }, {
-                    _errorLiveData.postValue(it.message)
-                })
-        )
-    }
-
-    private fun signOut() {
+    fun signOut() {
         compositeDisposable.add(
             firebaseInteractor.signOut()
                 .doOnSubscribe { _progressLiveData.postValue(true) }
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
                 .subscribe({
+                    clearRuns()
                     _signOutLiveData.postValue(true)
                 }, {
                     _errorLiveData.postValue(it.message)
@@ -92,6 +80,22 @@ class SharedSettingsViewModel @Inject constructor(
                     }
                 }, {
                     _progressLiveData.postValue(false)
+                })
+        )
+    }
+
+    /**
+     * Удаление данных в БД
+     */
+    private fun clearRuns() {
+        compositeDisposable.add(
+            databaseInteractor.clearRuns()
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
+                .subscribe({
+                    signOut()
+                }, {
+                    _errorLiveData.postValue(it.message)
                 })
         )
     }
