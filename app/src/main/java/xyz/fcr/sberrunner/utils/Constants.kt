@@ -53,7 +53,7 @@ object Constants {
     const val RUN_LAT_KEY = "run_lat_key"
     const val RUN_LON_KEY = "run_lon_key"
 
-    const val CURRENT_RUN_ID = "current_run_id"
+    const val CURRENT_RUN_TIMESTAMP = "current_run_timestamp"
 
     const val UNITS_KEY = "units_key"
     const val METRIC_UNIT = "metric_unit"
@@ -110,7 +110,6 @@ object Constants {
     const val ROUNDING_CORNERS = 40
 
     // Syncing
-
     const val START_SYNC = "START_SYNC"
     const val START_SYNC_KEY = "START_SYNC_KEY"
 }

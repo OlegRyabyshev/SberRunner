@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.Provides
 import xyz.fcr.sberrunner.data.room.RunDao
 import xyz.fcr.sberrunner.data.room.RunDatabase
+import xyz.fcr.sberrunner.domain.converter.RunConverter
 import xyz.fcr.sberrunner.domain.interactor.db.IDatabaseInteractor
 import xyz.fcr.sberrunner.domain.interactor.db.RoomInteractor
 import xyz.fcr.sberrunner.utils.Constants.DB_NAME
@@ -21,13 +22,17 @@ object DatabaseModule {
      * Предоставление интерактора базы данных для взаимодйствия с ней
      *
      * @param runDao [RunDao] - data access object базы данных
+     * @param converter [RunConverter] - конвертер забегов
      *
      * @return [IDatabaseInteractor] - интерфейс взаимодействия
      */
     @Singleton
     @Provides
-    fun provideDatabaseRepository(runDao: RunDao): IDatabaseInteractor {
-        return RoomInteractor(runDao)
+    fun provideDatabaseRepository(
+        runDao: RunDao,
+        converter: RunConverter
+    ): IDatabaseInteractor {
+        return RoomInteractor(runDao, converter)
     }
 
     /**

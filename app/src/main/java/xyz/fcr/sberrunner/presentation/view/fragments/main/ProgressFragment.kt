@@ -12,10 +12,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import xyz.fcr.sberrunner.R
-import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.databinding.FragmentProgressBinding
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.model.Progress
+import xyz.fcr.sberrunner.presentation.model.Run
 import xyz.fcr.sberrunner.presentation.view.fragments.main.adapters.ProgressRecyclerAdapter
 import xyz.fcr.sberrunner.presentation.viewmodels.main.ProgressViewModel
 import xyz.fcr.sberrunner.utils.*
@@ -63,7 +63,7 @@ class ProgressFragment : Fragment() {
      * Отслеживание изменений в livedata вьюмодели.
      */
     private fun observeLiveData() {
-        viewModel.listOfRunsLiveData.observe(viewLifecycleOwner) { runs: List<RunEntity> ->
+        viewModel.listOfRunsLiveData.observe(viewLifecycleOwner) { runs: List<Run> ->
             if (runs.isNotEmpty()) {
                 initRecycler(runs)
                 displayRecycler(true)
@@ -80,7 +80,7 @@ class ProgressFragment : Fragment() {
     /**
      * Инициализация и заполнение RecyclerView
      */
-    private fun initRecycler(runs: List<RunEntity>) {
+    private fun initRecycler(runs: List<Run>) {
 
         val listOfProgressInfo = listOf(
             progressTotalRuns(runs),
@@ -114,7 +114,7 @@ class ProgressFragment : Fragment() {
     /**
      * Вывод карточки с кол-вом забегов
      */
-    private fun progressTotalRuns(runs: List<RunEntity>): Progress {
+    private fun progressTotalRuns(runs: List<Run>): Progress {
         val title: String = resources.getString(R.string.total_runs)
         val value: String = runs.size.toString()
         val icon: Drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_total_runs)!!
@@ -125,7 +125,7 @@ class ProgressFragment : Fragment() {
     /**
      * Вывод карточки с средней скоростью забегов
      */
-    private fun progressAvgSpeed(runs: List<RunEntity>): Progress {
+    private fun progressAvgSpeed(runs: List<Run>): Progress {
         val count = runs.size
         val title: String = resources.getString(R.string.avg_speed)
 
@@ -145,7 +145,7 @@ class ProgressFragment : Fragment() {
     /**
      * Вывод карточки с полной пройденной дистаницей
      */
-    private fun progressTotalDistance(runs: List<RunEntity>): Progress {
+    private fun progressTotalDistance(runs: List<Run>): Progress {
         val title: String = resources.getString(R.string.total_distance)
 
         val distance: Double = runs.sumOf { it.distanceInMeters.getAverage(isMetric, 1) }
@@ -159,7 +159,7 @@ class ProgressFragment : Fragment() {
     /**
      * Вывод карточки с средней пройденной дистаницей всех забегов
      */
-    private fun progressAvgDistance(runs: List<RunEntity>): Progress {
+    private fun progressAvgDistance(runs: List<Run>): Progress {
         val count = runs.size
         val title: String = resources.getString(R.string.avg_distance)
 
@@ -174,7 +174,7 @@ class ProgressFragment : Fragment() {
     /**
      * Вывод карточки с полным затраченным временем на забеги
      */
-    private fun progressTotalDuration(runs: List<RunEntity>): Progress {
+    private fun progressTotalDuration(runs: List<Run>): Progress {
         val title: String = resources.getString(R.string.total_duration)
         val value: String = TrackingUtility.getFormattedStopWatchTime(runs.sumOf { it.timeInMillis })
         val icon: Drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_total_duration)!!
@@ -185,7 +185,7 @@ class ProgressFragment : Fragment() {
     /**
      * Вывод карточки с среднем затраченным временем на забеги
      */
-    private fun progressAvgDuration(runs: List<RunEntity>): Progress {
+    private fun progressAvgDuration(runs: List<Run>): Progress {
         val count = runs.size
 
         val title: String = resources.getString(R.string.avg_duration)
@@ -198,7 +198,7 @@ class ProgressFragment : Fragment() {
     /**
      * Вывод карточки с полным кол-вом сожженных калорий
      */
-    private fun progressTotalCalories(runs: List<RunEntity>): Progress {
+    private fun progressTotalCalories(runs: List<Run>): Progress {
         val title: String = resources.getString(R.string.total_calories)
         val value: String = runs.sumOf { it.calories }.toString().addCalories()
         val icon: Drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_total_calories)!!
@@ -209,7 +209,7 @@ class ProgressFragment : Fragment() {
     /**
      * Вывод карточки с средним кол-вом сожженных калорий
      */
-    private fun progressAvgCalories(runs: List<RunEntity>): Progress {
+    private fun progressAvgCalories(runs: List<Run>): Progress {
         val count = runs.size
 
         val title: String = resources.getString(R.string.avg_calories)

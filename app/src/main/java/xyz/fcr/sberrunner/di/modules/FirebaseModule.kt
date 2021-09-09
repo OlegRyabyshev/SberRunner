@@ -11,6 +11,7 @@ import xyz.fcr.sberrunner.data.repository.firestorage.IStorageRepository
 import xyz.fcr.sberrunner.data.repository.firestorage.StorageRepository
 import xyz.fcr.sberrunner.data.repository.firestore.FirestoreRepository
 import xyz.fcr.sberrunner.data.repository.firestore.IFirestoreRepository
+import xyz.fcr.sberrunner.domain.converter.RunConverter
 import xyz.fcr.sberrunner.domain.interactor.firebase.FirebaseInteractor
 import xyz.fcr.sberrunner.domain.interactor.firebase.IFirebaseInteractor
 import javax.inject.Singleton
@@ -109,6 +110,7 @@ class FirebaseModule {
      * @param firebaseRepo [IFirebaseRepository] - репозиторий взаимодействия с Firebase
      * @param storeRepo [IFirestoreRepository] - репозиторий взаимодействия с Firestore
      * @param storage [IStorageRepository] - репозиторий взаимодействия с Firebase Storage
+     * @param converter [RunConverter] - конвертер забегов
      *
      * @return [IFirebaseInteractor] - интерактора взаимодействия с Firebase
      */
@@ -117,8 +119,14 @@ class FirebaseModule {
     fun providesFirebaseInteractor(
         firebaseRepo: IFirebaseRepository,
         storeRepo: IFirestoreRepository,
-        storage: IStorageRepository
+        storage: IStorageRepository,
+        converter: RunConverter
     ): IFirebaseInteractor {
-        return FirebaseInteractor(firebaseRepo, storeRepo, storage)
+        return FirebaseInteractor(
+            firebaseRepo,
+            storeRepo,
+            storage,
+            converter
+        )
     }
 }

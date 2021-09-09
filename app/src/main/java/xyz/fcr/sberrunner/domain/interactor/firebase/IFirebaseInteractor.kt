@@ -4,11 +4,10 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.storage.CancellableTask
 import com.google.firebase.storage.UploadTask
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import xyz.fcr.sberrunner.data.model.RunEntity
+import xyz.fcr.sberrunner.presentation.model.Run
 
 /**
  * Интерфейс взааимодействия с Firebase
@@ -109,7 +108,7 @@ interface IFirebaseInteractor {
      *
      * @return [Single] - асинхронный результат изменения флагов
      */
-    fun switchToDeleteFlagsInCloud(listToSwitch: List<RunEntity>): Single<Task<Void>>
+    fun switchToDeleteFlagsInCloud(listToSwitch: List<Run>): Single<Task<Void>>
 
     /**
      * Результат загрузки недостоющих забегов в Firestore
@@ -118,23 +117,23 @@ interface IFirebaseInteractor {
      *
      * @return [Single] - асинхронный результат загрузки забегов
      */
-    fun uploadMissingFromDbToCloud(missingList: List<RunEntity>): Single<Task<Void>>
+    fun uploadMissingFromDbToCloud(missingList: List<Run>): Single<Task<Void>>
 
     /**
      * Результат загрузки изображения в Firebase Storage
      *
-     * @param run [RunEntity] - объект забега
+     * @param run [Run] - объект забега
      *
      * @return [Single] - асинхронный результат загрузки изображения
      */
-    fun uploadImageToStorage(run: RunEntity): Single<UploadTask>
+    fun uploadImageToStorage(run: Run): Single<UploadTask>
 
     /**
      * Результат загрузки изображения из Firebase Storage
      *
-     * @param run [RunEntity] - объект забега
+     * @param run [Run] - объект забега
      *
      * @return [Single] - асинхронный результат загрузки изображения
      */
-    fun downloadImageFromStorage(run: RunEntity): Single<Task<ByteArray>>
+    fun downloadImageFromStorage(run: Run): Single<Task<ByteArray>>
 }

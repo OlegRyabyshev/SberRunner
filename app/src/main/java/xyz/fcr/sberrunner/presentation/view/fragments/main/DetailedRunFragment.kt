@@ -11,12 +11,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.databinding.FragmentDetailedRunBinding
 import xyz.fcr.sberrunner.presentation.App
+import xyz.fcr.sberrunner.presentation.model.Run
 import xyz.fcr.sberrunner.presentation.viewmodels.main.DetailedRunViewModel
 import xyz.fcr.sberrunner.utils.*
-import xyz.fcr.sberrunner.utils.Constants.CURRENT_RUN_ID
+import xyz.fcr.sberrunner.utils.Constants.CURRENT_RUN_TIMESTAMP
 import xyz.fcr.sberrunner.utils.Constants.PATTERN_DATE_DETAILED
 import xyz.fcr.sberrunner.utils.Constants.ROUNDING_CORNERS
 import java.text.SimpleDateFormat
@@ -52,9 +52,9 @@ class DetailedRunFragment : Fragment() {
         viewModel.setUnits()
 
         val bundle = this.arguments
-        if (bundle != null && bundle.containsKey(CURRENT_RUN_ID)) {
-            val runID = bundle.getInt(CURRENT_RUN_ID)
-            viewModel.getRunFromDB(runID)
+        if (bundle != null && bundle.containsKey(CURRENT_RUN_TIMESTAMP)) {
+            val runTimestamp = bundle.getLong(CURRENT_RUN_TIMESTAMP)
+            viewModel.getRunFromDB(runTimestamp)
         }
 
         binding.detailedBackButton.setOnClickListener {
@@ -68,12 +68,12 @@ class DetailedRunFragment : Fragment() {
      * Отслеживание изменений в livedata вьюмодели.
      */
     private fun observeLiveData() {
-        viewModel.runLiveData.observe(viewLifecycleOwner) { run: RunEntity -> showRunDetailsInfo(run) }
+        viewModel.runLiveData.observe(viewLifecycleOwner) { run: Run -> showRunDetailsInfo(run) }
         viewModel.unitsLiveData.observe(viewLifecycleOwner) { units: Boolean -> isMetric = units }
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun showRunDetailsInfo(run: RunEntity) {
+    private fun showRunDetailsInfo(run: Run) {
         val sdfDate = SimpleDateFormat(PATTERN_DATE_DETAILED)
         binding.detailedDateOfRunTv.text = sdfDate.format(run.timestamp)
 

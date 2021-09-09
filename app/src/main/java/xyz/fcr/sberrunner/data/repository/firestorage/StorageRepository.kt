@@ -2,7 +2,6 @@ package xyz.fcr.sberrunner.data.repository.firestorage
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import xyz.fcr.sberrunner.data.model.RunEntity
@@ -52,6 +51,6 @@ class StorageRepository(
     }
 
     private companion object {
-        private const val TEN_MEGABYTES: Long = 1024 * 1024 * 10
+        private const val TEN_MEGABYTES: Long = 1024 * 1024 * 10 // 10 мегабайт
     }
 }

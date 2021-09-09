@@ -12,9 +12,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.run_item.view.*
 import xyz.fcr.sberrunner.R
-import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.presentation.App
+import xyz.fcr.sberrunner.presentation.model.Run
 import xyz.fcr.sberrunner.utils.Constants.PATTERN_DATE_HOME
 import xyz.fcr.sberrunner.utils.Constants.ROUNDING_CORNERS
 import xyz.fcr.sberrunner.utils.TrackingUtility
@@ -42,7 +42,7 @@ class RunRecyclerAdapter(private val listener: ItemClickListener) :
 
     inner class RunViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    fun submitList(list: List<RunEntity>) = differ.submitList(list)
+    fun submitList(list: List<Run>) = differ.submitList(list)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RunViewHolder {
         return RunViewHolder(
@@ -92,12 +92,12 @@ class RunRecyclerAdapter(private val listener: ItemClickListener) :
         }
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<RunEntity>() {
-        override fun areItemsTheSame(oldItem: RunEntity, newItem: RunEntity): Boolean {
-            return oldItem.id == newItem.id
+    private val diffCallback = object : DiffUtil.ItemCallback<Run>() {
+        override fun areItemsTheSame(oldItem: Run, newItem: Run): Boolean {
+            return oldItem.timestamp == newItem.timestamp
         }
 
-        override fun areContentsTheSame(oldItem: RunEntity, newItem: RunEntity): Boolean {
+        override fun areContentsTheSame(oldItem: Run, newItem: Run): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
     }
