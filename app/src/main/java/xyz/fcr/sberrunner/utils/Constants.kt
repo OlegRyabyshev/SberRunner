@@ -19,6 +19,8 @@ object Constants {
     const val REQUEST_CODE_BASIC_PERMISSION = 100
     const val REQUEST_CODE_BACKGROUND_PERMISSION = 101
 
+    const val AMOUNT_TO_SKIP = 2
+
     // Room
     const val DB_NAME = "sber_runner_table"
 

@@ -18,7 +18,7 @@
             android:padding="@dimen/padding_medium"
             android:layout_marginStart="@dimen/margin_small"
             android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginEnd="@dimen/margin_half_small"
+            android:layout_marginEnd="@dimen/margin_small"
             android:backgroundTint="@color/main_green"
             app:cardCornerRadius="@dimen/corner_radius"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
                     android:layout_margin="@dimen/margin_medium"
                     android:contentDescription="@string/back_button"
                     android:elevation="@dimen/elevation"
-                    android:padding="@dimen/padding_medium"
+                    android:padding="@dimen/padding_small"
                     android:src="@drawable/ic_arrow_back"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -45,14 +45,14 @@
 
                 <TextView
                     android:id="@+id/detailed_date_of_run_tv"
-                    style="@style/Theme.SberRunner.Table.Detailed.Numbers"
+                    style="@style/Theme.SberRunner.Table.Numbers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/date_filler"
                     android:textSize="@dimen/text_medium"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/detailed_back_button"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

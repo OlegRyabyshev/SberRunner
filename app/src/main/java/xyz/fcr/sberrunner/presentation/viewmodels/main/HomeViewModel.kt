@@ -325,8 +325,7 @@ class HomeViewModel @Inject constructor(
                     task.addOnCompleteListener {
                         when {
                             task.isSuccessful -> {
-                                _progressLiveData.postValue(false)
-                                updateListOfRuns()
+                                finishSync()
                             }
                             else -> {
                                 _errorLiveData.postValue("Error in uploadMissingRunsFromDbToCloud")

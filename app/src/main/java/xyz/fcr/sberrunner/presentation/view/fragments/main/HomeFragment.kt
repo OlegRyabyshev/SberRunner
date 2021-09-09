@@ -52,8 +52,12 @@ class HomeFragment : Fragment(), ItemClickListener {
 
         val action = arguments?.getString(START_SYNC_KEY)
 
-        if (action == START_SYNC) {
-            viewModel.initSync()
+        when (action) {
+            START_SYNC -> {
+                viewModel.initSync()
+                binding.homeLoadingLayout.isVisible = true
+            }
+            else -> viewModel.updateListOfRuns()
         }
 
         return binding.root
@@ -61,11 +65,9 @@ class HomeFragment : Fragment(), ItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.updateListOfRuns()
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             viewModel.initSync()
-
             binding.swipeRefreshLayout.isRefreshing = false
         }
 
@@ -154,6 +156,7 @@ class HomeFragment : Fragment(), ItemClickListener {
                     viewModel.setFlag(run.id!!, false)
                     viewModel.updateListOfRuns()
                 }
+
                 show()
             }
         }
@@ -181,7 +184,7 @@ class HomeFragment : Fragment(), ItemClickListener {
                     R.anim.enter_from_left,
                     R.anim.exit_to_right
                 )
-                .replace(R.id.main_container, fragment)
+                .add(R.id.main_container, fragment)
                 .addToBackStack(tag)
                 .commit()
         }

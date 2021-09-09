@@ -2,6 +2,7 @@ package xyz.fcr.sberrunner.presentation.view.fragments.main
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -50,7 +51,7 @@ import kotlin.math.round
  * Фрагмент для запуска сервиса бега и отслеживаний текущей статистики бега,
  * включая маршрут, дистанцию, время, затраченные калории и среднюю скорость.
  */
-class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
+class RunFragment : Fragment(), GoogleMap.SnapshotReadyCallback, EasyPermissions.PermissionCallbacks {
 
     private var _binding: FragmentRunBinding? = null
     private val binding get() = _binding!!
@@ -105,7 +106,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         binding.fabFinish.setOnClickListener {
             if (isEnoughDataToFinish()) {
                 zoomToWholeTrack()
-                endRunAndSaveToDB()
+                map?.snapshot(this)
             } else {
                 showWarningDialog()
             }
@@ -352,34 +353,32 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     /**
      * Делает изображение маршрута и сохраняет объект бега
      */
-    private fun endRunAndSaveToDB() {
-        map?.snapshot { bmp ->
-            var distanceInMeters = 0L
-            for (polyline in pathPoints) {
-                distanceInMeters += TrackingUtility.calculatePolylineLength(polyline).toLong()
-            }
-
-            val avgSpeed =
-                (round((distanceInMeters / 1000f) / (curTimeInMillis / 1000f / 60 / 60) * 10) / 10f).toString()
-
-            val timestamp = Calendar.getInstance().timeInMillis
-
-            val caloriesBurned = ((distanceInMeters / 1000f) * weight).toLong()
-
-            val run = RunEntity(
-                avgSpeed,
-                caloriesBurned,
-                distanceInMeters,
-                curTimeInMillis,
-                timestamp,
-                false,
-                bmp
-            )
-
-            viewModel.insertRun(run)
-            Toasty.success(requireContext(), getString(R.string.run_saved), Toasty.LENGTH_SHORT).show()
-            stopRun()
+    override fun onSnapshotReady(bmp: Bitmap?) {
+        var distanceInMeters = 0L
+        for (polyline in pathPoints) {
+            distanceInMeters += TrackingUtility.calculatePolylineLength(polyline).toLong()
         }
+
+        val avgSpeed =
+            (round((distanceInMeters / 1000f) / (curTimeInMillis / 1000f / 60 / 60) * 10) / 10f).toString()
+
+        val timestamp = Calendar.getInstance().timeInMillis
+
+        val caloriesBurned = ((distanceInMeters / 1000f) * weight).toLong()
+
+        val run = RunEntity(
+            avgSpeed,
+            caloriesBurned,
+            distanceInMeters,
+            curTimeInMillis,
+            timestamp,
+            false,
+            bmp
+        )
+
+        viewModel.insertRun(run)
+        Toasty.success(requireContext(), getString(R.string.run_saved), Toasty.LENGTH_SHORT).show()
+        stopRun()
     }
 
     /**

@@ -24,7 +24,7 @@ import xyz.fcr.sberrunner.utils.Constants.WEIGHT_KEY
 import javax.inject.Inject
 
 /**
- * Фрагмент настроек.
+ * Фрагмент настроек
  */
 class SettingsPreferenceFragment : PreferenceFragmentCompat() {
 
@@ -89,7 +89,7 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
                     dialog.dismiss()
                 }
                 setPositiveButton(getString(R.string.exit)) { dialog, _ ->
-                    viewModel.exitAccount()
+                    viewModel.signOut()
                     dialog.dismiss()
                 }
                 show()
@@ -118,7 +118,7 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
     }
 
     /**
-     * Отслеживание изменений в livedata вьюмодели.
+     * Отслеживание изменений в livedata вьюмодели
      */
     private fun observeLiveData() {
         viewModel.nameSummaryLiveData.observe(viewLifecycleOwner) { name: String ->

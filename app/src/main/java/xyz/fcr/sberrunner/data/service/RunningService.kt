@@ -36,6 +36,7 @@ import xyz.fcr.sberrunner.utils.Constants
 import xyz.fcr.sberrunner.utils.Constants.ACTION_PAUSE_SERVICE
 import xyz.fcr.sberrunner.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 import xyz.fcr.sberrunner.utils.Constants.ACTION_STOP_SERVICE
+import xyz.fcr.sberrunner.utils.Constants.AMOUNT_TO_SKIP
 import xyz.fcr.sberrunner.utils.Constants.FASTEST_LOCATION_UPDATE_INTERVAL
 import xyz.fcr.sberrunner.utils.Constants.LOCATION_UPDATE_INTERVAL
 import xyz.fcr.sberrunner.utils.Constants.NOTIFICATION_CHANNEL_ID
@@ -71,6 +72,8 @@ class RunningService : LifecycleService() {
 
     private var isFirstRun = true
     private var serviceKilled = false
+
+    private var skipFirstTwoPositions = AMOUNT_TO_SKIP
 
     companion object {
         val timeRunInMillis = MutableLiveData<Long>()
@@ -159,6 +162,7 @@ class RunningService : LifecycleService() {
      */
     private fun pauseService() {
         isTimerEnabled = false
+        skipFirstTwoPositions = AMOUNT_TO_SKIP
         isTracking.postValue(false)
         isPaused.postValue(true)
     }
@@ -199,13 +203,16 @@ class RunningService : LifecycleService() {
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(result: LocationResult) {
             super.onLocationResult(result)
-
-            if (isTracking.value!!) {
-                result.locations.let { locations ->
-                    for (location in locations) {
-                        addPathPoint(location)
+            if (skipFirstTwoPositions < 1) {
+                if (isTracking.value!!) {
+                    result.locations.let { locations ->
+                        for (location in locations) {
+                            addPathPoint(location)
+                        }
                     }
                 }
+            } else {
+                skipFirstTwoPositions--
             }
         }
     }
