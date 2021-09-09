@@ -38,7 +38,6 @@ object Constants {
     const val POLYLINE_WIDTH = 12f
 
     const val MAP_TRACKING_ZOOM = 17f
-    const val MAP_ZOOMED_OUT = 13f
 
     //Shared const
     const val THEME_KEY = "theme_key"

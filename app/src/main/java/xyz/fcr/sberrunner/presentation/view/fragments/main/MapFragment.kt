@@ -60,6 +60,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
             }
         }
 
+        observeLiveData()
         viewModel.setToLastKnownLocationIfAny()
     }
 
@@ -81,8 +82,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
         binding.fabFindMe.setOnClickListener {
             getCurrentLocation()
         }
-
-        observeLiveData()
     }
 
     /**
@@ -90,8 +89,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
      */
     private fun observeLiveData() {
         viewModel.progressLiveData.observe(viewLifecycleOwner, { isVisible: Boolean -> showProgress(isVisible) })
-        viewModel.locationLiveData.observe(viewLifecycleOwner, { location: Location -> displayLocation(location) })
         viewModel.historyLiveData.observe(viewLifecycleOwner, { latLng: LatLng -> displayLastKnownLocation(latLng) })
+        viewModel.locationLiveData.observe(viewLifecycleOwner, { location: Location -> displayLocation(location) })
         viewModel.errorLiveData.observe(viewLifecycleOwner, { error: String -> showError(error) })
     }
 
@@ -133,7 +132,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
     private fun displayLastKnownLocation(latLng: LatLng) {
         map?.apply {
             moveCamera(CameraUpdateFactory.newLatLng(latLng))
-            animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, MAP_ZOOMED_OUT))
+            animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, MAP_TRACKING_ZOOM))
         }
     }
 

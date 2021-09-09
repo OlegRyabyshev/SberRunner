@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.domain.interactor.db.IDatabaseInteractor
 import xyz.fcr.sberrunner.domain.interactor.firebase.IFirebaseInteractor
+import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.schedulers.ISchedulersProvider
 import xyz.fcr.sberrunner.utils.toBitmap
@@ -109,7 +111,10 @@ class HomeViewModel @Inject constructor(
                         }
 
                         else -> {
-                            _errorLiveData.postValue("No access to internet")
+                            _errorLiveData.postValue(
+                                App.appComponent.context()
+                                    .getString(R.string.no_access_to_internet)
+                            )
                             finishSync()
                         }
                     }
@@ -374,17 +379,17 @@ class HomeViewModel @Inject constructor(
     fun setFlag(runID: Int, toDelete: Boolean) {
         compositeDisposable.add(
             databaseInteractor.switchToDeleteFlag(runID, toDelete)
-            .doOnSubscribe {
-                _progressLiveData.postValue(true)
-            }
-            .doAfterTerminate {
-                _progressLiveData.postValue(false)
-            }
-            .subscribeOn(schedulersProvider.io())
-            .observeOn(schedulersProvider.ui())
-            .subscribe({
-                updateListOfRuns()
-            }, {})
+                .doOnSubscribe {
+                    _progressLiveData.postValue(true)
+                }
+                .doAfterTerminate {
+                    _progressLiveData.postValue(false)
+                }
+                .subscribeOn(schedulersProvider.io())
+                .observeOn(schedulersProvider.ui())
+                .subscribe({
+                    updateListOfRuns()
+                }, {})
         )
     }
 

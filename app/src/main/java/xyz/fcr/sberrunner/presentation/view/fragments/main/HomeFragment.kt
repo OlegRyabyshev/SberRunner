@@ -65,7 +65,6 @@ class HomeFragment : Fragment(), ItemClickListener {
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             viewModel.initSync()
-
             binding.swipeRefreshLayout.isRefreshing = false
         }
 
@@ -181,7 +180,7 @@ class HomeFragment : Fragment(), ItemClickListener {
                     R.anim.enter_from_left,
                     R.anim.exit_to_right
                 )
-                .replace(R.id.main_container, fragment)
+                .add(R.id.main_container, fragment)
                 .addToBackStack(tag)
                 .commit()
         }

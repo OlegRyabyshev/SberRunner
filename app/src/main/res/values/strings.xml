@@ -169,5 +169,6 @@
     <string name="password_six_characters">Password should be at least 6 characters</string>
     <string name="weight_not_valid">Weight is not valid</string>
     <string name="current_location">Current location</string>
+    <string name="no_access_to_internet">No access to internet</string>
 
 </resources>
