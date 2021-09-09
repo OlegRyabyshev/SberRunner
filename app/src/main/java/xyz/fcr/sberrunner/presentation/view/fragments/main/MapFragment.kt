@@ -27,7 +27,6 @@ import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.main.MapViewModel
 import xyz.fcr.sberrunner.utils.Constants
 import xyz.fcr.sberrunner.utils.Constants.MAP_TRACKING_ZOOM
-import xyz.fcr.sberrunner.utils.Constants.MAP_ZOOMED_OUT
 import xyz.fcr.sberrunner.utils.Constants.NON_VALID
 import xyz.fcr.sberrunner.utils.Constants.RUN_BASIC_PERMISSIONS
 import xyz.fcr.sberrunner.utils.hasBasicLocationPermissions
@@ -61,6 +60,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
         }
 
         viewModel.setToLastKnownLocationIfAny()
+
+        observeLiveData()
     }
 
     override fun onCreateView(
@@ -81,8 +82,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
         binding.fabFindMe.setOnClickListener {
             getCurrentLocation()
         }
-
-        observeLiveData()
     }
 
     /**
@@ -133,7 +132,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
     private fun displayLastKnownLocation(latLng: LatLng) {
         map?.apply {
             moveCamera(CameraUpdateFactory.newLatLng(latLng))
-            animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, MAP_ZOOMED_OUT))
+            animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, MAP_TRACKING_ZOOM))
         }
     }
 
