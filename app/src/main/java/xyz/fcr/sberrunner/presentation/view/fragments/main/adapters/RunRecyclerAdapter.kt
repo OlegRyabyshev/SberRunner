@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import kotlinx.android.synthetic.main.run_item.view.*
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.databinding.RunItemBinding
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.model.Run
 import xyz.fcr.sberrunner.utils.Constants.PATTERN_DATE_HOME
@@ -40,7 +40,42 @@ class RunRecyclerAdapter(private val listener: ItemClickListener) :
         App.appComponent.inject(this)
     }
 
-    inner class RunViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    inner class RunViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val binding = RunItemBinding.bind(itemView)
+
+        fun bind(run: Run) {
+
+            Glide.with(itemView.context)
+                .load(run.mapImage)
+                .apply(RequestOptions.bitmapTransform(RoundedCorners(ROUNDING_CORNERS)))
+                .centerCrop()
+                .into(binding.mapItemImageView)
+
+            val isMetric = sharedPrefWrapper.isMetric()
+
+            if (isMetric) {
+                binding.distanceItemTv.text = run.distanceInMeters
+                    .convertMetersToKilometres()
+                    .toString()
+                    .addDistanceUnits(isMetric)
+            } else {
+                binding.distanceItemTv.text = run.distanceInMeters
+                    .convertMetersToMiles()
+                    .toString()
+                    .addDistanceUnits(isMetric)
+            }
+
+            binding.durationItemTv.text = TrackingUtility.getFormattedStopWatchTime(run.timeInMillis)
+
+            val calendar = Calendar.getInstance().apply {
+                timeInMillis = run.timestamp
+            }
+
+            val dateFormat = SimpleDateFormat(PATTERN_DATE_HOME, Locale.getDefault())
+            binding.dateItemTv.text = dateFormat.format(calendar.time)
+
+        }
+    }
 
     fun submitList(list: List<Run>) = differ.submitList(list)
 
@@ -54,42 +89,12 @@ class RunRecyclerAdapter(private val listener: ItemClickListener) :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RunViewHolder, position: Int) {
-        val run = differ.currentList[position]
 
         holder.itemView.setOnClickListener {
             listener.onItemClick(position)
         }
 
-        holder.itemView.apply {
-            Glide.with(this)
-                .load(run.mapImage)
-                .apply(RequestOptions.bitmapTransform(RoundedCorners(ROUNDING_CORNERS)))
-                .centerCrop()
-                .into(map_item_image_view)
-
-            val isMetric = sharedPrefWrapper.isMetric()
-
-            if (isMetric) {
-                distance_item_tv.text = run.distanceInMeters
-                    .convertMetersToKilometres()
-                    .toString()
-                    .addDistanceUnits(isMetric)
-            } else {
-                distance_item_tv.text = run.distanceInMeters
-                    .convertMetersToMiles()
-                    .toString()
-                    .addDistanceUnits(isMetric)
-            }
-
-            duration_item_tv.text = TrackingUtility.getFormattedStopWatchTime(run.timeInMillis)
-
-            val calendar = Calendar.getInstance().apply {
-                timeInMillis = run.timestamp
-            }
-
-            val dateFormat = SimpleDateFormat(PATTERN_DATE_HOME, Locale.getDefault())
-            date_item_tv.text = dateFormat.format(calendar.time)
-        }
+        holder.bind(differ.currentList[position])
     }
 
     private val diffCallback = object : DiffUtil.ItemCallback<Run>() {
