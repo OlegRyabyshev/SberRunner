@@ -99,8 +99,8 @@ object Constants {
     const val UNIT_RATIO = 0.6214f
 
     // Simple date format
-    const val PATTERN_DATE_DETAILED = "dd, MMM, yyyy HH:mm"
-    const val PATTERN_DATE_HOME = "dd/MM/yyyy hh:mm"
+    const val PATTERN_DATE_DETAILED = "dd MMM yyyy, HH:mm"
+    const val PATTERN_DATE_HOME = "dd/MM/yyyy"
 
     // UI
     const val ROWS_IN_RECYCLER = 2
