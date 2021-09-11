@@ -20,11 +20,13 @@
     <dimen name="corner_radius">12dp</dimen>
 
     <dimen name="text_small">14sp</dimen>
-    <dimen name="text_preview">20sp</dimen>
     <dimen name="text_medium">24sp</dimen>
     <dimen name="text_detailed">28sp</dimen>
     <dimen name="text_big">32sp</dimen>
     <dimen name="text_giant">48sp</dimen>
+
+    <dimen name="text_welcome_content">16sp</dimen>
+    <dimen name="text_preview">20sp</dimen>
 
     <dimen name="splash_screen_size">400dp</dimen>
     <dimen name="fab_corner_radius">40dp</dimen>
