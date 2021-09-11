@@ -14,7 +14,8 @@
             android:icon="@drawable/ic_account"
             android:key="name_key"
             android:summary="@string/settings_name"
-            android:title="@string/settings_title_name" />
+            android:title="@string/settings_title_name"
+            app:useSimpleSummaryProvider="true"/>
 
         <EditTextPreference
             android:icon="@drawable/ic_weight"
@@ -22,7 +23,8 @@
             android:inputType="numberDecimal"
             android:digits="@string/allowed_digits"
             android:summary="@string/settings_weight"
-            android:title="@string/settings_title_weight" />
+            android:title="@string/settings_title_weight"
+            app:useSimpleSummaryProvider="true"/>
 
     </PreferenceCategory>
 
@@ -37,7 +39,8 @@
             android:icon="@drawable/ic_theme"
             android:key="theme_key"
             android:summary="@string/settings_theme"
-            android:title="@string/settings_title_theme" />
+            android:title="@string/settings_title_theme"
+            app:useSimpleSummaryProvider="true"/>
 
         <ListPreference
             android:defaultValue="@string/unit_metric_entry_value"
@@ -46,7 +49,8 @@
             android:icon="@drawable/ic_units"
             android:key="units_key"
             android:summary="@string/settings_units"
-            android:title="@string/settings_title_units" />
+            android:title="@string/settings_title_units"
+            app:useSimpleSummaryProvider="true"/>
 
         <androidx.preference.SwitchPreference
             android:defaultValue="true"

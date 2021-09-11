@@ -2,11 +2,6 @@ package xyz.fcr.sberrunner.data.repository.shared
 
 import android.content.SharedPreferences
 import xyz.fcr.sberrunner.utils.Constants
-import xyz.fcr.sberrunner.utils.Constants.MAP_LAT_KEY
-import xyz.fcr.sberrunner.utils.Constants.MAP_LON_KEY
-import xyz.fcr.sberrunner.utils.Constants.RUN_LAT_KEY
-import xyz.fcr.sberrunner.utils.Constants.RUN_LON_KEY
-import xyz.fcr.sberrunner.utils.Constants.VOICE_KEY
 
 /**
  * Имплементация интерфейса [ISharedPreferenceWrapper]
@@ -65,7 +60,7 @@ class SharedPreferenceWrapper(
      */
     override fun saveName(name: String) {
         sharedPreferences.edit().apply {
-            putString("name_key", name)
+            putString(Constants.NAME_KEY, name)
             apply()
         }
     }
@@ -77,7 +72,7 @@ class SharedPreferenceWrapper(
      */
     override fun saveWeight(weight: String) {
         sharedPreferences.edit().apply {
-            putString("weight_key", weight)
+            putString(Constants.WEIGHT_KEY, weight)
             apply()
         }
     }
@@ -89,7 +84,7 @@ class SharedPreferenceWrapper(
      */
     override fun saveMapLatitude(latitude: Float) {
         sharedPreferences.edit().apply {
-            putFloat(MAP_LAT_KEY, latitude)
+            putFloat(Constants.MAP_LAT_KEY, latitude)
             apply()
         }
     }
@@ -101,7 +96,7 @@ class SharedPreferenceWrapper(
      */
     override fun saveMapLongitude(longitude: Float) {
         sharedPreferences.edit().apply {
-            putFloat(MAP_LON_KEY, longitude)
+            putFloat(Constants.MAP_LON_KEY, longitude)
             apply()
         }
     }
@@ -113,7 +108,7 @@ class SharedPreferenceWrapper(
      */
     override fun saveRunLatitude(latitude: Float) {
         sharedPreferences.edit().apply {
-            putFloat(RUN_LAT_KEY, latitude)
+            putFloat(Constants.RUN_LAT_KEY, latitude)
             apply()
         }
     }
@@ -125,7 +120,7 @@ class SharedPreferenceWrapper(
      */
     override fun saveRunLongitude(longitude: Float) {
         sharedPreferences.edit().apply {
-            putFloat(RUN_LON_KEY, longitude)
+            putFloat(Constants.RUN_LON_KEY, longitude)
             apply()
         }
     }
@@ -136,7 +131,7 @@ class SharedPreferenceWrapper(
      * @return [Float] - координаты долготы
      */
     override fun getMapLatitude(): Float {
-        return sharedPreferences.getFloat(MAP_LAT_KEY, Constants.MOSCOW_LAT)
+        return sharedPreferences.getFloat(Constants.MAP_LAT_KEY, Constants.MOSCOW_LAT)
     }
 
     /**
@@ -145,7 +140,7 @@ class SharedPreferenceWrapper(
      * @return [Float] - координаты широты
      */
     override fun getMapLongitude(): Float {
-        return sharedPreferences.getFloat(MAP_LON_KEY, Constants.MOSCOW_LON)
+        return sharedPreferences.getFloat(Constants.MAP_LON_KEY, Constants.MOSCOW_LON)
     }
 
     /**
@@ -154,7 +149,7 @@ class SharedPreferenceWrapper(
      * @return [Float] - координаты долготы
      */
     override fun getRunLatitude(): Float {
-        return sharedPreferences.getFloat(RUN_LAT_KEY, Constants.MOSCOW_LAT)
+        return sharedPreferences.getFloat(Constants.RUN_LAT_KEY, Constants.MOSCOW_LAT)
     }
 
     /**
@@ -163,7 +158,7 @@ class SharedPreferenceWrapper(
      * @return [Float] - координаты широты
      */
     override fun getRunLongitude(): Float {
-        return sharedPreferences.getFloat(RUN_LON_KEY, Constants.MOSCOW_LON)
+        return sharedPreferences.getFloat(Constants.RUN_LON_KEY, Constants.MOSCOW_LON)
     }
 
     /**
@@ -172,6 +167,24 @@ class SharedPreferenceWrapper(
      * @return [Boolean] - нотификатор работает (true) / нотификатор выключен (false)
      */
     override fun getVoiceNotificationStatus(): Boolean {
-        return sharedPreferences.getBoolean(VOICE_KEY, true)
+        return sharedPreferences.getBoolean(Constants.VOICE_KEY, true)
+    }
+
+    /**
+     * Получение значения текущей темы
+     *
+     * @return [String] - текущая тема
+     */
+    override fun getTheme(): String {
+        return sharedPreferences.getString(Constants.THEME_KEY, "Error in theme")!!
+    }
+
+    /**
+     * Получение значения системы измерений
+     *
+     * @return [String] - текущая система измерений
+     */
+    override fun getUnits(): String {
+        return sharedPreferences.getString(Constants.UNITS_KEY, "Error in units")!!
     }
 }

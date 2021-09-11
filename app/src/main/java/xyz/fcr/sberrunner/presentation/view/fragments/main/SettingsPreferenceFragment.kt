@@ -12,6 +12,7 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import es.dmoral.toasty.Toasty
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.view.activities.MainActivity
@@ -38,6 +39,7 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
 
     private var namePref: EditTextPreference? = null
     private var weightPref: EditTextPreference? = null
+    private var themePref: ListPreference? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings_preference, rootKey)
@@ -50,12 +52,12 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.displayNameAndWeightInSummary()
-
-
         namePref = findPreference(NAME_KEY)
         namePref?.setOnPreferenceChangeListener { _, newName ->
-            viewModel.updateName(newName as String)
+            if (nameIsValid(newName as String)) {
+                viewModel.updateName(newName)
+                return@setOnPreferenceChangeListener true
+            }
             return@setOnPreferenceChangeListener false
         }
 
@@ -64,11 +66,14 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
             it.inputType = InputType.TYPE_CLASS_NUMBER
         }
         weightPref?.setOnPreferenceChangeListener { _, newWeight ->
-            viewModel.updateWeight(newWeight as String)
+            if (weightIsValid(newWeight as String)) {
+                viewModel.updateWeight(newWeight)
+                return@setOnPreferenceChangeListener true
+            }
             return@setOnPreferenceChangeListener false
         }
 
-        val themePref: ListPreference? = findPreference(THEME_KEY)
+        themePref = findPreference(THEME_KEY)
         themePref?.setOnPreferenceChangeListener { _, newValue ->
             when (newValue) {
                 Configuration.UI_MODE_NIGHT_UNDEFINED.toString() ->
@@ -113,19 +118,50 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
             }
             true
         }
-
-        observeLiveData()
     }
 
     /**
-     * Отслеживание изменений в livedata вьюмодели
+     * Проверка корректности нового имени пользователя
+     *
+     * @param nameToCheck [String] - имя пользователя
+     * @return [Boolean] - корректеный ввод (true) / некорректный ввод (false)
      */
-    private fun observeLiveData() {
-        viewModel.nameSummaryLiveData.observe(viewLifecycleOwner) { name: String ->
-            namePref?.summary = name
+    private fun nameIsValid(nameToCheck: String): Boolean {
+        val name = nameToCheck.trim { it <= ' ' }
+
+        return when {
+            name.isBlank() -> {
+                displayError(App.appComponent.context().getString(R.string.name_cant_be_empty))
+                false
+            }
+            else -> true
         }
-        viewModel.weightSummaryLiveData.observe(viewLifecycleOwner) { weight: String ->
-            weightPref?.summary = weight
+    }
+
+    /**
+     * Проверка корректности нового веса пользователя
+     *
+     * @param weightToCheck [String] - вес пользователя
+     * @return [Boolean] - корректеный ввод (true) / некорректный ввод (false)
+     */
+    private fun weightIsValid(weightToCheck: String): Boolean {
+        val weight = weightToCheck.toIntOrNull()
+
+        return when {
+            weight == null || weight > 350 || weight <= 0 || weightToCheck.startsWith("0") -> {
+                displayError(App.appComponent.context().getString(R.string.weight_not_valid))
+                false
+            }
+            else -> true
         }
+    }
+
+    /**
+     * Вывод ошибок
+     *
+     * @param error [String] - текст ошибки
+     */
+    private fun displayError(error: String){
+        Toasty.error(requireContext(), error, Toasty.LENGTH_SHORT).show()
     }
 }
