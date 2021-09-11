@@ -19,7 +19,7 @@
     <string name="sign_up">Регистрация</string>
     <string name="sign_in">Войти</string>
 
-    <string name="create_new_account">Создате ваш аккаунт</string>
+    <string name="create_new_account">Создайте ваш аккаунт</string>
     <string name="enter_with_your_account">Войдите в существующий аккаунт</string>
 
     <string name="forgot_password">Забыли пароль?</string>
@@ -35,7 +35,7 @@
     <string name="avg_distance">Сред. Дистанция</string>
     <string name="distance">Дистанция</string>
 
-    <string name="total_runs">Всего забегов</string>
+    <string name="total_runs">Всего Забегов</string>
 
     <string name="avg_speed">Сред. Скорость</string>
 
@@ -53,8 +53,8 @@
     <string name="theme_light_entry_value">16</string>
     <string name="theme_dark_entry_value">32</string>
 
-    <string name="unit_metric_entries">Метрическая</string>
-    <string name="unit_imperial_entries">Имперская</string>
+    <string name="unit_metric_entries">Метрическая (км)</string>
+    <string name="unit_imperial_entries">Имперская (мили)</string>
 
     <string name="start">Старт</string>
     <string name="pause">Пауза</string>
@@ -92,12 +92,12 @@
     <string name="cant_find_location">Не получается определить местоположение, проверьте подключение</string>
 
     <string name="title_welcome_one">Добро пожаловать в SberRunner</string>
-    <string name="welcome_one">Удобное приложение для отслеживание ваших забегов</string>
+    <string name="welcome_one">Удобное приложение для отслеживания ваших забегов</string>
 
     <string name="title_welcome_two">Ваш помощник в беге</string>
     <string name="welcome_two">Совершенствуйтесь, анализируя историю бега</string>
 
-    <string name="title_welcome_three">Давйте начнём!</string>
+    <string name="title_welcome_three">Давайте начнём!</string>
     <string name="welcome_three">Войдите в уже существующий аккаунт или создайте новый</string>
 
     <string name="enter_with_account">ВОЙТИ В АККАУНТ</string>
@@ -160,6 +160,6 @@
     <string name="password_cant_be_empty">Пароль должен содержать символы</string>
     <string name="password_six_characters">Пароль должен содержать минимум 6 символов</string>
     <string name="weight_not_valid">Некорректный вес</string>
-    <string name="current_location">Текущаая позиция</string>
+    <string name="current_location">Текущая позиция</string>
 
 </resources>
