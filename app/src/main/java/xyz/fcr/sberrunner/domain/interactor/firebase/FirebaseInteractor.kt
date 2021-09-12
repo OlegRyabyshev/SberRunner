@@ -7,9 +7,9 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.UploadTask
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
-import xyz.fcr.sberrunner.data.repository.firestorage.IStorageRepository
-import xyz.fcr.sberrunner.data.repository.firestore.IFirestoreRepository
+import xyz.fcr.sberrunner.data.repository.firebase.AuthRepositoryInterface
+import xyz.fcr.sberrunner.data.repository.firestorage.ImageRepositoryInterface
+import xyz.fcr.sberrunner.data.repository.firestore.StoreRepositoryInterface
 import xyz.fcr.sberrunner.domain.converter.RunConverter
 import xyz.fcr.sberrunner.presentation.model.Run
 
@@ -17,14 +17,14 @@ import xyz.fcr.sberrunner.presentation.model.Run
  * Имплементация интерфейса [IFirebaseInteractor],
  * служит для связи Firebase (auth, firestore, storage) <-> ViewModel
  *
- * @param firebase [IFirebaseRepository] - репозиторий взааимодействия с Firebase
- * @param firestore [IFirestoreRepository] - репозиторий взааимодействия с Firestore
- * @param storage [IStorageRepository] - репозиторий взааимодействия с Firebase Storage
+ * @param firebase [AuthRepositoryInterface] - репозиторий взааимодействия с Firebase
+ * @param firestore [StoreRepositoryInterface] - репозиторий взааимодействия с Firestore
+ * @param storage [ImageRepositoryInterface] - репозиторий взааимодействия с Firebase Storage
  */
 class FirebaseInteractor(
-    private val firebase: IFirebaseRepository,
-    private val firestore: IFirestoreRepository,
-    private val storage: IStorageRepository,
+    private val firebase: AuthRepositoryInterface,
+    private val firestore: StoreRepositoryInterface,
+    private val storage: ImageRepositoryInterface,
     private val converter: RunConverter
 ) : IFirebaseInteractor {
 

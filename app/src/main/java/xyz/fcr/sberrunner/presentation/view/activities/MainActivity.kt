@@ -29,7 +29,8 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
-    private val binding get() = _binding!!
+    private val binding
+        get() = _binding!!
 
     private var currentFragment: Fragment? = null
 

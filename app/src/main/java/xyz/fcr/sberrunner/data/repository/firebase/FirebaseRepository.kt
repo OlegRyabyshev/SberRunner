@@ -5,13 +5,13 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 
 /**
- * Имплементация интерфейса [IFirebaseRepository], служит для взаимодействия с объектом FirebaseAuth
+ * Имплементация интерфейса [AuthRepositoryInterface], служит для взаимодействия с объектом FirebaseAuth
  *
  * @param firebaseAuth [FirebaseAuth] - объект аутентификации
  */
 class FirebaseRepository(
     private val firebaseAuth: FirebaseAuth
-) : IFirebaseRepository {
+) : AuthRepositoryInterface {
 
     /**
      * Регистрация пользователя

@@ -5,12 +5,12 @@ import com.google.firebase.storage.UploadTask
 import xyz.fcr.sberrunner.data.model.RunEntity
 
 /**
- * Интерфейс взаимодействия с Firebase Storage
+ * Интерфейс взаимодействия с изображениями
  */
-interface IStorageRepository {
+interface ImageRepositoryInterface {
 
     /**
-     * Добавление изображения в хранилище Firebase Storage
+     * Добавление изображения в хранилище
      *
      * @param run [RunEntity] - объект бега
      * @return [UploadTask] - результат загрузки изображения
@@ -18,7 +18,7 @@ interface IStorageRepository {
     fun addImage(run: RunEntity): UploadTask
 
     /**
-     * Получение изображения из хранилища Firebase Storage
+     * Получение изображения из хранилища
      *
      * @param run [RunEntity] - объект бега
      * @return [Task] - результат асинхронного запроса получения изображения

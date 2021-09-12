@@ -5,7 +5,6 @@ import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.room.RunDao
 import xyz.fcr.sberrunner.domain.converter.RunConverter
 import xyz.fcr.sberrunner.presentation.model.Run
-import javax.inject.Inject
 
 /**
  * Имплементация интерфейса [IDatabaseInteractor], служит для связи Room <-> ViewModel

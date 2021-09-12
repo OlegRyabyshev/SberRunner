@@ -8,7 +8,7 @@ import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.data.util.BitmapConverter
 
 /**
- * Имплементация интерфейса [IStorageRepository], служит для взаимодействия с Firebase Storage
+ * Имплементация интерфейса [ImageRepositoryInterface], служит для взаимодействия с Firebase Storage
  *
  * @param firebaseAuth [FirebaseAuth] - объект аутентификации
  * @param storage [FirebaseStorage] - объект хранилища Firebase Storage
@@ -16,7 +16,7 @@ import xyz.fcr.sberrunner.data.util.BitmapConverter
 class StorageRepository(
     private val firebaseAuth: FirebaseAuth,
     private val storage: FirebaseStorage
-) : IStorageRepository {
+) : ImageRepositoryInterface {
 
     private val userId
         get() = firebaseAuth.currentUser?.uid ?: throw IllegalAccessError("Can't find user id")

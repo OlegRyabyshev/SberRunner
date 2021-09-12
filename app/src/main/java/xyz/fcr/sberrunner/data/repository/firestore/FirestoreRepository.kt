@@ -7,7 +7,8 @@ import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.utils.Constants
 
 /**
- * Имплементация интерфейса [IFirestoreRepository], служит для взаимодействия с объектами FirebaseAuth и FirebaseStore
+ * Имплементация интерфейса [StoreRepositoryInterface],
+ * служит для взаимодействия с объектами FirebaseAuth и FirebaseStore
  *
  * @param auth [FirebaseAuth] - объект аутентификации
  * @param firestore [FirebaseFirestore] - объект облачной NoSQL DB
@@ -15,7 +16,7 @@ import xyz.fcr.sberrunner.utils.Constants
 class FirestoreRepository(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore
-) : IFirestoreRepository {
+) : StoreRepositoryInterface {
 
     private val userId
         get() = auth.currentUser?.uid ?: throw IllegalAccessError("Can't find user id")
