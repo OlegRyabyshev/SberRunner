@@ -44,6 +44,7 @@ class TrackingUtility {
                 val pos1 = polyline[i]
                 val pos2 = polyline[i + 1]
                 val result = FloatArray(1)
+
                 Location.distanceBetween(
                     pos1.latitude,
                     pos1.longitude,
@@ -51,6 +52,7 @@ class TrackingUtility {
                     pos2.longitude,
                     result
                 )
+
                 distance += result[0]
             }
             return distance
