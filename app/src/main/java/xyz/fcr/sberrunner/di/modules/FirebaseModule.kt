@@ -112,7 +112,7 @@ class FirebaseModule {
      * @param storage [ImageRepositoryInterface] - репозиторий взаимодействия с Firebase Storage
      * @param converter [RunConverter] - конвертер забегов
      *
-     * @return [IFirebaseInteractor] - интерактора взаимодействия с Firebase
+     * @return [IFirebaseInteractor] - интерактор взаимодействия с Firebase
      */
     @Provides
     @Singleton
