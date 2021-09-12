@@ -28,7 +28,8 @@ import javax.inject.Inject
 /**
  * Адаптер recyclerview для фрагмента Run
  *
- * @param listener [ItemClickListener] - интерфейс, передающий информацию во врагмент о позиции нажатия.
+ * @param listener [ItemClickListener] - интерфейс, передающий информацию во врагмент о позиции нажатия
+ * @param sharedPrefWrapper [ISharedPreferenceWrapper] - интерфейс, упрощающий доступ к Shared Preference
  */
 class RunRecyclerAdapter(
     private val listener: ItemClickListener,
