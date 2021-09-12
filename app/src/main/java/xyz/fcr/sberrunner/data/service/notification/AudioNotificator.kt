@@ -14,7 +14,7 @@ import javax.inject.Inject
  * @param mediaPlayer [MediaPlayer] - проигрыватель звуков
  * @param sharedPreferenceWrapper [ISharedPreferenceWrapper] - интерфейс взаимодействия с SharedPreference
  */
-class AudioNotificator @Inject constructor(
+class AudioNotificator(
     private val mediaPlayer: MediaPlayer,
     private val sharedPreferenceWrapper: ISharedPreferenceWrapper
 ) : IAudioNotificator {

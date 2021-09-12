@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import es.dmoral.toasty.Toasty
 import xyz.fcr.sberrunner.R
+import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.databinding.FragmentHomeBinding
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.view.fragments.main.adapters.ItemClickListener
@@ -37,6 +38,10 @@ class HomeFragment : Fragment(), ItemClickListener {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var sharedPrefWrapper: ISharedPreferenceWrapper
+
     val viewModel: HomeViewModel by viewModels { factory }
 
     init {
@@ -50,9 +55,7 @@ class HomeFragment : Fragment(), ItemClickListener {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        val action = arguments?.getString(START_SYNC_KEY)
-
-        when (action) {
+        when (arguments?.getString(START_SYNC_KEY)) {
             START_SYNC -> {
                 viewModel.initSync()
                 binding.homeLoadingLayout.isVisible = true
@@ -125,7 +128,7 @@ class HomeFragment : Fragment(), ItemClickListener {
      * Инициализация RecyclerView
      */
     private fun setupRecyclerView() {
-        recyclerAdapter = RunRecyclerAdapter(this)
+        recyclerAdapter = RunRecyclerAdapter(this, sharedPrefWrapper)
         binding.recyclerViewRuns.apply {
             adapter = recyclerAdapter
             layoutManager = LinearLayoutManager(activity)

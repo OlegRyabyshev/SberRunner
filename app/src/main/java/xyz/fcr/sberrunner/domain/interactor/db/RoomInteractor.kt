@@ -12,7 +12,7 @@ import javax.inject.Inject
  *
  * @param runDao [RunDao] - data access objects для получения доступа к базе данных бега
  */
-class RoomInteractor @Inject constructor(
+class RoomInteractor(
     private val runDao: RunDao,
     private val converter: RunConverter
 ) : IDatabaseInteractor {

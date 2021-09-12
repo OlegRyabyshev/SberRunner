@@ -30,15 +30,10 @@ import javax.inject.Inject
  *
  * @param listener [ItemClickListener] - интерфейс, передающий информацию во врагмент о позиции нажатия.
  */
-class RunRecyclerAdapter(private val listener: ItemClickListener) :
-    RecyclerView.Adapter<RunRecyclerAdapter.RunViewHolder>() {
-
-    @Inject
-    lateinit var sharedPrefWrapper: ISharedPreferenceWrapper
-
-    init {
-        App.appComponent.inject(this)
-    }
+class RunRecyclerAdapter(
+    private val listener: ItemClickListener,
+    private val sharedPrefWrapper: ISharedPreferenceWrapper
+) : RecyclerView.Adapter<RunRecyclerAdapter.RunViewHolder>() {
 
     inner class RunViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = RunItemBinding.bind(itemView)
