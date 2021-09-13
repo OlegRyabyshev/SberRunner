@@ -9,11 +9,6 @@ import xyz.fcr.sberrunner.presentation.App
 import kotlin.math.roundToInt
 
 /**
- * Класс Extensions
- */
-class ExtensionFunctions
-
-/**
  * Добавляет единицы дистанции к строке
  *
  * @param isMetric [Boolean] - флаг системы измерений

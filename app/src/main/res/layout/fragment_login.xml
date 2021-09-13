@@ -119,17 +119,14 @@
                 android:id="@+id/sign_up_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:paddingStart="@dimen/padding_medium"
-                android:paddingEnd="@dimen/padding_medium"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_gravity="center"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif"
+                android:padding="@dimen/padding_medium"
                 android:singleLine="false"
                 android:text="@string/new_to_sberrunner"
                 android:textColor="@color/main_green"
-                android:textSize="14sp" />
+                android:textSize="@dimen/text_welcome_content" />
 
         </LinearLayout>
 

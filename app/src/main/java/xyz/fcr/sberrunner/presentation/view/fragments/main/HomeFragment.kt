@@ -15,12 +15,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import es.dmoral.toasty.Toasty
 import xyz.fcr.sberrunner.R
+import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.databinding.FragmentHomeBinding
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.view.fragments.main.adapters.ItemClickListener
 import xyz.fcr.sberrunner.presentation.view.fragments.main.adapters.RunRecyclerAdapter
 import xyz.fcr.sberrunner.presentation.viewmodels.main.HomeViewModel
-import xyz.fcr.sberrunner.utils.Constants.CURRENT_RUN_ID
+import xyz.fcr.sberrunner.utils.Constants.CURRENT_RUN_TIMESTAMP
 import xyz.fcr.sberrunner.utils.Constants.START_SYNC
 import xyz.fcr.sberrunner.utils.Constants.START_SYNC_KEY
 import javax.inject.Inject
@@ -37,6 +38,10 @@ class HomeFragment : Fragment(), ItemClickListener {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
+
+    @Inject
+    lateinit var sharedPrefWrapper: ISharedPreferenceWrapper
+
     val viewModel: HomeViewModel by viewModels { factory }
 
     init {
@@ -50,10 +55,12 @@ class HomeFragment : Fragment(), ItemClickListener {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        val action = arguments?.getString(START_SYNC_KEY)
-
-        if (action == START_SYNC) {
-            viewModel.initSync()
+        when (arguments?.getString(START_SYNC_KEY)) {
+            START_SYNC -> {
+                viewModel.initSync()
+                binding.homeLoadingLayout.isVisible = true
+            }
+            else -> viewModel.updateListOfRuns()
         }
 
         return binding.root
@@ -61,7 +68,6 @@ class HomeFragment : Fragment(), ItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.updateListOfRuns()
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             viewModel.initSync()
@@ -122,7 +128,7 @@ class HomeFragment : Fragment(), ItemClickListener {
      * Инициализация RecyclerView
      */
     private fun setupRecyclerView() {
-        recyclerAdapter = RunRecyclerAdapter(this)
+        recyclerAdapter = RunRecyclerAdapter(this, sharedPrefWrapper)
         binding.recyclerViewRuns.apply {
             adapter = recyclerAdapter
             layoutManager = LinearLayoutManager(activity)
@@ -145,14 +151,15 @@ class HomeFragment : Fragment(), ItemClickListener {
             val position = viewHolder.layoutPosition
 
             val run = recyclerAdapter.differ.currentList[position]
-            viewModel.setFlag(run.id!!, true)
+            viewModel.setFlag(run.timestamp, true)
             viewModel.updateListOfRuns()
 
             Snackbar.make(requireView(), getString(R.string.run_deleted), Snackbar.LENGTH_LONG).apply {
                 setAction(getString(R.string.undo)) {
-                    viewModel.setFlag(run.id!!, false)
+                    viewModel.setFlag(run.timestamp, false)
                     viewModel.updateListOfRuns()
                 }
+
                 show()
             }
         }
@@ -164,25 +171,23 @@ class HomeFragment : Fragment(), ItemClickListener {
     override fun onItemClick(position: Int) {
         val run = recyclerAdapter.differ.currentList[position]
 
-        if (run.id != null) {
-            val bundle = Bundle().apply {
-                putInt(CURRENT_RUN_ID, run.id!!)
-            }
-
-            val fragment = DetailedRunFragment()
-            fragment.arguments = bundle
-
-            parentFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                    R.anim.enter_from_right,
-                    R.anim.exit_to_left,
-                    R.anim.enter_from_left,
-                    R.anim.exit_to_right
-                )
-                .add(R.id.main_container, fragment)
-                .addToBackStack(tag)
-                .commit()
+        val bundle = Bundle().apply {
+            putLong(CURRENT_RUN_TIMESTAMP, run.timestamp)
         }
+
+        val fragment = DetailedRunFragment()
+        fragment.arguments = bundle
+
+        parentFragmentManager
+            .beginTransaction()
+            .setCustomAnimations(
+                R.anim.enter_from_right,
+                R.anim.exit_to_left,
+                R.anim.enter_from_left,
+                R.anim.exit_to_right
+            )
+            .add(R.id.main_container, fragment)
+            .addToBackStack(tag)
+            .commit()
     }
 }

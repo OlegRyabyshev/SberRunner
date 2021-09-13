@@ -1,41 +1,41 @@
 package xyz.fcr.sberrunner.domain.interactor.db
 
-import androidx.lifecycle.LiveData
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.data.room.RunDao
-import javax.inject.Inject
+import xyz.fcr.sberrunner.domain.converter.RunConverter
+import xyz.fcr.sberrunner.presentation.model.Run
 
 /**
  * Имплементация интерфейса [IDatabaseInteractor], служит для связи Room <-> ViewModel
  *
  * @param runDao [RunDao] - data access objects для получения доступа к базе данных бега
  */
-class RoomInteractor @Inject constructor(
-    private val runDao: RunDao
+class RoomInteractor(
+    private val runDao: RunDao,
+    private val converter: RunConverter
 ) : IDatabaseInteractor {
 
     /**
      * Метод добавления объкта бега в БД
      *
-     * @param run [RunEntity] - объект бега на добавление
+     * @param run [Run] - объект бега на добавление
      *
      * @return [Completable] - результат выполнения добавления
      */
-    override fun addRun(run: RunEntity): Completable {
-        return Completable.fromCallable { runDao.addRun(run) }
+    override fun addRun(run: Run): Completable {
+        return Completable.fromCallable { runDao.addRun(converter.toRunEntity(run)) }
     }
 
     /**
      * Метод удаления объекта бега из БД
      *
-     * @param run [RunEntity] - объект бега на удаление
+     * @param run [Run] - объект бега на удаление
      *
      * @return [Completable] - результат выполнения удаления
      */
-    override fun deleteRun(run: RunEntity): Completable {
-        return Completable.fromCallable { runDao.deleteRun(run) }
+    override fun deleteRun(run: Run): Completable {
+        return Completable.fromCallable { runDao.deleteRun(converter.toRunEntity(run)) }
     }
 
     /**
@@ -43,19 +43,23 @@ class RoomInteractor @Inject constructor(
      *
      * @return [Single] - результат получения списка забегов
      */
-    override fun getAllRuns(): Single<List<RunEntity>> {
-        return Single.fromCallable { runDao.getAllRuns() }
+    override fun getAllRuns(): Single<List<Run>> {
+        return Single.fromCallable { converter.toRunList(runDao.getAllRuns()) }
     }
 
     /**
      * Метод получения объкта бега из БД по ID
      *
-     * @param runId [Int] - ID забега
+     * @param timestamp [Long] - временная отметка забега
      *
-     * @return [LiveData] - observable объект забега
+     * @return [Single] - результ запроса забега
      */
-    override fun getRun(runId: Int): LiveData<RunEntity> {
-        return runDao.getRun(runId)
+    override fun getRun(timestamp: Long): Single<Run> {
+        return Single.fromCallable {
+            converter.toRun(
+                runDao.getRun(timestamp)
+            )
+        }
     }
 
     /**
@@ -74,10 +78,10 @@ class RoomInteractor @Inject constructor(
      *
      * @return [Completable] - результат выполнения добавления
      */
-    override fun addList(list: List<RunEntity>): Completable {
+    override fun addList(list: List<Run>): Completable {
         return Completable.fromCallable {
             list.forEach {
-                runDao.addRun(it)
+                runDao.addRun(converter.toRunEntity(it))
             }
         }
     }
@@ -85,13 +89,13 @@ class RoomInteractor @Inject constructor(
     /**
      * Метод переключения флага на удаление в БД
      *
-     * @param runID [Int] - ID забега
+     * @param timestamp [Long] - временная отметка забега
      * @param toDelete [Boolean] - флаг на удаление
      *
      * @return [Completable] - результат выполнения переключения
      */
-    override fun switchToDeleteFlag(runID: Int, toDelete: Boolean): Completable {
-        return Completable.fromCallable { runDao.switchToDeleteFlag(runID, toDelete) }
+    override fun switchToDeleteFlag(timestamp: Long, toDelete: Boolean): Completable {
+        return Completable.fromCallable { runDao.switchToDeleteFlag(timestamp, toDelete) }
     }
 
     /**
@@ -110,8 +114,8 @@ class RoomInteractor @Inject constructor(
      *
      * @return [Completable] - результат выполнения удаления
      */
-    override fun removeRuns(markedToDeleteFromCloud: List<RunEntity>): Completable {
-        val timeStampList : List<Long> = markedToDeleteFromCloud.map { it.timestamp }
+    override fun removeRuns(markedToDeleteFromCloud: List<Run>): Completable {
+        val timeStampList: List<Long> = markedToDeleteFromCloud.map { it.timestamp }
 
         return Completable.fromCallable { runDao.removeRuns(timeStampList) }
     }

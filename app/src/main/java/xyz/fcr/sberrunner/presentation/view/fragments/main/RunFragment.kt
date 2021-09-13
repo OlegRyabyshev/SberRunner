@@ -24,10 +24,10 @@ import es.dmoral.toasty.Toasty
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.fcr.sberrunner.R
-import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.data.service.RunningService
 import xyz.fcr.sberrunner.databinding.FragmentRunBinding
 import xyz.fcr.sberrunner.presentation.App
+import xyz.fcr.sberrunner.presentation.model.Run
 import xyz.fcr.sberrunner.presentation.viewmodels.main.RunViewModel
 import xyz.fcr.sberrunner.utils.Constants.ACTION_PAUSE_SERVICE
 import xyz.fcr.sberrunner.utils.Constants.ACTION_START_OR_RESUME_SERVICE
@@ -366,7 +366,7 @@ class RunFragment : Fragment(), GoogleMap.SnapshotReadyCallback, EasyPermissions
 
         val caloriesBurned = ((distanceInMeters / 1000f) * weight).toLong()
 
-        val run = RunEntity(
+        val run = Run(
             avgSpeed,
             caloriesBurned,
             distanceInMeters,

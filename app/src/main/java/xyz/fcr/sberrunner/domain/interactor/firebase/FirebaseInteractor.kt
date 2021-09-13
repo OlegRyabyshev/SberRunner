@@ -4,27 +4,28 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.storage.CancellableTask
 import com.google.firebase.storage.UploadTask
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import xyz.fcr.sberrunner.data.model.RunEntity
-import xyz.fcr.sberrunner.data.repository.firebase.IFirebaseRepository
-import xyz.fcr.sberrunner.data.repository.firestorage.IStorageRepository
-import xyz.fcr.sberrunner.data.repository.firestore.IFirestoreRepository
+import xyz.fcr.sberrunner.data.repository.firebase.AuthRepositoryInterface
+import xyz.fcr.sberrunner.data.repository.firestorage.ImageRepositoryInterface
+import xyz.fcr.sberrunner.data.repository.firestore.StoreRepositoryInterface
+import xyz.fcr.sberrunner.domain.converter.RunConverter
+import xyz.fcr.sberrunner.presentation.model.Run
 
 /**
  * Имплементация интерфейса [IFirebaseInteractor],
  * служит для связи Firebase (auth, firestore, storage) <-> ViewModel
  *
- * @param firebase [IFirebaseRepository] - репозиторий взааимодействия с Firebase
- * @param firestore [IFirestoreRepository] - репозиторий взааимодействия с Firestore
- * @param storage [IStorageRepository] - репозиторий взааимодействия с Firebase Storage
+ * @param firebase [AuthRepositoryInterface] - репозиторий взааимодействия с Firebase
+ * @param firestore [StoreRepositoryInterface] - репозиторий взааимодействия с Firestore
+ * @param storage [ImageRepositoryInterface] - репозиторий взааимодействия с Firebase Storage
  */
 class FirebaseInteractor(
-    private val firebase: IFirebaseRepository,
-    private val firestore: IFirestoreRepository,
-    private val storage: IStorageRepository
+    private val firebase: AuthRepositoryInterface,
+    private val firestore: StoreRepositoryInterface,
+    private val storage: ImageRepositoryInterface,
+    private val converter: RunConverter
 ) : IFirebaseInteractor {
 
     /**
@@ -36,7 +37,9 @@ class FirebaseInteractor(
      * @return [Single] - асинхронный результат авторизации
      */
     override fun login(email: String, password: String): Single<Task<AuthResult>> {
-        return Single.fromCallable { firebase.login(email, password) }
+        return Single.fromCallable {
+            firebase.login(email, password)
+        }
     }
 
     /**
@@ -55,7 +58,9 @@ class FirebaseInteractor(
         pass: String,
         weight: String
     ): Single<Task<AuthResult>> {
-        return Single.fromCallable { firebase.registration(name, email, pass, weight) }
+        return Single.fromCallable {
+            firebase.registration(name, email, pass, weight)
+        }
     }
 
     /**
@@ -66,7 +71,9 @@ class FirebaseInteractor(
      * @return [Single] - асинхронный результат отправки сообщения
      */
     override fun sendResetEmail(email: String): Single<Task<Void>> {
-        return Single.fromCallable { firebase.sendResetEmail(email) }
+        return Single.fromCallable {
+            firebase.sendResetEmail(email)
+        }
     }
 
     /**
@@ -75,7 +82,9 @@ class FirebaseInteractor(
      * @return [Completable] - асинхронный результат отправки запроса
      */
     override fun signOut(): Completable {
-        return Completable.fromCallable { firebase.signOut() }
+        return Completable.fromCallable {
+            firebase.signOut()
+        }
     }
 
     /**
@@ -83,8 +92,10 @@ class FirebaseInteractor(
      *
      * @return [Single] - асинхронный результат удаления
      */
-    override fun deleteAccount(): Single<Task<Void>>{
-        return Single.fromCallable { firebase.deleteAccount() }
+    override fun deleteAccount(): Single<Task<Void>> {
+        return Single.fromCallable {
+            firebase.deleteAccount()
+        }
     }
 
     /**
@@ -93,7 +104,9 @@ class FirebaseInteractor(
      * @return [Single] - асинхронный результат получения документа
      */
     override fun getDocumentFirestore(): Single<Task<DocumentSnapshot>> {
-        return Single.fromCallable { firestore.getDocumentFirestore() }
+        return Single.fromCallable {
+            firestore.getDocumentFirestore()
+        }
     }
 
     /**
@@ -104,7 +117,9 @@ class FirebaseInteractor(
      * @return [Single] - асинхронный результат обновления веса
      */
     override fun updateWeight(weight: String): Single<Task<Void>> {
-        return Single.fromCallable { firestore.updateWeight(weight) }
+        return Single.fromCallable {
+            firestore.updateWeight(weight)
+        }
     }
 
     /**
@@ -115,7 +130,9 @@ class FirebaseInteractor(
      * @return [Single] - асинхронный результат обновления имени
      */
     override fun updateName(name: String): Single<Task<Void>> {
-        return Single.fromCallable { firestore.updateName(name) }
+        return Single.fromCallable {
+            firestore.updateName(name)
+        }
     }
 
     /**
@@ -124,7 +141,9 @@ class FirebaseInteractor(
      * @return [Single] - асинхронный результат получения списка
      */
     override fun getAllRunsFromCloud(): Single<Task<QuerySnapshot>> {
-        return Single.fromCallable { firestore.getAllRuns() }
+        return Single.fromCallable {
+            firestore.getAllRuns()
+        }
     }
 
     /**
@@ -136,7 +155,9 @@ class FirebaseInteractor(
      * @return [Single] - асинхронный результат занесения данных
      */
     override fun fillUserDataInFirestore(name: String, weight: String): Single<Task<Void>> {
-        return Single.fromCallable { firestore.fillUserDataInFirestore(name, weight) }
+        return Single.fromCallable {
+            firestore.fillUserDataInFirestore(name, weight)
+        }
     }
 
     /**
@@ -146,8 +167,12 @@ class FirebaseInteractor(
      *
      * @return [Single] - асинхронный результат изменения флагов
      */
-    override fun switchToDeleteFlagsInCloud(listToSwitch: List<RunEntity>): Single<Task<Void>> {
-        return Single.fromCallable { firestore.switchToDeleteFlags(listToSwitch) }
+    override fun switchToDeleteFlagsInCloud(listToSwitch: List<Run>): Single<Task<Void>> {
+        return Single.fromCallable {
+            firestore.switchToDeleteFlags(
+                converter.toRunEntityList(listToSwitch)
+            )
+        }
     }
 
     /**
@@ -157,29 +182,41 @@ class FirebaseInteractor(
      *
      * @return [Single] - асинхронный результат загрузки забегов
      */
-    override fun uploadMissingFromDbToCloud(missingList: List<RunEntity>): Single<Task<Void>> {
-        return Single.fromCallable { firestore.addRunsToCloud(missingList) }
+    override fun uploadMissingFromDbToCloud(missingList: List<Run>): Single<Task<Void>> {
+        return Single.fromCallable {
+            firestore.addRunsToCloud(
+                converter.toRunEntityList(missingList)
+            )
+        }
     }
 
     /**
      * Результат загрузки изображения в Firebase Storage
      *
-     * @param run [RunEntity] - объект забега
+     * @param run [Run] - объект забега
      *
      * @return [Single] - асинхронный результат загрузки изображения
      */
-    override fun uploadImageToStorage(run: RunEntity): Single<UploadTask> {
-        return Single.fromCallable { storage.addImage(run) }
+    override fun uploadImageToStorage(run: Run): Single<UploadTask> {
+        return Single.fromCallable {
+            storage.addImage(
+                converter.toRunEntity(run)
+            )
+        }
     }
 
     /**
      * Результат загрузки изображения из Firebase Storage
      *
-     * @param run [RunEntity] - объект забега
+     * @param run [Run] - объект забега
      *
      * @return [Single] - асинхронный результат загрузки изображения
      */
-    override fun downloadImageFromStorage(run: RunEntity): Single<Task<ByteArray>> {
-        return Single.fromCallable { storage.getImage(run) }
+    override fun downloadImageFromStorage(run: Run): Single<Task<ByteArray>> {
+        return Single.fromCallable {
+            storage.getImage(
+                converter.toRunEntity(run)
+            )
+        }
     }
 }

@@ -41,11 +41,6 @@ interface AppComponent {
     fun inject(activity: SplashScreenActivity)
 
     /**
-     * Внедрение зависимостей в Adapter
-     */
-    fun inject(adapter: RunRecyclerAdapter)
-
-    /**
      * Внедрение зависимостей в Fragment
      */
     fun inject(fragment: LoginFragment)

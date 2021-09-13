@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.rxjava3.disposables.Disposable
-import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.domain.interactor.db.IDatabaseInteractor
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.presentation.model.Run
 import xyz.fcr.sberrunner.utils.schedulers.ISchedulersProvider
 import javax.inject.Inject
 
@@ -33,7 +33,7 @@ class RunViewModel @Inject constructor(
     /**
      * Отправка забега в базу данных
      */
-    fun insertRun(run: RunEntity) {
+    fun insertRun(run: Run) {
         disposableAddRun = databaseInteractor.addRun(run)
             .subscribeOn(schedulersProvider.io())
             .subscribe()

@@ -109,4 +109,18 @@ interface ISharedPreferenceWrapper {
      * @return [Boolean] - нотификатор работает (true) / нотификатор выключен (false)
      */
     fun getVoiceNotificationStatus(): Boolean
+
+    /**
+     * Получение значения текущей темы
+     *
+     * @return [String] - текущая тема
+     */
+    fun getTheme(): String
+
+    /**
+     * Получение значения системы измерений
+     *
+     * @return [String] - текущая система измерений
+     */
+    fun getUnits(): String
 }

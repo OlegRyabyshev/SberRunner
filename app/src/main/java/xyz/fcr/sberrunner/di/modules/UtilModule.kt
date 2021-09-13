@@ -6,6 +6,7 @@ import dagger.Provides
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.data.service.notification.AudioNotificator
 import xyz.fcr.sberrunner.data.service.notification.IAudioNotificator
+import xyz.fcr.sberrunner.domain.converter.RunConverter
 import xyz.fcr.sberrunner.utils.schedulers.ISchedulersProvider
 import xyz.fcr.sberrunner.utils.schedulers.SchedulersProvider
 import javax.inject.Singleton
@@ -53,5 +54,16 @@ object UtilModule {
     @Provides
     fun provideMediaPlayer(): MediaPlayer {
         return MediaPlayer()
+    }
+
+    /**
+     * Предоставление объекта конвертации забегов между слоями логики
+     *
+     * @return [RunConverter] - конвертер забегов
+     */
+    @Singleton
+    @Provides
+    fun provideRunConverter(): RunConverter {
+        return RunConverter()
     }
 }

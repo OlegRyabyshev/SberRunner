@@ -4,11 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import xyz.fcr.sberrunner.R
-import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.domain.interactor.db.IDatabaseInteractor
 import xyz.fcr.sberrunner.domain.interactor.firebase.IFirebaseInteractor
-import xyz.fcr.sberrunner.presentation.App
+import xyz.fcr.sberrunner.presentation.model.Run
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.schedulers.ISchedulersProvider
 import xyz.fcr.sberrunner.utils.toBitmap
@@ -29,12 +27,12 @@ class HomeViewModel @Inject constructor(
 
     private val _progressLiveData = MutableLiveData<Boolean>()
     private val _errorLiveData = SingleLiveEvent<String>()
-    private val _listOfRunsLiveData = MutableLiveData<List<RunEntity>>()
+    private val _listOfRunsLiveData = MutableLiveData<List<Run>>()
 
     private var compositeDisposable = CompositeDisposable()
 
-    private var cloudListRuns: List<RunEntity> = emptyList()
-    private var dbListRuns: List<RunEntity> = emptyList()
+    private var cloudListRuns: List<Run> = emptyList()
+    private var dbListRuns: List<Run> = emptyList()
 
     /**
      * Метод обновления списков забега
@@ -83,12 +81,12 @@ class HomeViewModel @Inject constructor(
                 task.addOnCompleteListener {
                     when {
                         task.isSuccessful -> {
-                            val list = mutableListOf<RunEntity>()
+                            val list = mutableListOf<Run>()
 
                             if (!task.result.isEmpty) {
                                 task.result.forEach { document ->
                                     list.add(
-                                        RunEntity(
+                                        Run(
                                             avgSpeedInKMH = document.get("avgSpeedInKMH") as String,
                                             calories = document.get("calories") as Long,
                                             distanceInMeters = document.get("distanceInMeters") as Long,
@@ -111,10 +109,7 @@ class HomeViewModel @Inject constructor(
                         }
 
                         else -> {
-                            _errorLiveData.postValue(
-                                App.appComponent.context()
-                                    .getString(R.string.no_access_to_internet)
-                            )
+                            _errorLiveData.postValue("No access to internet")
                             finishSync()
                         }
                     }
@@ -127,7 +122,7 @@ class HomeViewModel @Inject constructor(
      * Загрузка изображений из локальной БД на Firebase Storage
      * @param missingList [List] - список забегов
      */
-    private fun loadImagesLoList(missingList: List<RunEntity>) {
+    private fun loadImagesLoList(missingList: List<Run>) {
         var counter = 0
 
         missingList.forEach { run ->
@@ -165,7 +160,7 @@ class HomeViewModel @Inject constructor(
      * Загрузка недостоющих забегов из Firestore в локальную БД
      * @param missingRunsFromCloud [List] - список забегов
      */
-    private fun uploadMissingRunsFromCloudToDb(missingRunsFromCloud: List<RunEntity>) {
+    private fun uploadMissingRunsFromCloudToDb(missingRunsFromCloud: List<Run>) {
         compositeDisposable.add(
             databaseInteractor.addList(missingRunsFromCloud.filter { !it.toDeleteFlag })
                 .subscribeOn(schedulersProvider.io())
@@ -184,7 +179,7 @@ class HomeViewModel @Inject constructor(
      * Это позволит при последующей синхронизации других устройств удалить эти забеги и там
      */
     private fun switchToDeleteFlagsInCloud() {
-        val listToSwitch: List<RunEntity> = getListToSwitch(dbListRuns.filter { it.toDeleteFlag }, cloudListRuns)
+        val listToSwitch: List<Run> = getListToSwitch(dbListRuns.filter { it.toDeleteFlag }, cloudListRuns)
 
         if (listToSwitch.isNotEmpty()) {
             compositeDisposable.add(
@@ -241,7 +236,7 @@ class HomeViewModel @Inject constructor(
      *
      * @param markedToDeleteFromCloud [List] - список забегов
      */
-    private fun removeFromDb(markedToDeleteFromCloud: List<RunEntity>) {
+    private fun removeFromDb(markedToDeleteFromCloud: List<Run>) {
         compositeDisposable.add(
             databaseInteractor.removeRuns(markedToDeleteFromCloud)
                 .subscribeOn(schedulersProvider.io())
@@ -284,7 +279,7 @@ class HomeViewModel @Inject constructor(
      *
      * @param missingList [List] - список забегов
      */
-    private fun loadPicturesFromDbToStorage(missingList: List<RunEntity>) {
+    private fun loadPicturesFromDbToStorage(missingList: List<Run>) {
         var counter = 0
 
         missingList.forEach { run ->
@@ -321,7 +316,7 @@ class HomeViewModel @Inject constructor(
      *
      * @param missingList [List] - список забегов
      */
-    private fun uploadMissingRunsFromDbToCloud(missingList: List<RunEntity>) {
+    private fun uploadMissingRunsFromDbToCloud(missingList: List<Run>) {
         compositeDisposable.add(
             firebaseInteractor.uploadMissingFromDbToCloud(missingList)
                 .subscribeOn(schedulersProvider.io())
@@ -330,8 +325,7 @@ class HomeViewModel @Inject constructor(
                     task.addOnCompleteListener {
                         when {
                             task.isSuccessful -> {
-                                _progressLiveData.postValue(false)
-                                updateListOfRuns()
+                                finishSync()
                             }
                             else -> {
                                 _errorLiveData.postValue("Error in uploadMissingRunsFromDbToCloud")
@@ -362,7 +356,7 @@ class HomeViewModel @Inject constructor(
      *
      * @return [Boolean] - отметка содержится (true)/ не содержится (false)
      */
-    private fun containsTimeStamp(list: List<RunEntity>, timestamp: Long): Boolean {
+    private fun containsTimeStamp(list: List<Run>, timestamp: Long): Boolean {
         list.forEach { run ->
             if (run.timestamp == timestamp) return true
         }
@@ -373,23 +367,23 @@ class HomeViewModel @Inject constructor(
     /**
      * Метод переключения флага на удаление в БД
      *
-     * @param runID [RunEntity] - ID забега
+     * @param timestamp [Long] - временная отмета забега
      * @param toDelete [Boolean] - флаг на удаление
      */
-    fun setFlag(runID: Int, toDelete: Boolean) {
+    fun setFlag(timestamp: Long, toDelete: Boolean) {
         compositeDisposable.add(
-            databaseInteractor.switchToDeleteFlag(runID, toDelete)
-                .doOnSubscribe {
-                    _progressLiveData.postValue(true)
-                }
-                .doAfterTerminate {
-                    _progressLiveData.postValue(false)
-                }
-                .subscribeOn(schedulersProvider.io())
-                .observeOn(schedulersProvider.ui())
-                .subscribe({
-                    updateListOfRuns()
-                }, {})
+            databaseInteractor.switchToDeleteFlag(timestamp, toDelete)
+            .doOnSubscribe {
+                _progressLiveData.postValue(true)
+            }
+            .doAfterTerminate {
+                _progressLiveData.postValue(false)
+            }
+            .subscribeOn(schedulersProvider.io())
+            .observeOn(schedulersProvider.ui())
+            .subscribe({
+                updateListOfRuns()
+            }, {})
         )
     }
 
@@ -398,8 +392,8 @@ class HomeViewModel @Inject constructor(
      *
      * @return [List] - список забегов
      */
-    private fun getMissingRunsFromCloudToDb(): List<RunEntity> {
-        val missingRunsFromCloud: MutableList<RunEntity> = mutableListOf()
+    private fun getMissingRunsFromCloudToDb(): List<Run> {
+        val missingRunsFromCloud: MutableList<Run> = mutableListOf()
 
         cloudListRuns.forEach {
             if (!it.toDeleteFlag && !containsTimeStamp(dbListRuns, it.timestamp)) {
@@ -415,8 +409,8 @@ class HomeViewModel @Inject constructor(
      *
      * @return [List] - список забегов
      */
-    private fun getMissingRunsFromDbToCloud(): List<RunEntity> {
-        val missingRunsFromDb: MutableList<RunEntity> = mutableListOf()
+    private fun getMissingRunsFromDbToCloud(): List<Run> {
+        val missingRunsFromDb: MutableList<Run> = mutableListOf()
 
         dbListRuns.forEach {
             if (!containsTimeStamp(cloudListRuns, it.timestamp)) {
@@ -435,8 +429,8 @@ class HomeViewModel @Inject constructor(
      *
      * @return [List] - список забегов
      */
-    private fun getListToSwitch(dbSwitchedRuns: List<RunEntity>, cloudListRuns: List<RunEntity>): List<RunEntity> {
-        val listToSwitch: MutableList<RunEntity> = mutableListOf()
+    private fun getListToSwitch(dbSwitchedRuns: List<Run>, cloudListRuns: List<Run>): List<Run> {
+        val listToSwitch: MutableList<Run> = mutableListOf()
 
         dbSwitchedRuns.forEach {
             if (containsTimeStamp(cloudListRuns, it.timestamp)) {
@@ -461,6 +455,6 @@ class HomeViewModel @Inject constructor(
         get() = _progressLiveData
     val errorLiveData: LiveData<String>
         get() = _errorLiveData
-    val listOfRunsLiveData: LiveData<List<RunEntity>>
+    val listOfRunsLiveData: LiveData<List<Run>>
         get() = _listOfRunsLiveData
 }

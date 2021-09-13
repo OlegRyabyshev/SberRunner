@@ -5,10 +5,13 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import xyz.fcr.sberrunner.data.model.RunEntity
 
-interface IFirestoreRepository {
+/**
+ * Интерфейс взаимодействия информацией пользователя
+ */
+interface StoreRepositoryInterface {
 
     /**
-     * Запрос на обновление имени пользоваателя в Firestore
+     * Запрос на обновление имени пользователя
      *
      * @param newName [String] - новое имя пользователя
      * @return [Task] - результат асинхронного запроса обновления имени
@@ -16,7 +19,7 @@ interface IFirestoreRepository {
     fun updateName(newName: String): Task<Void>
 
     /**
-     * Запрос на обновление веса пользоваателя в Firestore
+     * Запрос на обновление веса пользователя
      *
      * @param newWeight [String] - новый вес пользователя
      * @return [Task] - результат асинхронного запроса обновления веса
@@ -24,7 +27,7 @@ interface IFirestoreRepository {
     fun updateWeight(newWeight: String): Task<Void>
 
     /**
-     * Получение документа пользователя из Firestore
+     * Получение документа пользователя
      *
      * @return [Task] - результат асинхронного запроса получения документа
      */
@@ -40,7 +43,7 @@ interface IFirestoreRepository {
     fun fillUserDataInFirestore(name: String, weight: String): Task<Void>
 
     /**
-     * Получение всех забегов пользователя из Firestore
+     * Получение всех забегов пользователя
      *
      * @return [Task] - результат асинхронного запроса получения всех забегов
      */
@@ -57,7 +60,7 @@ interface IFirestoreRepository {
     fun switchToDeleteFlags(listToSwitch: List<RunEntity>): Task<Void>
 
     /**
-     * Добавление забегов в Firestore
+     * Добавление забегов
      *
      * @param list [List] - список забегов на добавление
      *

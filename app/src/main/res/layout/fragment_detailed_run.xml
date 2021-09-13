@@ -45,11 +45,12 @@
 
                 <TextView
                     android:id="@+id/detailed_date_of_run_tv"
-                    style="@style/Theme.SberRunner.Table.Detailed.Numbers"
+                    style="@style/Theme.SberRunner.Table.Numbers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/date_filler"
                     android:textSize="@dimen/text_medium"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

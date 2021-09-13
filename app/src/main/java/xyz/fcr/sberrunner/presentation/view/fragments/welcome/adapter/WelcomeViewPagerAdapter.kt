@@ -11,8 +11,10 @@ import xyz.fcr.sberrunner.presentation.view.fragments.welcome.WelcomeFragmentThi
 /**
  * ViewPager адаптер фрагмента приветствия.
  */
-class WelcomeViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
-    FragmentStateAdapter(fragmentManager, lifecycle) {
+class WelcomeViewPagerAdapter(
+    fragmentManager: FragmentManager,
+    lifecycle: Lifecycle
+) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {

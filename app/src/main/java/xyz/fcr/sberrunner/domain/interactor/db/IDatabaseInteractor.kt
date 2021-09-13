@@ -1,9 +1,8 @@
 package xyz.fcr.sberrunner.domain.interactor.db
 
-import androidx.lifecycle.LiveData
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import xyz.fcr.sberrunner.data.model.RunEntity
+import xyz.fcr.sberrunner.presentation.model.Run
 
 /**
  * Интерфейс доступка к базе данных
@@ -13,36 +12,36 @@ interface IDatabaseInteractor {
     /**
      * Метод добавления объкта бега в БД
      *
-     * @param run [RunEntity] - объект бега на добавление
+     * @param run [Run] - объект бега на добавление
      *
      * @return [Completable] - результат выполнения добавления
      */
-    fun addRun(run: RunEntity): Completable
+    fun addRun(run: Run): Completable
 
     /**
      * Метод удаления объекта бега из БД
      *
-     * @param run [RunEntity] - объект бега на удаление
+     * @param run [Run] - объект бега на удаление
      *
      * @return [Completable] - результат выполнения удаления
      */
-    fun deleteRun(run: RunEntity): Completable
+    fun deleteRun(run: Run): Completable
 
     /**
      * Метод получения объектов бега из БД
      *
      * @return [Single] - результат получения списка забегов
      */
-    fun getAllRuns(): Single<List<RunEntity>>
+    fun getAllRuns(): Single<List<Run>>
 
     /**
      * Метод получения объкта бега из БД по ID
      *
-     * @param runId [Int] - ID забега
+     * @param timestamp [Long] - временная отметка забега
      *
-     * @return [LiveData] - observable объект забега
+     * @return [Single] - результ запроса забега
      */
-    fun getRun(runId: Int): LiveData<RunEntity>
+    fun getRun(timestamp: Long): Single<Run>
 
     /**
      * Очистка всех объктов бега из БД
@@ -58,17 +57,17 @@ interface IDatabaseInteractor {
      *
      * @return [Completable] - результат выполнения добавления
      */
-    fun addList(list: List<RunEntity>): Completable
+    fun addList(list: List<Run>): Completable
 
     /**
      * Метод переключения флага на удаление в БД
      *
-     * @param runID [Int] - ID забега
+     * @param timestamp [Long] - временная отметка забега
      * @param toDelete [Boolean] - флаг на удаление
      *
      * @return [Completable] - результат выполнения переключения
      */
-    fun switchToDeleteFlag(runID: Int, toDelete: Boolean): Completable
+    fun switchToDeleteFlag(timestamp: Long, toDelete: Boolean): Completable
 
     /**
      * Метод удаления всех забегов с флагом на удаление
@@ -84,5 +83,5 @@ interface IDatabaseInteractor {
      *
      * @return [Completable] - результат выполнения удаления
      */
-    fun removeRuns(markedToDeleteFromCloud: List<RunEntity>): Completable
+    fun removeRuns(markedToDeleteFromCloud: List<Run>): Completable
 }

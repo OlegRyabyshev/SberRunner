@@ -25,6 +25,16 @@ class App : Application() {
     }
 
     /**
+     * Инициализация Dagger для внедрения зависимостей в приложение
+     */
+    private fun initializeDagger() {
+        appComponent = DaggerAppComponent
+            .builder()
+            .appModule(AppModule(this))
+            .build()
+    }
+
+    /**
      * Создание канала уведомлений сервиса
      */
     private fun createNotificationChannel() {
@@ -37,15 +47,5 @@ class App : Application() {
             val manager = getSystemService(NotificationManager::class.java)
             manager.createNotificationChannel(serviceChannel)
         }
-    }
-
-    /**
-     * Инициализация Dagger для внедрения зависимостей в приложение
-     */
-    private fun initializeDagger() {
-        appComponent = DaggerAppComponent
-            .builder()
-            .appModule(AppModule(this))
-            .build()
     }
 }

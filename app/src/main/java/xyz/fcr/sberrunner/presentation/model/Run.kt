@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.domain.model
+package xyz.fcr.sberrunner.presentation.model
 
 import android.graphics.Bitmap
 

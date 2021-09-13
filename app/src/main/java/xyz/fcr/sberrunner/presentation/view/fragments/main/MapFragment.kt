@@ -27,7 +27,6 @@ import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.main.MapViewModel
 import xyz.fcr.sberrunner.utils.Constants
 import xyz.fcr.sberrunner.utils.Constants.MAP_TRACKING_ZOOM
-import xyz.fcr.sberrunner.utils.Constants.MAP_ZOOMED_OUT
 import xyz.fcr.sberrunner.utils.Constants.NON_VALID
 import xyz.fcr.sberrunner.utils.Constants.RUN_BASIC_PERMISSIONS
 import xyz.fcr.sberrunner.utils.hasBasicLocationPermissions
@@ -62,6 +61,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
 
         observeLiveData()
         viewModel.setToLastKnownLocationIfAny()
+
+        observeLiveData()
     }
 
     override fun onCreateView(
@@ -118,9 +119,11 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
      */
     private fun displayLocation(location: Location) {
         val currentLocation = LatLng(location.latitude, location.longitude)
+        map?.clear()
 
         map?.apply {
-            addMarker(MarkerOptions().position(currentLocation).title(getString(R.string.current_location)))
+            val marker = MarkerOptions().position(currentLocation).title(getString(R.string.current_location))
+            addMarker(marker)
             moveCamera(CameraUpdateFactory.newLatLng(currentLocation))
             animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, MAP_TRACKING_ZOOM))
         }

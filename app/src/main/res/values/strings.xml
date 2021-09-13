@@ -54,8 +54,8 @@
     <string name="theme_light_entry_value">16</string>
     <string name="theme_dark_entry_value">32</string>
 
-    <string name="unit_metric_entries">Metric</string>
-    <string name="unit_imperial_entries">Imperial</string>
+    <string name="unit_metric_entries">Metric (km)</string>
+    <string name="unit_imperial_entries">Imperial (mile)</string>
 
     <string name="unit_metric_entry_value" translatable="false">metric_unit</string>
     <string name="unit_imperial_entry_value" translatable="false">imperial_unit</string>
@@ -113,7 +113,7 @@
     <string name="settings_page">Settings</string>
 
     <string name="permission_rationale">SberRunner needs your location permission to launch tracking activity</string>
-    <string name="permission_rationale_q">In order to enable background location access, you must set the *Allow all the time* option</string>
+    <string name="permission_rationale_q">In order to enable a background location access, you must set the *Allow all the time* option</string>
 
     <string name="run_initial_duration">00:00:00</string>
     <string name="run_initial_distance">0.00</string>
@@ -128,7 +128,7 @@
     <string name="not_enough_data">Run will not be saved</string>
     <string name="service_channel" translatable="false">SberRunner Service Channel</string>
     <string name="time_filler" translatable="false">9:02am</string>
-    <string name="date_filler" translatable="false">19:02, July 05, 2021</string>
+    <string name="date_filler" translatable="false">July 05, 2021</string>
     <string name="back_button">Back button</string>
     <string name="kilometers">Kilometers</string>
     <string name="miles">Miles</string>
