@@ -130,7 +130,7 @@
     <string name="mph">Мили/ч</string>
     <string name="time">Время</string>
 
-    <string name="no_history_runs_home">У вас пока что нету истории забегов</string>
+    <string name="no_history_runs_home">У вас пока отсутствует история забегов</string>
     <string name="no_history_runs_progress">Тут будет ваш прогресс бега</string>
     <string name="cancel">Отменить</string>
 
