@@ -45,21 +45,17 @@ class FirebaseInteractor(
     /**
      * Регистрация в Firebase
      *
-     * @param name [String] - имя пользователя
      * @param email [String] - email пользователя
      * @param pass [String] - пароль пользователя
-     * @param weight [String] - вес пользователя
      *
      * @return [Single] - асинхронный результат регистрации
      */
     override fun registration(
-        name: String,
         email: String,
-        pass: String,
-        weight: String
+        pass: String
     ): Single<Task<AuthResult>> {
         return Single.fromCallable {
-            firebase.registration(name, email, pass, weight)
+            firebase.registration(email, pass)
         }
     }
 

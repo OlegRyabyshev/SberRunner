@@ -1,17 +1,29 @@
 package xyz.fcr.sberrunner.data.repository.firebase
 
-import com.google.common.truth.Truth.assertThat
-import io.mockk.spyk
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verifySequence
 import org.junit.Test
 
 class FirebaseRepositoryTest {
 
-    private val firebaseRepository: FirebaseRepository = spyk()
+    private val taskAuth: Task<AuthResult> = mockk()
+    private val firebaseAuth = mockk<FirebaseAuth>()
+    private val firebaseRepository: FirebaseRepository = FirebaseRepository(firebaseAuth)
 
     @Test
     fun registration() {
-        val result = firebaseRepository.registration(NAME, EMAIL, PASS, WEIGHT)
-        assertThat(result).isNotNull()
+        every { firebaseAuth.createUserWithEmailAndPassword(EMAIL, PASS) } returns taskAuth
+
+        firebaseRepository.registration(EMAIL, PASS)
+
+        verifySequence {
+            firebaseRepository.registration(EMAIL, PASS)
+            firebaseAuth.createUserWithEmailAndPassword(EMAIL, PASS)
+        }
     }
 
     @Test

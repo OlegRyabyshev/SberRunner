@@ -1,6 +1,6 @@
 package xyz.fcr.sberrunner.utils
 
-import com.google.common.truth.Truth.assertThat
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.presentation.App
@@ -8,59 +8,83 @@ import xyz.fcr.sberrunner.presentation.App
 class ExtensionFunctionsTest {
 
     @Test
-    fun checkAddingDistance() {
-        assertThat(TEST_STRING + KM_ADDICTION)
-            .isEqualTo(TEST_STRING.addDistanceUnits(IS_METRIC))
+    fun checkAddingDistanceMetric() {
+        val expected = TEST_STRING + KM_ADDICTION
+        val actual = TEST_STRING.addDistanceUnits(IS_METRIC)
 
-        assertThat(TEST_STRING + MILES_ADDICTION)
-            .isEqualTo(TEST_STRING.addDistanceUnits(NOT_METRIC))
+        assertEquals(expected, actual)
     }
 
     @Test
-    fun checkAddingSpeed() {
-        assertThat(TEST_STRING + KMH_ADDICTION)
-            .isEqualTo(TEST_STRING.addSpeedUnits(IS_METRIC))
+    fun checkAddingDistanceNonMetric() {
+        val expected = TEST_STRING + MILES_ADDICTION
+        val actual = TEST_STRING.addDistanceUnits(NON_METRIC)
 
-        assertThat(TEST_STRING + MPH_ADDICTION)
-            .isEqualTo(TEST_STRING.addSpeedUnits(NOT_METRIC))
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun checkAddingSpeedMetric() {
+        val expected = TEST_STRING + KMH_ADDICTION
+        val actual = TEST_STRING.addSpeedUnits(IS_METRIC)
+
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun checkAddingSpeedNonMetric() {
+        val expected = TEST_STRING + MPH_ADDICTION
+        val actual = TEST_STRING.addSpeedUnits(NON_METRIC)
+
+        assertEquals(expected, actual)
     }
 
     @Test
     fun checkCalories() {
-        assertThat(TEST_STRING + KCAL_ADDICTION)
-            .isEqualTo(TEST_STRING.addCalories())
+        val expected = TEST_STRING + KCAL_ADDICTION
+        val actual = TEST_STRING.addCalories()
+
+        assertEquals(expected, actual)
     }
 
     @Test
-    fun checkGetAverage() {
-        assertThat(AVERAGE_RESULT_METRIC)
-            .isEqualTo(LONG_INPUT.getAverage(IS_METRIC, COUNT).toInt())
+    fun checkGetAverageMetric() {
+        val actual = LONG_INPUT.getAverage(IS_METRIC, COUNT).toInt()
 
-        assertThat(AVERAGE_RESULT_NON_METRIC)
-            .isEqualTo(LONG_INPUT.getAverage(NOT_METRIC, COUNT).toInt())
+        assertEquals(AVERAGE_RESULT_METRIC, actual)
+    }
+
+    @Test
+    fun checkGetAverageNonMetric() {
+        val actual = LONG_INPUT.getAverage(NON_METRIC, COUNT).toInt()
+
+        assertEquals(AVERAGE_RESULT_NON_METRIC, actual)
     }
 
     @Test
     fun checkConvertMetersToKilometers() {
-        assertThat(OUTPUT_KM)
-            .isEqualTo(INPUT_METERS.convertMetersToKilometres())
+        val actual = INPUT_METERS.convertMetersToKilometres()
+
+        assertEquals(OUTPUT_KM, actual)
     }
 
     @Test
     fun checkConvertMetersToMiles() {
-        assertThat(OUTPUT_MILE)
-            .isEqualTo(INPUT_METERS.convertMetersToMiles())
+        val actual = INPUT_METERS.convertMetersToMiles()
+
+        assertEquals(OUTPUT_MILE, actual)
     }
 
     @Test
     fun checkConvertKMHToMPH() {
-        assertThat(OUTPUT_MPH_SPEED)
-            .isEqualTo(INPUT_KMH_SPEED.convertKMHtoMPH())
+        val actual = INPUT_KMH_SPEED.convertKMHtoMPH()
+
+        assertEquals(OUTPUT_MPH_SPEED, actual)
     }
 
     private companion object {
         private const val IS_METRIC = true
-        private const val NOT_METRIC = false
+        private const val NON_METRIC = false
 
         private const val TEST_STRING = "text"
 

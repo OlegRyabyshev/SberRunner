@@ -2,34 +2,45 @@ package xyz.fcr.sberrunner.utils
 
 import android.location.Location
 import com.google.android.gms.maps.model.LatLng
-import com.google.common.truth.Truth.assertThat
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 
 class TrackingUtilityTest {
 
     @Test
     fun validateEmptyTime() {
-        assertThat(OUTPUT_1).isEqualTo(TrackingUtility.getFormattedStopWatchTime(INPUT_1))
+        val actual = TrackingUtility.getFormattedStopWatchTime(INPUT_1)
+
+        assertEquals(OUTPUT_1, actual)
     }
 
     @Test
     fun validateFirstTwoDigits() {
-        assertThat(OUTPUT_2).isEqualTo(TrackingUtility.getFormattedStopWatchTime(INPUT_2))
+        val actual = TrackingUtility.getFormattedStopWatchTime(INPUT_2)
+
+        assertEquals(OUTPUT_2, actual)
     }
 
     @Test
     fun validateSecondTwoDigits() {
-        assertThat(OUTPUT_3).isEqualTo(TrackingUtility.getFormattedStopWatchTime(INPUT_3))
+        val actual = TrackingUtility.getFormattedStopWatchTime(INPUT_3)
+
+        assertEquals(OUTPUT_3, actual)
     }
 
     @Test
     fun validateThirdTwoDigits() {
-        assertThat(OUTPUT_4).isEqualTo(TrackingUtility.getFormattedStopWatchTime(INPUT_4))
+        val actual = TrackingUtility.getFormattedStopWatchTime(INPUT_4)
+
+        assertEquals(OUTPUT_4, actual)
     }
 
     @Test
     fun checkWrongDigits() {
-        assertThat(OUTPUT_WRONG).isNotEqualTo(TrackingUtility.getFormattedStopWatchTime(INPUT_WRONG))
+        val actual = TrackingUtility.getFormattedStopWatchTime(INPUT_WRONG)
+
+        assertNotEquals(OUTPUT_WRONG, actual)
     }
 
     @Test
@@ -51,7 +62,7 @@ class TrackingUtilityTest {
             distance += result[0]
         }
 
-        assertThat(DISTANCE_OUTPUT_1).isEqualTo(distance)
+        assertEquals(DISTANCE_OUTPUT_1, distance)
     }
 
     @Test
@@ -73,7 +84,7 @@ class TrackingUtilityTest {
             distance += result[0]
         }
 
-        assertThat(DISTANCE_OUTPUT_2).isEqualTo(distance.toInt())
+        assertEquals(DISTANCE_OUTPUT_2, distance.toInt())
     }
 
 

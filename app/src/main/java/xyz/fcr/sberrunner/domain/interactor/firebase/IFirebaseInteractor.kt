@@ -27,14 +27,12 @@ interface IFirebaseInteractor {
     /**
      * Регистрация в Firebase
      *
-     * @param name [String] - имя пользователя
      * @param email [String] - email пользователя
      * @param pass [String] - пароль пользователя
-     * @param weight [String] - вес пользователя
      *
      * @return [Single] - асинхронный результат регистрации
      */
-    fun registration(name: String, email: String, pass: String, weight: String): Single<Task<AuthResult>>
+    fun registration(email: String, pass: String): Single<Task<AuthResult>>
 
     /**
      * Отправка сообщения на восстановление почты в Firebase

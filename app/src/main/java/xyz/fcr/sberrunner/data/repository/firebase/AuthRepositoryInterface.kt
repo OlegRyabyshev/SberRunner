@@ -11,18 +11,14 @@ interface AuthRepositoryInterface {
     /**
      * Регистрация пользователя
      *
-     * @param name [String] - имя пользователя
      * @param email [String] - email пользователя
      * @param password [String] - пароль пользователя
-     * @param weight [String] - вес пользователя
      *
      * @return [Task] - асинхронный результат выполенения регистрации
      */
     fun registration(
-        name: String,
         email: String,
-        password: String,
-        weight: String
+        password: String
     ): Task<AuthResult>
 
     /**

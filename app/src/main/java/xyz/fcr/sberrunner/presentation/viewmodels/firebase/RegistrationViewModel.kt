@@ -50,12 +50,7 @@ class RegistrationViewModel @Inject constructor(
 
         if (nameIsValid(name) and emailIsValid(email) and passIsValid(pass) and weightIsValid(weight)) {
             compositeDisposable.add(
-                firebaseInteractor.registration(
-                    name.trim { it <= ' ' },
-                    email.trim { it <= ' ' },
-                    pass.trim { it <= ' ' },
-                    weight
-                )
+                firebaseInteractor.registration(email.trim { it <= ' ' }, pass.trim { it <= ' ' })
                     .doOnSubscribe { _progressLiveData.postValue(true) }
                     .subscribeOn(schedulersProvider.io())
                     .observeOn(schedulersProvider.ui())
