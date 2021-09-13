@@ -11,6 +11,7 @@ import xyz.fcr.sberrunner.data.repository.firestorage.ImageRepositoryInterface
 import xyz.fcr.sberrunner.data.repository.firestorage.StorageRepository
 import xyz.fcr.sberrunner.data.repository.firestore.FirestoreRepository
 import xyz.fcr.sberrunner.data.repository.firestore.StoreRepositoryInterface
+import xyz.fcr.sberrunner.data.util.BitmapConverter
 import xyz.fcr.sberrunner.domain.converter.RunConverter
 import xyz.fcr.sberrunner.domain.interactor.firebase.FirebaseInteractor
 import xyz.fcr.sberrunner.domain.interactor.firebase.IFirebaseInteractor
@@ -92,6 +93,7 @@ class FirebaseModule {
      *
      * @param auth [FirebaseAuth] - объект взаимодействия с аутентификацией
      * @param storage [FirebaseStorage] - объект взаимодействия с Firebase Storage
+     * @param converter [BitmapConverter] - объект конвертора Bitmap <-> ByteArray
      *
      * @return [ImageRepositoryInterface] - интерфейс взаимодействия с Firebase Storage
      */
@@ -99,9 +101,10 @@ class FirebaseModule {
     @Singleton
     fun providesStorageRepository(
         auth: FirebaseAuth,
-        storage: FirebaseStorage
+        storage: FirebaseStorage,
+        converter: BitmapConverter
     ): ImageRepositoryInterface {
-        return StorageRepository(auth, storage)
+        return StorageRepository(auth, storage, converter)
     }
 
     /**

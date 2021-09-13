@@ -6,6 +6,7 @@ import dagger.Provides
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.data.service.notification.AudioNotificator
 import xyz.fcr.sberrunner.data.service.notification.IAudioNotificator
+import xyz.fcr.sberrunner.data.util.BitmapConverter
 import xyz.fcr.sberrunner.domain.converter.RunConverter
 import xyz.fcr.sberrunner.utils.schedulers.ISchedulersProvider
 import xyz.fcr.sberrunner.utils.schedulers.SchedulersProvider
@@ -65,5 +66,16 @@ object UtilModule {
     @Provides
     fun provideRunConverter(): RunConverter {
         return RunConverter()
+    }
+
+    /**
+     * Предоставление объекта конвертора Bitmap <-> ByteArray
+     *
+     * @return [RunConverter] - конвертер забегов
+     */
+    @Singleton
+    @Provides
+    fun provideBitmapConverter(): BitmapConverter{
+        return BitmapConverter()
     }
 }

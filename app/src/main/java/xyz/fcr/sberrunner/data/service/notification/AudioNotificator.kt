@@ -6,7 +6,6 @@ import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.utils.Constants.UNIT_RATIO
-import javax.inject.Inject
 
 /**
  * Имплементация интерфейса [IAudioNotificator], служит звуковых нотификаций во время бега

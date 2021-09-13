@@ -12,10 +12,12 @@ import xyz.fcr.sberrunner.data.util.BitmapConverter
  *
  * @param firebaseAuth [FirebaseAuth] - объект аутентификации
  * @param storage [FirebaseStorage] - объект хранилища Firebase Storage
+ * @param bitmapConverter [BitmapConverter] - конвертер Bitmap <-> ByteArray
  */
 class StorageRepository(
     private val firebaseAuth: FirebaseAuth,
-    private val storage: FirebaseStorage
+    private val storage: FirebaseStorage,
+    private val bitmapConverter: BitmapConverter
 ) : ImageRepositoryInterface {
 
     private val userId
@@ -29,7 +31,7 @@ class StorageRepository(
      */
     override fun addImage(run: RunEntity): UploadTask {
         val imageName = run.timestamp.toString()
-        val byteImage = BitmapConverter().fromBitmap(run.mapImage)
+        val byteImage = bitmapConverter.fromBitmap(run.mapImage)
 
         val storageRef = storage.reference.child("$userId/$imageName.png")
 
