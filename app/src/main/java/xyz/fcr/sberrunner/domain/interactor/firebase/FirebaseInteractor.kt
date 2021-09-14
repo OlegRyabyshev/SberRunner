@@ -17,14 +17,14 @@ import xyz.fcr.sberrunner.presentation.model.Run
  * Имплементация интерфейса [IFirebaseInteractor],
  * служит для связи Firebase (auth, firestore, storage) <-> ViewModel
  *
- * @param firebase [AuthRepositoryInterface] - репозиторий взааимодействия с Firebase
- * @param firestore [StoreRepositoryInterface] - репозиторий взааимодействия с Firestore
- * @param storage [ImageRepositoryInterface] - репозиторий взааимодействия с Firebase Storage
+ * @param authRepository [AuthRepositoryInterface] - репозиторий взааимодействия с Firebase
+ * @param storeRepository [StoreRepositoryInterface] - репозиторий взааимодействия с Firestore
+ * @param storageRepository [ImageRepositoryInterface] - репозиторий взааимодействия с Firebase Storage
  */
 class FirebaseInteractor(
-    private val firebase: AuthRepositoryInterface,
-    private val firestore: StoreRepositoryInterface,
-    private val storage: ImageRepositoryInterface,
+    private val authRepository: AuthRepositoryInterface,
+    private val storeRepository: StoreRepositoryInterface,
+    private val storageRepository: ImageRepositoryInterface,
     private val converter: RunConverter
 ) : IFirebaseInteractor {
 
@@ -38,7 +38,7 @@ class FirebaseInteractor(
      */
     override fun login(email: String, password: String): Single<Task<AuthResult>> {
         return Single.fromCallable {
-            firebase.login(email, password)
+            authRepository.login(email, password)
         }
     }
 
@@ -55,7 +55,7 @@ class FirebaseInteractor(
         pass: String
     ): Single<Task<AuthResult>> {
         return Single.fromCallable {
-            firebase.registration(email, pass)
+            authRepository.registration(email, pass)
         }
     }
 
@@ -68,7 +68,7 @@ class FirebaseInteractor(
      */
     override fun sendResetEmail(email: String): Single<Task<Void>> {
         return Single.fromCallable {
-            firebase.sendResetEmail(email)
+            authRepository.sendResetEmail(email)
         }
     }
 
@@ -79,7 +79,7 @@ class FirebaseInteractor(
      */
     override fun signOut(): Completable {
         return Completable.fromCallable {
-            firebase.signOut()
+            authRepository.signOut()
         }
     }
 
@@ -90,7 +90,7 @@ class FirebaseInteractor(
      */
     override fun deleteAccount(): Single<Task<Void>> {
         return Single.fromCallable {
-            firebase.deleteAccount()
+            authRepository.deleteAccount()
         }
     }
 
@@ -101,7 +101,7 @@ class FirebaseInteractor(
      */
     override fun getDocumentFirestore(): Single<Task<DocumentSnapshot>> {
         return Single.fromCallable {
-            firestore.getDocumentFirestore()
+            storeRepository.getDocumentFirestore()
         }
     }
 
@@ -114,7 +114,7 @@ class FirebaseInteractor(
      */
     override fun updateWeight(weight: String): Single<Task<Void>> {
         return Single.fromCallable {
-            firestore.updateWeight(weight)
+            storeRepository.updateWeight(weight)
         }
     }
 
@@ -127,7 +127,7 @@ class FirebaseInteractor(
      */
     override fun updateName(name: String): Single<Task<Void>> {
         return Single.fromCallable {
-            firestore.updateName(name)
+            storeRepository.updateName(name)
         }
     }
 
@@ -138,7 +138,7 @@ class FirebaseInteractor(
      */
     override fun getAllRunsFromCloud(): Single<Task<QuerySnapshot>> {
         return Single.fromCallable {
-            firestore.getAllRuns()
+            storeRepository.getAllRuns()
         }
     }
 
@@ -152,7 +152,7 @@ class FirebaseInteractor(
      */
     override fun fillUserDataInFirestore(name: String, weight: String): Single<Task<Void>> {
         return Single.fromCallable {
-            firestore.fillUserDataInFirestore(name, weight)
+            storeRepository.fillUserDataInFirestore(name, weight)
         }
     }
 
@@ -165,7 +165,7 @@ class FirebaseInteractor(
      */
     override fun switchToDeleteFlagsInCloud(listToSwitch: List<Run>): Single<Task<Void>> {
         return Single.fromCallable {
-            firestore.switchToDeleteFlags(
+            storeRepository.switchToDeleteFlags(
                 converter.toRunEntityList(listToSwitch)
             )
         }
@@ -180,7 +180,7 @@ class FirebaseInteractor(
      */
     override fun uploadMissingFromDbToCloud(missingList: List<Run>): Single<Task<Void>> {
         return Single.fromCallable {
-            firestore.addRunsToCloud(
+            storeRepository.addRunsToCloud(
                 converter.toRunEntityList(missingList)
             )
         }
@@ -195,7 +195,7 @@ class FirebaseInteractor(
      */
     override fun uploadImageToStorage(run: Run): Single<UploadTask> {
         return Single.fromCallable {
-            storage.addImage(
+            storageRepository.addImage(
                 converter.toRunEntity(run)
             )
         }
@@ -210,7 +210,7 @@ class FirebaseInteractor(
      */
     override fun downloadImageFromStorage(run: Run): Single<Task<ByteArray>> {
         return Single.fromCallable {
-            storage.getImage(
+            storageRepository.getImage(
                 converter.toRunEntity(run)
             )
         }
