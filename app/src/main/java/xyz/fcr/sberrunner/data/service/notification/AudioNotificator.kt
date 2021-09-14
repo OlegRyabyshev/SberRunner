@@ -45,11 +45,11 @@ class AudioNotificator(
         }
 
         if (record != null) {
-            val uri = Uri.parse("android.resource://xyz.fcr.sberrunner/$record")
+            val uriParsed = Uri.parse("android.resource://xyz.fcr.sberrunner/$record")
 
             try {
                 mediaPlayer.reset()
-                mediaPlayer.setDataSource(App.appComponent.context(), uri)
+                mediaPlayer.setDataSource(App.appComponent.context(), uriParsed)
                 mediaPlayer.prepare()
                 mediaPlayer.start()
             } catch (e: Exception) {

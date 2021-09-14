@@ -19,7 +19,7 @@ class SharedPreferenceWrapper(
      * @return [String] - имя пользователя
      */
     override fun getName(): String {
-        return sharedPreferences.getString(Constants.NAME_KEY, "Guest")!!
+        return sharedPreferences.getString(Constants.NAME_KEY, DEFAULT_NAME)!!
     }
 
     /**
@@ -28,7 +28,7 @@ class SharedPreferenceWrapper(
      * @return [String] - вес пользователя
      */
     override fun getWeight(): String {
-        return sharedPreferences.getString(Constants.WEIGHT_KEY, "70")!!
+        return sharedPreferences.getString(Constants.WEIGHT_KEY, DEFAULT_WEIGHT)!!
     }
 
     /**
@@ -37,8 +37,8 @@ class SharedPreferenceWrapper(
      * @return [Int] - вес пользователя
      */
     override fun getIntWeight(): Int {
-        val weight = sharedPreferences.getString(Constants.WEIGHT_KEY, "70")!!
-        return weight.toIntOrNull() ?: 70
+        val weight = sharedPreferences.getString(Constants.WEIGHT_KEY, DEFAULT_WEIGHT)!!
+        return weight.toIntOrNull() ?: DEFAULT_WIGHT_INT
     }
 
     /**
@@ -186,5 +186,11 @@ class SharedPreferenceWrapper(
      */
     override fun getUnits(): String {
         return sharedPreferences.getString(Constants.UNITS_KEY, "Error in units")!!
+    }
+
+    private companion object{
+        private const val DEFAULT_NAME = "Guest"
+        private const val DEFAULT_WEIGHT = "70"
+        private const val DEFAULT_WIGHT_INT = 70
     }
 }
