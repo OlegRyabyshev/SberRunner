@@ -35,7 +35,9 @@ class ProgressViewModel @Inject constructor(
         disposableList = databaseInteractor.getAllRuns()
             .subscribeOn(schedulersProvider.io())
             .observeOn(schedulersProvider.ui())
-            .subscribe { value -> _listOfRunsLiveData.postValue(value) }
+            .subscribe { value ->
+                _listOfRunsLiveData.postValue(value)
+            }
     }
 
     /**

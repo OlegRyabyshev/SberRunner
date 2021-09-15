@@ -7,7 +7,7 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import io.reactivex.rxjava3.core.Single
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -19,7 +19,7 @@ import xyz.fcr.sberrunner.presentation.model.Run
 import xyz.fcr.sberrunner.utils.schedulers.SchedulersProvider
 
 @RunWith(JUnit4::class)
-class DetailedRunViewModelTest {
+class ProgressViewModelTest {
 
     @Rule
     @JvmField
@@ -29,23 +29,23 @@ class DetailedRunViewModelTest {
     private val sharedPreferenceWrapper: SharedPreferenceWrapper = mockk(relaxed = true)
     private val schedulersProvider: SchedulersProvider = mockk(relaxed = true)
 
-    private val _runLiveData: Observer<Run> = mockk()
     private val _unitsLiveData: Observer<Boolean> = mockk()
+    private val _runsLiveData: Observer<List<Run>> = mockk()
 
-    private lateinit var detailedRunViewModel: DetailedRunViewModel
+    private lateinit var progressViewModel: ProgressViewModel
 
     @Before
     fun setUp() {
-        detailedRunViewModel = DetailedRunViewModel(
+        progressViewModel = ProgressViewModel(
             databaseInteractor,
             sharedPreferenceWrapper,
             schedulersProvider
         )
 
-        detailedRunViewModel.runLiveData.observeForever(_runLiveData)
-        detailedRunViewModel.unitsLiveData.observeForever(_unitsLiveData)
+        progressViewModel.listOfRunsLiveData.observeForever(_runsLiveData)
+        progressViewModel.unitsLiveData.observeForever(_unitsLiveData)
 
-        every { _runLiveData.onChanged(any()) } just Runs
+        every { _runsLiveData.onChanged(any()) } just Runs
         every { _unitsLiveData.onChanged(any()) } just Runs
     }
 
@@ -53,31 +53,32 @@ class DetailedRunViewModelTest {
     fun assertSharedPrefsSetsTrueIfMetric() {
         every { sharedPreferenceWrapper.isMetric() } returns METRIC
 
-        detailedRunViewModel.setUnits()
+        progressViewModel.setUnits()
 
-        assertTrue(detailedRunViewModel.unitsLiveData.value == METRIC)
-
+        assertTrue(progressViewModel.unitsLiveData.value == METRIC)
     }
 
     @Test
     fun assertSharedPrefsSetsFalseIfImperial() {
         every { sharedPreferenceWrapper.isMetric() } returns IMPERIAL
 
-        detailedRunViewModel.setUnits()
+        progressViewModel.setUnits()
 
-        assertTrue(detailedRunViewModel.unitsLiveData.value == IMPERIAL)
+        assertTrue(progressViewModel.unitsLiveData.value == IMPERIAL)
     }
 
     @Test
-    fun assertGettingRunFromDb() {
-        every { databaseInteractor.getRun(TIMESTAMP) } returns Single.just(mockRun)
+    fun assertGettingRunsFromDb() {
+        every { databaseInteractor.getAllRuns() } returns Single.just(mockRuns)
 
-        databaseInteractor.getRun(TIMESTAMP)
+        progressViewModel.updateListOfRuns()
+
+        databaseInteractor.getAllRuns()
             .test()
             .assertNoErrors()
             .assertComplete()
-            .assertValue{
-                it.timestamp == TIMESTAMP
+            .assertValue {
+                it == mockRuns
             }
     }
 
@@ -87,8 +88,10 @@ class DetailedRunViewModelTest {
 
         private const val TIMESTAMP = 100L
 
-        private val mockRun = Run(
-            timestamp = TIMESTAMP
+        private val mockRuns = listOf(
+            Run(timestamp = 100L),
+            Run(timestamp = 200L),
+            Run(timestamp = 300L)
         )
     }
 }

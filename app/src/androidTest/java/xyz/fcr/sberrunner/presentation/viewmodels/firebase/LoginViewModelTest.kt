@@ -83,8 +83,8 @@ class LoginViewModelTest {
         loginViewModel.initSignIn(EMPTY_EMAIL, EMPTY_PASS)
 
         verify(exactly = 1) {
-            _errorEmail.onChanged(EMPTY)
-            _errorPass.onChanged(EMPTY)
+            _errorEmail.onChanged(not(VALID))
+            _errorPass.onChanged(not(VALID))
         }
     }
 
