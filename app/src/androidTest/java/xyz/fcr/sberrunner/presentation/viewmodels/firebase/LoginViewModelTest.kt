@@ -10,7 +10,6 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import xyz.fcr.sberrunner.data.repository.shared.SharedPreferenceWrapper
 import xyz.fcr.sberrunner.domain.interactor.firebase.FirebaseInteractor
-import xyz.fcr.sberrunner.utils.Constants
 import xyz.fcr.sberrunner.utils.schedulers.SchedulersProvider
 
 @RunWith(JUnit4::class)
@@ -60,32 +59,33 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun assertSuccessfulEmailResetGivenValidEmail() {
-        loginViewModel.initResetEmail(VALID_EMAIL)
+    fun assertEmailAndPasswordIsValid() {
+        loginViewModel.initSignIn(VALID_EMAIL, VALID_PASS)
 
         verify(exactly = 1) {
-            _errorEmail.onChanged(Constants.VALID)
+            _errorEmail.onChanged(VALID)
+            _errorPass.onChanged(VALID)
         }
     }
 
     @Test
-    fun assertNonSuccessfulEmailResetGivenNonValidEmail() {
+    fun assertEmailAndPasswordIsNotValid() {
+        loginViewModel.initSignIn(NON_VALID_EMAIL, NON_VALID_PASS)
 
+        verify(exactly = 1) {
+            _errorEmail.onChanged(not(VALID))
+            _errorPass.onChanged(not(VALID))
+        }
     }
 
     @Test
-    fun assertSuccessfulLoginGivenValidEmailAndPassword() {
+    fun assertEmailAndPasswordIsEmptyAndNonValid() {
+        loginViewModel.initSignIn(EMPTY_EMAIL, EMPTY_PASS)
 
-    }
-
-    @Test
-    fun assertNonSuccessfulLoginGivenNonValidEmail() {
-
-    }
-
-    @Test
-    fun assertNonSuccessfulLoginGivenNonValidPassword() {
-
+        verify(exactly = 1) {
+            _errorEmail.onChanged(EMPTY)
+            _errorPass.onChanged(EMPTY)
+        }
     }
 
     private companion object {
@@ -94,5 +94,11 @@ class LoginViewModelTest {
 
         private const val NON_VALID_EMAIL = "bob@"
         private const val NON_VALID_PASS = "123"
+
+        private const val EMPTY_EMAIL = "bob@"
+        private const val EMPTY_PASS = "123"
+
+        private const val VALID = "valid"
+        private const val EMPTY = ""
     }
 }
