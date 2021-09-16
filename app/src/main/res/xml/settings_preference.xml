@@ -68,7 +68,7 @@
         <Preference
             android:icon="@drawable/ic_version"
             android:key="version"
-            android:summary="1.0.0"
+            android:summary="1.0.1"
             android:title="@string/settings_version" />
 
         <Preference
