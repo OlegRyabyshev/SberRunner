@@ -20,9 +20,13 @@ import xyz.fcr.sberrunner.presentation.viewmodels.main.SharedSettingsViewModel
 import xyz.fcr.sberrunner.utils.Constants.DEL_ACCOUNT
 import xyz.fcr.sberrunner.utils.Constants.LOG_OUT
 import xyz.fcr.sberrunner.utils.Constants.NAME_KEY
+import xyz.fcr.sberrunner.utils.Constants.PRIVACY_KEY
 import xyz.fcr.sberrunner.utils.Constants.THEME_KEY
 import xyz.fcr.sberrunner.utils.Constants.WEIGHT_KEY
 import javax.inject.Inject
+import android.content.Intent
+import android.net.Uri
+
 
 /**
  * Фрагмент настроек
@@ -116,6 +120,14 @@ class SettingsPreferenceFragment : PreferenceFragmentCompat() {
                 }
                 show()
             }
+            true
+        }
+
+        val privacyPref: Preference? = findPreference(PRIVACY_KEY)
+        privacyPref?.setOnPreferenceClickListener {
+            val url = "https://github.com/OlegRyabyshev/SberRunner/blob/master/PRIVACY_POLICY.md"
+            val myIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(myIntent)
             true
         }
     }

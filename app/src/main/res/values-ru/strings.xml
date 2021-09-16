@@ -89,6 +89,8 @@
     <string name="settings_category_settings">Настройки</string>
     <string name="settings_category_about">Подробнее</string>
 
+    <string name="settings_privacy">Политика конфиденциальности</string>
+
     <string name="cant_find_location">Не получается определить местоположение, проверьте подключение</string>
 
     <string name="title_welcome_one">Добро пожаловать в SberRunner</string>
@@ -108,8 +110,8 @@
     <string name="progress_page">Прогресс</string>
     <string name="settings_page">Настройки</string>
 
-    <string name="permission_rationale">Для запуска активности бега необходим доступ к геолокации</string>
-    <string name="permission_rationale_q">Ваша версия Android требует дополнительного разрешения работы геолокации на фоне, нажмите *Разрешить в любом режиме*"</string>
+    <string name="permission_rationale">SberRunner нужены разрешения получения местоположения, включая фоновую работу, для запуска активности бега.</string>
+    <string name="permission_rationale_q">Чтобы иметь полный фоновый доступ к местоположению в вашей версии Android, вы должны установить параметр *Разрешить в любом режиме*</string>
 
     <string name="run_initial_duration">00:00:00</string>
     <string name="run_initial_distance">0.00</string>
