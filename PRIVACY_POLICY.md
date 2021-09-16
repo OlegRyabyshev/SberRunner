@@ -24,7 +24,9 @@ Link to privacy policy of third party service providers used by the app
 *   [Firebase Storage](https://firebase.google.com/support/privacy/)
 
 **Location Permission**
+
 Some features and functionality in SberRunner require that you provide your location. If you have location services turned on, whenever you use our App on your mobile device, App will collect and use your geocoordinates (e.g. latitude and longitude) to calculate your location and show it to you. We will only process your location with your express permission. If you have allowed persistent background location, we will obtain your device’s location even if you are not using the Apps, while SberRunner's service is active. 
+
 Your location is never shared with others, except with your consent or as permitted under this Privacy Policy.
 
 We use various technologies to determine your precise location, such as the location services of your operating system, Wi-Fi access points, GPS data, and cell tower data, and other data that may help us understand your precise location.
