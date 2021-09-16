@@ -99,6 +99,5 @@ class LoginViewModelTest {
         private const val EMPTY_PASS = "123"
 
         private const val VALID = "valid"
-        private const val EMPTY = ""
     }
 }

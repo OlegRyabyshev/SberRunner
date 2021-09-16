@@ -13,7 +13,7 @@ class FirebaseRepositoryTest {
     fun registration() {
         firebaseRepository.registration(EMAIL, PASS)
 
-        verify {
+        verify(exactly = 1) {
             firebaseAuth.createUserWithEmailAndPassword(EMAIL, PASS)
         }
     }
@@ -22,7 +22,7 @@ class FirebaseRepositoryTest {
     fun login() {
         firebaseRepository.login(EMAIL, PASS)
 
-        verify {
+        verify(exactly = 1) {
             firebaseAuth.signInWithEmailAndPassword(EMAIL, PASS)
         }
     }
@@ -31,7 +31,7 @@ class FirebaseRepositoryTest {
     fun sendResetEmail() {
         firebaseRepository.sendResetEmail(EMAIL)
 
-        verify {
+        verify(exactly = 1) {
             firebaseAuth.sendPasswordResetEmail(EMAIL)
         }
     }
@@ -40,7 +40,7 @@ class FirebaseRepositoryTest {
     fun signOut() {
         firebaseRepository.signOut()
 
-        verify {
+        verify(exactly = 1) {
             firebaseAuth.signOut()
         }
     }
@@ -49,7 +49,7 @@ class FirebaseRepositoryTest {
     fun deleteAccount() {
         firebaseRepository.signOut()
 
-        verify {
+        verify(exactly = 1) {
             firebaseAuth.signOut()
         }
     }
