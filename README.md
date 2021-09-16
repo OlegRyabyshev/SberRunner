@@ -17,6 +17,12 @@
   <img src="screenshots/logo.png" width="220" />
 </p>
 
+<p align="center">
+    <a href='https://play.google.com/store/apps/details?id=xyz.fcr.sberrunner'>
+        <img src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height=70px/>
+    </a>
+</p>    
+
 ## Tech stack & Open-source libraries
 - Minimum SDK level 23
 - [Kotlin](https://kotlinlang.org/) - 100%
