@@ -13,11 +13,11 @@
 
 <br />
 
-<p float="center">
+<p align="left">
   <img src="screenshots/logo.png" width="220" />
 </p>
 
-<p align="center">
+<p align="left">
     <a href='https://play.google.com/store/apps/details?id=xyz.fcr.sberrunner'>
         <img src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' height=70px/>
     </a>
