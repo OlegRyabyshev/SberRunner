@@ -2,15 +2,14 @@ package xyz.fcr.sberrunner.di
 
 import android.content.Context
 import dagger.Component
-import xyz.fcr.sberrunner.data.service.notification.AudioNotificator
 import xyz.fcr.sberrunner.data.service.RunningService
+import xyz.fcr.sberrunner.data.service.notification.AudioNotificator
 import xyz.fcr.sberrunner.di.modules.*
 import xyz.fcr.sberrunner.presentation.view.activities.MainActivity
 import xyz.fcr.sberrunner.presentation.view.activities.SplashScreenActivity
 import xyz.fcr.sberrunner.presentation.view.fragments.firebase.LoginFragment
 import xyz.fcr.sberrunner.presentation.view.fragments.firebase.RegistrationFragment
 import xyz.fcr.sberrunner.presentation.view.fragments.main.*
-import xyz.fcr.sberrunner.presentation.view.fragments.main.adapters.RunRecyclerAdapter
 import xyz.fcr.sberrunner.presentation.viewmodels.firebase.LoginViewModel
 import xyz.fcr.sberrunner.presentation.viewmodels.firebase.RegistrationViewModel
 import xyz.fcr.sberrunner.presentation.viewmodels.main.MapViewModel
