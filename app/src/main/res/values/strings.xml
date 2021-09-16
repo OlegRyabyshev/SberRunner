@@ -114,8 +114,8 @@
     <string name="progress_page">Progress</string>
     <string name="settings_page">Settings</string>
 
-    <string name="permission_rationale">SberRunner needs your location permission to launch tracking activity</string>
-    <string name="permission_rationale_q">In order to enable a background location access, you must set the *Allow all the time* option</string>
+    <string name="permission_rationale">SberRunner needs your location and a background location permissions to track your run</string>
+    <string name="permission_rationale_q">To have a full background location access on your Android version to track your run in a background, you must set the *Allow all the time* option</string>
 
     <string name="run_initial_duration">00:00:00</string>
     <string name="run_initial_distance">0.00</string>
