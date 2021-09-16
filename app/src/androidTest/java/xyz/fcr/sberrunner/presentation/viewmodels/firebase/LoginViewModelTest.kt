@@ -2,7 +2,12 @@ package xyz.fcr.sberrunner.presentation.viewmodels.firebase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import io.mockk.*
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -56,6 +61,9 @@ class LoginViewModelTest {
         every { _errorEmail.onChanged(any()) } just Runs
         every { _errorPass.onChanged(any()) } just Runs
         every { _errorFirebase.onChanged(any()) } just Runs
+
+        every { schedulersProvider.io() } returns Schedulers.trampoline()
+        every { schedulersProvider.ui() } returns Schedulers.trampoline()
     }
 
     @Test
@@ -88,6 +96,35 @@ class LoginViewModelTest {
         }
     }
 
+    @Test
+    fun assertLogin() {
+        val authResult = mockk<AuthResult>()
+        val authTask = mockk<Task<AuthResult>>()
+        every { authTask.isComplete } returns true
+        every { authTask.isSuccessful } returns true
+        every { authTask.result } returns authResult
+
+        val slotAuth = slot<OnCompleteListener<AuthResult>>()
+
+        every { authTask.addOnCompleteListener(capture(slotAuth)) } answers {
+            slotAuth.captured.onComplete(authTask)
+            authTask
+        }
+
+        every { firebaseInteractor.login(any(), any()) } returns Single.just(authTask)
+
+        loginViewModel.initSignIn(VALID_EMAIL, VALID_PASS)
+
+        verify(exactly = 0) {
+            _loginLiveData.onChanged(false)
+            _progressLiveData.onChanged(false)
+        }
+
+        verify(exactly = 1) {
+            _progressLiveData.onChanged(true)
+        }
+    }
+
     private companion object {
         private const val VALID_EMAIL = "bob@gmail.com"
         private const val VALID_PASS = "bobIsTheBest123"
@@ -99,6 +136,5 @@ class LoginViewModelTest {
         private const val EMPTY_PASS = "123"
 
         private const val VALID = "valid"
-        private const val EMPTY = ""
     }
 }

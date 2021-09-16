@@ -64,6 +64,10 @@ class RunViewModelTest {
 
         runViewModel.setUnits()
 
+        verify(exactly = 1){
+            _unitsLiveData.onChanged(METRIC)
+        }
+
         assertTrue(runViewModel.unitsLiveData.value == METRIC)
     }
 
@@ -72,6 +76,10 @@ class RunViewModelTest {
         every { sharedPreferenceWrapper.isMetric() } returns IMPERIAL
 
         runViewModel.setUnits()
+
+        verify(exactly = 1){
+            _unitsLiveData.onChanged(IMPERIAL)
+        }
 
         assertTrue(runViewModel.unitsLiveData.value == IMPERIAL)
     }

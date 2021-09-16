@@ -124,7 +124,7 @@ class FirestoreRepositoryTest {
 
         firestoreRepository.switchToDeleteFlags(LIST)
 
-        verify {
+        verify(exactly = 1) {
             firebaseFirestore.runBatch(any())
         }
     }

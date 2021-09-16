@@ -2,7 +2,12 @@ package xyz.fcr.sberrunner.presentation.viewmodels.firebase
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import io.mockk.*
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -59,6 +64,9 @@ class RegistrationViewModelTest {
         every { _errorEmail.onChanged(any()) } just Runs
         every { _errorPass.onChanged(any()) } just Runs
         every { _errorWeight.onChanged(any()) } just Runs
+
+        every { schedulersProvider.io() } returns Schedulers.trampoline()
+        every { schedulersProvider.ui() } returns Schedulers.trampoline()
     }
 
     @Test
@@ -109,6 +117,35 @@ class RegistrationViewModelTest {
             _errorEmail.onChanged(not(VALID))
             _errorPass.onChanged(not(VALID))
             _errorWeight.onChanged(not(VALID))
+        }
+    }
+
+    @Test
+    fun assertRegistration() {
+        val regResult = mockk<AuthResult>()
+        val regTask = mockk<Task<AuthResult>>()
+        every { regTask.isComplete } returns true
+        every { regTask.isSuccessful } returns true
+        every { regTask.result } returns regResult
+
+        val slotAuth = slot<OnCompleteListener<AuthResult>>()
+
+        every { regTask.addOnCompleteListener(capture(slotAuth)) } answers {
+            slotAuth.captured.onComplete(regTask)
+            regTask
+        }
+
+        every { firebaseInteractor.registration(any(), any()) } returns Single.just(regTask)
+
+        registrationViewModel.initRegistration(VALID_NAME, VALID_EMAIL, VALID_PASS, VALID_WEIGHT)
+
+        verify(exactly = 0) {
+            _successLiveData.onChanged(not(VALID))
+        }
+
+        verify(exactly = 1) {
+            _progressLiveData.onChanged(false)
+            _progressLiveData.onChanged(true)
         }
     }
 
