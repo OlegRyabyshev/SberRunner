@@ -8,7 +8,7 @@
     <string name="part_to_click_registration">Sign in</string>
 
     <string name="dialog_rationale_title">Location request</string>
-    <string name="dialog_rationale_message">This app requests your location in order to show your current location</string>
+    <string name="dialog_rationale_message">Running activity requires your location and background location in order to locate your geoposition during runs</string>
     <string name="dialog_rationale_give_access">Give permission</string>
     <string name="dialog_rationale_decline">Not now</string>
 
@@ -88,6 +88,8 @@
     <string name="settings_version">Version</string>
     <string name="settings_title_log_out">Log out</string>
     <string name="settings_title_delete_account">Delete account</string>
+
+    <string name="settings_privacy">Privacy Policy</string>
 
     <string name="settings_category_account">Account</string>
     <string name="settings_category_settings">Settings</string>

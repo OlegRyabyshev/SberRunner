@@ -89,6 +89,8 @@
     <string name="settings_category_settings">Настройки</string>
     <string name="settings_category_about">Подробнее</string>
 
+    <string name="settings_privacy">Политика конфиденциальности</string>
+
     <string name="cant_find_location">Не получается определить местоположение, проверьте подключение</string>
 
     <string name="title_welcome_one">Добро пожаловать в SberRunner</string>

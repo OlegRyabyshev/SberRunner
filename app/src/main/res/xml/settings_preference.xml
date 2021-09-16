@@ -81,6 +81,11 @@
             android:key="del_account"
             android:title="@string/settings_title_delete_account" />
 
+        <Preference
+            android:icon="@drawable/ic_privacy"
+            android:key="privacy"
+            android:title="@string/settings_privacy" />
+
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>

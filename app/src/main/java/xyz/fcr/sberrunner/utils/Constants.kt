@@ -46,6 +46,7 @@ object Constants {
 
     const val LOG_OUT = "log_out"
     const val DEL_ACCOUNT = "del_account"
+    const val PRIVACY_KEY = "privacy"
 
     const val MAP_LAT_KEY = "map_lat_key"
     const val MAP_LON_KEY = "map_lon_key"
