@@ -86,8 +86,6 @@ class ProgressViewModelTest {
         private const val METRIC = true
         private const val IMPERIAL = false
 
-        private const val TIMESTAMP = 100L
-
         private val mockRuns = listOf(
             Run(timestamp = 100L),
             Run(timestamp = 200L),

@@ -14,7 +14,7 @@
 <br />
 
 <p align="left">
-  <img src="screenshots/logo.png" width="220" />
+  <img src="screenshots/logo.png" height="220" />
 </p>
 
 <p align="left">
