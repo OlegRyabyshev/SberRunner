@@ -45,6 +45,7 @@ class MapViewModel @Inject constructor(
         _progressLiveData.postValue(true)
 
         cancellationToken = CancellationTokenSource()
+
         fusedLocationProviderClient
             .getCurrentLocation(PRIORITY_HIGH_ACCURACY, cancellationToken!!.token)
             .addOnCompleteListener {

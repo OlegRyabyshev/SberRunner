@@ -13,7 +13,6 @@ import com.bumptech.glide.request.RequestOptions
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.databinding.RunItemBinding
-import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.model.Run
 import xyz.fcr.sberrunner.utils.Constants.PATTERN_DATE_HOME
 import xyz.fcr.sberrunner.utils.Constants.ROUNDING_CORNERS
@@ -23,7 +22,6 @@ import xyz.fcr.sberrunner.utils.convertMetersToKilometres
 import xyz.fcr.sberrunner.utils.convertMetersToMiles
 import java.text.SimpleDateFormat
 import java.util.*
-import javax.inject.Inject
 
 /**
  * Адаптер recyclerview для фрагмента Run

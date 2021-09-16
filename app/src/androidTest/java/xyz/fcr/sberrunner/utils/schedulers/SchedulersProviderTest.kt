@@ -2,7 +2,7 @@ package xyz.fcr.sberrunner.utils.schedulers
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**
@@ -17,7 +17,7 @@ class SchedulersProviderTest {
      */
     @Test
     fun receiveIo() {
-        Assert.assertEquals(Schedulers.io(), schedulersProvider.io())
+        assertEquals(Schedulers.io(), schedulersProvider.io())
     }
 
     /**
@@ -25,6 +25,6 @@ class SchedulersProviderTest {
      */
     @Test
     fun receiveUi() {
-        Assert.assertEquals(AndroidSchedulers.mainThread(), schedulersProvider.ui())
+        assertEquals(AndroidSchedulers.mainThread(), schedulersProvider.ui())
     }
 }
