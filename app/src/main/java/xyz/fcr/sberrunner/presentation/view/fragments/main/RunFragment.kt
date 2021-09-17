@@ -27,7 +27,7 @@ import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.presentation.service.RunningService
 import xyz.fcr.sberrunner.databinding.FragmentRunBinding
 import xyz.fcr.sberrunner.presentation.App
-import xyz.fcr.sberrunner.presentation.model.Run
+import xyz.fcr.sberrunner.domain.model.Run
 import xyz.fcr.sberrunner.presentation.viewmodels.main.RunViewModel
 import xyz.fcr.sberrunner.utils.Constants.ACTION_PAUSE_SERVICE
 import xyz.fcr.sberrunner.utils.Constants.ACTION_START_OR_RESUME_SERVICE

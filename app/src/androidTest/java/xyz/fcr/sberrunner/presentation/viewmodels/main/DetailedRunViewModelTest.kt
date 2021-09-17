@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import xyz.fcr.sberrunner.data.datastore.shared.SharedPreferenceWrapper
 import xyz.fcr.sberrunner.domain.interactor.db.RoomInteractor
-import xyz.fcr.sberrunner.presentation.model.Run
+import xyz.fcr.sberrunner.domain.model.Run
 import xyz.fcr.sberrunner.utils.schedulers.SchedulersProvider
 
 @RunWith(JUnit4::class)

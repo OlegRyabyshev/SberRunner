@@ -1,7 +1,7 @@
 package xyz.fcr.sberrunner.domain.converter
 
 import xyz.fcr.sberrunner.data.model.RunEntity
-import xyz.fcr.sberrunner.presentation.model.Run
+import xyz.fcr.sberrunner.domain.model.Run
 
 /**
  * Класс конвертации забегов слоя data <-> presentation

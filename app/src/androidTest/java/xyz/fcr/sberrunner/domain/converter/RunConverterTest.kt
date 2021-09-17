@@ -6,7 +6,7 @@ import org.junit.Test
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.presentation.App
-import xyz.fcr.sberrunner.presentation.model.Run
+import xyz.fcr.sberrunner.domain.model.Run
 
 class RunConverterTest {
 
