@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.data.repository.firestore
+package xyz.fcr.sberrunner.data.datastore.firestore
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
@@ -6,9 +6,9 @@ import com.google.firebase.firestore.QuerySnapshot
 import xyz.fcr.sberrunner.data.model.RunEntity
 
 /**
- * Интерфейс взаимодействия информацией пользователя
+ * Интерфейс взаимодействия с информацией пользователя
  */
-interface StoreRepositoryInterface {
+interface StoreDataStoreInterface {
 
     /**
      * Запрос на обновление имени пользователя

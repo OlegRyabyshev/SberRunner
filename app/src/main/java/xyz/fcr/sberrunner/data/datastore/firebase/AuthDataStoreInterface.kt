@@ -1,17 +1,12 @@
-package xyz.fcr.sberrunner.data.repository.firebase
+package xyz.fcr.sberrunner.data.datastore.firebase
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
 
 /**
- * Имплементация интерфейса [AuthRepositoryInterface], служит для взаимодействия с объектом FirebaseAuth
- *
- * @param firebaseAuth [FirebaseAuth] - объект аутентификации
+ * Интерфейс взаимодействия с аккаунтом пользователя
  */
-class FirebaseRepository(
-    private val firebaseAuth: FirebaseAuth
-) : AuthRepositoryInterface {
+interface AuthDataStoreInterface {
 
     /**
      * Регистрация пользователя
@@ -21,12 +16,10 @@ class FirebaseRepository(
      *
      * @return [Task] - асинхронный результат выполенения регистрации
      */
-    override fun registration(
+    fun registration(
         email: String,
         password: String
-    ): Task<AuthResult> {
-        return firebaseAuth.createUserWithEmailAndPassword(email, password)
-    }
+    ): Task<AuthResult>
 
     /**
      * Вход в аккаунт
@@ -36,9 +29,7 @@ class FirebaseRepository(
      *
      * @return [Task] - результат асинхронного запроса входа в аккаунт
      */
-    override fun login(email: String, password: String): Task<AuthResult> {
-        return firebaseAuth.signInWithEmailAndPassword(email, password)
-    }
+    fun login(email: String, password: String): Task<AuthResult>
 
     /**
      * Отправка сообщения на email пользователя со сбросом пароля
@@ -47,24 +38,17 @@ class FirebaseRepository(
      *
      * @return [Task] - результат асинхронного запроса сброса
      */
-    override fun sendResetEmail(email: String): Task<Void> {
-        return firebaseAuth.sendPasswordResetEmail(email)
-    }
+    fun sendResetEmail(email: String): Task<Void>
 
     /**
      * Выход пользователя из аккаунта
      */
-    override fun signOut() {
-       firebaseAuth.signOut()
-    }
+    fun signOut()
 
     /**
      * Удаление пользователем своего аккаунта
      *
      * @return [Task] - результат асинхронного запроса удаления аккаунта
      */
-    override fun deleteAccount(): Task<Void> {
-        val user = firebaseAuth.currentUser
-        return user!!.delete()
-    }
+    fun deleteAccount(): Task<Void>
 }

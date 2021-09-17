@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import xyz.fcr.sberrunner.R
-import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.data.datastore.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.databinding.RunItemBinding
 import xyz.fcr.sberrunner.presentation.model.Run
 import xyz.fcr.sberrunner.utils.Constants.PATTERN_DATE_HOME

@@ -3,24 +3,24 @@ package xyz.fcr.sberrunner.domain.interactor.firebase
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Test
-import xyz.fcr.sberrunner.data.repository.firebase.FirebaseRepository
-import xyz.fcr.sberrunner.data.repository.firestorage.StorageRepository
-import xyz.fcr.sberrunner.data.repository.firestore.FirestoreRepository
+import xyz.fcr.sberrunner.data.datastore.firebase.FirebaseDataStore
+import xyz.fcr.sberrunner.data.datastore.firestorage.StorageDataStore
+import xyz.fcr.sberrunner.data.datastore.firestore.FirestoreDataStore
 import xyz.fcr.sberrunner.domain.converter.RunConverter
 import xyz.fcr.sberrunner.presentation.model.Run
 
 class FirebaseInteractorTest {
 
-    private val authRepository: FirebaseRepository = mockk()
-    private val storeRepository: FirestoreRepository = mockk()
-    private val storageRepository: StorageRepository = mockk()
+    private val authDataStore: FirebaseDataStore = mockk()
+    private val storeDataStore: FirestoreDataStore = mockk()
+    private val storageDataStore: StorageDataStore = mockk()
 
     private val converter: RunConverter = RunConverter()
 
     private val firebaseInteractor = FirebaseInteractor(
-        authRepository,
-        storeRepository,
-        storageRepository,
+        authDataStore,
+        storeDataStore,
+        storageDataStore,
         converter
     )
 
@@ -29,13 +29,13 @@ class FirebaseInteractorTest {
         val single = firebaseInteractor.login(EMAIl, PASS)
 
         verify(exactly = 0) {
-            authRepository.login(EMAIl, PASS)
+            authDataStore.login(EMAIl, PASS)
         }
 
         val disposable = single.subscribe({}, {})
 
         verify(exactly = 1) {
-            authRepository.login(EMAIl, PASS)
+            authDataStore.login(EMAIl, PASS)
         }
 
         disposable.dispose()
@@ -46,13 +46,13 @@ class FirebaseInteractorTest {
         val single = firebaseInteractor.registration(EMAIl, PASS)
 
         verify(exactly = 0) {
-            authRepository.registration(EMAIl, PASS)
+            authDataStore.registration(EMAIl, PASS)
         }
 
         val disposable = single.subscribe({}, {})
 
         verify(exactly = 1) {
-            authRepository.registration(EMAIl, PASS)
+            authDataStore.registration(EMAIl, PASS)
         }
 
         disposable.dispose()
@@ -63,13 +63,13 @@ class FirebaseInteractorTest {
         val single = firebaseInteractor.sendResetEmail(EMAIl)
 
         verify(exactly = 0) {
-            authRepository.sendResetEmail(EMAIl)
+            authDataStore.sendResetEmail(EMAIl)
         }
 
         val disposable = single.subscribe({}, {})
 
         verify(exactly = 1) {
-            authRepository.sendResetEmail(EMAIl)
+            authDataStore.sendResetEmail(EMAIl)
         }
 
         disposable.dispose()
@@ -80,13 +80,13 @@ class FirebaseInteractorTest {
         val completable = firebaseInteractor.signOut()
 
         verify(exactly = 0) {
-            authRepository.signOut()
+            authDataStore.signOut()
         }
 
         val disposable = completable.subscribe({}, {})
 
         verify(exactly = 1) {
-            authRepository.signOut()
+            authDataStore.signOut()
         }
 
         disposable.dispose()
@@ -97,13 +97,13 @@ class FirebaseInteractorTest {
         val single = firebaseInteractor.deleteAccount()
 
         verify(exactly = 0) {
-            authRepository.deleteAccount()
+            authDataStore.deleteAccount()
         }
 
         val disposable = single.subscribe({}, {})
 
         verify(exactly = 1) {
-            authRepository.deleteAccount()
+            authDataStore.deleteAccount()
         }
 
         disposable.dispose()
@@ -114,13 +114,13 @@ class FirebaseInteractorTest {
         val single = firebaseInteractor.getDocumentFirestore()
 
         verify(exactly = 0) {
-            storeRepository.getDocumentFirestore()
+            storeDataStore.getDocumentFirestore()
         }
 
         val disposable = single.subscribe({}, {})
 
         verify(exactly = 1) {
-            storeRepository.getDocumentFirestore()
+            storeDataStore.getDocumentFirestore()
         }
 
         disposable.dispose()
@@ -131,13 +131,13 @@ class FirebaseInteractorTest {
         val single = firebaseInteractor.updateWeight(WEIGHT)
 
         verify(exactly = 0) {
-            storeRepository.updateWeight(WEIGHT)
+            storeDataStore.updateWeight(WEIGHT)
         }
 
         val disposable = single.subscribe({}, {})
 
         verify(exactly = 1) {
-            storeRepository.updateWeight(WEIGHT)
+            storeDataStore.updateWeight(WEIGHT)
         }
 
         disposable.dispose()
@@ -148,13 +148,13 @@ class FirebaseInteractorTest {
         val single = firebaseInteractor.updateName(NAME)
 
         verify(exactly = 0) {
-            storeRepository.updateName(NAME)
+            storeDataStore.updateName(NAME)
         }
 
         val disposable = single.subscribe({}, {})
 
         verify(exactly = 1) {
-            storeRepository.updateName(NAME)
+            storeDataStore.updateName(NAME)
         }
 
         disposable.dispose()
@@ -165,13 +165,13 @@ class FirebaseInteractorTest {
         val single = firebaseInteractor.getAllRunsFromCloud()
 
         verify(exactly = 0) {
-            storeRepository.getAllRuns()
+            storeDataStore.getAllRuns()
         }
 
         val disposable = single.subscribe({}, {})
 
         verify(exactly = 1) {
-            storeRepository.getAllRuns()
+            storeDataStore.getAllRuns()
         }
 
         disposable.dispose()
@@ -182,13 +182,13 @@ class FirebaseInteractorTest {
         val single = firebaseInteractor.fillUserDataInFirestore(NAME, WEIGHT)
 
         verify(exactly = 0) {
-            storeRepository.fillUserDataInFirestore(NAME, WEIGHT)
+            storeDataStore.fillUserDataInFirestore(NAME, WEIGHT)
         }
 
         val disposable = single.subscribe({}, {})
 
         verify(exactly = 1) {
-            storeRepository.fillUserDataInFirestore(NAME, WEIGHT)
+            storeDataStore.fillUserDataInFirestore(NAME, WEIGHT)
         }
 
         disposable.dispose()
@@ -199,7 +199,7 @@ class FirebaseInteractorTest {
         val single = firebaseInteractor.switchToDeleteFlagsInCloud(listOfRuns)
 
         verify(exactly = 0) {
-            storeRepository.switchToDeleteFlags(
+            storeDataStore.switchToDeleteFlags(
                 converter.toRunEntityList(listOfRuns)
             )
         }
@@ -207,7 +207,7 @@ class FirebaseInteractorTest {
         val disposable = single.subscribe({}, {})
 
         verify(exactly = 1) {
-            storeRepository.switchToDeleteFlags(
+            storeDataStore.switchToDeleteFlags(
                 converter.toRunEntityList(listOfRuns)
             )
         }
@@ -220,7 +220,7 @@ class FirebaseInteractorTest {
         val single = firebaseInteractor.uploadMissingFromDbToCloud(listOfRuns)
 
         verify(exactly = 0) {
-            storeRepository.addRunsToCloud(
+            storeDataStore.addRunsToCloud(
                 converter.toRunEntityList(listOfRuns)
             )
         }
@@ -228,7 +228,7 @@ class FirebaseInteractorTest {
         val disposable = single.subscribe({}, {})
 
         verify(exactly = 1) {
-            storeRepository.addRunsToCloud(
+            storeDataStore.addRunsToCloud(
                 converter.toRunEntityList(listOfRuns)
             )
         }
@@ -241,7 +241,7 @@ class FirebaseInteractorTest {
         val single = firebaseInteractor.uploadImageToStorage(run)
 
         verify(exactly = 0) {
-            storageRepository.addImage(
+            storageDataStore.addImage(
                 converter.toRunEntity(run)
             )
         }
@@ -249,7 +249,7 @@ class FirebaseInteractorTest {
         val disposable = single.subscribe({}, {})
 
         verify(exactly = 1) {
-            storageRepository.addImage(
+            storageDataStore.addImage(
                 converter.toRunEntity(run)
             )
         }
@@ -262,7 +262,7 @@ class FirebaseInteractorTest {
         val single = firebaseInteractor.downloadImageFromStorage(run)
 
         verify(exactly = 0) {
-            storageRepository.getImage(
+            storageDataStore.getImage(
                 converter.toRunEntity(run)
             )
         }
@@ -270,7 +270,7 @@ class FirebaseInteractorTest {
         val disposable = single.subscribe({}, {})
 
         verify(exactly = 1) {
-            storageRepository.getImage(
+            storageDataStore.getImage(
                 converter.toRunEntity(run)
             )
         }

@@ -5,8 +5,8 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
-import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
-import xyz.fcr.sberrunner.data.repository.shared.SharedPreferenceWrapper
+import xyz.fcr.sberrunner.data.datastore.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.data.datastore.shared.SharedPreferenceWrapper
 import javax.inject.Singleton
 
 /**

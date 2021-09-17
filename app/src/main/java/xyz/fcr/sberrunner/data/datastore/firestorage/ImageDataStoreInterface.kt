@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.data.repository.firestorage
+package xyz.fcr.sberrunner.data.datastore.firestorage
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.UploadTask
@@ -7,7 +7,7 @@ import xyz.fcr.sberrunner.data.model.RunEntity
 /**
  * Интерфейс взаимодействия с изображениями
  */
-interface ImageRepositoryInterface {
+interface ImageDataStoreInterface {
 
     /**
      * Добавление изображения в хранилище

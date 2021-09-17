@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.data.repository.firestore
+package xyz.fcr.sberrunner.data.datastore.firestore
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -7,19 +7,19 @@ import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.utils.Constants
 
 /**
- * Имплементация интерфейса [StoreRepositoryInterface],
+ * Имплементация интерфейса [StoreDataStoreInterface],
  * служит для взаимодействия с объектами FirebaseAuth и FirebaseStore
  *
- * @param auth [FirebaseAuth] - объект аутентификации
+ * @param firebaseAuth [FirebaseAuth] - объект аутентификации
  * @param firestore [FirebaseFirestore] - объект облачной NoSQL DB
  */
-class FirestoreRepository(
-    private val auth: FirebaseAuth,
+class FirestoreDataStore(
+    private val firebaseAuth: FirebaseAuth,
     private val firestore: FirebaseFirestore
-) : StoreRepositoryInterface {
+) : StoreDataStoreInterface {
 
     private val userId
-        get() = auth.currentUser?.uid ?: throw IllegalAccessError("Can't find user id")
+        get() = firebaseAuth.currentUser?.uid ?: throw IllegalAccessError("Can't find user id")
 
     /**
      * Запрос на обновление имени пользоваателя в Firestore

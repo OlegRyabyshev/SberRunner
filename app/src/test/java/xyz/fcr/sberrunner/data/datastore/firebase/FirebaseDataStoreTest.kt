@@ -1,17 +1,17 @@
-package xyz.fcr.sberrunner.data.repository.firebase
+package xyz.fcr.sberrunner.data.datastore.firebase
 
 import com.google.firebase.auth.FirebaseAuth
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Test
 
-class FirebaseRepositoryTest {
+class FirebaseDataStoreTest {
     private val firebaseAuth = mockk<FirebaseAuth>(relaxed = true)
-    private val firebaseRepository: FirebaseRepository = FirebaseRepository(firebaseAuth)
+    private val firebaseDataStore: FirebaseDataStore = FirebaseDataStore(firebaseAuth)
 
     @Test
     fun registration() {
-        firebaseRepository.registration(EMAIL, PASS)
+        firebaseDataStore.registration(EMAIL, PASS)
 
         verify(exactly = 1) {
             firebaseAuth.createUserWithEmailAndPassword(EMAIL, PASS)
@@ -20,7 +20,7 @@ class FirebaseRepositoryTest {
 
     @Test
     fun login() {
-        firebaseRepository.login(EMAIL, PASS)
+        firebaseDataStore.login(EMAIL, PASS)
 
         verify(exactly = 1) {
             firebaseAuth.signInWithEmailAndPassword(EMAIL, PASS)
@@ -29,7 +29,7 @@ class FirebaseRepositoryTest {
 
     @Test
     fun sendResetEmail() {
-        firebaseRepository.sendResetEmail(EMAIL)
+        firebaseDataStore.sendResetEmail(EMAIL)
 
         verify(exactly = 1) {
             firebaseAuth.sendPasswordResetEmail(EMAIL)
@@ -38,7 +38,7 @@ class FirebaseRepositoryTest {
 
     @Test
     fun signOut() {
-        firebaseRepository.signOut()
+        firebaseDataStore.signOut()
 
         verify(exactly = 1) {
             firebaseAuth.signOut()
@@ -47,7 +47,7 @@ class FirebaseRepositoryTest {
 
     @Test
     fun deleteAccount() {
-        firebaseRepository.signOut()
+        firebaseDataStore.signOut()
 
         verify(exactly = 1) {
             firebaseAuth.signOut()

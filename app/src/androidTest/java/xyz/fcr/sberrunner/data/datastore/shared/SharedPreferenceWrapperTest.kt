@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.data.repository.shared
+package xyz.fcr.sberrunner.data.datastore.shared
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE

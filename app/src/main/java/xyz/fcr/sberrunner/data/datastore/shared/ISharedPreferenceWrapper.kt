@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.data.repository.shared
+package xyz.fcr.sberrunner.data.datastore.shared
 
 /**
  * Интерфейс упрощенного взаимодействия с SharedPreference

@@ -3,7 +3,7 @@ package xyz.fcr.sberrunner.presentation.service.notification
 import android.media.MediaPlayer
 import android.net.Uri
 import xyz.fcr.sberrunner.R
-import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.data.datastore.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.utils.Constants.UNIT_RATIO
 

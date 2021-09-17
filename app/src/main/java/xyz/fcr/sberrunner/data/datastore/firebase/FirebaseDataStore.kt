@@ -1,12 +1,17 @@
-package xyz.fcr.sberrunner.data.repository.firebase
+package xyz.fcr.sberrunner.data.datastore.firebase
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
 
 /**
- * Интерфейс взаимодействия с аккаунтом пользователя
+ * Имплементация интерфейса [AuthDataStoreInterface], служит для взаимодействия с объектом FirebaseAuth
+ *
+ * @param firebaseAuth [FirebaseAuth] - объект аутентификации
  */
-interface AuthRepositoryInterface {
+class FirebaseDataStore(
+    private val firebaseAuth: FirebaseAuth
+) : AuthDataStoreInterface {
 
     /**
      * Регистрация пользователя
@@ -16,10 +21,12 @@ interface AuthRepositoryInterface {
      *
      * @return [Task] - асинхронный результат выполенения регистрации
      */
-    fun registration(
+    override fun registration(
         email: String,
         password: String
-    ): Task<AuthResult>
+    ): Task<AuthResult> {
+        return firebaseAuth.createUserWithEmailAndPassword(email, password)
+    }
 
     /**
      * Вход в аккаунт
@@ -29,7 +36,9 @@ interface AuthRepositoryInterface {
      *
      * @return [Task] - результат асинхронного запроса входа в аккаунт
      */
-    fun login(email: String, password: String): Task<AuthResult>
+    override fun login(email: String, password: String): Task<AuthResult> {
+        return firebaseAuth.signInWithEmailAndPassword(email, password)
+    }
 
     /**
      * Отправка сообщения на email пользователя со сбросом пароля
@@ -38,17 +47,24 @@ interface AuthRepositoryInterface {
      *
      * @return [Task] - результат асинхронного запроса сброса
      */
-    fun sendResetEmail(email: String): Task<Void>
+    override fun sendResetEmail(email: String): Task<Void> {
+        return firebaseAuth.sendPasswordResetEmail(email)
+    }
 
     /**
      * Выход пользователя из аккаунта
      */
-    fun signOut()
+    override fun signOut() {
+       firebaseAuth.signOut()
+    }
 
     /**
      * Удаление пользователем своего аккаунта
      *
      * @return [Task] - результат асинхронного запроса удаления аккаунта
      */
-    fun deleteAccount(): Task<Void>
+    override fun deleteAccount(): Task<Void> {
+        val user = firebaseAuth.currentUser
+        return user!!.delete()
+    }
 }

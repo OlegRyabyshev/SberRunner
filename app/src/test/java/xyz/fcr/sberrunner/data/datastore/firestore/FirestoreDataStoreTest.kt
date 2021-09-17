@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.data.repository.firestore
+package xyz.fcr.sberrunner.data.datastore.firestore
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -13,12 +13,12 @@ import org.junit.Test
 import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.utils.Constants
 
-class FirestoreRepositoryTest {
+class FirestoreDataStoreTest {
 
     private val firebaseAuth: FirebaseAuth = mockk()
     private val firebaseFirestore: FirebaseFirestore = mockk()
 
-    private val firestoreRepository = FirestoreRepository(firebaseAuth, firebaseFirestore)
+    private val firestoreDataStore = FirestoreDataStore(firebaseAuth, firebaseFirestore)
 
     private val collectionReference: CollectionReference = mockk()
     private val documentReference: DocumentReference = mockk()
@@ -41,7 +41,7 @@ class FirestoreRepositoryTest {
         every { collectionReference.document(any()) } returns documentReference
         every { documentReference.update(Constants.NAME, NAME) } returns taskVoid
 
-        firestoreRepository.updateName(NAME)
+        firestoreDataStore.updateName(NAME)
 
         verifyOrder {
             firebaseFirestore.collection(Constants.USER_TABLE)
@@ -56,7 +56,7 @@ class FirestoreRepositoryTest {
         every { collectionReference.document(any()) } returns documentReference
         every { documentReference.update(Constants.WEIGHT, WEIGHT) } returns taskVoid
 
-        firestoreRepository.updateWeight(WEIGHT)
+        firestoreDataStore.updateWeight(WEIGHT)
 
         verifyOrder {
             firebaseFirestore.collection(Constants.USER_TABLE)
@@ -71,7 +71,7 @@ class FirestoreRepositoryTest {
         every { collectionReference.document(any()) } returns documentReference
         every { documentReference.set(any()) } returns taskVoid
 
-        firestoreRepository.fillUserDataInFirestore(NAME, WEIGHT)
+        firestoreDataStore.fillUserDataInFirestore(NAME, WEIGHT)
 
         verifyOrder {
             firebaseFirestore.collection(Constants.USER_TABLE)
@@ -86,7 +86,7 @@ class FirestoreRepositoryTest {
         every { collectionReference.document(any()) } returns documentReference
         every { documentReference.get() } returns taskDocumentSnapshot
 
-        firestoreRepository.getDocumentFirestore()
+        firestoreDataStore.getDocumentFirestore()
 
         verifyOrder {
             firebaseFirestore.collection(Constants.USER_TABLE)
@@ -103,7 +103,7 @@ class FirestoreRepositoryTest {
         every { documentReference.collection(Constants.RUNS_TABLE) } returns collectionReference
         every { collectionReference.get(Source.SERVER) } returns taskQuerySnapshot
 
-        firestoreRepository.getAllRuns()
+        firestoreDataStore.getAllRuns()
 
         verifyOrder {
             firebaseFirestore.collection(Constants.RUNS_TABLE)
@@ -122,7 +122,7 @@ class FirestoreRepositoryTest {
         every { documentReference.collection(Constants.RUNS_TABLE) } returns collectionReference
         every { firebaseFirestore.runBatch(any()) } returns taskVoid
 
-        firestoreRepository.switchToDeleteFlags(LIST)
+        firestoreDataStore.switchToDeleteFlags(LIST)
 
         verify(exactly = 1) {
             firebaseFirestore.runBatch(any())
@@ -134,7 +134,7 @@ class FirestoreRepositoryTest {
         every { firebaseFirestore.batch() } returns writeBatch
         every { writeBatch.commit() } returns taskVoid
 
-        firestoreRepository.addRunsToCloud(LIST)
+        firestoreDataStore.addRunsToCloud(LIST)
 
         verifyOrder {
             firebaseFirestore.batch()

@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.data.repository.firestorage
+package xyz.fcr.sberrunner.data.datastore.firestorage
 
 import android.graphics.Bitmap
 import com.google.android.gms.tasks.Task
@@ -15,7 +15,7 @@ import org.junit.Test
 import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.data.util.BitmapConverter
 
-class StorageRepositoryTest {
+class StorageDataStoreTest {
 
     private val firebaseAuth: FirebaseAuth = mockk()
     private val firebaseStorage: FirebaseStorage = mockk()
@@ -28,7 +28,11 @@ class StorageRepositoryTest {
 
     private val taskByteArray: Task<ByteArray> = mockk()
 
-    private val storageRepository = StorageRepository(firebaseAuth, firebaseStorage, bitmapConverter)
+    private val storageDataStore = StorageDataStore(
+        firebaseAuth,
+        firebaseStorage,
+        bitmapConverter
+    )
 
     @Before
     fun beforeInit() {
@@ -44,7 +48,7 @@ class StorageRepositoryTest {
         every { firebaseStorage.reference.child(any()) } returns storageReference
         every { storageReference.putBytes(any()) } returns uploadTask
 
-        storageRepository.addImage(mockRun)
+        storageDataStore.addImage(mockRun)
 
         verifyOrder {
             firebaseStorage.reference.child(any())
@@ -60,7 +64,7 @@ class StorageRepositoryTest {
         every { firebaseStorage.reference.child(any()) } returns storageReference
         every { storageReference.getBytes(any()) } returns taskByteArray
 
-        storageRepository.getImage(mockRun)
+        storageDataStore.getImage(mockRun)
 
         verifyOrder {
             firebaseStorage.reference.child(any())

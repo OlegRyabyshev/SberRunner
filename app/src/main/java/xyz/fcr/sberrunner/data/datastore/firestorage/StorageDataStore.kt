@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.data.repository.firestorage
+package xyz.fcr.sberrunner.data.datastore.firestorage
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -8,17 +8,17 @@ import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.data.util.BitmapConverter
 
 /**
- * Имплементация интерфейса [ImageRepositoryInterface], служит для взаимодействия с Firebase Storage
+ * Имплементация интерфейса [ImageDataStoreInterface], служит для взаимодействия с Firebase Storage
  *
  * @param firebaseAuth [FirebaseAuth] - объект аутентификации
- * @param storage [FirebaseStorage] - объект хранилища Firebase Storage
+ * @param firebaseStorage [FirebaseStorage] - объект хранилища Firebase Storage
  * @param bitmapConverter [BitmapConverter] - конвертер Bitmap <-> ByteArray
  */
-class StorageRepository(
+class StorageDataStore(
     private val firebaseAuth: FirebaseAuth,
-    private val storage: FirebaseStorage,
+    private val firebaseStorage: FirebaseStorage,
     private val bitmapConverter: BitmapConverter
-) : ImageRepositoryInterface {
+) : ImageDataStoreInterface {
 
     private val userId
         get() = firebaseAuth.currentUser?.uid ?: throw IllegalAccessError("Can't find user id")
@@ -33,7 +33,7 @@ class StorageRepository(
         val imageName = run.timestamp.toString()
         val byteImage = bitmapConverter.fromBitmap(run.mapImage)
 
-        val storageRef = storage.reference.child("$userId/$imageName.png")
+        val storageRef = firebaseStorage.reference.child("$userId/$imageName.png")
 
         return storageRef.putBytes(byteImage!!)
     }
@@ -46,7 +46,7 @@ class StorageRepository(
      */
     override fun getImage(run: RunEntity): Task<ByteArray> {
         val imageName = run.timestamp.toString()
-        val storageRef = storage.reference.child("$userId/$imageName.png")
+        val storageRef = firebaseStorage.reference.child("$userId/$imageName.png")
 
         return storageRef.getBytes(TEN_MEGABYTES)
 

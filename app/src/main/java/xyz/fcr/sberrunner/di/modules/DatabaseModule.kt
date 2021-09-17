@@ -28,7 +28,7 @@ object DatabaseModule {
      */
     @Singleton
     @Provides
-    fun provideDatabaseRepository(
+    fun provideDatabaseInteractor(
         runDao: RunDao,
         converter: RunConverter
     ): IDatabaseInteractor {
