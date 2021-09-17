@@ -1,7 +1,7 @@
 package xyz.fcr.sberrunner.utils
 
 import android.location.Location
-import xyz.fcr.sberrunner.data.service.Polyline
+import xyz.fcr.sberrunner.presentation.service.Polyline
 import java.util.concurrent.TimeUnit
 
 /**

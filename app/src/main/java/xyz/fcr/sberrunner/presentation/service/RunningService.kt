@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.data.service
+package xyz.fcr.sberrunner.presentation.service
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
@@ -26,11 +26,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import xyz.fcr.sberrunner.R
-import xyz.fcr.sberrunner.data.service.notification.AudioNotificator.Companion.VOICE_COMPLETE
-import xyz.fcr.sberrunner.data.service.notification.AudioNotificator.Companion.VOICE_PAUSE
-import xyz.fcr.sberrunner.data.service.notification.AudioNotificator.Companion.VOICE_RESUME
-import xyz.fcr.sberrunner.data.service.notification.AudioNotificator.Companion.VOICE_START
-import xyz.fcr.sberrunner.data.service.notification.IAudioNotificator
+import xyz.fcr.sberrunner.presentation.service.notification.AudioNotificator.Companion.VOICE_COMPLETE
+import xyz.fcr.sberrunner.presentation.service.notification.AudioNotificator.Companion.VOICE_PAUSE
+import xyz.fcr.sberrunner.presentation.service.notification.AudioNotificator.Companion.VOICE_RESUME
+import xyz.fcr.sberrunner.presentation.service.notification.AudioNotificator.Companion.VOICE_START
+import xyz.fcr.sberrunner.presentation.service.notification.IAudioNotificator
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.utils.Constants
 import xyz.fcr.sberrunner.utils.Constants.ACTION_PAUSE_SERVICE

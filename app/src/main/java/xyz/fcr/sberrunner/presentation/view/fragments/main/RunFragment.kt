@@ -24,7 +24,7 @@ import es.dmoral.toasty.Toasty
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.fcr.sberrunner.R
-import xyz.fcr.sberrunner.data.service.RunningService
+import xyz.fcr.sberrunner.presentation.service.RunningService
 import xyz.fcr.sberrunner.databinding.FragmentRunBinding
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.model.Run

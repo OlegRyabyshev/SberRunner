@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.data.service.notification
+package xyz.fcr.sberrunner.presentation.service.notification
 
 /**
  * Интерфейс звуковых нотификаций во время бега

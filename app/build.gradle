@@ -136,5 +136,4 @@ dependencies {
 
     // For InstantTaskExecutorRole (testing)
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
-    //androidTestImplementation 'android.arch.core:core-testing:1.1.1'
 }

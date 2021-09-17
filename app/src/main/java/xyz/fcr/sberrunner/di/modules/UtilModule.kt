@@ -4,8 +4,8 @@ import android.media.MediaPlayer
 import dagger.Module
 import dagger.Provides
 import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
-import xyz.fcr.sberrunner.data.service.notification.AudioNotificator
-import xyz.fcr.sberrunner.data.service.notification.IAudioNotificator
+import xyz.fcr.sberrunner.presentation.service.notification.AudioNotificator
+import xyz.fcr.sberrunner.presentation.service.notification.IAudioNotificator
 import xyz.fcr.sberrunner.data.util.BitmapConverter
 import xyz.fcr.sberrunner.domain.converter.RunConverter
 import xyz.fcr.sberrunner.utils.schedulers.ISchedulersProvider

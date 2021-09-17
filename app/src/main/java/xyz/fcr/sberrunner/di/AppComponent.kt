@@ -2,8 +2,8 @@ package xyz.fcr.sberrunner.di
 
 import android.content.Context
 import dagger.Component
-import xyz.fcr.sberrunner.data.service.RunningService
-import xyz.fcr.sberrunner.data.service.notification.AudioNotificator
+import xyz.fcr.sberrunner.presentation.service.RunningService
+import xyz.fcr.sberrunner.presentation.service.notification.AudioNotificator
 import xyz.fcr.sberrunner.di.modules.*
 import xyz.fcr.sberrunner.presentation.view.activities.MainActivity
 import xyz.fcr.sberrunner.presentation.view.activities.SplashScreenActivity

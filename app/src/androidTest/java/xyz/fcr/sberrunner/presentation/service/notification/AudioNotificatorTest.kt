@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.data.service.notification
+package xyz.fcr.sberrunner.presentation.service.notification
 
 import android.media.MediaPlayer
 import androidx.test.ext.junit.runners.AndroidJUnit4
