@@ -4,8 +4,8 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Test
 import xyz.fcr.sberrunner.data.room.RunDao
-import xyz.fcr.sberrunner.domain.converter.RunConverter
-import xyz.fcr.sberrunner.presentation.model.Run
+import xyz.fcr.sberrunner.data.converter.RunConverter
+import xyz.fcr.sberrunner.domain.model.Run
 
 class RoomInteractorTest {
 

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.data.datastore.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.domain.interactor.db.IDatabaseInteractor
 import xyz.fcr.sberrunner.domain.interactor.firebase.IFirebaseInteractor
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent

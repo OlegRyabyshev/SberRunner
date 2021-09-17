@@ -15,7 +15,7 @@ import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.databinding.FragmentProgressBinding
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.model.Progress
-import xyz.fcr.sberrunner.presentation.model.Run
+import xyz.fcr.sberrunner.domain.model.Run
 import xyz.fcr.sberrunner.presentation.view.fragments.main.adapters.ProgressRecyclerAdapter
 import xyz.fcr.sberrunner.presentation.viewmodels.main.ProgressViewModel
 import xyz.fcr.sberrunner.utils.*

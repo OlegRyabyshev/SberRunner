@@ -2,7 +2,7 @@ package xyz.fcr.sberrunner.domain.interactor.db
 
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import xyz.fcr.sberrunner.presentation.model.Run
+import xyz.fcr.sberrunner.domain.model.Run
 
 /**
  * Интерфейс доступка к базе данных

@@ -13,7 +13,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import xyz.fcr.sberrunner.databinding.FragmentDetailedRunBinding
 import xyz.fcr.sberrunner.presentation.App
-import xyz.fcr.sberrunner.presentation.model.Run
+import xyz.fcr.sberrunner.domain.model.Run
 import xyz.fcr.sberrunner.presentation.viewmodels.main.DetailedRunViewModel
 import xyz.fcr.sberrunner.utils.*
 import xyz.fcr.sberrunner.utils.Constants.CURRENT_RUN_TIMESTAMP

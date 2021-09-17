@@ -11,7 +11,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import xyz.fcr.sberrunner.data.repository.shared.SharedPreferenceWrapper
+import xyz.fcr.sberrunner.data.datastore.shared.SharedPreferenceWrapper
 import xyz.fcr.sberrunner.domain.interactor.db.RoomInteractor
 import xyz.fcr.sberrunner.domain.interactor.firebase.FirebaseInteractor
 import xyz.fcr.sberrunner.utils.schedulers.SchedulersProvider

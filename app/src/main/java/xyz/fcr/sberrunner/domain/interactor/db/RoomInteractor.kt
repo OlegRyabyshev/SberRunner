@@ -3,8 +3,8 @@ package xyz.fcr.sberrunner.domain.interactor.db
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.room.RunDao
-import xyz.fcr.sberrunner.domain.converter.RunConverter
-import xyz.fcr.sberrunner.presentation.model.Run
+import xyz.fcr.sberrunner.data.converter.RunConverter
+import xyz.fcr.sberrunner.domain.model.Run
 
 /**
  * Имплементация интерфейса [IDatabaseInteractor], служит для связи Room <-> ViewModel

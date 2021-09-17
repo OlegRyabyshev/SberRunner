@@ -5,14 +5,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
-import xyz.fcr.sberrunner.data.repository.firebase.FirebaseRepository
-import xyz.fcr.sberrunner.data.repository.firebase.AuthRepositoryInterface
-import xyz.fcr.sberrunner.data.repository.firestorage.ImageRepositoryInterface
-import xyz.fcr.sberrunner.data.repository.firestorage.StorageRepository
-import xyz.fcr.sberrunner.data.repository.firestore.FirestoreRepository
-import xyz.fcr.sberrunner.data.repository.firestore.StoreRepositoryInterface
+import xyz.fcr.sberrunner.data.datastore.firebase.FirebaseDataStore
+import xyz.fcr.sberrunner.data.datastore.firebase.AuthDataStoreInterface
+import xyz.fcr.sberrunner.data.datastore.firestorage.ImageDataStoreInterface
+import xyz.fcr.sberrunner.data.datastore.firestorage.StorageDataStore
+import xyz.fcr.sberrunner.data.datastore.firestore.FirestoreDataStore
+import xyz.fcr.sberrunner.data.datastore.firestore.StoreDataStoreInterface
 import xyz.fcr.sberrunner.data.util.BitmapConverter
-import xyz.fcr.sberrunner.domain.converter.RunConverter
+import xyz.fcr.sberrunner.data.converter.RunConverter
 import xyz.fcr.sberrunner.domain.interactor.firebase.FirebaseInteractor
 import xyz.fcr.sberrunner.domain.interactor.firebase.IFirebaseInteractor
 import javax.inject.Singleton
@@ -57,62 +57,62 @@ class FirebaseModule {
     }
 
     /**
-     * Предоставление репозитория взаимодействия с Firebase
+     * Предоставление взаимодействия с Firebase
      *
      * @param auth [FirebaseAuth] - класс взаимодействия с аутентификацией
      *
-     * @return [AuthRepositoryInterface] - интерфейс взаимодействия с Firebase
+     * @return [AuthDataStoreInterface] - интерфейс взаимодействия с Firebase
      */
     @Provides
     @Singleton
-    fun providesFirebaseRepository(
+    fun providesFirebaseDataStore(
         auth: FirebaseAuth
-    ): AuthRepositoryInterface {
-        return FirebaseRepository(auth)
+    ): AuthDataStoreInterface {
+        return FirebaseDataStore(auth)
     }
 
     /**
-     * Предоставление репозитория взаимодействия с Firestore
+     * Предоставление взаимодействия с Firestore
      *
      * @param auth [FirebaseAuth] - объект взаимодействия с аутентификацией
      * @param store [FirebaseFirestore] - объект взаимодействия с Firestore
      *
-     * @return [StoreRepositoryInterface] - интерфейс взаимодействия с Firestore
+     * @return [StoreDataStoreInterface] - интерфейс взаимодействия с Firestore
      */
     @Provides
     @Singleton
-    fun providesFirestoreRepository(
+    fun providesFirestoreDataStore(
         auth: FirebaseAuth,
         store: FirebaseFirestore
-    ): StoreRepositoryInterface {
-        return FirestoreRepository(auth, store)
+    ): StoreDataStoreInterface {
+        return FirestoreDataStore(auth, store)
     }
 
     /**
-     * Предоставление репозитория взаимодействия с Firebase Storage
+     * Предоставление взаимодействия с Firebase Storage
      *
      * @param auth [FirebaseAuth] - объект взаимодействия с аутентификацией
      * @param storage [FirebaseStorage] - объект взаимодействия с Firebase Storage
      * @param converter [BitmapConverter] - объект конвертора Bitmap <-> ByteArray
      *
-     * @return [ImageRepositoryInterface] - интерфейс взаимодействия с Firebase Storage
+     * @return [ImageDataStoreInterface] - интерфейс взаимодействия с Firebase Storage
      */
     @Provides
     @Singleton
-    fun providesStorageRepository(
+    fun providesStorageDataStore(
         auth: FirebaseAuth,
         storage: FirebaseStorage,
         converter: BitmapConverter
-    ): ImageRepositoryInterface {
-        return StorageRepository(auth, storage, converter)
+    ): ImageDataStoreInterface {
+        return StorageDataStore(auth, storage, converter)
     }
 
     /**
      * Предоставление интерактора взаимодействия с Firebase (auth/firestore/storage)
      *
-     * @param firebaseRepo [AuthRepositoryInterface] - репозиторий взаимодействия с Firebase
-     * @param storeRepo [StoreRepositoryInterface] - репозиторий взаимодействия с Firestore
-     * @param storage [ImageRepositoryInterface] - репозиторий взаимодействия с Firebase Storage
+     * @param firebaseDataStore [AuthDataStoreInterface] - объект взаимодействия с Firebase
+     * @param storeDataStore [StoreDataStoreInterface] - объект взаимодействия с Firestore
+     * @param storageDataStore [ImageDataStoreInterface] - объект взаимодействия с Firebase Storage
      * @param converter [RunConverter] - конвертер забегов
      *
      * @return [IFirebaseInteractor] - интерактор взаимодействия с Firebase
@@ -120,15 +120,15 @@ class FirebaseModule {
     @Provides
     @Singleton
     fun providesFirebaseInteractor(
-        firebaseRepo: AuthRepositoryInterface,
-        storeRepo: StoreRepositoryInterface,
-        storage: ImageRepositoryInterface,
+        firebaseDataStore: AuthDataStoreInterface,
+        storeDataStore: StoreDataStoreInterface,
+        storageDataStore: ImageDataStoreInterface,
         converter: RunConverter
     ): IFirebaseInteractor {
         return FirebaseInteractor(
-            firebaseRepo,
-            storeRepo,
-            storage,
+            firebaseDataStore,
+            storeDataStore,
+            storageDataStore,
             converter
         )
     }

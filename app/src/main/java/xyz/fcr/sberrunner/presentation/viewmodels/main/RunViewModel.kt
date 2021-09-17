@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.rxjava3.disposables.Disposable
 import xyz.fcr.sberrunner.domain.interactor.db.IDatabaseInteractor
-import xyz.fcr.sberrunner.data.repository.shared.ISharedPreferenceWrapper
-import xyz.fcr.sberrunner.presentation.model.Run
+import xyz.fcr.sberrunner.data.datastore.shared.ISharedPreferenceWrapper
+import xyz.fcr.sberrunner.domain.model.Run
 import xyz.fcr.sberrunner.utils.schedulers.ISchedulersProvider
 import javax.inject.Inject
 
