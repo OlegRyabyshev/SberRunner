@@ -6,7 +6,7 @@ import org.junit.Test
 import xyz.fcr.sberrunner.data.datastore.firebase.FirebaseDataStore
 import xyz.fcr.sberrunner.data.datastore.firestorage.StorageDataStore
 import xyz.fcr.sberrunner.data.datastore.firestore.FirestoreDataStore
-import xyz.fcr.sberrunner.domain.converter.RunConverter
+import xyz.fcr.sberrunner.data.converter.RunConverter
 import xyz.fcr.sberrunner.domain.model.Run
 
 class FirebaseInteractorTest {

@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.domain.converter
+package xyz.fcr.sberrunner.data.converter
 
 import android.graphics.BitmapFactory
 import org.junit.Assert.*

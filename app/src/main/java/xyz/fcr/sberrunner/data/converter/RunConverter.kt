@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.domain.converter
+package xyz.fcr.sberrunner.data.converter
 
 import xyz.fcr.sberrunner.data.model.RunEntity
 import xyz.fcr.sberrunner.domain.model.Run

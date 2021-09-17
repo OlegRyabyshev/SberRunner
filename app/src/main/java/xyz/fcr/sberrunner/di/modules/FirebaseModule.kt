@@ -12,7 +12,7 @@ import xyz.fcr.sberrunner.data.datastore.firestorage.StorageDataStore
 import xyz.fcr.sberrunner.data.datastore.firestore.FirestoreDataStore
 import xyz.fcr.sberrunner.data.datastore.firestore.StoreDataStoreInterface
 import xyz.fcr.sberrunner.data.util.BitmapConverter
-import xyz.fcr.sberrunner.domain.converter.RunConverter
+import xyz.fcr.sberrunner.data.converter.RunConverter
 import xyz.fcr.sberrunner.domain.interactor.firebase.FirebaseInteractor
 import xyz.fcr.sberrunner.domain.interactor.firebase.IFirebaseInteractor
 import javax.inject.Singleton

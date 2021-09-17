@@ -10,7 +10,7 @@ import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.data.datastore.firebase.AuthDataStoreInterface
 import xyz.fcr.sberrunner.data.datastore.firestorage.ImageDataStoreInterface
 import xyz.fcr.sberrunner.data.datastore.firestore.StoreDataStoreInterface
-import xyz.fcr.sberrunner.domain.converter.RunConverter
+import xyz.fcr.sberrunner.data.converter.RunConverter
 import xyz.fcr.sberrunner.domain.model.Run
 
 /**
