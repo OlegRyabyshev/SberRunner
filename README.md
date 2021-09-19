@@ -68,8 +68,8 @@ Login and Registration Screens
 - Error checking during filling fields
 
 <p float="left">
-  <img src="screenshots/login/login.png" width="220" />
-  <img src="screenshots/login/registration.png" width="220" /> 
+  <img src="screenshots/login_registration/login.png" width="220" />
+  <img src="screenshots/login_registration/registration.png" width="220" /> 
 </p>
 
 List of Runs with Detailed Information Screens
@@ -90,7 +90,7 @@ Running Activity and Map Screens
 
 <p float="left">
   <img src="screenshots/tracking_map/tracking.png" width="220" />
-  <img src="screenshots/tracking_map/map.png" width="220" /> 
+  <img src="screenshots/tracking_map/run.png" width="220" /> 
 </p>
 
 Progress and Settings Screens
