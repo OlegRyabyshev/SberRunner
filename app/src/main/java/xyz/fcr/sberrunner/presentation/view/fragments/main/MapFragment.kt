@@ -59,6 +59,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
             }
         }
 
+        observeLiveData()
         viewModel.setToLastKnownLocationIfAny()
 
         observeLiveData()
@@ -89,8 +90,8 @@ class MapFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCa
      */
     private fun observeLiveData() {
         viewModel.progressLiveData.observe(viewLifecycleOwner, { isVisible: Boolean -> showProgress(isVisible) })
-        viewModel.locationLiveData.observe(viewLifecycleOwner, { location: Location -> displayLocation(location) })
         viewModel.historyLiveData.observe(viewLifecycleOwner, { latLng: LatLng -> displayLastKnownLocation(latLng) })
+        viewModel.locationLiveData.observe(viewLifecycleOwner, { location: Location -> displayLocation(location) })
         viewModel.errorLiveData.observe(viewLifecycleOwner, { error: String -> showError(error) })
     }
 
