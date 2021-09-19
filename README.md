@@ -56,9 +56,9 @@ Welcome Screens
 - Swipable welcome screen via ViewPager2 + TabLayout
 
 <p float="left">
-  <img src="screenshots/hello_1.png" width="200" />
-  <img src="screenshots/hello_2.png" width="200" /> 
-  <img src="screenshots/hello_3.png" width="200" /> 
+  <img src="screenshots/welcome/hello_1.png" width="200" />
+  <img src="screenshots/welcome/hello_2.png" width="200" /> 
+  <img src="screenshots/welcome/hello_3.png" width="200" /> 
 </p>
 
 Login and Registration Screens
@@ -68,8 +68,8 @@ Login and Registration Screens
 - Error checking during filling fields
 
 <p float="left">
-  <img src="screenshots/login_light.png" width="220" />
-  <img src="screenshots/registration_light.png" width="220" /> 
+  <img src="screenshots/login/login.png" width="220" />
+  <img src="screenshots/login/registration.png" width="220" /> 
 </p>
 
 List of Runs with Detailed Information Screens
@@ -78,8 +78,8 @@ List of Runs with Detailed Information Screens
 - List of all of your run history with detailed information about each one
 
 <p float="left">
-  <img src="screenshots/list_light.png" width="220" />
-  <img src="screenshots/detailed_light.png" width="220" />
+  <img src="screenshots/list_detailed/list.png" width="220" />
+  <img src="screenshots/list_detailed/detailed.png" width="220" />
 </p>
 
 Running Activity and Map Screens
@@ -89,8 +89,8 @@ Running Activity and Map Screens
 - Audio notifications helper during active runs
 
 <p float="left">
-  <img src="screenshots/run_light.png" width="220" />
-  <img src="screenshots/map_dark.png" width="220" /> 
+  <img src="screenshots/tracking_map/tracking.png" width="220" />
+  <img src="screenshots/tracking_map/map.png" width="220" /> 
 </p>
 
 Progress and Settings Screens
@@ -99,14 +99,15 @@ Progress and Settings Screens
 - Page to setup SberRunner in the way you like it
 
 <p float="left">
-  <img src="screenshots/progress_light.png" width="220" />
-  <img src="screenshots/settings_light.png" width="220" /> 
+  <img src="screenshots/progress_settings/progress.png" width="220" />
+  <img src="screenshots/progress_settings/settings.png" width="220" /> 
 </p>
 
 # License
 ```
     Sberrunner
     Copyright 2021
-    Ryabyshev Oleg, Android Kotlin Developer
+    Ryabyshev Oleg,
+    Android Kotlin Developer
     Russia, Moscow
 ```
