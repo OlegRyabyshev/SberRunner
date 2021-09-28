@@ -10,12 +10,12 @@ import io.reactivex.rxjava3.core.Single
 import xyz.fcr.sberrunner.domain.model.Run
 
 /**
- * Интерфейс взааимодействия с Firebase
+ * Интерфейс взааимодействия с Облаком
  */
-interface IFirebaseInteractor {
+interface ICloudInteractor {
 
     /**
-     * Авторизация в Firebase
+     * Авторизация
      *
      * @param email [String] - почта пользователя
      * @param password [String] - пароль пользователя
@@ -25,7 +25,7 @@ interface IFirebaseInteractor {
     fun login(email: String, password: String): Single<Task<AuthResult>>
 
     /**
-     * Регистрация в Firebase
+     * Регистрация
      *
      * @param email [String] - email пользователя
      * @param pass [String] - пароль пользователя
@@ -35,7 +35,7 @@ interface IFirebaseInteractor {
     fun registration(email: String, pass: String): Single<Task<AuthResult>>
 
     /**
-     * Отправка сообщения на восстановление почты в Firebase
+     * Отправка сообщения на восстановление почты
      *
      * @param email [String] - email пользователя
      *
@@ -44,7 +44,7 @@ interface IFirebaseInteractor {
     fun sendResetEmail(email: String): Single<Task<Void>>
 
     /**
-     * Отправка запроса на выход пользователя из приложения в Firebase
+     * Отправка запроса на выход пользователя из приложения
      *
      * @return [Completable] - асинхронный результат отправки запроса
      */
@@ -58,14 +58,14 @@ interface IFirebaseInteractor {
     fun deleteAccount(): Single<Task<Void>>
 
     /**
-     * Получение документа из Firestore
+     * Получение документа
      *
      * @return [Single] - асинхронный результат получения документа
      */
     fun getDocumentFirestore(): Single<Task<DocumentSnapshot>>
 
     /**
-     * Обновление веса пользователя в Firestore
+     * Обновление веса пользователя
      *
      * @param weight [String] - вес пользователя
      *
@@ -74,7 +74,7 @@ interface IFirebaseInteractor {
     fun updateWeight(weight: String): Single<Task<Void>>
 
     /**
-     * Обновление имени пользователя в Firestore
+     * Обновление имени пользователя
      *
      * @param name [String] - имя пользователя
      *
@@ -83,7 +83,7 @@ interface IFirebaseInteractor {
     fun updateName(name: String): Single<Task<Void>>
 
     /**
-     * Получение запроса на список всех забегов из Firestore
+     * Получение запроса на список всех забегов
      *
      * @return [Single] - асинхронный результат получения списка
      */
@@ -100,7 +100,7 @@ interface IFirebaseInteractor {
     fun fillUserDataInFirestore(name: String, weight: String): Single<Task<Void>>
 
     /**
-     * Результат изменения флагов на удаление в Firestore
+     * Результат изменения флагов на удаление
      *
      * @param listToSwitch [List] - список забегов
      *
@@ -109,7 +109,7 @@ interface IFirebaseInteractor {
     fun switchToDeleteFlagsInCloud(listToSwitch: List<Run>): Single<Task<Void>>
 
     /**
-     * Результат загрузки недостоющих забегов в Firestore
+     * Результат загрузки недостоющих забегов
      *
      * @param missingList [List] - список забегов
      *
@@ -118,7 +118,7 @@ interface IFirebaseInteractor {
     fun uploadMissingFromDbToCloud(missingList: List<Run>): Single<Task<Void>>
 
     /**
-     * Результат загрузки изображения в Firebase Storage
+     * Результат загрузки изображения
      *
      * @param run [Run] - объект забега
      *
@@ -127,7 +127,7 @@ interface IFirebaseInteractor {
     fun uploadImageToStorage(run: Run): Single<UploadTask>
 
     /**
-     * Результат загрузки изображения из Firebase Storage
+     * Результат загрузки изображения
      *
      * @param run [Run] - объект забега
      *

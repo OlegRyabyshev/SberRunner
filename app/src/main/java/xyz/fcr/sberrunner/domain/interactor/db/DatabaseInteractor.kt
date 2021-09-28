@@ -7,11 +7,11 @@ import xyz.fcr.sberrunner.data.converter.RunConverter
 import xyz.fcr.sberrunner.domain.model.Run
 
 /**
- * Имплементация интерфейса [IDatabaseInteractor], служит для связи Room <-> ViewModel
+ * Имплементация интерфейса [IDatabaseInteractor]
  *
  * @param runDao [RunDao] - data access objects для получения доступа к базе данных бега
  */
-class RoomInteractor(
+class DatabaseInteractor(
     private val runDao: RunDao,
     private val converter: RunConverter
 ) : IDatabaseInteractor {

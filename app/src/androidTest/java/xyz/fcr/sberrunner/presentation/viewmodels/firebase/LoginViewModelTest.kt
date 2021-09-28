@@ -14,7 +14,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import xyz.fcr.sberrunner.data.datastore.shared.SharedPreferenceWrapper
-import xyz.fcr.sberrunner.domain.interactor.firebase.FirebaseInteractor
+import xyz.fcr.sberrunner.domain.interactor.firebase.CloudInteractor
 import xyz.fcr.sberrunner.utils.schedulers.SchedulersProvider
 
 @RunWith(JUnit4::class)
@@ -24,7 +24,7 @@ class LoginViewModelTest {
     @JvmField
     var rule = InstantTaskExecutorRule()
 
-    private val firebaseInteractor: FirebaseInteractor = mockk(relaxed = true)
+    private val firebaseInteractor: CloudInteractor = mockk(relaxed = true)
     private val schedulersProvider: SchedulersProvider = mockk(relaxed = true)
     private val sharedPreferenceWrapper: SharedPreferenceWrapper = mockk(relaxed = true)
 

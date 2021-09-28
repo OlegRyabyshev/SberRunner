@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import xyz.fcr.sberrunner.R
 import xyz.fcr.sberrunner.data.datastore.shared.ISharedPreferenceWrapper
-import xyz.fcr.sberrunner.domain.interactor.firebase.IFirebaseInteractor
+import xyz.fcr.sberrunner.domain.interactor.firebase.ICloudInteractor
 import xyz.fcr.sberrunner.presentation.App
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.Constants.NON_VALID
@@ -17,12 +17,12 @@ import javax.inject.Inject
 /**
  * ViewModel экрана регистрации.
  *
- * @param firebaseInteractor [IFirebaseInteractor] - интерфейс взаимодействия с firebase
+ * @param firebaseInteractor [ICloudInteractor] - интерфейс взаимодействия с firebase
  * @param schedulersProvider [ISchedulersProvider] - провайдер объектов Scheduler
  * @param sharedPreferenceWrapper [ISharedPreferenceWrapper] - интерфейс упрощенного взаимодействия с SharedPreference
  */
 class RegistrationViewModel @Inject constructor(
-    private val firebaseInteractor: IFirebaseInteractor,
+    private val firebaseInteractor: ICloudInteractor,
     private val schedulersProvider: ISchedulersProvider,
     private val sharedPreferenceWrapper: ISharedPreferenceWrapper
 ) : ViewModel() {

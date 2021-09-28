@@ -7,16 +7,16 @@ import xyz.fcr.sberrunner.data.room.RunDao
 import xyz.fcr.sberrunner.data.converter.RunConverter
 import xyz.fcr.sberrunner.domain.model.Run
 
-class RoomInteractorTest {
+class DatabaseInteractorTest {
 
     private val runDao: RunDao = mockk(relaxed = true)
     private val converter: RunConverter = RunConverter()
 
-    private val roomInteractor = RoomInteractor(runDao, converter)
+    private val databaseInteractor = DatabaseInteractor(runDao, converter)
 
     @Test
     fun `addRun should not invoke function until subscription`() {
-        val completable = roomInteractor.addRun(mockRun)
+        val completable = databaseInteractor.addRun(mockRun)
 
         verify(exactly = 0) {
             runDao.addRun(converter.toRunEntity(mockRun))
@@ -33,7 +33,7 @@ class RoomInteractorTest {
 
     @Test
     fun `deleteRun should not invoke function until subscription`() {
-        val completable = roomInteractor.deleteRun(mockRun)
+        val completable = databaseInteractor.deleteRun(mockRun)
 
         verify(exactly = 0) {
             runDao.deleteRun(converter.toRunEntity(mockRun))
@@ -50,7 +50,7 @@ class RoomInteractorTest {
 
     @Test
     fun `getAllRuns should not invoke function until subscription`() {
-        val single = roomInteractor.getAllRuns()
+        val single = databaseInteractor.getAllRuns()
 
         verify(exactly = 0) {
             converter.toRunList(runDao.getAllRuns())
@@ -67,7 +67,7 @@ class RoomInteractorTest {
 
     @Test
     fun `getRun should not invoke function until subscription`() {
-        val single = roomInteractor.getRun(mockRun.timestamp)
+        val single = databaseInteractor.getRun(mockRun.timestamp)
 
         verify(exactly = 0) {
             converter.toRun(runDao.getRun(mockRun.timestamp))
@@ -84,7 +84,7 @@ class RoomInteractorTest {
 
     @Test
     fun `clearRuns should not invoke function until subscription`() {
-        val completable = roomInteractor.clearRuns()
+        val completable = databaseInteractor.clearRuns()
 
         verify(exactly = 0) {
             runDao.clearRuns()
@@ -101,7 +101,7 @@ class RoomInteractorTest {
 
     @Test
     fun `addList should not invoke function until subscription`() {
-        val completable = roomInteractor.addList(listOfMockedRuns)
+        val completable = databaseInteractor.addList(listOfMockedRuns)
 
         verify(exactly = 0) {
             listOfMockedRuns.forEach {
@@ -122,7 +122,7 @@ class RoomInteractorTest {
 
     @Test
     fun `switchToDeleteFlag should not invoke function until subscription`() {
-        val completable = roomInteractor.switchToDeleteFlag(mockRun.timestamp, TO_DELETE)
+        val completable = databaseInteractor.switchToDeleteFlag(mockRun.timestamp, TO_DELETE)
 
         verify(exactly = 0) {
             runDao.switchToDeleteFlag(mockRun.timestamp, TO_DELETE)
@@ -139,7 +139,7 @@ class RoomInteractorTest {
 
     @Test
     fun `removeMarkedToDelete should not invoke function until subscription`() {
-        val completable = roomInteractor.removeMarkedToDelete()
+        val completable = databaseInteractor.removeMarkedToDelete()
 
         verify(exactly = 0) {
             runDao.removerMarkedToDelete()
@@ -156,7 +156,7 @@ class RoomInteractorTest {
 
     @Test
     fun `removeRuns should not invoke function until subscription`() {
-        val completable = roomInteractor.removeRuns(listOfMockedRuns)
+        val completable = databaseInteractor.removeRuns(listOfMockedRuns)
 
         verify(exactly = 0) {
             runDao.removeRuns(any())
