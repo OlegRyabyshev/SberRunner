@@ -8,7 +8,7 @@ import xyz.fcr.sberrunner.data.room.RunDao
 import xyz.fcr.sberrunner.data.room.RunDatabase
 import xyz.fcr.sberrunner.data.converter.RunConverter
 import xyz.fcr.sberrunner.domain.interactor.db.IDatabaseInteractor
-import xyz.fcr.sberrunner.domain.interactor.db.RoomInteractor
+import xyz.fcr.sberrunner.domain.interactor.db.DatabaseInteractor
 import xyz.fcr.sberrunner.utils.Constants.DB_NAME
 import javax.inject.Singleton
 
@@ -32,7 +32,7 @@ object DatabaseModule {
         runDao: RunDao,
         converter: RunConverter
     ): IDatabaseInteractor {
-        return RoomInteractor(runDao, converter)
+        return DatabaseInteractor(runDao, converter)
     }
 
     /**

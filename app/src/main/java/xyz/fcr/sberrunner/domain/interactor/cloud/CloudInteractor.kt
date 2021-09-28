@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.domain.interactor.firebase
+package xyz.fcr.sberrunner.domain.interactor.cloud
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -14,22 +14,21 @@ import xyz.fcr.sberrunner.data.converter.RunConverter
 import xyz.fcr.sberrunner.domain.model.Run
 
 /**
- * Имплементация интерфейса [IFirebaseInteractor],
- * служит для связи Firebase (auth, firestore, storage) <-> ViewModel
+ * Имплементация интерфейса [ICloudInteractor]
  *
  * @param authDataStore [AuthDataStoreInterface] - объект взааимодействия с Firebase
  * @param storeDataStore [StoreDataStoreInterface] - объект взааимодействия с Firestore
  * @param storageDataStore [ImageDataStoreInterface] - объект взааимодействия с Firebase Storage
  */
-class FirebaseInteractor(
+class CloudInteractor(
     private val authDataStore: AuthDataStoreInterface,
     private val storeDataStore: StoreDataStoreInterface,
     private val storageDataStore: ImageDataStoreInterface,
     private val converter: RunConverter
-) : IFirebaseInteractor {
+) : ICloudInteractor {
 
     /**
-     * Авторизация в Firebase
+     * Авторизация
      *
      * @param email [String] - почта пользователя
      * @param password [String] - пароль пользователя
@@ -43,7 +42,7 @@ class FirebaseInteractor(
     }
 
     /**
-     * Регистрация в Firebase
+     * Регистрация
      *
      * @param email [String] - email пользователя
      * @param pass [String] - пароль пользователя
@@ -60,7 +59,7 @@ class FirebaseInteractor(
     }
 
     /**
-     * Отправка сообщения на восстановление почты в Firebase
+     * Отправка сообщения на восстановление почты
      *
      * @param email [String] - email пользователя
      *
@@ -73,7 +72,7 @@ class FirebaseInteractor(
     }
 
     /**
-     * Отправка запроса на выход пользователя из приложения в Firebase
+     * Отправка запроса на выход пользователя из приложения
      *
      * @return [Completable] - асинхронный результат отправки запроса
      */
@@ -84,7 +83,7 @@ class FirebaseInteractor(
     }
 
     /**
-     * Удаление аккаунта текущего пользователя из Firebase
+     * Удаление аккаунта текущего пользователя
      *
      * @return [Single] - асинхронный результат удаления
      */
@@ -95,7 +94,7 @@ class FirebaseInteractor(
     }
 
     /**
-     * Получение документа из Firestore
+     * Получение документа
      *
      * @return [Single] - асинхронный результат получения документа
      */
@@ -106,7 +105,7 @@ class FirebaseInteractor(
     }
 
     /**
-     * Обновление веса пользователя в Firestore
+     * Обновление веса пользователя
      *
      * @param weight [String] - вес пользователя
      *
@@ -119,7 +118,7 @@ class FirebaseInteractor(
     }
 
     /**
-     * Обновление имени пользователя в Firestore
+     * Обновление имени пользователя
      *
      * @param name [String] - имя пользователя
      *
@@ -132,7 +131,7 @@ class FirebaseInteractor(
     }
 
     /**
-     * Получение запроса на список всех забегов из Firestore
+     * Получение запроса на список всех забегов
      *
      * @return [Single] - асинхронный результат получения списка
      */
@@ -143,7 +142,7 @@ class FirebaseInteractor(
     }
 
     /**
-     * Изначальное занесение имени и веса пользователя в Firestore
+     * Изначальное занесение имени и веса пользователя
      *
      * @param name [String] - имя пользователя
      * @param weight [String] - вес пользователя
@@ -157,7 +156,7 @@ class FirebaseInteractor(
     }
 
     /**
-     * Результат изменения флагов на удаление в Firestore
+     * Результат изменения флагов на удаление
      *
      * @param listToSwitch [List] - список забегов
      *
@@ -172,7 +171,7 @@ class FirebaseInteractor(
     }
 
     /**
-     * Результат загрузки недостоющих забегов в Firestore
+     * Результат загрузки недостоющих забегов
      *
      * @param missingList [List] - список забегов
      *
@@ -187,7 +186,7 @@ class FirebaseInteractor(
     }
 
     /**
-     * Результат загрузки изображения в Firebase Storage
+     * Результат загрузки изображения
      *
      * @param run [Run] - объект забега
      *
@@ -202,7 +201,7 @@ class FirebaseInteractor(
     }
 
     /**
-     * Результат загрузки изображения из Firebase Storage
+     * Результат загрузки изображения
      *
      * @param run [Run] - объект забега
      *

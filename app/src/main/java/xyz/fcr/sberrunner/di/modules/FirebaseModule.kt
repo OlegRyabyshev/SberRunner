@@ -13,8 +13,8 @@ import xyz.fcr.sberrunner.data.datastore.firestore.FirestoreDataStore
 import xyz.fcr.sberrunner.data.datastore.firestore.StoreDataStoreInterface
 import xyz.fcr.sberrunner.data.util.BitmapConverter
 import xyz.fcr.sberrunner.data.converter.RunConverter
-import xyz.fcr.sberrunner.domain.interactor.firebase.FirebaseInteractor
-import xyz.fcr.sberrunner.domain.interactor.firebase.IFirebaseInteractor
+import xyz.fcr.sberrunner.domain.interactor.cloud.CloudInteractor
+import xyz.fcr.sberrunner.domain.interactor.cloud.ICloudInteractor
 import javax.inject.Singleton
 
 /**
@@ -115,7 +115,7 @@ class FirebaseModule {
      * @param storageDataStore [ImageDataStoreInterface] - объект взаимодействия с Firebase Storage
      * @param converter [RunConverter] - конвертер забегов
      *
-     * @return [IFirebaseInteractor] - интерактор взаимодействия с Firebase
+     * @return [ICloudInteractor] - интерактор взаимодействия с Firebase
      */
     @Provides
     @Singleton
@@ -124,8 +124,8 @@ class FirebaseModule {
         storeDataStore: StoreDataStoreInterface,
         storageDataStore: ImageDataStoreInterface,
         converter: RunConverter
-    ): IFirebaseInteractor {
-        return FirebaseInteractor(
+    ): ICloudInteractor {
+        return CloudInteractor(
             firebaseDataStore,
             storeDataStore,
             storageDataStore,

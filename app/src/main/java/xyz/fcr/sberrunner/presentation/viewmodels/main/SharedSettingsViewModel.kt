@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import xyz.fcr.sberrunner.data.datastore.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.domain.interactor.db.IDatabaseInteractor
-import xyz.fcr.sberrunner.domain.interactor.firebase.IFirebaseInteractor
+import xyz.fcr.sberrunner.domain.interactor.cloud.ICloudInteractor
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.schedulers.ISchedulersProvider
 import javax.inject.Inject
@@ -14,12 +14,12 @@ import javax.inject.Inject
 /**
  * ViewModel экрана "Настройки"
  *
- * @param firebaseInteractor [IFirebaseInteractor] - интерфейс взаимодействия с firebase
+ * @param firebaseInteractor [ICloudInteractor] - интерфейс взаимодействия с firebase
  * @param schedulersProvider [ISchedulersProvider] - провайдер объектов Scheduler
  * @param sharedPreferenceWrapper [ISharedPreferenceWrapper] - интерфейс упрощенного взаимодействия с SharedPreference
  */
 class SharedSettingsViewModel @Inject constructor(
-    private val firebaseInteractor: IFirebaseInteractor,
+    private val firebaseInteractor: ICloudInteractor,
     private val databaseInteractor: IDatabaseInteractor,
     private val schedulersProvider: ISchedulersProvider,
     private val sharedPreferenceWrapper: ISharedPreferenceWrapper
@@ -42,7 +42,6 @@ class SharedSettingsViewModel @Inject constructor(
                 .observeOn(schedulersProvider.ui())
                 .subscribe({
                     clearRuns()
-                    _signOutLiveData.postValue(true)
                 }, {
                     _errorLiveData.postValue(it.message)
                 })
@@ -80,7 +79,8 @@ class SharedSettingsViewModel @Inject constructor(
                 .subscribeOn(schedulersProvider.io())
                 .observeOn(schedulersProvider.ui())
                 .subscribe({
-                    signOut()
+                    _signOutLiveData.postValue(true)
+                    _progressLiveData.postValue(false)
                 }, {
                     _errorLiveData.postValue(it.message)
                 })

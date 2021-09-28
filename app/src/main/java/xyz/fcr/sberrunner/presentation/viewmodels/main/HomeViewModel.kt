@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import xyz.fcr.sberrunner.domain.interactor.db.IDatabaseInteractor
-import xyz.fcr.sberrunner.domain.interactor.firebase.IFirebaseInteractor
+import xyz.fcr.sberrunner.domain.interactor.cloud.ICloudInteractor
 import xyz.fcr.sberrunner.domain.model.Run
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.schedulers.ISchedulersProvider
@@ -16,12 +16,12 @@ import javax.inject.Inject
  * ViewModel экрана "Дом" со списком из всех забегов
  *
  * @param databaseInteractor [IDatabaseInteractor] - интерфейс взаимодейтвия с базой данных
- * @param firebaseInteractor [IFirebaseInteractor] - интерфейс взаимодействия с firebase
+ * @param firebaseInteractor [ICloudInteractor] - интерфейс взаимодействия с firebase
  * @param schedulersProvider [ISchedulersProvider] - провайдер объектов Scheduler
  */
 class HomeViewModel @Inject constructor(
     private val databaseInteractor: IDatabaseInteractor,
-    private val firebaseInteractor: IFirebaseInteractor,
+    private val firebaseInteractor: ICloudInteractor,
     private val schedulersProvider: ISchedulersProvider
 ) : ViewModel() {
 

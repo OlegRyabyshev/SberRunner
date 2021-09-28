@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.domain.interactor.firebase
+package xyz.fcr.sberrunner.domain.interactor.cloud
 
 import io.mockk.mockk
 import io.mockk.verify
@@ -9,7 +9,7 @@ import xyz.fcr.sberrunner.data.datastore.firestore.FirestoreDataStore
 import xyz.fcr.sberrunner.data.converter.RunConverter
 import xyz.fcr.sberrunner.domain.model.Run
 
-class FirebaseInteractorTest {
+class CloudInteractorTest {
 
     private val authDataStore: FirebaseDataStore = mockk()
     private val storeDataStore: FirestoreDataStore = mockk()
@@ -17,7 +17,7 @@ class FirebaseInteractorTest {
 
     private val converter: RunConverter = RunConverter()
 
-    private val firebaseInteractor = FirebaseInteractor(
+    private val cloudInteractor = CloudInteractor(
         authDataStore,
         storeDataStore,
         storageDataStore,
@@ -26,7 +26,7 @@ class FirebaseInteractorTest {
 
     @Test
     fun `login should not invoke function until subscription`() {
-        val single = firebaseInteractor.login(EMAIl, PASS)
+        val single = cloudInteractor.login(EMAIl, PASS)
 
         verify(exactly = 0) {
             authDataStore.login(EMAIl, PASS)
@@ -43,7 +43,7 @@ class FirebaseInteractorTest {
 
     @Test
     fun `registration should not invoke function until subscription`() {
-        val single = firebaseInteractor.registration(EMAIl, PASS)
+        val single = cloudInteractor.registration(EMAIl, PASS)
 
         verify(exactly = 0) {
             authDataStore.registration(EMAIl, PASS)
@@ -60,7 +60,7 @@ class FirebaseInteractorTest {
 
     @Test
     fun `sendResetEmail should not invoke function until subscription`() {
-        val single = firebaseInteractor.sendResetEmail(EMAIl)
+        val single = cloudInteractor.sendResetEmail(EMAIl)
 
         verify(exactly = 0) {
             authDataStore.sendResetEmail(EMAIl)
@@ -77,7 +77,7 @@ class FirebaseInteractorTest {
 
     @Test
     fun `signOut should not invoke function until subscription`() {
-        val completable = firebaseInteractor.signOut()
+        val completable = cloudInteractor.signOut()
 
         verify(exactly = 0) {
             authDataStore.signOut()
@@ -94,7 +94,7 @@ class FirebaseInteractorTest {
 
     @Test
     fun `deleteAccount should not invoke function until subscription`() {
-        val single = firebaseInteractor.deleteAccount()
+        val single = cloudInteractor.deleteAccount()
 
         verify(exactly = 0) {
             authDataStore.deleteAccount()
@@ -111,7 +111,7 @@ class FirebaseInteractorTest {
 
     @Test
     fun `getDocumentFirestore should not invoke function until subscription`() {
-        val single = firebaseInteractor.getDocumentFirestore()
+        val single = cloudInteractor.getDocumentFirestore()
 
         verify(exactly = 0) {
             storeDataStore.getDocumentFirestore()
@@ -128,7 +128,7 @@ class FirebaseInteractorTest {
 
     @Test
     fun `updateWeight should not invoke function until subscription`() {
-        val single = firebaseInteractor.updateWeight(WEIGHT)
+        val single = cloudInteractor.updateWeight(WEIGHT)
 
         verify(exactly = 0) {
             storeDataStore.updateWeight(WEIGHT)
@@ -145,7 +145,7 @@ class FirebaseInteractorTest {
 
     @Test
     fun `updateName should not invoke function until subscription`() {
-        val single = firebaseInteractor.updateName(NAME)
+        val single = cloudInteractor.updateName(NAME)
 
         verify(exactly = 0) {
             storeDataStore.updateName(NAME)
@@ -162,7 +162,7 @@ class FirebaseInteractorTest {
 
     @Test
     fun `getAllRunsFromCloud should not invoke function until subscription`() {
-        val single = firebaseInteractor.getAllRunsFromCloud()
+        val single = cloudInteractor.getAllRunsFromCloud()
 
         verify(exactly = 0) {
             storeDataStore.getAllRuns()
@@ -179,7 +179,7 @@ class FirebaseInteractorTest {
 
     @Test
     fun `fillUserDataInFirestore should not invoke function until subscription`() {
-        val single = firebaseInteractor.fillUserDataInFirestore(NAME, WEIGHT)
+        val single = cloudInteractor.fillUserDataInFirestore(NAME, WEIGHT)
 
         verify(exactly = 0) {
             storeDataStore.fillUserDataInFirestore(NAME, WEIGHT)
@@ -196,7 +196,7 @@ class FirebaseInteractorTest {
 
     @Test
     fun `switchToDeleteFlagsInCloud should not invoke function until subscription`() {
-        val single = firebaseInteractor.switchToDeleteFlagsInCloud(listOfRuns)
+        val single = cloudInteractor.switchToDeleteFlagsInCloud(listOfRuns)
 
         verify(exactly = 0) {
             storeDataStore.switchToDeleteFlags(
@@ -217,7 +217,7 @@ class FirebaseInteractorTest {
 
     @Test
     fun `uploadMissingFromDbToCloud should not invoke function until subscription`() {
-        val single = firebaseInteractor.uploadMissingFromDbToCloud(listOfRuns)
+        val single = cloudInteractor.uploadMissingFromDbToCloud(listOfRuns)
 
         verify(exactly = 0) {
             storeDataStore.addRunsToCloud(
@@ -238,7 +238,7 @@ class FirebaseInteractorTest {
 
     @Test
     fun `uploadImageToStorage should not invoke function until subscription`() {
-        val single = firebaseInteractor.uploadImageToStorage(run)
+        val single = cloudInteractor.uploadImageToStorage(run)
 
         verify(exactly = 0) {
             storageDataStore.addImage(
@@ -259,7 +259,7 @@ class FirebaseInteractorTest {
 
     @Test
     fun `downloadImageFromStorage should not invoke function until subscription`() {
-        val single = firebaseInteractor.downloadImageFromStorage(run)
+        val single = cloudInteractor.downloadImageFromStorage(run)
 
         verify(exactly = 0) {
             storageDataStore.getImage(
