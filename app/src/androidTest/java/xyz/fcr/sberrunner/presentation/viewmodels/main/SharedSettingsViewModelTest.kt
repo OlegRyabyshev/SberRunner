@@ -13,7 +13,7 @@ import org.junit.Rule
 import org.junit.Test
 import xyz.fcr.sberrunner.data.datastore.shared.SharedPreferenceWrapper
 import xyz.fcr.sberrunner.domain.interactor.db.DatabaseInteractor
-import xyz.fcr.sberrunner.domain.interactor.firebase.CloudInteractor
+import xyz.fcr.sberrunner.domain.interactor.cloud.CloudInteractor
 import xyz.fcr.sberrunner.utils.schedulers.SchedulersProvider
 
 class SharedSettingsViewModelTest {

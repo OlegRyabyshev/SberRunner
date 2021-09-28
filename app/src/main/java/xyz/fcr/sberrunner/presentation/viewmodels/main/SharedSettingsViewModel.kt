@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import xyz.fcr.sberrunner.data.datastore.shared.ISharedPreferenceWrapper
 import xyz.fcr.sberrunner.domain.interactor.db.IDatabaseInteractor
-import xyz.fcr.sberrunner.domain.interactor.firebase.ICloudInteractor
+import xyz.fcr.sberrunner.domain.interactor.cloud.ICloudInteractor
 import xyz.fcr.sberrunner.presentation.viewmodels.SingleLiveEvent
 import xyz.fcr.sberrunner.utils.schedulers.ISchedulersProvider
 import javax.inject.Inject

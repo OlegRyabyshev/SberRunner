@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.domain.interactor.firebase
+package xyz.fcr.sberrunner.domain.interactor.cloud
 
 import io.mockk.mockk
 import io.mockk.verify

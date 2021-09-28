@@ -1,4 +1,4 @@
-package xyz.fcr.sberrunner.domain.interactor.firebase
+package xyz.fcr.sberrunner.domain.interactor.cloud
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
